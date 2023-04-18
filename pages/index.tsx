@@ -1,8 +1,19 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import { Josefin_Sans, Playball} from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
+
+const josefin = Josefin_Sans({
+  subsets: ['latin'],
+  weight: ['500'],
+});
+
+const playball = Playball({
+  subsets: ['latin'],
+  weight: ['400'],
+})
 
 const bioText = {
   header: "Welcome to the Harry Howard Journals:\nA Glimpse into the 1930s Life of a Salt Lake City Family Man",
@@ -17,17 +28,15 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main>
-        
-
         <div className='md:flex mt-10 max-w-5xl mx-auto'>
           <div className='mx-auto w-full md:w-1/2'>
             Image
           </div>
           <div className='text-center whitespace-pre-line w-full md:w-1/2'>
-            <h3 className='p-5 pb-8 text-2xl'>
+            <h3 className={`${josefin.className} p-5 pb-8 text-2xl`}>
               {bioText.header}
             </h3>
-            <div className='p-5'>
+            <div className={`${playball.className} p-5`}>
               {bioText.body}
             </div>
           </div>
