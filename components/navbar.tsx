@@ -8,7 +8,7 @@ const limelight = Limelight({
 
 export default function Navbar() {
   return (
-    <nav className="flex border-b-4 border-black h-16">
+    <nav className="flex border-b-4 border-amber-300 h-16 text-slate-200">
       <div className='w-1/3'>
         Logo
       </div>

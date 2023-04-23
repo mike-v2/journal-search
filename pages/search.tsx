@@ -109,7 +109,7 @@ export default function Search() {
     }
   }
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (searchBox.current) {
       console.log("search tags changed.")
       let text = "";
@@ -120,12 +120,12 @@ export default function Search() {
 
       searchBox.current.value = text;
     }
-  }, [searchTags])
+  }, [searchTags]) */
 
   return (
     <>
-      <form onSubmit={handleSearch} className="flex h-60">
-        <div className="flex flex-col w-1/3 max-w-lg h-60 m-10 mx-auto">
+      <form onSubmit={handleSearch} className="flex max-w-7xl h-60 min-h-screen mx-auto">
+        <div className={"flex flex-col w-1/3 max-w-lg h-60 m-10 " + (searchIsActive ? 'mx-5' : 'mx-auto')}>
           <div className="flex h-10 w-full">
             <div className="border-2 border-black w-10 flex align-middle justify-center">
               <Image src='/images/search-icon.svg' height={25} width={25} alt="search-icon" />
@@ -140,24 +140,28 @@ export default function Search() {
               return (
                 activeFilters.includes(filter) === false &&
 
-                <div className="flex-initial h-10 border border-black m-1 p-1" onClick={handleFilterClick} key={filter}>
+                <div className="flex-initial h-10 border border-black m-1 p-1 hover:cursor-pointer" onClick={handleFilterClick} key={filter}>
                   {filter}
                 </div>
               )
             })}
+
             <div className="flex-break h-6"></div>
+
             {Object.keys(searchFilterTags).map((filter) => {
               return (
                 activeFilters.includes(filter) &&
                 <React.Fragment key={filter}>
-                  <div className="flex-initial h-10 bg-slate-500 border border-black m-1 p-1" onClick={handleFilterClick} key={filter}>
+                  <div className="flex-initial h-10 bg-slate-500 border border-black m-1 p-1 hover:cursor-pointer" onClick={handleFilterClick} key={filter}>
                     {filter}
                   </div>
+                  
                   <div className="flex-break h-1" key={`${filter}-top-break`}></div>
+                  
                   <div className="flex">
                     {searchFilterTags[filter].map((filterValue) => {
                       return (
-                        <div className="flex-initial p-1" onClick={handleFilterValueClick} key={`${filter}-${filterValue}.replace(" ", "")`} data-filter={`${filter}-${filterValue}`} >
+                        <div className={"flex-initial p-1 hover:cursor-pointer " + (searchTags.hasOwnProperty(filter) && searchTags[filter] === filterValue ? 'underline' : '')} onClick={handleFilterValueClick} key={`${filter}-${filterValue}`} data-filter={`${filter}-${filterValue}`} >
                           {filterValue}
                         </div>
                       )
@@ -171,7 +175,7 @@ export default function Search() {
           </div>
         </div>
         {searchIsActive && (
-          <div className="flex-auto flex flex-col w-1/3 max-w-lg mx-auto m-10 border-2 border-black">
+          <div className="flex-auto flex flex-col max-w-lg h-fit m-10 mx-5 border-2 border-black">
             <SearchResult {...exampleSearchResult} handleSelectResult={handleSelectResult} />
             <SearchResult {...exampleSearchResult} handleSelectResult={handleSelectResult} />
             <SearchResult {...exampleSearchResult} handleSelectResult={handleSelectResult} />
@@ -179,7 +183,7 @@ export default function Search() {
         )
         }
         {searchIsActive && (
-          <div className="w-1/3 m-5 border-2 border-black">
+          <div className="w-1/3 m-10 mx-5 border-2 border-black">
             {selectedResult && selectedResult.text}
           </div>
         )}

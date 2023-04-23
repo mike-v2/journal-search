@@ -33,10 +33,10 @@ export default function Home() {
             Image
           </div>
           <div className='text-center whitespace-pre-line w-full md:w-1/2'>
-            <h3 className={`${josefin.className} p-5 pb-8 text-2xl`}>
+            <h3 className={`${josefin.className} p-5 pb-8 text-2xl text-slate-200`}>
               {bioText.header}
             </h3>
-            <div className={`${playball.className} p-5`}>
+            <div className={`${playball.className} p-5 `}>
               {bioText.body}
             </div>
           </div>
