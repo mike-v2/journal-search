@@ -4,8 +4,6 @@ import Image from "next/image";
 import React from "react";
 import { useEffect, useRef, useState } from "react";
 
-
-
 const exampleSearchResult: SearchResultData = {
   topic: "Family",
   summary: "met Sharon's husband",
@@ -13,55 +11,47 @@ const exampleSearchResult: SearchResultData = {
   text: "[Complete text of entry]"
 }
 
-type FilterTags = {
-  People: string[];
-  Places: string[];
-  Things: string[];
-  Organizations: string[];
-  Emotions: string[];
-  Mood: string[];
-  Sentiment: never[];
-  [key: string]: string[]; // Add index signature
+type FilterStrings = {
+  People?: string[];
+  Places?: string[];
+  Things?: string[];
+  Organizations?: string[];
+  Emotions?: string[];
+  Mood?: string[];
+  [key: string]: string[] | undefined | null; // Add index signature
 };
 
-const searchFilterTags: FilterTags = {
+type FilterNumbers = {
+  Sentiment: number;
+}
+
+const filterStringsPredefined: FilterStrings = {
   People: ["Grace", "Sharon"],
   Places: ["Post Office", "Temple"],
   Things: ["Journal"],
   Organizations: ["Sunday School", "CB&Q"],
   Emotions: ["Happy", "Sad", "Worried"],
   Mood: ["Descriptive"],
-  Sentiment: [],
 }
 
-interface Filter {
-  People?: String;
-  Places?: String;
-  Things?: String;
-  Organizations?: String;
-  Emotions?: String;
-  Mood?: String;
-  Sentiment?: Number;
-  [key: string]: string | String | Number | null | undefined; // Add index signature
+const filterNumbersPredefined: FilterNumbers = {
+  Sentiment: .5,
 }
 
 export default function Search() {
   const searchBox = useRef<HTMLInputElement>(null);
   const [searchIsActive, setSearchIsActive] = useState(false);
   const [selectedResult, setSelectedResult] = useState<SearchResultData>();
-  const [activeFilters, setActiveFilters] = useState<String[]>([]);
-  const [searchTags, setSearchTags] = useState<Filter>({});
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [activeFilterStrings, setActiveFilterStrings] = useState<FilterStrings>({});
+  const [customFilterStrings, setCustomFilterStrings] = useState<FilterStrings>({});
 
-  const handleSearchChange = (e: React.FormEvent<HTMLInputElement>) => {
-    //e.currentTarget.value
-  }
-
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (searchBox.current) {
-      console.log("selected Result = " + selectedResult);
-      setSearchIsActive(true);
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      if (searchBox.current) {
+        console.log("Searching: " + e.currentTarget.value);
+        setSearchIsActive(true);
+      }
     }
   }
 
@@ -90,22 +80,29 @@ export default function Search() {
     const filter = e.currentTarget.getAttribute('data-filter')?.split('-')[0];
     console.log("filter: " + filter + "  filterValue: " + filterValue);
     if (filter == null) return;
+    if (filterValue == null) return;
 
-    if (searchTags.hasOwnProperty(filter)) {
-      if (searchTags[filter] !== filterValue) {
-        console.log("changing existing value")
-        const newTags = { ...searchTags, [filter]: filterValue };
-        setSearchTags(newTags);
+    if (activeFilterStrings.hasOwnProperty(filter)) {
+      if (activeFilterStrings[filter]?.includes(filterValue) === false) {
+        //console.log("updating existing filter category")
+        const newFilterStrings = { ...activeFilterStrings };
+        newFilterStrings[filter]?.push(filterValue);
+        setActiveFilterStrings(newFilterStrings);
       } else {
-        console.log("deleting existing value")
-        const newTags = { ...searchTags };
-        delete newTags[filter];
-        setSearchTags(newTags);
+        //console.log("deleting existing value")
+        const newFilterStrings = { ...activeFilterStrings };
+
+        const index = newFilterStrings[filter]?.indexOf(filterValue);
+        if (index !== undefined && index > -1) {
+          newFilterStrings[filter]?.splice(index, 1);
+        }
+
+        setActiveFilterStrings(newFilterStrings);
       }
     } else {
-      console.log("Creating new value");
-      const newTags = { ...searchTags, [filter]: filterValue };
-      setSearchTags(newTags);
+      //console.log("Creating new value");
+      const newFilterStrings = { ...activeFilterStrings, [filter]: [filterValue] };
+      setActiveFilterStrings(newFilterStrings);
     }
   }
 
@@ -122,21 +119,52 @@ export default function Search() {
     }
   }, [searchTags]) */
 
+  const handleCustomTagSubmit = (e: React.KeyboardEvent<HTMLInputElement>, filter: string) => {
+    if (e.key === 'Enter') {
+      const newCustomString = e.currentTarget.value;
+
+      if (customFilterStrings.hasOwnProperty(filter)) {
+        if (customFilterStrings[filter]?.includes(newCustomString)) return;
+
+        const newFilterStrings = { ...customFilterStrings };
+        newFilterStrings[filter]?.push(newCustomString);
+        setCustomFilterStrings(newFilterStrings)
+      } else {
+        const newFilterStrings = { ...customFilterStrings, [filter]: [newCustomString] };
+        setCustomFilterStrings(newFilterStrings)
+      }
+    }
+  }
+
+  const handleCustomStringRemove = (e: React.MouseEvent<HTMLButtonElement>, filter: string, filterValue: string) => {
+    if (customFilterStrings.hasOwnProperty(filter)) {
+      if (customFilterStrings[filter]?.includes(filterValue)) {
+        const newCustomStrings = { ...customFilterStrings };
+
+        const index = newCustomStrings[filter]?.indexOf(filterValue);
+        if (index !== undefined && index > -1) {
+          newCustomStrings[filter]?.splice(index, 1);
+        }
+
+        setCustomFilterStrings(newCustomStrings);
+      }
+    }
+  }
+
   return (
     <>
-      <form onSubmit={handleSearch} className="flex max-w-7xl h-60 min-h-screen mx-auto">
+      <form className="flex max-w-7xl h-60 min-h-screen mx-auto">
         <div className={"flex flex-col w-1/3 max-w-lg h-60 m-10 " + (searchIsActive ? 'mx-5' : 'mx-auto')}>
           <div className="flex h-10 w-full">
             <div className="border-2 border-black w-10 flex align-middle justify-center">
               <Image src='/images/search-icon.svg' height={25} width={25} alt="search-icon" />
             </div>
             <div className="flex-auto border-2 border-black">
-              <label htmlFor="search"></label>
-              <input ref={searchBox} onChange={handleSearchChange} className="w-full h-full p-4 text-lg" type="text" id="search" name="search" placeholder="Search.." />
+              <input ref={searchBox} onKeyDown={handleSearchKeyDown} className="w-full h-full p-4 text-lg" type="text" placeholder="Search.." />
             </div>
           </div>
           <div className="flex flex-wrap ms-10 my-3">
-            {Object.keys(searchFilterTags).map((filter) => {
+            {Object.keys(filterStringsPredefined).map((filter) => {
               return (
                 activeFilters.includes(filter) === false &&
 
@@ -146,28 +174,43 @@ export default function Search() {
               )
             })}
 
-            <div className="flex-break h-6"></div>
+            <div className="flex-break h-3"></div>
 
-            {Object.keys(searchFilterTags).map((filter) => {
+
+            {activeFilters.slice(0).reverse().map((filter) => {
               return (
-                activeFilters.includes(filter) &&
                 <React.Fragment key={filter}>
-                  <div className="flex-initial h-10 bg-slate-500 border border-black m-1 p-1 hover:cursor-pointer" onClick={handleFilterClick} key={filter}>
+                  <div className="flex-initial h-10 bg-slate-500 border border-black  p-1 hover:cursor-pointer" onClick={handleFilterClick}>
                     {filter}
                   </div>
                   
-                  <div className="flex-break h-1" key={`${filter}-top-break`}></div>
-                  
-                  <div className="flex">
-                    {searchFilterTags[filter].map((filterValue) => {
+                  <div className="flex-break"></div>
+
+                  <div className="flex flex-wrap max-w-full">
+                    {filterStringsPredefined[filter]?.map((filterValue) => {
                       return (
-                        <div className={"flex-initial p-1 hover:cursor-pointer " + (searchTags.hasOwnProperty(filter) && searchTags[filter] === filterValue ? 'underline' : '')} onClick={handleFilterValueClick} key={`${filter}-${filterValue}`} data-filter={`${filter}-${filterValue}`} >
+                        <div className={" hover:cursor-pointer px-2 py-1 m-1" + (activeFilterStrings.hasOwnProperty(filter) && activeFilterStrings[filter]?.includes(filterValue) ? ' bg-amber-300' : '')} onClick={handleFilterValueClick} key={`${filter}-${filterValue}`} data-filter={`${filter}-${filterValue}`} >
                           {filterValue}
                         </div>
                       )
                     })}
+                    {customFilterStrings[filter]?.map((filterValue) => {
+                      return (
+                        <div className="flex m-1" key={`${filter}-${filterValue}`}>
+                          <span className="bg-amber-300 px-1 border-4 border-slate-400 rounded-r-md my-auto">
+                            {filterValue}
+                          </span>
+                          <button type="button" className="bg-amber-300 px-1 border-4 border-slate-400 rounded-md text-black" onClick={(e) => handleCustomStringRemove(e, filter, filterValue)}>
+                            &#215;
+                          </button>
+                        </div>
+                      )
+                    })}
                   </div>
-                  <div className="flex-break h-6" key={`${filter}-bottom-break`}></div>
+
+                  <input type="text" className="mt-2 mx-1" onKeyDown={(e) => handleCustomTagSubmit(e, filter)}></input>
+
+                  <div className="flex-break h-6"></div>
                 </ React.Fragment>
               )
             })}
