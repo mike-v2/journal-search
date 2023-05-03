@@ -1,7 +1,7 @@
-import { SearchResultData } from "./searchResultData";
+import { AnalysisEntry } from "./analysisEntryType";
 
-interface SearchResultProps extends SearchResultData {
-  handleSelectResult: (data: SearchResultData) => void;
+interface SearchResultProps extends AnalysisEntry {
+  handleSelectResult: (data: AnalysisEntry) => void;
 }
 
 export default function SearchResult(props: SearchResultProps) {
