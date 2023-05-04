@@ -9,10 +9,10 @@ const limelight = Limelight({
 export default function Navbar() {
   return (
     <nav className="flex border-b-4 border-amber-300 h-16 text-slate-200">
-      <div className='w-1/3'>
+      <div className='basis-1/3'>
         Logo
       </div>
-      <div className={`${limelight.className} w-2/3 max-w-md flex mt-auto ml-auto text-lg`}>
+      <div className={`${limelight.className} flex basis-2/3 max-w-xl mt-auto ml-auto text-2xl`}>
         <div className='flex-auto text-center'>
           <Link href='/'>Home</Link>
         </div>

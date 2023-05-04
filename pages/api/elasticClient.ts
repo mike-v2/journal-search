@@ -38,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       });
     }
-    if (text && text !== '') {
+    if (text && text.length > 0) {
       conditions.push({ match: { summary: text } });
     }
     if (people && people.length > 0) {

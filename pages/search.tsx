@@ -1,15 +1,29 @@
 import SearchResult from "@/components/search-result";
 import { AnalysisEntry } from "@/components/analysisEntryType";
+import {SearchTerms} from '@/components/searchTermsType'
 import Image from "next/image";
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-
+import useSWR from 'swr';
+import { makeDatePretty } from "@/utils/convertDate";
+import { Josefin_Sans } from "next/font/google";
 const exampleSearchResult: AnalysisEntry = {
   topic: "Family",
   summary: "met Sharon's husband",
   date: "4-1-1948",
-  text: "[Complete text of entry]"
+  people: [],
+  places: [],
+  organizations: [],
+  things: [],
+  emotion: "",
+  mood: "",
+  strength: 0
 }
+
+const josefin = Josefin_Sans({
+  subsets: ['latin'],
+  weight: ['500'],
+});
 
 type FilterStrings = {
   people?: string[];
@@ -17,7 +31,7 @@ type FilterStrings = {
   things?: string[];
   organizations?: string[];
   emotions?: string[];
-  mood?: string[];
+  moods?: string[];
   [key: string]: string[] | undefined | null; // Add index signature
 };
 
@@ -26,12 +40,12 @@ type FilterNumbers = {
 }
 
 const filterStringsPredefined: FilterStrings = {
-  people: ["Grace", "Sharon"],
-  places: ["Post Office", "Temple"],
-  things: ["Journal"],
-  organizations: ["Sunday School", "CB&Q"],
-  emotions: ["happy", "Sad", "Worried"],
-  mood: ["Descriptive"],
+  people: ["Grace", "Charles", "Cathy", "Ardie"],
+  places: ["Albany", "Rochester", "Chicago", "Denver"],
+  things: ["goiter", "cigarettes", "World War I", "Book of Mormon"],
+  organizations: ["Church", "Genealogical Society", "LDS", "FHA", "RMS"],
+  emotions: ["satisfaction", "hope", "concern", "frustration"],
+  moods: ["focused", "concerned", "engaged", "determined"],
 }
 
 const filterNumbersPredefined: FilterNumbers = {
@@ -42,26 +56,66 @@ export default function Search() {
   const searchBox = useRef<HTMLInputElement>(null);
   const [searchIsActive, setSearchIsActive] = useState(false);
   const [selectedResult, setSelectedResult] = useState<AnalysisEntry>();
+  const [selectedResultText, setSelectedResultText] = useState<string>('');
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [activeFilterStrings, setActiveFilterStrings] = useState<FilterStrings>({});
   const [customFilterStrings, setCustomFilterStrings] = useState<FilterStrings>({});
-  const [searchResults, setSearchResults] = useState<[]>([]);
+  const [searchResults, setSearchResults] = useState<AnalysisEntry[]>([]);
+
+  const fetcher = async (url: string) => {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    try {
+      return JSON.parse(data);
+    } catch (e) {
+      console.error('Failed to parse JSON:', e);
+      return data;
+    }
+  }
+
+  const { data: entries1948, error } = useSWR('/api/entriesData', fetcher);
+  if (error) {
+    console.log(error);
+  }
 
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       
-      if (searchBox.current) {
-        console.log("Searching: " + e.currentTarget.value);
-        setSearchIsActive(true);
-        runElasticSearch();
-      }
+      handleSearch();
     }
   }
 
-  const handleSelectResult = (data: AnalysisEntry) => {
-    console.log(data);
-    setSelectedResult(data);
+  function handleSearch() {
+    if (searchBox.current) {
+      console.log("Searching: " + searchBox.current.value);
+      setSelectedResult(undefined);
+      setSelectedResultText('');
+      setSearchIsActive(true);
+      runElasticSearch();
+    }
+  }
+
+  const handleSelectResult = (selectedTopic: AnalysisEntry) => {
+    console.log(selectedTopic);
+    setSelectedResult(selectedTopic);
+
+    const date = selectedTopic.date;
+    const text = getEntryText(date);
+    if (text !== '') {
+      setSelectedResultText(text);
+    } else {
+      console.log("Could not find journal entry by date")
+    }
+  }
+
+  function getEntryText(date: string) : string {
+    for (let i = 0; i < entries1948.length; i++) {
+      if (entries1948[i].date === date) return entries1948[i].text;
+    }
+
+    return '';
   }
 
   const handleFilterClick = (e: React.FormEvent<HTMLDivElement>) => {
@@ -73,6 +127,17 @@ export default function Search() {
       //activeFilters.splice(activeFilters.indexOf(filter), 1);
       const updatedActiveFilters = activeFilters.filter((activeFilter) => activeFilter !== filter);
       setActiveFilters(updatedActiveFilters);
+
+      if (activeFilterStrings.hasOwnProperty(filter)) {
+        const newActiveFilters = activeFilterStrings;
+        delete newActiveFilters[filter];
+        setActiveFilterStrings(newActiveFilters);
+      }
+      if (customFilterStrings.hasOwnProperty(filter)) {
+        const newCustomFilters = customFilterStrings;
+        delete newCustomFilters[filter];
+        setActiveFilterStrings(newCustomFilters);
+      }
     } else {
       console.log("adding filter: " + filter);
       setActiveFilters([...activeFilters, filter])
@@ -110,19 +175,6 @@ export default function Search() {
     }
   }
 
-  /* useEffect(() => {
-    if (searchBox.current) {
-      console.log("search tags changed.")
-      let text = "";
-      for (const prop in searchTags) {
-        console.log("search tag = " + prop);
-        text = text.concat(prop + ":" + searchTags[prop] + " ");
-      }
-
-      searchBox.current.value = text;
-    }
-  }, [searchTags]) */
-
   const handleCustomFilterSubmit = (e: React.KeyboardEvent<HTMLInputElement>, filter: string) => {
     if (e.key === 'Enter') {
       const newCustomString = e.currentTarget.value;
@@ -137,6 +189,8 @@ export default function Search() {
         const newFilterStrings = { ...customFilterStrings, [filter]: [newCustomString] };
         setCustomFilterStrings(newFilterStrings)
       }
+
+      e.currentTarget.value = '';
     }
   }
 
@@ -157,7 +211,8 @@ export default function Search() {
 
   function convertTimestampToDate(timestamp: string) {
     let date = timestamp.split('T')[0];
-    const [year, month, day] = date.split('-')
+    let [year, month, day] = date.split('-');
+
     return `${month}-${day}-${year}`;
   }
 
@@ -194,6 +249,7 @@ export default function Search() {
     if (moods && moods.length > 0) {
       apiString = apiString.concat(`moods=${moods}&`);
     }
+    console.log("api string = " + apiString);
 
     try {
       const res = await fetch(apiString);
@@ -201,12 +257,20 @@ export default function Search() {
 
       if (res.ok) {
         console.log(data);
-        const analyses = [];
+        const analyses : AnalysisEntry[] = [];
         data.map((d) => {
           const analysis = d._source;
           analysis["date"] = convertTimestampToDate(analysis["@timestamp"]);
           delete analysis["@timestamp"];
           analyses.push(d._source);
+
+          let topic = analysis["topic"];
+          topic = topic.charAt(0).toUpperCase() + topic.slice(1);
+          analysis["topic"] = topic;
+
+          let summary = analysis["summary"];
+          summary = summary.charAt(0).toUpperCase() + summary.slice(1);
+          analysis["summary"] = summary;
         })
         setSearchResults(analyses);
         console.log(`display search results:`)
@@ -220,20 +284,22 @@ export default function Search() {
   };
 
   function getSearchTerms() {
-    const terms = { };
+    const terms : SearchTerms = { };
 
     const date = '01-01-1930:01-01-1950'
     terms["date"] = date;
 
     const text = searchBox.current?.value.split(' ');
-    terms["text"] = text;
+    terms.text = text;
 
     for (const prop in filterStringsPredefined) {
       const value = []
-      if (activeFilterStrings.hasOwnProperty(prop) && activeFilterStrings[prop])
+      if (activeFilterStrings.hasOwnProperty(prop) && activeFilterStrings[prop]) {
         value.push(...activeFilterStrings[prop]);
-      if (customFilterStrings.hasOwnProperty(prop) && customFilterStrings[prop])
+      }
+      if (customFilterStrings.hasOwnProperty(prop) && customFilterStrings[prop]) {
         value.push(...customFilterStrings[prop]);
+      }
 
       terms[prop] = value;
     }
@@ -241,16 +307,17 @@ export default function Search() {
     return terms;
   }
 
+
   return (
     <>
-      <form className="flex max-w-7xl h-60 min-h-screen mx-auto">
-        <div className={"flex flex-col w-1/3 max-w-lg h-60 m-10 " + (searchIsActive ? 'mx-5' : 'mx-auto')}>
+      <form className="max-w-7xl h-fit min-h-screen mx-auto">
+        <div className={"flex flex-col w-1/2 max-w-lg h-fit m-10 mx-auto"}>
           <div className="flex h-10 w-full">
-            <div className="border-2 border-black w-10 flex align-middle justify-center">
-              <Image src='/images/search-icon.svg' height={25} width={25} alt="search-icon" />
+            <div className="border-2 border-slate-200 w-10 flex align-middle justify-center hover:cursor-pointer" onClick={(e) => handleSearch()}>
+              <Image src='/images/search-icon.svg' className="invert p-1" height={30} width={30} alt="search-icon" />
             </div>
-            <div className="flex-auto border-2 border-black">
-              <input ref={searchBox} onKeyDown={handleSearchKeyDown} className="w-full h-full p-4 text-lg" type="text" placeholder="Search.." />
+            <div className="flex-auto">
+              <input ref={searchBox} onKeyDown={handleSearchKeyDown} className="w-full h-full p-4 text-lg text-black placeholder:italic" type="text" placeholder="Search.." />
             </div>
           </div>
           <div className="flex flex-wrap ms-10 my-3">
@@ -258,7 +325,7 @@ export default function Search() {
               return (
                 activeFilters.includes(filter) === false &&
 
-                <div className="flex-initial h-10 border border-black m-1 p-1 hover:cursor-pointer" onClick={handleFilterClick} key={filter}>
+                <div className={`${josefin.className} flex-initial h-10 text-xl border border-slate-400 rounded-md m-1 p-1 hover:cursor-pointer capitalize`} onClick={handleFilterClick} key={filter}>
                   {filter}
                 </div>
               )
@@ -266,66 +333,72 @@ export default function Search() {
 
             <div className="flex-break h-3"></div>
 
-
             {activeFilters.slice(0).reverse().map((filter) => {
               return (
-                <React.Fragment key={filter}>
-                  <div className="flex-initial h-10 bg-slate-500 border border-black  p-1 hover:cursor-pointer" onClick={handleFilterClick}>
-                    {filter}
-                  </div>
-                  
-                  <div className="flex-break"></div>
+                <div key={filter}>
+                  <div className="bg-slate-600 rounded-md" >
+                    <div className={`${josefin.className} flex-initial h-10 text-xl font-bold text-center text-slate-50 p-1 hover:cursor-pointer capitalize`} onClick={handleFilterClick}>
+                      {filter}
+                    </div>
 
-                  <div className="flex flex-wrap max-w-full">
-                    {filterStringsPredefined[filter]?.map((filterValue) => {
-                      return (
-                        <div className={" hover:cursor-pointer px-2 py-1 m-1" + (activeFilterStrings.hasOwnProperty(filter) && activeFilterStrings[filter]?.includes(filterValue) ? ' bg-amber-300' : '')} onClick={handleFilterValueClick} key={`${filter}-${filterValue}`} data-filter={`${filter}-${filterValue}`} >
-                          {filterValue}
-                        </div>
-                      )
-                    })}
-                    {customFilterStrings[filter]?.map((filterValue) => {
-                      return (
-                        <div className="flex m-1" key={`${filter}-${filterValue}`}>
-                          <span className="bg-amber-300 px-1 border-4 border-slate-400 rounded-r-md my-auto">
+                    <div className="flex-break"></div>
+
+                    <div className="flex flex-wrap max-w-full">
+                      {filterStringsPredefined[filter]?.map((filterValue) => {
+                        return (
+                          <div className={`${josefin.className} hover:cursor-pointer px-2 py-1 m-1 capitalize` + (activeFilterStrings.hasOwnProperty(filter) && activeFilterStrings[filter]?.includes(filterValue) ? ' font-bold text-slate-200' : '')} onClick={handleFilterValueClick} key={`${filter}-${filterValue}`} data-filter={`${filter}-${filterValue}`} >
                             {filterValue}
-                          </span>
-                          <button type="button" className="bg-amber-300 px-1 border-4 border-slate-400 rounded-md text-black" onClick={(e) => handleCustomFilterRemove(e, filter, filterValue)}>
-                            &#215;
-                          </button>
-                        </div>
-                      )
-                    })}
-                  </div>
+                          </div>
+                        )
+                      })}
 
-                  <input type="text" className="mt-2 mx-1" onKeyDown={(e) => handleCustomFilterSubmit(e, filter)}></input>
+                      <div className="flex-break"></div>
 
+                      {customFilterStrings[filter]?.map((filterValue) => {
+                        return (
+                          <div className="flex m-1 p-1" key={`${filter}-${filterValue}`}>
+                            <span className="px-1 my-auto italic font-bold text-slate-200">
+                              {filterValue}
+                            </span>
+                            <button type="button" className="px-1 text-white" onClick={(e) => handleCustomFilterRemove(e, filter, filterValue)}>
+                              &#215;
+                            </button>
+                          </div>
+                        )
+                      })}
+                    </div>
+
+                    <input type="text" className="m-2 p-1 text-black placeholder:italic" placeholder="custom filter..." onKeyDown={(e) => handleCustomFilterSubmit(e, filter)}></input>
+
+                    
+                  </ div>
                   <div className="flex-break h-6"></div>
-                </ React.Fragment>
+                </div>
+                
               )
             })}
             
           </div>
         </div>
-        {searchIsActive && (
-          <div className="flex-auto flex flex-col max-w-lg h-fit m-10 mx-5 border-2 border-black">
-            {searchResults && searchResults.map((result) => {
-            return <SearchResult topic={result.topic} date={result.date} summary={result.summary} text='' handleSelectResult={handleSelectResult} key={result.summary.slice(0,15)} />
-            })}
-          </div>
-        )
-        }
-        {searchIsActive && (
-          <div className="w-1/3 m-10 mx-5 border-2 border-black">
-            {selectedResult && Object.keys(selectedResult).map((key) => {
-              if (typeof selectedResult[key] === 'function') {
-                return null;
-              }
-              return <div key={key}>{key}: {selectedResult[key]}</div>;
-            })}
-          </div>
-        )}
-
+        <div className="flex justify-center">
+          {searchIsActive && (
+            <div className="flex flex-col w-1/2 lg:basis-full max-w-lg h-fit m-10 mx-5 border-2 border-slate-400">
+              {searchResults && searchResults.map((result) => {
+                return <SearchResult {...result} handleSelectResult={handleSelectResult} isSelected={selectedResult?.summary == result.summary} key={result.topic + result.summary.slice(0, 25)} />
+              })}
+            </div>
+          )}
+          {searchIsActive && (
+            <div className="w-1/2 h-fit min-h-screen my-10 mx-5 p-4 border-2 border-slate-400 whitespace-pre-wrap">
+              <div className="text-lg font-bold">
+                {selectedResult && makeDatePretty(selectedResult.date)}
+              </div>
+              <br />
+              {selectedResultText !== '' && selectedResultText.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
+            </div>
+          )}
+        </div>
+        
       </form>
     </>
   )

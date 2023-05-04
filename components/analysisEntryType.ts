@@ -1,4 +1,4 @@
-export type AnalysisEntry = {
+export interface AnalysisEntry {
   date: string
   topic: string
   summary: string

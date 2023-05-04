@@ -1,6 +1,6 @@
-export type SearchTerms = {
+export interface SearchTerms {
   date?: string
-  text?: string
+  text?: string[]
   people?: string[]
   places?: string[]
   organizations?: string[]
