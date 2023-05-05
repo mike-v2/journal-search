@@ -307,7 +307,6 @@ export default function Search() {
     return terms;
   }
 
-
   return (
     <>
       <form className="max-w-7xl h-fit min-h-screen mx-auto">
@@ -335,15 +334,15 @@ export default function Search() {
 
             {activeFilters.slice(0).reverse().map((filter) => {
               return (
-                <div key={filter}>
-                  <div className="bg-slate-600 rounded-md" >
+                <div className="basis-full" key={filter}>
+                  <div className="bg-slate-600 rounded-md w-100" >
                     <div className={`${josefin.className} flex-initial h-10 text-xl font-bold text-center text-slate-50 p-1 hover:cursor-pointer capitalize`} onClick={handleFilterClick}>
                       {filter}
                     </div>
 
                     <div className="flex-break"></div>
 
-                    <div className="flex flex-wrap max-w-full">
+                    <div className="flex flex-wrap justify-center max-w-full">
                       {filterStringsPredefined[filter]?.map((filterValue) => {
                         return (
                           <div className={`${josefin.className} hover:cursor-pointer px-2 py-1 m-1 capitalize` + (activeFilterStrings.hasOwnProperty(filter) && activeFilterStrings[filter]?.includes(filterValue) ? ' font-bold text-slate-200' : '')} onClick={handleFilterValueClick} key={`${filter}-${filterValue}`} data-filter={`${filter}-${filterValue}`} >
@@ -380,16 +379,16 @@ export default function Search() {
             
           </div>
         </div>
-        <div className="flex justify-center">
+        <div className="flex flex-col lg:flex-row justify-center align-middle">
           {searchIsActive && (
-            <div className="flex flex-col w-1/2 lg:basis-full max-w-lg h-fit m-10 mx-5 border-2 border-slate-400">
+            <div className="flex flex-col w-4/5 mx-auto lg:w-1/2 h-fit border-2 border-slate-400">
               {searchResults && searchResults.map((result) => {
                 return <SearchResult {...result} handleSelectResult={handleSelectResult} isSelected={selectedResult?.summary == result.summary} key={result.topic + result.summary.slice(0, 25)} />
               })}
             </div>
           )}
           {searchIsActive && (
-            <div className="w-1/2 h-fit min-h-screen my-10 mx-5 p-4 border-2 border-slate-400 whitespace-pre-wrap">
+            <div className="w-3/4 mx-auto lg:w-1/2 h-fit p-4 border-2 border-slate-400 whitespace-pre-wrap">
               <div className="text-lg font-bold">
                 {selectedResult && makeDatePretty(selectedResult.date)}
               </div>

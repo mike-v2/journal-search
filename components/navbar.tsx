@@ -16,7 +16,9 @@ export default function Navbar() {
         <div className='flex-auto text-center'>
           <Link href='/'>Home</Link>
         </div>
-        <div className='flex-auto text-center'>Browse</div>
+        <div className='flex-auto text-center'>
+          <Link href='/login'>Browse</Link>
+        </div>
         <div className='flex-auto text-center'>
           <Link href='/search'>Search</Link>
         </div>
