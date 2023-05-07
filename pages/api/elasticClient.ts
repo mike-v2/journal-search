@@ -71,7 +71,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     size: 10,
     query: {
       bool: {
-        filter: getFilterConditions(req.query as SearchTerms),
+        filter: getFilterConditions(req.query as SearchTerms) as any,
       },
     },
   });
