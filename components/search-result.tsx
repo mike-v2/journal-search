@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { AnalysisEntry } from "./analysisEntryType";
+import { Topic } from "./topicType";
 import { makeDatePretty } from "@/utils/convertDate";
 
 
-interface SearchResultProps extends AnalysisEntry {
-  handleSelectResult: (data: AnalysisEntry) => void;
+interface SearchResultProps extends Topic {
+  handleSelectResult: (data: Topic) => void;
   isSelected: boolean;
 }
 
@@ -15,7 +15,7 @@ export default function SearchResult(props: SearchResultProps) {
     const date = makeDatePretty(props.date);
     setDate(date);
 
-    console.log("isSelected = " + props.isSelected);
+    //console.log("isSelected = " + props.isSelected);
   }, [props])
 
   const handleOnClick = (e: React.FormEvent<HTMLDivElement>) => {

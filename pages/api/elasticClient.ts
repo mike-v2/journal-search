@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Client } from '@elastic/elasticsearch';
-import { AnalysisEntry } from '@/components/analysisEntryType';
+import { Topic } from '@/components/topicType';
 import { SearchTerms } from '@/components/searchTermsType';
 
 const client = new Client({
@@ -66,7 +66,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return conditions;
   };
 
-  const results = await client.search<AnalysisEntry>({
+  const results = await client.search<Topic>({
     index: 'entries',
     size: 10,
     query: {

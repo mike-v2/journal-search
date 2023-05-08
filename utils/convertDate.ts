@@ -8,6 +8,24 @@ function makeDatePretty(date: string): string {
   return `${month} ${day}, ${year}`;
 }
 
+function ISOStringToDate(iso: Date) : string {
+  let date = iso.toString().split('T')[0];
+  let [year, month, day] = date.split('-');
+  return `${month}-${day}-${year}`;
+}
+
+function dateToISOString(date: string): string {
+  let [month, day, year] = date.split('-');
+  return new Date(`${year}-${month}-${day}`).toISOString();
+}
+
+function timestampToDate(timestamp: string) {
+  let date = timestamp.split('T')[0];
+  let [year, month, day] = date.split('-');
+
+  return `${month}-${day}-${year}`;
+}
+
 function convertMonthNumberToWord(month: string): string {
   const m = Number(month);
   switch (m) {
@@ -39,4 +57,4 @@ function convertMonthNumberToWord(month: string): string {
   }
 }
 
-export {makeDatePretty}
+export {makeDatePretty, dateToISOString, timestampToDate, ISOStringToDate}

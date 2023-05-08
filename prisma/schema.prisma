@@ -55,8 +55,10 @@ model VerificationToken {
 
 model JournalEntry {
   id        String         @id @default(cuid())
+  date      DateTime       @unique
+  startPage String
+  endPage   String
   content   String
-  createdAt DateTime       @default(now())
   starredBy StarredEntry[]
 }
 

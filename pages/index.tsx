@@ -40,9 +40,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main>
-        <div className='md:flex mt-10 max-w-5xl mx-auto h-fit'>
-          <div className='mx-auto w-full md:w-1/2 relative'>
-            <Image src='/images/page-0097.png' className='object-cover' fill alt='picture of Harry Howard' />
+        <div className='flex flex-col md:flex-row mt-10 max-w-5xl mx-auto h-fit'>
+          <div className='mx-auto w-full md:w-1/2 flex justify-center'>
+            <Image src='/images/page-0097.png' className='object-cover' width={600} height={800} alt='picture of Harry Howard' />
           </div>
           <div className='text-center whitespace-pre-line w-full md:w-1/2'>
             <h3 className={`${playball.className} p-5 text-4xl text-slate-200`}>

@@ -1,4 +1,4 @@
-export interface AnalysisEntry {
+export interface Topic {
   date: string
   topic: string
   summary: string

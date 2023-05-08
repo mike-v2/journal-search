@@ -1,13 +1,15 @@
 import SearchResult from "@/components/search-result";
-import { AnalysisEntry } from "@/components/analysisEntryType";
+import { Topic } from "@/components/topicType";
 import {SearchTerms} from '@/components/searchTermsType'
 import Image from "next/image";
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-import useSWR from 'swr';
-import { makeDatePretty } from "@/utils/convertDate";
+import { timestampToDate, dateToISOString, makeDatePretty, ISOStringToDate } from "@/utils/convertDate";
 import { Josefin_Sans } from "next/font/google";
-const exampleSearchResult: AnalysisEntry = {
+import { JournalEntry } from "@prisma/client";
+import { useSession } from "next-auth/react";
+
+const exampleSearchResult: Topic = {
   topic: "Family",
   summary: "met Sharon's husband",
   date: "4-1-1948",
@@ -52,32 +54,20 @@ const filterNumbersPredefined: FilterNumbers = {
   sentiment: .5,
 }
 
+type JournalEntryExt = JournalEntry & { isStarredByUser: boolean };
+
+
 export default function Search() {
+  const { data: session } = useSession();
+
   const searchBox = useRef<HTMLInputElement>(null);
   const [searchIsActive, setSearchIsActive] = useState(false);
-  const [selectedResult, setSelectedResult] = useState<AnalysisEntry>();
-  const [selectedResultText, setSelectedResultText] = useState<string>('');
+  const [selectedTopic, setSelectedTopic] = useState<Topic>();
+  const [selectedEntry, setSelectedEntry] = useState<JournalEntryExt>();
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [activeFilterStrings, setActiveFilterStrings] = useState<FilterStrings>({});
   const [customFilterStrings, setCustomFilterStrings] = useState<FilterStrings>({});
-  const [searchResults, setSearchResults] = useState<AnalysisEntry[]>([]);
-
-  const fetcher = async (url: string) => {
-    const response = await fetch(url);
-    const data = await response.json();
-
-    try {
-      return JSON.parse(data);
-    } catch (e) {
-      console.error('Failed to parse JSON:', e);
-      return data;
-    }
-  }
-
-  const { data: entries1948, error } = useSWR('/api/entriesData', fetcher);
-  if (error) {
-    console.log(error);
-  }
+  const [searchResults, setSearchResults] = useState<Topic[]>([]);
 
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -90,32 +80,39 @@ export default function Search() {
   function handleSearch() {
     if (searchBox.current) {
       console.log("Searching: " + searchBox.current.value);
-      setSelectedResult(undefined);
-      setSelectedResultText('');
+      setSelectedTopic(undefined);
+      setSelectedEntry(undefined);
       setSearchIsActive(true);
       runElasticSearch();
     }
   }
 
-  const handleSelectResult = (selectedTopic: AnalysisEntry) => {
+  const handleSelectResult = async (selectedTopic: Topic) => {
     console.log(selectedTopic);
-    setSelectedResult(selectedTopic);
+    setSelectedTopic(selectedTopic);
 
-    const date = selectedTopic.date;
-    const text = getEntryText(date);
-    if (text !== '') {
-      setSelectedResultText(text);
+    const dateISO = dateToISOString(selectedTopic.date);
+
+    const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
+      method: 'GET',
+    });
+
+    const entry = await res.json() as JournalEntryExt;
+
+    if (entry) {
+      if (!session || !session.user) {
+        return;
+      }
+      const starRes = await fetch(`/api/star-entry?userId=${session.user.id}&journalEntryId=${entry.id}`, {
+        method: 'GET',
+      });
+
+      const { isStarred } = await starRes.json();
+      entry.isStarredByUser = isStarred;
+      setSelectedEntry(entry);
     } else {
       console.log("Could not find journal entry by date")
     }
-  }
-
-  function getEntryText(date: string) : string {
-    for (let i = 0; i < entries1948.length; i++) {
-      if (entries1948[i].date === date) return entries1948[i].text;
-    }
-
-    return '';
   }
 
   const handleFilterClick = (e: React.FormEvent<HTMLDivElement>) => {
@@ -209,13 +206,6 @@ export default function Search() {
     }
   }
 
-  function convertTimestampToDate(timestamp: string) {
-    let date = timestamp.split('T')[0];
-    let [year, month, day] = date.split('-');
-
-    return `${month}-${day}-${year}`;
-  }
-
   const runElasticSearch = async () => {
     
     const searchTerms = getSearchTerms();
@@ -257,10 +247,10 @@ export default function Search() {
 
       if (res.ok) {
         console.log(data);
-        const analyses : AnalysisEntry[] = [];
+        const analyses : Topic[] = [];
         data.map((d) => {
           const analysis = d._source;
-          analysis["date"] = convertTimestampToDate(analysis["@timestamp"]);
+          analysis["date"] = timestampToDate(analysis["@timestamp"]);
           delete analysis["@timestamp"];
           analyses.push(d._source);
 
@@ -305,6 +295,28 @@ export default function Search() {
     }
 
     return terms;
+  }
+
+  async function handleStarClick(journalEntryId: string) {
+    if (!session || !session.user || !selectedEntry) {
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/star-entry?userId=${session.user.id}&journalEntryId=${journalEntryId}&isStarred=${selectedEntry.isStarredByUser}`, {
+        method: 'POST',
+      });
+
+      if (res.status === 200) {
+        const { isStarred } = await res.json();
+        console.log((isStarred ? "Star" : "Unstar") + " successful");
+        const newEntry = {...selectedEntry} as JournalEntryExt;
+        newEntry.isStarredByUser = !!isStarred;
+        setSelectedEntry(newEntry);
+      }
+    } catch (error) {
+      console.error('Error starring journal entry:', error);
+    }
   }
 
   return (
@@ -383,17 +395,20 @@ export default function Search() {
           {searchIsActive && (
             <div className="flex flex-col w-4/5 mx-auto lg:w-1/2 h-fit border-2 border-slate-400">
               {searchResults && searchResults.map((result) => {
-                return <SearchResult {...result} handleSelectResult={handleSelectResult} isSelected={selectedResult?.summary == result.summary} key={result.topic + result.summary.slice(0, 25)} />
+                return <SearchResult {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.topic + result.summary.slice(0, 25)} />
               })}
             </div>
           )}
-          {searchIsActive && (
+          {searchIsActive && selectedEntry && (
             <div className="w-3/4 mx-auto lg:w-1/2 h-fit p-4 border-2 border-slate-400 whitespace-pre-wrap">
+              <div className="flex justify-end">
+                <div className={'w-8 h-8' + (selectedEntry.isStarredByUser ? ' bg-yellow-400' : ' bg-black')} onClick={() => handleStarClick(selectedEntry.id)}></div>
+              </div>
               <div className="text-lg font-bold">
-                {selectedResult && makeDatePretty(selectedResult.date)}
+                {makeDatePretty(ISOStringToDate(selectedEntry.date))}
               </div>
               <br />
-              {selectedResultText !== '' && selectedResultText.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
+              {selectedEntry?.content !== '' && selectedEntry?.content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
             </div>
           )}
         </div>
