@@ -60,6 +60,7 @@ model JournalEntry {
   endPage   String
   content   String
   starredBy StarredEntry[]
+  topics    JournalTopic[]
 }
 
 model StarredEntry {
@@ -70,4 +71,19 @@ model StarredEntry {
   createdAt      DateTime     @default(now())
 
   @@id([userId, journalEntryId])
+}
+
+model JournalTopic {
+  id              String         @id @default(cuid())
+  journalEntry   JournalEntry @relation(fields: [journalEntryId], references: [id])
+  journalEntryId  String
+  name            String
+  summary         String
+  people          String[]
+  places          String[]
+  organizations   String[]
+  things          String[]
+  emotion         String
+  mood            String
+  strength        Float
 }

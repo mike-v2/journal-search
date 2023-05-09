@@ -3,12 +3,12 @@ import { Topic } from "./topicType";
 import { makeDatePretty } from "@/utils/convertDate";
 
 
-interface SearchResultProps extends Topic {
+interface TopicBoxProps extends Topic {
   handleSelectResult: (data: Topic) => void;
   isSelected: boolean;
 }
 
-export default function SearchResult(props: SearchResultProps) {
+export default function JournalTopicBox(props: TopicBoxProps) {
   const [date, setDate] = useState<string>('');
 
   useEffect(() => {

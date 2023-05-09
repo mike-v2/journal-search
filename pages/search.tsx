@@ -1,4 +1,3 @@
-import SearchResult from "@/components/search-result";
 import { Topic } from "@/components/topicType";
 import {SearchTerms} from '@/components/searchTermsType'
 import Image from "next/image";
@@ -7,7 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { timestampToDate, dateToISOString, makeDatePretty, ISOStringToDate } from "@/utils/convertDate";
 import { Josefin_Sans } from "next/font/google";
 import { JournalEntry } from "@prisma/client";
-import { useSession } from "next-auth/react";
+import JournalTopicBox from "@/components/journalTopicBox";
+import JournalEntryBox from "@/components/journalEntryBox";
 
 const exampleSearchResult: Topic = {
   topic: "Family",
@@ -54,16 +54,11 @@ const filterNumbersPredefined: FilterNumbers = {
   sentiment: .5,
 }
 
-type JournalEntryExt = JournalEntry & { isStarredByUser: boolean };
-
-
 export default function Search() {
-  const { data: session } = useSession();
-
   const searchBox = useRef<HTMLInputElement>(null);
   const [searchIsActive, setSearchIsActive] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState<Topic>();
-  const [selectedEntry, setSelectedEntry] = useState<JournalEntryExt>();
+  const [selectedEntry, setSelectedEntry] = useState<JournalEntry>();
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [activeFilterStrings, setActiveFilterStrings] = useState<FilterStrings>({});
   const [customFilterStrings, setCustomFilterStrings] = useState<FilterStrings>({});
@@ -93,25 +88,19 @@ export default function Search() {
 
     const dateISO = dateToISOString(selectedTopic.date);
 
-    const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
-      method: 'GET',
-    });
-
-    const entry = await res.json() as JournalEntryExt;
-
-    if (entry) {
-      if (!session || !session.user) {
-        return;
-      }
-      const starRes = await fetch(`/api/star-entry?userId=${session.user.id}&journalEntryId=${entry.id}`, {
+    try {
+      const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
         method: 'GET',
       });
 
-      const { isStarred } = await starRes.json();
-      entry.isStarredByUser = isStarred;
-      setSelectedEntry(entry);
-    } else {
-      console.log("Could not find journal entry by date")
+      const entry = await res.json() as JournalEntry;
+      if (entry) {
+        setSelectedEntry(entry);
+      } else {
+        console.log("Could not find journal entry by date");
+      }
+    } catch (error) {
+      console.log("Could not find journal entry by date: " + error);
     }
   }
 
@@ -248,7 +237,7 @@ export default function Search() {
       if (res.ok) {
         console.log(data);
         const analyses : Topic[] = [];
-        data.map((d) => {
+        data.map((d: any) => {
           const analysis = d._source;
           analysis["date"] = timestampToDate(analysis["@timestamp"]);
           delete analysis["@timestamp"];
@@ -285,38 +274,16 @@ export default function Search() {
     for (const prop in filterStringsPredefined) {
       const value = []
       if (activeFilterStrings.hasOwnProperty(prop) && activeFilterStrings[prop]) {
-        value.push(...activeFilterStrings[prop]);
+        value.push(...activeFilterStrings[prop] as string[]);
       }
       if (customFilterStrings.hasOwnProperty(prop) && customFilterStrings[prop]) {
-        value.push(...customFilterStrings[prop]);
+        value.push(...customFilterStrings[prop] as string[]);
       }
 
       terms[prop] = value;
     }
 
     return terms;
-  }
-
-  async function handleStarClick(journalEntryId: string) {
-    if (!session || !session.user || !selectedEntry) {
-      return;
-    }
-
-    try {
-      const res = await fetch(`/api/star-entry?userId=${session.user.id}&journalEntryId=${journalEntryId}&isStarred=${selectedEntry.isStarredByUser}`, {
-        method: 'POST',
-      });
-
-      if (res.status === 200) {
-        const { isStarred } = await res.json();
-        console.log((isStarred ? "Star" : "Unstar") + " successful");
-        const newEntry = {...selectedEntry} as JournalEntryExt;
-        newEntry.isStarredByUser = !!isStarred;
-        setSelectedEntry(newEntry);
-      }
-    } catch (error) {
-      console.error('Error starring journal entry:', error);
-    }
   }
 
   return (
@@ -395,20 +362,15 @@ export default function Search() {
           {searchIsActive && (
             <div className="flex flex-col w-4/5 mx-auto lg:w-1/2 h-fit border-2 border-slate-400">
               {searchResults && searchResults.map((result) => {
-                return <SearchResult {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.topic + result.summary.slice(0, 25)} />
+                return (
+                  <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.topic + result.summary.slice(0, 25)} />
+                )
               })}
             </div>
           )}
           {searchIsActive && selectedEntry && (
-            <div className="w-3/4 mx-auto lg:w-1/2 h-fit p-4 border-2 border-slate-400 whitespace-pre-wrap">
-              <div className="flex justify-end">
-                <div className={'w-8 h-8' + (selectedEntry.isStarredByUser ? ' bg-yellow-400' : ' bg-black')} onClick={() => handleStarClick(selectedEntry.id)}></div>
-              </div>
-              <div className="text-lg font-bold">
-                {makeDatePretty(ISOStringToDate(selectedEntry.date))}
-              </div>
-              <br />
-              {selectedEntry?.content !== '' && selectedEntry?.content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
+            <div className="w-3/4 mx-auto lg:w-1/2">
+              <JournalEntryBox {...selectedEntry}/>
             </div>
           )}
         </div>

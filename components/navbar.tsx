@@ -34,7 +34,9 @@ export default function Navbar() {
             <Link href='/'>Community</Link>
           </div>
           {session && session.user && 
-          <div className="flex-auto text-center">Saved</div>
+          <div className="flex-auto text-center">
+              <Link href='/mySaved'>Saved</Link>
+          </div>
           }
         </div>
       </nav>

@@ -8,4 +8,5 @@ export interface SearchTerms {
   emotions?: string[]
   moods?: string[]
   strength?: number[]
+  [key: string]: string[] | string | number[] | undefined | null; // Add index signature
 } 

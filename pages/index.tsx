@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { Josefin_Sans, Playball, Libre_Baskerville, Arvo} from 'next/font/google'
 import { useEffect, useRef, useState } from 'react'
+import CreateData from '@/components/createData'
 
 const inter = Inter({ subsets: ['latin'] })
 
