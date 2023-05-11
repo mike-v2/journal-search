@@ -1,0 +1,9956 @@
+{
+  "01-01-1948": [
+    {
+      "property": "emotion",
+      "value": "anxiety",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "fear",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "emotion",
+      "value": "distrust",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "organizations",
+      "value": "Russia",
+      "count": 1,
+      "strength": -0.5
+    }
+  ],
+  "01-02-1948": [
+    {
+      "property": "places",
+      "value": "Buffalo",
+      "count": 1,
+      "strength": 0.0
+    }
+  ],
+  "01-04-1948": [
+    {
+      "property": "emotion",
+      "value": "inspired",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "despair",
+      "count": 1,
+      "strength": -0.3
+    }
+  ],
+  "01-06-1948": [
+    {
+      "property": "people",
+      "value": "Ernst Koehler",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Vera Moore",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Philadelphia",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "Genealogical Society",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "discomfort",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Barbara",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "displeasure",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "01-07-1948": [
+    {
+      "property": "people",
+      "value": "Mr. Huson",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Sioux City",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Salt Lake City",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "interest",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "need",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "01-09-1948": [
+    {
+      "property": "people",
+      "value": "old man Winter",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "repair shop",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "anticipation",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Gospel Doctrine class",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Sunday school",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "Book of Mormon",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "01-12-1948": [
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Sonny",
+      "count": 1,
+      "strength": -0.6
+    }
+  ],
+  "01-17-1948": [
+    {
+      "property": "emotion",
+      "value": "fulfillment",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Dr Michael Henry",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Lansingburgh, NY",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Fairfield, Connecticut",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Rensselaer County",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Presbyterian",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "01-18-1948": [
+    {
+      "property": "emotion",
+      "value": "grief",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "father",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Rexburg, Idaho",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Dick Jardine",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "people",
+      "value": "Ed Ellsworth",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Upper Snake River Valley",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "pity",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "father",
+      "count": 1,
+      "strength": -0.3
+    }
+  ],
+  "01-25-1948": [
+    {
+      "property": "emotion",
+      "value": "anger",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Bishop Nicholas G. Smith",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "places",
+      "value": "archive",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "places",
+      "value": "Hotel Utah",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "places",
+      "value": "17th Ward",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "emotion",
+      "value": "nostalgia",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Brother Hiram M. Jaglar",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "17th Ward",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "holy priesthood",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "thankfulness",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "01-26-1948": [
+    {
+      "property": "emotion",
+      "value": "empathy",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Europe",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "shame",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Mama",
+      "count": 1,
+      "strength": -0.6
+    }
+  ],
+  "01-28-1948": [
+    {
+      "property": "people",
+      "value": "Will Holmes",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Bishop Meyers",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "awkwardness",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "people",
+      "value": "Bro Robbins",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "people",
+      "value": "Bishop Isaacson",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "places",
+      "value": "archives",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "emotion",
+      "value": "anticipation",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Washington DC",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Virginia",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Richmond",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Norfolk",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Elizabeth City",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "St Louis",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Mississippi",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "New Orleans",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Mobile, Alabama",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Pensacola, Florida",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Texas",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "pride",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "01-29-1948": [
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "congress",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "optimism",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "01-30-1948": [
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "discomfort",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Genealogical Society",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "02-01-1948": [
+    {
+      "property": "emotion",
+      "value": "pleasant",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "dissatisfaction",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Bro. Clegg",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "organizations",
+      "value": "gospel Doctrine Sunday school class",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "things",
+      "value": "The Book of Mormon",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "things",
+      "value": "seer stone",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "things",
+      "value": "Urim and Thummim",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "02-03-1948": [
+    {
+      "property": "emotion",
+      "value": "grief",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Elizabeth Y. Ellsworth",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Prophet Joseph Smith",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Lewisville, Idaho",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Mormon",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "02-04-1948": [
+    {
+      "property": "emotion",
+      "value": "sympathy",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "people",
+      "value": "Harry Cross",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.3
+    }
+  ],
+  "02-06-1948": [
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "anxiety",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "overwhelmed",
+      "count": 1,
+      "strength": -0.3
+    }
+  ],
+  "02-08-1948": [
+    {
+      "property": "emotion",
+      "value": "disgust",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Ardi",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "organizations",
+      "value": "realtors",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "affection",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Dot",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Bryce",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Craig",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Buffalo",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Pittsfield",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Hartford",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Providence",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "New London",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Bridgeport",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "New Haven",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Syracuse",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Troy",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "postmasters",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "02-09-1948": [
+    {
+      "property": "emotion",
+      "value": "productivity",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Buffalo",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Syracuse",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Troy",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Pittsfield",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "New London",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Bridgeport",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "New Haven",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Hartford",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Providence",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Rowennah",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "relieved",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "adventurous",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Salt Lake City",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "organizations",
+      "value": "Church",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "02-12-1948": [
+    {
+      "property": "emotion",
+      "value": "patriotic",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Lincoln",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "the Archives",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "duty",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "post office",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "productivity",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Mrs. Wittenburg",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "environmentalism",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "paper",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "02-13-1948": [
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Ann Durham",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Alfred M. Durham",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Bishop Nicholas G. Smith",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Jos. William Taylor Mortuary",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Ardie",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "people",
+      "value": "Frank",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Okinawa",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "excitement",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Burlington, Ia",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Carthage, Il",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Nauvoo",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Kenosha, Wis.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Buffalo",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Niagara Falls",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Geneseo, N.Y.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Albany, N.Y.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Rutland, VT",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Boston",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Berwick, ME",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Washington D.C.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "St Louis",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "New Orleans",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "curiosity",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "New Mexico",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Oklahoma",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Texas",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "anticipation",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Oregon",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Washington",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "02-14-1948": [
+    {
+      "property": "people",
+      "value": "Mama",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Kathy",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Sugarhouse",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "engagement",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Gideon Brownell",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Fanny Elizabeth",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "William Steele",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "James Harmison",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Mary Ann Experience",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Hannah",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "William Vaughan",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Jesse Pierson",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "focused",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "St Louis",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Boston",
+      "count": 1,
+      "strength": 0.0
+    }
+  ],
+  "02-15-1948": [
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Orrin",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "outrage",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "people",
+      "value": "Rowenna",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "emotion",
+      "value": "empathy",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Rowennah",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Nampa",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "02-16-1948": [
+    {
+      "property": "emotion",
+      "value": "disappointment",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Creegan",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Neary",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Providence, R.I.",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Bridgeport",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "02-17-1948": [
+    {
+      "property": "emotion",
+      "value": "grief",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "people",
+      "value": "John Hazard Howard",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "places",
+      "value": "Brigham Canyon",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "emotion",
+      "value": "suspicion",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Grandfather Howard",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "pleased",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Patrick J. Goode",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "New Haven",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "Union Postal Clerk",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "02-18-1948": [
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "pen shop",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "anxiety",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Rowenna",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "worry",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Rowenna",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "determined",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "organizations",
+      "value": "school",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "02-20-1948": [
+    {
+      "property": "emotion",
+      "value": "worry",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Rowennah",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "State School",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "things",
+      "value": "Box 11",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "disappointment",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "E.J. Dillon",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Donald A. Dailey",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Hartford, NY",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Rochester, NY",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "things",
+      "value": "Postmaster",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "distress",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "temple",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "02-22-1948": [
+    {
+      "property": "emotion",
+      "value": "joy",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Aunt Mabel",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Mary Collins",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "James",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Sharon",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Maine",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Stephen",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "admiration",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Mary",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "Wear Ever",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "disgust",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "people",
+      "value": "Lewis",
+      "count": 1,
+      "strength": -0.5
+    }
+  ],
+  "02-24-1948": [
+    {
+      "property": "people",
+      "value": "Timothy J. Sullivan",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Myron J. Parkinson",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "John P. Hayes",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Louis J. Kutz",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "New London, Conn.",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Syracuse, New York",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Albany, NY",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Rochester, NY",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Penna",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Northern New Jersey",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Buffalo",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Pittsfield",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Troy",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "interested",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Washington DC",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Savannah",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "St Louis",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "New Orleans",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Pensacola",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Milwaukee",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Rutland",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Boston",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Portland",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Dalhart Texas",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "02-26-1948": [
+    {
+      "property": "people",
+      "value": "Held",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "pen",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Vera Moore",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "things",
+      "value": "goiter",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "happiness",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Leree Baker",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "curiosity",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Harold Jacobsen",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "Archive",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "planning",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Winona, MN",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Milwaukee",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Dalhart",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Seattle",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "02-27-1948": [
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "contentment",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Czechoslovakia",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Finland",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "organizations",
+      "value": "Communists",
+      "count": 1,
+      "strength": -0.3
+    }
+  ],
+  "02-28-1948": [
+    {
+      "property": "places",
+      "value": "Nauvoo",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Boston",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "N.Y.C.",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Washington D.C.",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "organizations",
+      "value": "U.P.",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Prophet Joseph",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Mr Seaton",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "unease",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Joseph Smith",
+      "count": 1,
+      "strength": -0.3
+    }
+  ],
+  "02-29-1948": [
+    {
+      "property": "emotion",
+      "value": "disappointment",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "St Louis",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "anticipation",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "St Louis",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "New Orleans",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Milwaukee",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Boston",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Portland",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Keokuk, IA",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Nauvoo",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Carthage",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Rutland, Vt",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Pueblo, Colo",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Dalhart, Tex.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Oregon",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Washington",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "North Dakota",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "South Dakota",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Minnesota",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Texas",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Oklahoma",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "New Mexico",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Seattle",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Lansing",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Detroit",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Kirtland, Ohio",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Geneseo, N.Y.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Niagra Falls, N.Y.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Mendon, N.Y.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Aurelius, N.Y.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Spencerport, N.Y.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Port Byron, N.Y.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Palmyra",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Hill Cumorah",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Sacred Grove",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Manchester",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Fayette",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Lansingburgh, N.Y.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Waterford, N.Y.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Pittsfield",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Hinsdale, Mass.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Benson",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Danby, Vt.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Kingston",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Point Judith R.I.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Old Lyme",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Westport",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Hartford, Conn.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "New York City",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Philadelphia",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Washington, D.C.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "LDS",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "LDS",
+      "count": 1,
+      "strength": 0.1
+    }
+  ],
+  "03-01-1948": [
+    {
+      "property": "emotion",
+      "value": "excitement",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Milwaukee",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Sacrament",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Katharina",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Detroit",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Cleveland",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Willoughby",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Kirtland",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Buffalo",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "city cemetery",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Buffalo Savings Bank",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "611 Main St",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Niagara Falls",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Troy",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Lansingburgh",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Waterford Cemetery",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "bus",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Rutland",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Vermont",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Benson",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Danby",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Pittsfield",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Hinsdale",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Boston",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Sacrament meeting",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Portland Maine",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "03-02-1948": [
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Frank",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "basement",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "03-03-1948": [
+    {
+      "property": "emotion",
+      "value": "anxiety",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "office of Internal Revenue",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "03-04-1948": [
+    {
+      "property": "emotion",
+      "value": "nostalgia",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "mother",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Clarkston, Utah",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "upper Snake River Valley",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Lewisville",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Mr. Friedt",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Washington DC",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "organizations",
+      "value": "RMS",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "anger",
+      "count": 1,
+      "strength": -0.8
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": -0.8
+    },
+    {
+      "property": "people",
+      "value": "Ardis",
+      "count": 1,
+      "strength": -0.8
+    },
+    {
+      "property": "people",
+      "value": "Sharon",
+      "count": 1,
+      "strength": -0.8
+    },
+    {
+      "property": "people",
+      "value": "Sonny",
+      "count": 1,
+      "strength": -0.8
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": -0.8
+    }
+  ],
+  "03-05-1948": [
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "03-06-1948": [
+    {
+      "property": "emotion",
+      "value": "inspiration",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "gratitude",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "John Young",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Hopkinton, Massachusetts",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Quincy, Illinois",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "John Young",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Quincy",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "03-07-1948": [
+    {
+      "property": "emotion",
+      "value": "excitement",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "New York",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Philadelphia",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Detroit",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Los Angeles",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Cleveland",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Baltimore",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "St Louis",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Boston",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Washington DC",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "San Francisco",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Milwaukee",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Buffalo",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "New Orleans",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Cincinnati",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Newark",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Kansas City",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Seattle",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Louisville",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Portland",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Oakland",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Jersey City",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Memphis",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Toledo",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Providence",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Omaha",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Syracuse",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Worcester",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Richmond",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Hartford",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Grand Rapids",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "New Haven",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Salt Lake City",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Springfield",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Bridgeport",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Norfolk",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Trenton",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Erie",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Wilmington",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Wichita",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Sacramento",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Cambridge",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Utica",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Bro. Devitt",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "organizations",
+      "value": "Adult Aaronic priesthood",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "pleased",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Frank",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Ardie",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Okinawa",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "San Francisco",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "things",
+      "value": "car",
+      "count": 1,
+      "strength": 0.1
+    }
+  ],
+  "03-08-1948": [
+    {
+      "property": "emotion",
+      "value": "optimism",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "anticipation",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Ardie",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "03-09-1948": [
+    {
+      "property": "people",
+      "value": "Will Holmes",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Amos Alden",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Enfield",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Vera Moore",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "goiter",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "St Louis",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Burlington",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Detroit",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Cleveland",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Buffalo",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Boston",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "03-10-1948": [
+    {
+      "property": "emotion",
+      "value": "discomfort",
+      "count": 1,
+      "strength": -0.5
+    }
+  ],
+  "03-11-1948": [
+    {
+      "property": "people",
+      "value": "Experience Wheeler Rudel",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Betsy Wheeler Brownell",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Randall Wheeler",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Samuel Wheeler",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Lois Fairchild",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Kenneth Larson",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "03-12-1948": [
+    {
+      "property": "emotion",
+      "value": "anticipation",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "fatigue",
+      "count": 1,
+      "strength": -0.1
+    }
+  ],
+  "03-13-1948": [
+    {
+      "property": "things",
+      "value": "Alden branch",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "impatience",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "people",
+      "value": "RMS clerk",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Washington DC",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "excitement",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "southern Maryland",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "southern Ohio",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Cincinnati",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Louisville, Ky",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "St Louis",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Milwaukee",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Rutland",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Boston",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Portland",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Washington DC",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Savannah",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "New Orleans",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Pensacola",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Burlington, Iowa",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Rochester, New York",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "New Haven",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Great Lakes",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Atlantic",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Gulf of Mexico",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Pacific",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Utah",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "B&O",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "C&O",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Santa Fe",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "D&RG",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "CB&Q",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "NYC",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "NYNH&H",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Penn.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "AT&SF",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "03-14-1948": [
+    {
+      "property": "emotion",
+      "value": "worried",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "03-15-1948": [
+    {
+      "property": "emotion",
+      "value": "anger",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Warren E. Springer",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Troy",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "S.L.C.",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Hartford",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "NYC",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Pittsfield, MA",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Hinsdale, MA",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Waterford",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Lansingburgh",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Saratoga County",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Fairfield, CT",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "New London",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Lyme",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "Connecticut State Library",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "03-16-1948": [
+    {
+      "property": "people",
+      "value": "Mr Kutz",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Mr Springer",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Northern Penna",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "SLC",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Troy",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Washington DC",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "organizations",
+      "value": "RMS",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "organizations",
+      "value": "Greyhound Lines",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Washington DC",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "organizations",
+      "value": "RMS",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "interest",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "New Orleans",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Pensacola",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "organizations",
+      "value": "Greyhound Lines",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "03-17-1948": [
+    {
+      "property": "emotion",
+      "value": "grateful",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "things",
+      "value": "cigarettes",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "emotion",
+      "value": "praise",
+      "count": 1,
+      "strength": 0.5
+    },
+    {
+      "property": "people",
+      "value": "Heavenly Father",
+      "count": 1,
+      "strength": 0.5
+    },
+    {
+      "property": "emotion",
+      "value": "appreciation",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "tobacco",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "liquor",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "coffee",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "things",
+      "value": "tea",
+      "count": 1,
+      "strength": 0.1
+    }
+  ],
+  "03-18-1948": [
+    {
+      "property": "emotion",
+      "value": "discomfort",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "03-19-1948": [
+    {
+      "property": "emotion",
+      "value": "dislike",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "anger",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "people",
+      "value": "Henry A. Wallace",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "organizations",
+      "value": "Communist",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.6
+    }
+  ],
+  "03-20-1948": [
+    {
+      "property": "emotion",
+      "value": "discomfort",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "distress",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Frank",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Barbara",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "03-21-1948": [
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Milwaukee",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Detroit",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Cleveland",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Buffalo",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Lake Ontario",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Boston",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Portland",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Providence",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "New Haven",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Bridgeport",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "New London",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "New York",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Savannah",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "New Orleans",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Pensacola",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "things",
+      "value": "plastic bottles",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "things",
+      "value": "vases",
+      "count": 1,
+      "strength": 0.1
+    }
+  ],
+  "03-22-1948": [
+    {
+      "property": "places",
+      "value": "New York City",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Washington DC",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "St Louis",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "organizations",
+      "value": "Pennsylvania RR",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "organizations",
+      "value": "B&O RR",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Sunny",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Sharon",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Betty",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "inspired",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Jean Linton's parents",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "03-25-1948": [
+    {
+      "property": "emotion",
+      "value": "discomfort",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "7th South",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "11th East",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "curiosity",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Mr. Springer",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Troy",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Kay Kirkham",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Harold Dent",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "anticipation",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "03-26-1948": [
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "St Louis",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Kansas City",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Boston",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "New York",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Salt Lake",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Santa Fe",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Missouri Pacific",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Chicago, Rock Island and Pacific",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Rio Grande",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Burlington",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "New York Central",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "New Haven",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "B&Q",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "03-28-1948": [
+    {
+      "property": "emotion",
+      "value": "spiritual",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Sonny",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Sugarhouse Stake",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "joy",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "respect",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Jesus of Nazareth",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "Redeemer of the world",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "resurrection",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "first fruits",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "pleasant",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "03-29-1948": [
+    {
+      "property": "emotion",
+      "value": "anger",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Mr Springer",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "emotion",
+      "value": "desperation",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "worry",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "people",
+      "value": "Sonny",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "emotion",
+      "value": "positive",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Bryan ward chapel",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "organizations",
+      "value": "Quorum of Twelve",
+      "count": 1,
+      "strength": 0.1
+    }
+  ],
+  "04-05-1948": [
+    {
+      "property": "emotion",
+      "value": "enjoyment",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Will Holmes",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Genealogical Society",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "interest",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "tiredness",
+      "count": 1,
+      "strength": -0.3
+    }
+  ],
+  "04-06-1948": [
+    {
+      "property": "emotion",
+      "value": "reverence",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Peter Whitmer",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Prophet Joseph Smith",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Moroni",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Fayette, Seneca County New York",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "sacred grove",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Manchester, New York",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "The Church of Jesus Christ of Latter-day Saints",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "gold plates",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "Urim and Thummim",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "engagement",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Prophet Joseph Smith",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "sacred grove",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Manchester, New York",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "The Church of Jesus Christ of Latter-day Saints",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "gold plates",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "Urim and Thummim",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "04-07-1948": [
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "things",
+      "value": "Doctrine and Covenants",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Ardis",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "San Francisco",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "president Clark",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "04-08-1948": [
+    {
+      "property": "emotion",
+      "value": "discomfort",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "04-16-1948": [
+    {
+      "property": "emotion",
+      "value": "regret",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "worry",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Ardie",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Ardis",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Mama",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "San Francisco",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Okinawa",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "excitement",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Colorado",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Nebraska",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Iowa",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Illinois",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Wisconsin",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Indiana",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Michigan",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Ohio",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Pennsylvania",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "New York",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Vermont",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Massachusetts",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "New Hampshire",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Maine",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Rhode Island",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Connecticut",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "New Jersey",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Delaware",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Maryland",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Virginia",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "North Carolina",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "South Carolina",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Georgia",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "West Virginia",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Kentucky",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Missouri",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Tennessee",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Mississippi",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Louisiana",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Alabama",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Florida",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Arkansas",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Kansas",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Oklahoma",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Texas",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "New Mexico",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Idaho",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Montana",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Wyoming",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Nevada",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "California",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Arizona",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Oregon",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Washington",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "04-17-1948": [
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "organizations",
+      "value": "Church",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "emotion",
+      "value": "joy",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Dot",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Bryce",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Craig",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Sally Wells",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Williams",
+      "count": 1,
+      "strength": 0.1
+    }
+  ],
+  "04-18-1948": [
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "organizations",
+      "value": "Quorum",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "compassion",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Grandma Petersen",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Leah",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "people",
+      "value": "Frank",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Ardie",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "San Francisco",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "04-19-1948": [
+    {
+      "property": "emotion",
+      "value": "happy",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Ardie",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Frank",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Salt Lake City",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "San Francisco",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "anger",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "people",
+      "value": "Frank",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "people",
+      "value": "Ardie",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": -0.5
+    }
+  ],
+  "04-20-1948": [
+    {
+      "property": "emotion",
+      "value": "disapproval",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Ardie",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "places",
+      "value": "St Louis",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Kansas City",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "organizations",
+      "value": "Rock Island Railroad",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "organizations",
+      "value": "Santa Fe",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "organizations",
+      "value": "Missouri Pacific",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "organizations",
+      "value": "Denver and Rio Grande",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "organizations",
+      "value": "Burlington ( CB&Q)",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "organizations",
+      "value": "New York Central",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "organizations",
+      "value": "New York New Haven and Hartford",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "organizations",
+      "value": "B&O",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "organizations",
+      "value": "MP",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "organizations",
+      "value": "D&RG",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "practicality",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "04-21-1948": [
+    {
+      "property": "emotion",
+      "value": "interest",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Ed Wallace",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "KC",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Tucumcari",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "New Mexico",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Pueblo",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Colorado",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Dalhart",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Texas",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Oklahoma",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "organizations",
+      "value": "Rock Island",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "organizations",
+      "value": "Fort Worth and Denver",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "organizations",
+      "value": "Golden State streamliner",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "organizations",
+      "value": "Colorado and Southern",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Kansas City",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Tucumcari",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "New Mexico",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "04-23-1948": [
+    {
+      "property": "emotion",
+      "value": "reasoning",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Kansas City",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Tucumcari",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Dalhart",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Garden City",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "organizations",
+      "value": "Rock Island",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "04-25-1948": [
+    {
+      "property": "emotion",
+      "value": "worry",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "anxiety",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Welby Johnson",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Buckley",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Rock wool",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Jensen's Jewelers",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "organizations",
+      "value": "Credit Union",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "organizations",
+      "value": "Mutual Loan",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "organizations",
+      "value": "Cont Bank",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "R",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "J",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "04-29-1948": [
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "anxiety",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "love",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "05-02-1948": [
+    {
+      "property": "emotion",
+      "value": "interest",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "Gospel Doctrine class",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "Book of Mormon",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "duty",
+      "count": 1,
+      "strength": 0.1
+    }
+  ],
+  "05-08-1948": [
+    {
+      "property": "emotion",
+      "value": "pleasure",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Mama",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "754 South State",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "Sears",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "new sink",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "wallpaper",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "paint",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "05-09-1948": [
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Will Holmes",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "ambivalence",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Salt Lake",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "organizations",
+      "value": "FHA",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "organizations",
+      "value": "credit union",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "organizations",
+      "value": "American Investment Company",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "organizations",
+      "value": "mutual loan company",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "anxiety",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": -0.1
+    }
+  ],
+  "05-10-1948": [
+    {
+      "property": "emotion",
+      "value": "happiness",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Betty",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Mr. Windham",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Memphis",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "engaged",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "Professor Holmes",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "05-11-1948": [
+    {
+      "property": "emotion",
+      "value": "prudence",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "practicality",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "05-12-1948": [
+    {
+      "property": "emotion",
+      "value": "gratitude",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "proactive",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "caution",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "05-15-1948": [
+    {
+      "property": "emotion",
+      "value": "anxiety",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "organizations",
+      "value": "FHA Loans",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "organizations",
+      "value": "collectors of internal revenue",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "organizations",
+      "value": "State Tax Commission",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "things",
+      "value": "canned foods",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "anticipation",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "05-23-1948": [
+    {
+      "property": "emotion",
+      "value": "curiosity",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "great-grandfather Ellsworth",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Alice Vilate",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "James O Swift",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "James Dennison Colt",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Benjamin Colt",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "05-24-1948": [
+    {
+      "property": "people",
+      "value": "Alice Vilate Ellsworth",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "James Owen Swift",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Allie Wilson",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Dot Wilson",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Lewisville",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "California",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Alavon",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Dot Wilson",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "James O Swift",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "endowment house",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "anxiety",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Ardie",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Frank",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "05-25-1948": [
+    {
+      "property": "emotion",
+      "value": "worry",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "05-28-1948": [
+    {
+      "property": "places",
+      "value": "the Archive",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "fatigue",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "05-29-1948": [
+    {
+      "property": "people",
+      "value": "Mama",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "people",
+      "value": "Ardie",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "things",
+      "value": "new mower",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "things",
+      "value": "screen door",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "confusion",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "contemplative",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "organizations",
+      "value": "Church of Christ",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "things",
+      "value": "house of the Lord",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "06-01-1948": [
+    {
+      "property": "emotion",
+      "value": "anger",
+      "count": 1,
+      "strength": -0.7
+    },
+    {
+      "property": "people",
+      "value": "Louis Kutz",
+      "count": 1,
+      "strength": -0.7
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": -0.7
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": -0.7
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Louis Kutz",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "06-02-1948": [
+    {
+      "property": "emotion",
+      "value": "worry",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "anger",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "06-03-1948": [
+    {
+      "property": "emotion",
+      "value": "disapproval",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "wife",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "things",
+      "value": "cigarettes",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.3
+    }
+  ],
+  "06-05-1948": [
+    {
+      "property": "people",
+      "value": "Ardis",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Frank",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "San Francisco",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "mixed",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Ardis",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Frank",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "06-06-1948": [
+    {
+      "property": "emotion",
+      "value": "worry",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Harry",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Sonny",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Dennis",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Bill Worthen",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "police headquarters",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "city jail",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "pleasure",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Hogle Gardens",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "things",
+      "value": "Pioneer Monument",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Brigham Young",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Heber C Kimball",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Wilford Woodruff",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Peter Shane Ogden",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Chief Washakie",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Captain Fremont",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Father De Smet",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Captain Bonneville",
+      "count": 1,
+      "strength": 0.1
+    }
+  ],
+  "06-15-1948": [
+    {
+      "property": "emotion",
+      "value": "sympathy",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Rowennah",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Challis, Idaho",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "dismay",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "people",
+      "value": "Lora",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Rowennah",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "church welfare",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "06-24-1948": [
+    {
+      "property": "emotion",
+      "value": "sentimental",
+      "count": 1,
+      "strength": 0.8
+    },
+    {
+      "property": "people",
+      "value": "wife",
+      "count": 1,
+      "strength": 0.8
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.8
+    },
+    {
+      "property": "places",
+      "value": "temple",
+      "count": 1,
+      "strength": 0.8
+    }
+  ],
+  "06-25-1948": [
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "kitchen cabinets",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "06-26-1948": [
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "linoleum",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "cabinets",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "grateful",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "things",
+      "value": "kitchen",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "things",
+      "value": "bathroom",
+      "count": 1,
+      "strength": 0.6
+    }
+  ],
+  "06-27-1948": [
+    {
+      "property": "emotion",
+      "value": "surprise",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Uncle Harry",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Aunt Mary Robinson",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Los Angeles",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Utah",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Idaho",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "1100 block on Ramona",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "organizations",
+      "value": "National Biscuit Company",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "06-28-1948": [
+    {
+      "property": "emotion",
+      "value": "fatigue",
+      "count": 1,
+      "strength": -0.1
+    }
+  ],
+  "06-29-1948": [
+    {
+      "property": "emotion",
+      "value": "relief",
+      "count": 1,
+      "strength": 0.5
+    },
+    {
+      "property": "people",
+      "value": "Ardie",
+      "count": 1,
+      "strength": 0.5
+    },
+    {
+      "property": "places",
+      "value": "San Francisco",
+      "count": 1,
+      "strength": 0.5
+    },
+    {
+      "property": "places",
+      "value": "Okinawa",
+      "count": 1,
+      "strength": 0.5
+    },
+    {
+      "property": "emotion",
+      "value": "disgust",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Bob Smith",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "uncertainty",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "organizations",
+      "value": "society",
+      "count": 1,
+      "strength": -0.3
+    }
+  ],
+  "06-30-1948": [
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "pleasure",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "dining set",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "buffet",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "chairs",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "throw rug",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "PO",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "archive",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "07-04-1948": [
+    {
+      "property": "emotion",
+      "value": "relief",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Mother",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Lora",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Art",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Rowennah",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Salt Lake",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Richfield",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Nampa",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "San Jose",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "07-05-1948": [
+    {
+      "property": "emotion",
+      "value": "celebratory",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "Declaration of Independence",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "mother",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "inconvenience",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "mother",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Art",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Bessie",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Richfield",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "gratitude",
+      "count": 1,
+      "strength": 0.5
+    }
+  ],
+  "07-11-1948": [
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "FHA",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "composition roof",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "tile",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "new cabinets",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "Vermilion enamel",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "half sealer",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "anxiety",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Gus Thurgood",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Wilby Johnson",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "organizations",
+      "value": "internal revenue",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "things",
+      "value": "Bond",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "places",
+      "value": "Burlington",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "places",
+      "value": "Detroit",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "places",
+      "value": "Cleveland",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "places",
+      "value": "Buffalo",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Burlington",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Detroit",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Cleveland",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Buffalo",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "hopefulness",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "07-18-1948": [
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "tiredness",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "08-01-1948": [
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "emotion",
+      "value": "anger",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "dissatisfaction",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "08-07-1948": [
+    {
+      "property": "people",
+      "value": "Mama",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Sugarhouse",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "21st South",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "things",
+      "value": "umbrella",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "things",
+      "value": "raincoat",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "grateful",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Betty",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Dot",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Ardie",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "Mixmaster",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "optimism",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "practical",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "disappointment",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "organizations",
+      "value": "letter carriers band",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "things",
+      "value": "Pontiac car",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "08-13-1948": [
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Lagoon",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "organizations",
+      "value": "genealogical society",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Elder Joseph A McRae",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Carthage, Illinois",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Burlington",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Keokuk",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "organizations",
+      "value": "LDS Bureau of information",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "organizations",
+      "value": "CB&Q",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "state capital",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Burlington",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Keokuk",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Milwaukee, WI",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Detroit",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Toledo",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Cleveland, Ohio",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Kirtland",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Buffalo",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Palmyra",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Hill Cumorah",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Sacred Grove",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "organizations",
+      "value": "CB&Q",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "ambition",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "California",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "08-17-1948": [
+    {
+      "property": "emotion",
+      "value": "nostalgia",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Salt Lake",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "Faciboule, Marse Theo",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "08-18-1948": [
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Babe Ruth",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "John J. Pershing",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "things",
+      "value": "baseball",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "things",
+      "value": "World War I",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "nostalgia",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "General John J. Pershing",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "World War I",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "08-19-1948": [
+    {
+      "property": "emotion",
+      "value": "optimism",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Keokuk",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Nauvoo",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Carthage",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Burlington",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "CB & Q",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "08-20-1948": [
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "people",
+      "value": "Dick Bailey",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "things",
+      "value": "Studebaker convertible",
+      "count": 1,
+      "strength": 0.6
+    }
+  ],
+  "08-21-1948": [
+    {
+      "property": "people",
+      "value": "Harry Allen",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "P.O.",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Harry Allen",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "contentment",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "08-22-1948": [
+    {
+      "property": "people",
+      "value": "Harry Allen",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "MJ Fuire Realty Co.",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "California",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "08-23-1948": [
+    {
+      "property": "emotion",
+      "value": "joy",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Dorothy",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Bruce",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Moffit",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "disappointment",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "08-25-1948": [
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Ardie",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Frank",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Barbara",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Okinawa",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "picture",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "08-26-1948": [
+    {
+      "property": "emotion",
+      "value": "anxiety",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "California",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Yellowstone Park",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Dakotas",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Minnesota",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Wisconsin",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Nauvoo",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Carthage",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "08-28-1948": [
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Mother",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Rowenna",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Ellen",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Lora",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Utah",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Nampa",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Mother",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Lora",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Rowenna",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Bert",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Dr. Allen",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Pres. Curtis",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Nampa",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Elbert R. Curtis",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "First Presidency",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Church",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "08-29-1948": [
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Dan Brooks",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "sympathy",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Jim Brooks",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "excitement",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "George Brooks",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Lincoln ward chapel",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "organizations",
+      "value": "the Church",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "compassionate",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Dan Brooks",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "08-31-1948": [
+    {
+      "property": "emotion",
+      "value": "distress",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "California",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "compromise",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "California",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "fatigue",
+      "count": 1,
+      "strength": -0.1
+    }
+  ],
+  "09-01-1948": [
+    {
+      "property": "places",
+      "value": "Salt Lake",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Sam Brook",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "09-02-1948": [
+    {
+      "property": "emotion",
+      "value": "grief",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Morrison family",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "places",
+      "value": "1st St, Pocatello, Yellowstone",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "emotion",
+      "value": "disappointment",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Judge Clark",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Juvenile Court",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Industrial School in Ogden",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "things",
+      "value": "automobiles",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "09-05-1948": [
+    {
+      "property": "people",
+      "value": "Sharon",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "anticipation",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Rochester, NY",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "displeasure",
+      "count": 1,
+      "strength": -0.6
+    }
+  ],
+  "09-15-1948": [
+    {
+      "property": "people",
+      "value": "Howard",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Phebe Eliza Colt Howard",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Ainsdale",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Berkshire Co.",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Pittsfield",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Buffalo, N.Y.",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Connecticut",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Utah",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "organizations",
+      "value": "Buffalo Savings Bank",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "09-19-1948": [
+    {
+      "property": "emotion",
+      "value": "accomplishment",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "regret",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Will Holmes",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "flexibility",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": 0.1
+    }
+  ],
+  "09-20-1948": [
+    {
+      "property": "people",
+      "value": "Katherine",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Mother",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Dr. Allen",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "State School at Nampa",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "worry",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Sonny",
+      "count": 1,
+      "strength": -0.3
+    }
+  ],
+  "09-25-1948": [
+    {
+      "property": "emotion",
+      "value": "disappointment",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Rochester, NY",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "ambitious",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "09-26-1948": [
+    {
+      "property": "things",
+      "value": "furnace",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "disgust",
+      "count": 1,
+      "strength": -0.7
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": -0.7
+    },
+    {
+      "property": "people",
+      "value": "Harry",
+      "count": 1,
+      "strength": -0.7
+    },
+    {
+      "property": "people",
+      "value": "Bishop Rawson",
+      "count": 1,
+      "strength": -0.7
+    },
+    {
+      "property": "things",
+      "value": "fast offering envelopes",
+      "count": 1,
+      "strength": -0.7
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "State Street",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "things",
+      "value": "house",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Francis",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Will Butterworth",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Horace Goodfellow",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Del Rayner",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Ralph Jones",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "Clerks' register",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "09-28-1948": [
+    {
+      "property": "emotion",
+      "value": "disappointed",
+      "count": 1,
+      "strength": -0.1
+    },
+    {
+      "property": "emotion",
+      "value": "distress",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "emotion",
+      "value": "curiosity",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Henry Howard",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Sarah Stone",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "John Stone",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Rev. Samuel Stone",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "John Barnard",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Guilford, Connecticut",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Hartford",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "09-30-1948": [
+    {
+      "property": "emotion",
+      "value": "disappointment",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Chicago",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Nauvoo",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Carthage",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "10-03-1948": [
+    {
+      "property": "organizations",
+      "value": "Church",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "archive",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "negative",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "resignation",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "10-07-1948": [
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Bruce Moffitt",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "disappointment",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "FHA",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "10-10-1948": [
+    {
+      "property": "places",
+      "value": "Bryan Ward",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Sugar House ward",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "shame",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Bishop",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "10-11-1948": [
+    {
+      "property": "people",
+      "value": "mother",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "gratitude",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Prudential Federal Corp.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "organizations",
+      "value": "F.H.A.",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "shame",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Bishop Rawson",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "things",
+      "value": "fast offering envelopes",
+      "count": 1,
+      "strength": -0.3
+    }
+  ],
+  "10-13-1948": [
+    {
+      "property": "emotion",
+      "value": "pleasure",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "10-16-1948": [
+    {
+      "property": "emotion",
+      "value": "upset",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "organizations",
+      "value": "church",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "things",
+      "value": "cigarette",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "confusion",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "dilemma",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "10-17-1948": [
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Harry",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Sharon",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Bishop Smith",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Church",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "things",
+      "value": "garment of the holy priesthood",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "10-18-1948": [
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "organizations",
+      "value": "Prudential Federal",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "grateful",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "10-19-1948": [
+    {
+      "property": "people",
+      "value": "Bishop Rawson",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "fatigue",
+      "count": 1,
+      "strength": -0.1
+    }
+  ],
+  "10-24-1948": [
+    {
+      "property": "emotion",
+      "value": "excitement",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Kansas",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Jucimcare, N.M.",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "C.T.B.",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Garden City",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Oklahoma",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Texas",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Wisconsin",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Indiana",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Michigan",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "New York",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Vermont",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Massachusetts",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "New Hampshire",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Maine",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Rhode Island",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Connecticut",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "New Jersey",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Delaware",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Maryland",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Virginia",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "North Carolina",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Georgia",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "West Virginia",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Kentucky",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Tennessee",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Arkansas",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Mississippi",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Louisiana",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Alabama",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Florida",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Oregon",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Washington",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "North Dakota",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "South Dakota",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Minnesota",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "District of Columbia",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Bennington, VT",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Boston",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Portland",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Bridgeport",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Hartford",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Washington, D.C.",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Savannah",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "Pensacola",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "New York",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Philadelphia",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Los Angeles",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Cleveland",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Baltimore",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "St. Louis",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Boston",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Washington D.C.",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "San Francisco",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Milwaukee",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Buffalo",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "New Orleans",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Cincinnati",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Newark",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Kansas City",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Rochester",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Denver",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Louisville",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Portland",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Jersey City",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Memphis",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Toledo",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Providence",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Omaha",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Syracuse",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Worcester",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Richmond",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Hartford",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Grand Rapids",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "New Haven",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Salt Lake City",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Bridgeport",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Trenton",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Kansas City (Kansas)",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Erie",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Wilmington",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Elizabeth",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Sacramento",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "Utica",
+      "count": 1,
+      "strength": 0.1
+    }
+  ],
+  "10-31-1948": [
+    {
+      "property": "emotion",
+      "value": "content",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Mama",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "11-01-1948": [
+    {
+      "property": "people",
+      "value": "Vera Moore",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "people",
+      "value": "Genevieve Curtis",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "people",
+      "value": "President Young",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "people",
+      "value": "author's father",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "Lewisville",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "people",
+      "value": "Harry Truman",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "people",
+      "value": "Thomas E. Dewey",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "White House",
+      "count": 1,
+      "strength": 0.0
+    }
+  ],
+  "11-02-1948": [
+    {
+      "property": "emotion",
+      "value": "grief",
+      "count": 1,
+      "strength": -1.0
+    },
+    {
+      "property": "people",
+      "value": "Grandma Smith",
+      "count": 1,
+      "strength": -1.0
+    },
+    {
+      "property": "emotion",
+      "value": "gratitude",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "people",
+      "value": "Heavenly Father",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "people",
+      "value": "Grandma Smith",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "emotion",
+      "value": "interest",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "contemplative",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "11-03-1948": [
+    {
+      "property": "people",
+      "value": "Harry Truman",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Alben W. Barkley",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "Democrats",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Herb Maw",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Bracken Lee",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Grandma",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Smith",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "hopeful",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "11-04-1948": [
+    {
+      "property": "emotion",
+      "value": "respect",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "people",
+      "value": "Sister Josephine Croesbeek",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "people",
+      "value": "Pres. John Henry Smith",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "people",
+      "value": "Sister Josephine S. Smith",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "people",
+      "value": "President George Albert Smith",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "emotion",
+      "value": "admiration",
+      "count": 1,
+      "strength": 0.9
+    },
+    {
+      "property": "people",
+      "value": "Sister Josephine S. Smith",
+      "count": 1,
+      "strength": 0.9
+    },
+    {
+      "property": "people",
+      "value": "Pres. John Henry Smith",
+      "count": 1,
+      "strength": 0.9
+    },
+    {
+      "property": "people",
+      "value": "Pres. George Albert Smith",
+      "count": 1,
+      "strength": 0.9
+    },
+    {
+      "property": "emotion",
+      "value": "displeasure",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "11-05-1948": [
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "organizations",
+      "value": "realtors",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.7
+    },
+    {
+      "property": "emotion",
+      "value": "anger",
+      "count": 1,
+      "strength": -0.8
+    }
+  ],
+  "11-07-1948": [
+    {
+      "property": "people",
+      "value": "Harry Allen",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Lucille",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "people",
+      "value": "Fred J. Heath",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Salt Lake City",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Holladay",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "places",
+      "value": "Sugar City, Idaho",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "organizations",
+      "value": "LDS",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "organizations",
+      "value": "Church Welfare program",
+      "count": 1,
+      "strength": -0.3
+    }
+  ],
+  "11-08-1948": [
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Harry Allen",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "emotion",
+      "value": "sleepiness",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "anticipation",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "11-09-1948": [
+    {
+      "property": "emotion",
+      "value": "anticipation",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Albany",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Hudson",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "New York",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Pittsfield",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "places",
+      "value": "Hinsdale",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "11-10-1948": [
+    {
+      "property": "emotion",
+      "value": "anticipation",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Archive",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "things",
+      "value": "aluminum liner",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "11-11-1948": [
+    {
+      "property": "emotion",
+      "value": "disbelief",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "disapproval",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Europe",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "England",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Germany",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "anger",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": -0.6
+    }
+  ],
+  "11-12-1948": [
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Sonny",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "organizations",
+      "value": "Navy",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "11-14-1948": [
+    {
+      "property": "emotion",
+      "value": "gratitude",
+      "count": 1,
+      "strength": 0.5
+    },
+    {
+      "property": "emotion",
+      "value": "friendship",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Bro. Sharon T. Tanner",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "13th Ward",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "20th Ward chapel",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "11-21-1948": [
+    {
+      "property": "people",
+      "value": "father",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Willard",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "anxiety",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Charles",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "mother",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Rowennah",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "organizations",
+      "value": "postal service",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "things",
+      "value": "bus ticket",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "things",
+      "value": "small apartment",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "disappointment",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": -0.5
+    },
+    {
+      "property": "emotion",
+      "value": "optimism",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.4
+    }
+  ],
+  "11-25-1948": [
+    {
+      "property": "emotion",
+      "value": "pain",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Cathy",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "satisfaction",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "dining set",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "silverware",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "things",
+      "value": "dinner set",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "impatience",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "places",
+      "value": "St. Louis",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "organizations",
+      "value": "Union Postal Clerk",
+      "count": 1,
+      "strength": 0.0
+    },
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Grace",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "impatience",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "11-26-1948": [
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Ileen Griffiths Lloyd",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Will Selck",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Esther Burton",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "east Broadway",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Galveston, Texas",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Provo",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Lewisville",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Idaho Falls",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "disapproval",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Will Selck",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "people",
+      "value": "Millie",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "organizations",
+      "value": "Latter-Day Saints",
+      "count": 1,
+      "strength": -0.6
+    },
+    {
+      "property": "emotion",
+      "value": "sorrow",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "people",
+      "value": "Will Selck",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "11-27-1948": [
+    {
+      "property": "things",
+      "value": "door chime",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "anxiety",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "St. Louis Clerk",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "St. Louis",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "sleepy",
+      "count": 1,
+      "strength": -0.1
+    }
+  ],
+  "11-28-1948": [
+    {
+      "property": "emotion",
+      "value": "frustration",
+      "count": 1,
+      "strength": -0.7
+    }
+  ],
+  "12-03-1948": [
+    {
+      "property": "people",
+      "value": "W. Dillard",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "St. Louis",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "organizations",
+      "value": "Postal Clerk",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "concern",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "emotion",
+      "value": "disappointment",
+      "count": 1,
+      "strength": -0.2
+    },
+    {
+      "property": "places",
+      "value": "St. Louis",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "12-04-1948": [
+    {
+      "property": "emotion",
+      "value": "discomfort",
+      "count": 1,
+      "strength": -0.3
+    },
+    {
+      "property": "emotion",
+      "value": "determination",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "people",
+      "value": "Mr. Dillard",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "places",
+      "value": "P.O.",
+      "count": 1,
+      "strength": 0.1
+    },
+    {
+      "property": "emotion",
+      "value": "fatigue",
+      "count": 1,
+      "strength": -0.2
+    }
+  ],
+  "12-05-1948": [
+    {
+      "property": "emotion",
+      "value": "gratitude",
+      "count": 1,
+      "strength": 0.6
+    },
+    {
+      "property": "emotion",
+      "value": "devotion",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "introspection",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "emotion",
+      "value": "fatigue",
+      "count": 1,
+      "strength": -0.1
+    }
+  ],
+  "12-10-1948": [
+    {
+      "property": "emotion",
+      "value": "grief",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Horace",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Millie Clement",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Aunt Eliza Irby",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Juanita",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Bill",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Bicksville",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Clarkston",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Idaho",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Utah",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Nevada",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "California",
+      "count": 1,
+      "strength": -0.4
+    }
+  ],
+  "12-13-1948": [
+    {
+      "property": "emotion",
+      "value": "content",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "emotion",
+      "value": "sadness",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Joe Richards",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "people",
+      "value": "Romay",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "places",
+      "value": "Veterans Hospital",
+      "count": 1,
+      "strength": -0.4
+    },
+    {
+      "property": "emotion",
+      "value": "hope",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Romay",
+      "count": 1,
+      "strength": 0.4
+    },
+    {
+      "property": "people",
+      "value": "Zella",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "Josephine Smith",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "people",
+      "value": "President Beadge Albert Smith",
+      "count": 1,
+      "strength": 0.2
+    },
+    {
+      "property": "places",
+      "value": "Texas",
+      "count": 1,
+      "strength": 0.2
+    }
+  ],
+  "12-18-1948": [
+    {
+      "property": "emotion",
+      "value": "nostalgia",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "grandfather Howard",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Bingham Canyon",
+      "count": 1,
+      "strength": 0.3
+    }
+  ],
+  "12-19-1948": [
+    {
+      "property": "emotion",
+      "value": "pleased",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Windy",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "people",
+      "value": "Betty",
+      "count": 1,
+      "strength": 0.3
+    },
+    {
+      "property": "places",
+      "value": "Memphis, Tennessee",
+      "count": 1,
+      "strength": 0.3
+    }
+  ]
+}

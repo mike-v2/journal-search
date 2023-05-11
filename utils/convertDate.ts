@@ -8,10 +8,16 @@ function makeDatePretty(date: string): string {
   return `${month} ${day}, ${year}`;
 }
 
-function ISOStringToDate(iso: Date) : string {
-  let date = iso.toString().split('T')[0];
-  let [year, month, day] = date.split('-');
+function dateToJournalDate(date: Date) : string {
+  const dateStr = date.toISOString().split('T')[0];
+  let [year, month, day] = dateStr.split('-');
   return `${month}-${day}-${year}`;
+}
+
+function journalDateToDate(dateStr: string) {
+  const [month, day, year] = dateStr.split('-');
+  dateStr = `${year}-${month}-${day}`;
+  return new Date(dateStr);
 }
 
 function dateToISOString(date: string): string {
@@ -24,6 +30,11 @@ function timestampToDate(timestamp: string) {
   let [year, month, day] = date.split('-');
 
   return `${month}-${day}-${year}`;
+}
+
+function journalDateToCondensedDate(jDate: string) : string {
+  let [month, day, year] = jDate.split('-');
+  return `${month.replace(/^0/, '')}-${day.replace(/^0/, '') }`;
 }
 
 function convertMonthNumberToWord(month: string): string {
@@ -57,4 +68,4 @@ function convertMonthNumberToWord(month: string): string {
   }
 }
 
-export {makeDatePretty, dateToISOString, timestampToDate, ISOStringToDate}
+export { makeDatePretty, dateToISOString, timestampToDate, dateToJournalDate, journalDateToDate, journalDateToCondensedDate }

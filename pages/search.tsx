@@ -3,7 +3,7 @@ import {SearchTerms} from '@/components/searchTermsType'
 import Image from "next/image";
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-import { timestampToDate, dateToISOString, makeDatePretty, ISOStringToDate } from "@/utils/convertDate";
+import { timestampToDate, dateToISOString } from "@/utils/convertDate";
 import { Josefin_Sans } from "next/font/google";
 import { JournalEntry } from "@prisma/client";
 import JournalTopicBox from "@/components/journalTopicBox";
