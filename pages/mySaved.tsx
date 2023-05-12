@@ -1,7 +1,7 @@
 import JournalEntryBox from "@/components/journalEntryBox";
 import { JournalEntry, StarredEntry } from "@prisma/client"
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 type StarredEntryExt = StarredEntry & { journalEntry: JournalEntry };
 
@@ -9,11 +9,7 @@ export default function MySaved() {
   const {data: session} = useSession();
   const [starredEntries, setStarredEntries] = useState<StarredEntryExt[]>();
 
-  useEffect(() => {
-    retrieveStarredEntries();
-  }, [retrieveStarredEntries]);
-
-  async function retrieveStarredEntries() {
+  const retrieveStarredEntries = useCallback(async () => {
     if (!session || !session.user) return;
 
     try {
@@ -26,7 +22,11 @@ export default function MySaved() {
     } catch (error) {
       console.log("error retrieving user's starred entries: " + error);
     }
-  }
+  }, [session]);
+
+  useEffect(() => {
+    retrieveStarredEntries();
+  }, [retrieveStarredEntries]);
 
   function handleEntryChanged() {
     retrieveStarredEntries();

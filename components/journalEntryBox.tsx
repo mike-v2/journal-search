@@ -14,36 +14,36 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   const [topics, setTopics] = useState<JournalTopic[]>();
   
   useEffect(() => {
+    async function fetchTopics() {
+      const res = await fetch(`/api/journalTopic?journalEntryId=${id}`, {
+        method: 'GET',
+      });
+
+      const topics = await res.json();
+      setTopics(topics);
+    }
+
+    async function checkIsStarred() {
+      if (!session || !session.user) {
+        return;
+      }
+
+      const res = await fetch(`/api/starredEntry?userId=${session.user.id}&journalEntryId=${id}`, {
+        method: 'GET',
+      });
+
+      const { isStarred } = await res.json();
+      setIsStarred(isStarred);
+    }
+
     fetchTopics();
     checkIsStarred();
-  }, [id, session, session?.user, checkIsStarred, fetchTopics]);
+  }, [id, session, session?.user]);
 
   useEffect(() => {
     if (onChange) onChange();
   }, [isStarred, onChange])
-
-  async function fetchTopics() {
-    const res = await fetch(`/api/journalTopic?journalEntryId=${id}`, {
-      method: 'GET',
-    });
-
-    const topics = await res.json();
-    setTopics(topics);
-  }
-
-  async function checkIsStarred() {
-    if (!session || !session.user) {
-      return;
-    }
-
-    const res = await fetch(`/api/starredEntry?userId=${session.user.id}&journalEntryId=${id}`, {
-      method: 'GET',
-    });
-
-    const { isStarred } = await res.json();
-    setIsStarred(isStarred);
-  }
-
+  
   async function handleStarClick() {
     if (!session || !session.user) {
       return;

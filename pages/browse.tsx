@@ -34,34 +34,100 @@ export default function Browse() {
   }, []);
 
   useEffect(() => {
+    function findMostFrequentProperties(start: Date, end: Date) {
+      if (!dateMap) return;
+
+      let propertyCounts = new Map();
+      let trackedCounts = new Map();
+
+      for (let [dateStr, entries] of dateMap) {
+        const date = journalDateToDate(dateStr);
+
+        if (date >= start && date <= end) {
+          for (let entry of entries) {
+            let { property, value, count, strength } = entry;
+
+            if (!propertyCounts.has(property)) {
+              propertyCounts.set(property, new Map());
+            }
+
+            let countMap = propertyCounts.get(property);
+
+            if (!countMap.has(value)) {
+              countMap.set(value, 0);
+            }
+
+            countMap.set(value, countMap.get(value) + count * Math.abs(strength));
+
+            if (!trackedCounts.has(property)) {
+              trackedCounts.set(property, new Map());
+            }
+
+            let trackedCountMap = trackedCounts.get(property);
+            if (!trackedCountMap.has(value)) {
+              trackedCountMap.set(value, new Map());
+            }
+
+            let dateCountMap = trackedCountMap.get(value);
+            dateCountMap.set(dateStr, (dateCountMap.get(dateStr) || 0) + count * Math.abs(strength));
+          }
+        }
+      }
+
+      let mostFrequentProperties = new Map<string, { value: string, score: number }>();
+      for (let [property, countMap] of propertyCounts) {
+        let mostFrequentValue = Array.from(countMap.entries()).reduce((a, b) => b[1] > a[1] ? b : a);
+        mostFrequentProperties.set(property, { value: mostFrequentValue[0], score: mostFrequentValue[1] });
+      }
+
+
+      let allDates = [];
+      let currentDate = start;
+      while (currentDate <= end) {
+        const jDate = dateToJournalDate(currentDate);
+        allDates.push(jDate);
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+
+      let trackedFrequentCounts = new Map();
+      for (let [property, { value }] of mostFrequentProperties) {
+        let dateCountMap = trackedCounts.get(property).get(value);
+        let dates = allDates; //Array.from(dateCountMap.keys()).sort();
+        let scores = dates.map(date => dateCountMap.get(date) || null);
+        trackedFrequentCounts.set(property, { value, dates, scores });
+      }
+
+      return trackedFrequentCounts;
+    }
+
+    function setGraphValues() {
+      const mostFrequent = findMostFrequentProperties(new Date(graphMinDate.getTime()), new Date(graphMaxDate.getTime()));
+      if (!mostFrequent) return;
+
+      const gData = [];
+      for (let [property, { value, dates, scores }] of mostFrequent) {
+        const condensedDates = [];
+        for (let date of dates) {
+          condensedDates.push(makeDatePretty(date).split(',')[0]);
+        }
+
+        const trace: GraphTrace = {
+          property: property,
+          value: value.slice(0, 15),
+          x: condensedDates,
+          y: scores
+        };
+
+        gData.push(trace);
+      }
+
+      setGraphData(gData);
+    }
+
     if (dateMap) {
       setGraphValues();
     }
-  }, [dateMap, sliderDay, setGraphValues])
-
-  function setGraphValues() {
-    const mostFrequent = findMostFrequentProperties(new Date(graphMinDate.getTime()), new Date(graphMaxDate.getTime()));
-    if (!mostFrequent) return;
-
-    const gData = [];
-    for (let [property, { value, dates, scores }] of mostFrequent) {
-      const condensedDates = [];
-      for (let date of dates) {
-        condensedDates.push(makeDatePretty(date).split(',')[0]);
-      }
-
-      const trace: GraphTrace = {
-        property: property,
-        value: value.slice(0, 15),
-        x: condensedDates,
-        y: scores
-      };
-
-      gData.push(trace);
-    }
-
-    setGraphData(gData);
-  }
+  }, [dateMap, sliderDay, graphMinDate, graphMaxDate])
 
   async function fetchMapData() {
     try {
@@ -92,71 +158,7 @@ export default function Browse() {
     }
   }
 
-  function findMostFrequentProperties(start: Date, end: Date) {
-    if (!dateMap) return;
-
-    let propertyCounts = new Map();
-    let trackedCounts = new Map();
-
-    for (let [dateStr, entries] of dateMap) {
-      const date = journalDateToDate(dateStr);
-
-      if (date >= start && date <= end) {
-        for (let entry of entries) {
-          let { property, value, count, strength } = entry;
-
-          if (!propertyCounts.has(property)) {
-            propertyCounts.set(property, new Map());
-          }
-
-          let countMap = propertyCounts.get(property);
-
-          if (!countMap.has(value)) {
-            countMap.set(value, 0);
-          }
-
-          countMap.set(value, countMap.get(value) + count * Math.abs(strength));
-
-          if (!trackedCounts.has(property)) {
-            trackedCounts.set(property, new Map());
-          }
-
-          let trackedCountMap = trackedCounts.get(property);
-          if (!trackedCountMap.has(value)) {
-            trackedCountMap.set(value, new Map());
-          }
-
-          let dateCountMap = trackedCountMap.get(value);
-          dateCountMap.set(dateStr, (dateCountMap.get(dateStr) || 0) + count * Math.abs(strength));
-        }
-      }
-    }
-
-    let mostFrequentProperties = new Map<string, {value: string, score: number}>();
-    for (let [property, countMap] of propertyCounts) {
-      let mostFrequentValue = Array.from(countMap.entries()).reduce((a, b) => b[1] > a[1] ? b : a);
-      mostFrequentProperties.set(property, { value: mostFrequentValue[0], score: mostFrequentValue[1] });
-    }
-
-
-    let allDates = [];
-    let currentDate = start;
-    while (currentDate <= end) {
-      const jDate = dateToJournalDate(currentDate);
-      allDates.push(jDate);
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-
-    let trackedFrequentCounts = new Map();
-    for (let [property, { value }] of mostFrequentProperties) {
-      let dateCountMap = trackedCounts.get(property).get(value);
-      let dates = allDates; //Array.from(dateCountMap.keys()).sort();
-      let scores = dates.map(date => dateCountMap.get(date) || null);
-      trackedFrequentCounts.set(property, { value, dates, scores });
-    }
-
-    return trackedFrequentCounts;
-  }
+  
 
   function findClosestEntry(targetDate: Date) {
     if (!journalEntries) return;
