@@ -1,8 +1,8 @@
-import { dateToJournalDate, journalDateToDate, journalDateToCondensedDate, makeDatePretty } from '@/utils/convertDate';
+import { dateToJournalDate, journalDateToDate, makeDatePretty } from '@/utils/convertDate';
 import { useEffect, useState } from 'react';
 import Plot from 'react-plotly.js';
 import Slider from 'react-input-slider'
-import { addDays, addMonths, differenceInDays, eachMonthOfInterval, format, isAfter, isBefore, parse, subMonths } from 'date-fns';
+import { addDays, addWeeks, differenceInDays, eachMonthOfInterval, format, isAfter, isBefore, subWeeks } from 'date-fns';
 import { JournalEntry } from '@prisma/client';
 import JournalEntryBox from '@/components/journalEntryBox';
 
@@ -28,7 +28,6 @@ export default function Browse() {
   const [graphMinDate, setGraphMinDate] = useState<Date>(sliderStartDate);
   const [graphMaxDate, setGraphMaxDate] = useState<Date>(sliderEndDate);
 
-
   useEffect(() => {
     fetchMapData();
     fetchJournalEntries();
@@ -38,7 +37,7 @@ export default function Browse() {
     if (dateMap) {
       setGraphValues();
     }
-  }, [dateMap, sliderDay])
+  }, [dateMap, sliderDay, setGraphValues])
 
   function setGraphValues() {
     const mostFrequent = findMostFrequentProperties(new Date(graphMinDate.getTime()), new Date(graphMaxDate.getTime()));
@@ -86,7 +85,6 @@ export default function Browse() {
         const dateY = new Date(y.date);
         return dateX.getTime() - dateY.getTime();
       })
-      console.log(data);
 
       setJournalEntries(data);
     } catch (error) {
@@ -199,13 +197,15 @@ export default function Browse() {
       }
     }
 
-    let graphMin = subMonths(currentSliderDate, 1);
+    //let graphMin = subMonths(currentSliderDate, 1);
+    let graphMin = subWeeks(currentSliderDate, 2);
     if (isBefore(graphMin, sliderStartDate)) {
       graphMin = sliderStartDate;
     }
     setGraphMinDate(graphMin);
 
-    let graphMax = addMonths(currentSliderDate, 1);
+    //let graphMax = addMonths(currentSliderDate, 1);
+    let graphMax = addWeeks(currentSliderDate, 2);
     if (isAfter(graphMax, sliderEndDate)) {
       graphMax = sliderEndDate;
     }
@@ -229,7 +229,7 @@ export default function Browse() {
           layout={{ 
             width: 800, 
             height: 300, 
-            title: 'Most Frequent Properties',
+            title: 'Significant Topics',
             xaxis: {
               tickformat: '%m-%d',
             }
@@ -237,7 +237,7 @@ export default function Browse() {
         />
       </div>
       
-      <div className='w-fit h-100 mx-auto relative'>
+      <div className='w-fit h-100 mx-auto relative m-5'>
         <Slider
           axis="x"
           x={sliderDay}
@@ -256,7 +256,7 @@ export default function Browse() {
             style={{
               position: 'absolute',
               bottom: 30,
-              left: `${(index / 11) * 100}%`,
+              left: `${(index / 12) * 100}%`,
               height: 10,
               backgroundColor: '#000',
             }}
@@ -269,13 +269,13 @@ export default function Browse() {
       </div>
       <div>
         <div className="flex">
-          <div className='w-1/3'>
+          <div className='hidden lg:block lg:w-1/3'>
             {displayEntryBefore && <JournalEntryBox {...displayEntryBefore} />}
           </div>
-          <div className='w-1/3'>
+          <div className='lg:w-1/3'>
             {displayEntryMain && <JournalEntryBox {...displayEntryMain} />}
           </div>
-          <div className='w-1/3'>
+          <div className='hidden lg:block lg:w-1/3'>
             {displayEntryAfter && <JournalEntryBox {...displayEntryAfter} />}
           </div>
         </div>

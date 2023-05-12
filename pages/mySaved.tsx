@@ -11,7 +11,7 @@ export default function MySaved() {
 
   useEffect(() => {
     retrieveStarredEntries();
-  }, []);
+  }, [retrieveStarredEntries]);
 
   async function retrieveStarredEntries() {
     if (!session || !session.user) return;
