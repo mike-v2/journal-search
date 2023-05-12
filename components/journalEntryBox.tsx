@@ -1,4 +1,4 @@
-import { ISOStringToDate, makeDatePretty } from "@/utils/convertDate";
+import { dateToJournalDate, makeDatePretty } from "@/utils/convertDate";
 import { JournalEntry, JournalTopic } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -79,7 +79,7 @@ export default function JournalEntryBox(props: EntryBoxProps) {
       <div className="flex">
         <div className="basis-5/6">
           <div className="text-lg font-bold">
-            {makeDatePretty(ISOStringToDate(props.date))}
+            {makeDatePretty(dateToJournalDate(new Date(props.date)))}
           </div>
           <br />
           <div>

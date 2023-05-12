@@ -1,6 +1,10 @@
-import { dateToJournalDate, journalDateToDate, journalDateToCondensedDate } from '@/utils/convertDate';
+import { dateToJournalDate, journalDateToDate, journalDateToCondensedDate, makeDatePretty } from '@/utils/convertDate';
 import { useEffect, useState } from 'react';
 import Plot from 'react-plotly.js';
+import Slider from 'react-input-slider'
+import { addDays, addMonths, differenceInDays, eachMonthOfInterval, format, isAfter, isBefore, parse, subMonths } from 'date-fns';
+import { JournalEntry } from '@prisma/client';
+import JournalEntryBox from '@/components/journalEntryBox';
 
 interface GraphTrace {
   property: string,
@@ -9,29 +13,42 @@ interface GraphTrace {
   y: number[],
 }
 
+const sliderStartDate = new Date("01/01/1948"); 
+const sliderEndDate = new Date("12/31/1948");
+const months = eachMonthOfInterval({ start: sliderStartDate, end: sliderEndDate });
+
 export default function Browse() {
   const [dateMap, setDateMap] = useState<Map<string, []>>();
   const [graphData, setGraphData] = useState<GraphTrace[]>();
+  const [sliderDay, setSliderDay] = useState(0);
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>();
+  const [displayEntryMain, setDisplayEntryMain] = useState<JournalEntry>();
+  const [displayEntryBefore, setDisplayEntryBefore] = useState<JournalEntry>();
+  const [displayEntryAfter, setDisplayEntryAfter] = useState<JournalEntry>();
+  const [graphMinDate, setGraphMinDate] = useState<Date>(sliderStartDate);
+  const [graphMaxDate, setGraphMaxDate] = useState<Date>(sliderEndDate);
+
 
   useEffect(() => {
-    fetchData();
+    fetchMapData();
+    fetchJournalEntries();
   }, []);
 
   useEffect(() => {
     if (dateMap) {
       setGraphValues();
     }
-  }, [dateMap])
+  }, [dateMap, sliderDay])
 
   function setGraphValues() {
-    const mostFrequent = findMostFrequentProperties("2-20-1948", "4-01-1948");
+    const mostFrequent = findMostFrequentProperties(new Date(graphMinDate.getTime()), new Date(graphMaxDate.getTime()));
     if (!mostFrequent) return;
 
     const gData = [];
     for (let [property, { value, dates, scores }] of mostFrequent) {
       const condensedDates = [];
       for (let date of dates) {
-        condensedDates.push(journalDateToCondensedDate(date));
+        condensedDates.push(makeDatePretty(date).split(',')[0]);
       }
 
       const trace: GraphTrace = {
@@ -47,7 +64,7 @@ export default function Browse() {
     setGraphData(gData);
   }
 
-  async function fetchData() {
+  async function fetchMapData() {
     try {
       const res = await fetch('/api/entriesData');
       const dataStr = await res.json();
@@ -59,14 +76,29 @@ export default function Browse() {
     }
   }
 
-  function findMostFrequentProperties(startJDate: string, endJDate: string) {
+  async function fetchJournalEntries() {
+    try {
+      const res = await fetch('/api/journalEntry');
+      const data = await res.json();
+
+      data.sort((x: JournalEntry, y: JournalEntry) => {
+        const dateX = new Date(x.date);
+        const dateY = new Date(y.date);
+        return dateX.getTime() - dateY.getTime();
+      })
+      console.log(data);
+
+      setJournalEntries(data);
+    } catch (error) {
+      console.log("could not retrieve journal entries: " + error);
+    }
+  }
+
+  function findMostFrequentProperties(start: Date, end: Date) {
     if (!dateMap) return;
 
     let propertyCounts = new Map();
     let trackedCounts = new Map();
-
-    const start = journalDateToDate(startJDate);
-    const end = journalDateToDate(endJDate);
 
     for (let [dateStr, entries] of dateMap) {
       const date = journalDateToDate(dateStr);
@@ -128,9 +160,61 @@ export default function Browse() {
     return trackedFrequentCounts;
   }
 
+  function findClosestEntry(targetDate: Date) {
+    if (!journalEntries) return;
+
+    let closestEntry = journalEntries[0];
+    let smallestDifference = Infinity;
+
+
+    journalEntries.forEach(entry => {
+      const difference = Math.abs(differenceInDays(targetDate, new Date(entry.date)));
+      if (difference < smallestDifference) {
+        smallestDifference = difference;
+        closestEntry = entry;
+      }
+    });
+
+    return closestEntry;
+  }
+
+  function handleSliderChange ({ x }) {
+    if (!journalEntries) return;
+
+    setSliderDay(x);
+
+    const currentSliderDate = addDays(sliderStartDate, x);
+    const closestEntry = findClosestEntry(currentSliderDate);
+    if (closestEntry) {
+      setDisplayEntryMain(closestEntry);
+
+      const closestIndex = journalEntries.indexOf(closestEntry);
+      const beforeIndex = closestIndex - 1;
+      const afterIndex = closestIndex + 1;
+      if (beforeIndex > -1) {
+        setDisplayEntryBefore(journalEntries[beforeIndex])
+      }
+      if (afterIndex < journalEntries.length) {
+        setDisplayEntryAfter(journalEntries[afterIndex])
+      }
+    }
+
+    let graphMin = subMonths(currentSliderDate, 1);
+    if (isBefore(graphMin, sliderStartDate)) {
+      graphMin = sliderStartDate;
+    }
+    setGraphMinDate(graphMin);
+
+    let graphMax = addMonths(currentSliderDate, 1);
+    if (isAfter(graphMax, sliderEndDate)) {
+      graphMax = sliderEndDate;
+    }
+    setGraphMaxDate(graphMax);
+  };
+
   return (
-    <>
-    <div className='mx-auto w-fit p-5'>
+    <div className=''>
+      <div className='w-fit h-fit mx-auto p-5'>
         <Plot
           data={graphData && graphData.map((gData) => {
             return {
@@ -142,10 +226,60 @@ export default function Browse() {
               connectgaps: true,
             };
           })}
-          layout={{ width: 800, height: 300, title: 'Most Frequent Properties' }}
+          layout={{ 
+            width: 800, 
+            height: 300, 
+            title: 'Most Frequent Properties',
+            xaxis: {
+              tickformat: '%m-%d',
+            }
+           }}
         />
-    </div>
+      </div>
       
-    </>
+      <div className='w-fit h-100 mx-auto relative'>
+        <Slider
+          axis="x"
+          x={sliderDay}
+          xmax={365}
+          onChange={handleSliderChange}
+          styles={{
+            track: {
+              width: '500px',
+            },
+          }}
+        />
+
+        {months.map((month, index) => (
+          <div
+            key={index}
+            style={{
+              position: 'absolute',
+              bottom: 30,
+              left: `${(index / 11) * 100}%`,
+              height: 10,
+              backgroundColor: '#000',
+            }}
+          >
+            <small style={{ position: 'absolute', transform: 'translateX(-50%)' }}>
+              {format(month, 'MMM')}
+            </small>
+          </div>
+        ))}
+      </div>
+      <div>
+        <div className="flex">
+          <div className='w-1/3'>
+            {displayEntryBefore && <JournalEntryBox {...displayEntryBefore} />}
+          </div>
+          <div className='w-1/3'>
+            {displayEntryMain && <JournalEntryBox {...displayEntryMain} />}
+          </div>
+          <div className='w-1/3'>
+            {displayEntryAfter && <JournalEntryBox {...displayEntryAfter} />}
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

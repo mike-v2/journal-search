@@ -20,6 +20,7 @@
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
     "axios": "^1.4.0",
+    "date-fns": "^2.30.0",
     "dotenv-cli": "^7.2.1",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
@@ -28,6 +29,7 @@
     "plotly.js": "^1.58.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-input-slider": "^6.0.1",
     "react-plotly.js": "^2.6.0",
     "swr": "^2.1.5",
     "typescript": "5.0.4"
