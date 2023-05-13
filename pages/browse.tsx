@@ -32,13 +32,17 @@ export default function Browse() {
     fetchMapData();
     fetchJournalEntries();
 
-    window.addEventListener('resize', onResize);
+    if (typeof window !== "undefined") {
+      window.addEventListener('resize', onResize);
+    }
   }, []);
 
   function onResize() {
-    setScreenWidth(window.innerWidth);
+    if (typeof window !== "undefined") {
+      const width = Math.min(window.innerWidth, 800);
+      setScreenWidth(width);
+    }
   }
-
 
   useEffect(() => {
     function findMostFrequentProperties(start: Date, end: Date) {
@@ -251,7 +255,7 @@ export default function Browse() {
         
       </div>
       
-      <div className='w-fit h-100 mx-auto relative m-5'>
+      <div className='w-fit h-100 mx-auto relative m-5 mt-28'>
         <Slider
           axis="x"
           x={sliderDay}
@@ -259,7 +263,7 @@ export default function Browse() {
           onChange={handleSliderChange}
           styles={{
             track: {
-              width: window.innerWidth * .8,
+              width: typeof window !== 'undefined' ? screenWidth : '300px',
             },
           }}
         />

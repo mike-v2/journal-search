@@ -16,7 +16,7 @@ export default function Navbar() {
     <>
       <div className="flex">
         <div className='relative basis-1/5 ml-5'>
-          <Image src='/images/logo.png' className="absolute top-0 left-0" width={300} height={300} alt='Harry Howard Logo' />
+          <Image src='/images/logo.png' className="absolute top-0 left-0" width={200} height={200} alt='Harry Howard Logo' />
         </div>
         <div className="basis-4/5">
           <Login></Login>
