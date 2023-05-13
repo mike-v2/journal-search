@@ -26,7 +26,7 @@ export default function Browse() {
   const [displayEntryAfter, setDisplayEntryAfter] = useState<JournalEntry>();
   const [graphMinDate, setGraphMinDate] = useState<Date>(sliderStartDate);
   const [graphMaxDate, setGraphMaxDate] = useState<Date>(sliderEndDate);
-  const [screenWidth, setScreenWidth] = useState<number>(0);
+  const [screenWidth, setScreenWidth] = useState<number>(300);
 
   useEffect(() => {
     fetchMapData();
@@ -263,7 +263,7 @@ export default function Browse() {
           onChange={handleSliderChange}
           styles={{
             track: {
-              width: typeof window !== 'undefined' ? screenWidth : '300px',
+              width: screenWidth,
             },
           }}
         />
