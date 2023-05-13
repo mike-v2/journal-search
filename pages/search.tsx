@@ -83,17 +83,18 @@ export default function Search() {
   }
 
   const handleSelectResult = async (selectedTopic: Topic) => {
-    console.log(selectedTopic);
     setSelectedTopic(selectedTopic);
 
     const dateISO = dateToISOString(selectedTopic.date);
+    //let dateISO = '324';
 
     try {
       console.log("trying to get journal entry");
       const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
         method: 'GET',
       });
-      console.log("finished fetch request");
+      console.log("finished fetch request. res: ");
+      console.log(res);
 
       if (res.status === 200) {
         console.log("get journal entry success");
