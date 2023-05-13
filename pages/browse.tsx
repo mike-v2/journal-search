@@ -1,6 +1,5 @@
 import { dateToJournalDate, journalDateToDate, makeDatePretty } from '@/utils/convertDate';
 import { useEffect, useState } from 'react';
-import Plot from 'react-plotly.js';
 import Slider from 'react-input-slider'
 import { addDays, addWeeks, differenceInDays, eachMonthOfInterval, format, isAfter, isBefore, subWeeks } from 'date-fns';
 import { JournalEntry } from '@prisma/client';
@@ -220,7 +219,7 @@ export default function Browse() {
   return (
     <div className=''>
       <div className='w-fit h-fit mx-auto p-5'>
-        {graphData && 
+        {/* graphData && 
         <Plot
           data={graphData.map((gData) => {
             return {
@@ -240,7 +239,7 @@ export default function Browse() {
               tickformat: '%m-%d',
             }
           }}
-        />}
+        /> */}
         
       </div>
       
