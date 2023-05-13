@@ -93,8 +93,8 @@ export default function Search() {
       const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-        }
+          'content-type': 'application/json',
+        },
       });
       console.log("finished fetch request. res: ");
       console.log(res);
@@ -107,8 +107,13 @@ export default function Search() {
         }
       } else if (res.status === 500) {
         console.log("500 error while trying to find journal entry");
-        const data = await res.json();
-        console.log(data.error)
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          const data = await res.json();
+          console.log(data.error);
+        } else {
+          console.log("Response was not JSON, unable to parse");
+        }
       } else {
         console.log("Could not find journal entry by date");
       }

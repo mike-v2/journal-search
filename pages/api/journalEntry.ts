@@ -43,8 +43,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (date) { //get journal entry on specific date
     try {
+      const parsedDate = new Date(date as string);
       const entry = await prisma.journalEntry.findUnique({
-        where: { date: date as string },
+        where: { date: parsedDate },
         select: {
           id: true,
           content: true,
@@ -54,13 +55,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       if (!entry) {
-        return res.status(404).json({ error: 'User not found' });
+        return res.status(404).json({ error: 'Journal entry not found' });
       }
 
       res.status(200).json(entry);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: `prisma = ${prisma}` });
+      if (!prisma) {
+        res.status(500).json({ error: `prisma is null or undefined` });
+      } else {
+        res.status(500).json({ error: error });
+      }
     }
   } else { //get all journal entries
     try {
