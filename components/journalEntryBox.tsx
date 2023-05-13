@@ -38,7 +38,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
 
     fetchTopics();
     checkIsStarred();
-  }, [id, session, session?.user]);
+  }, [id, session]);
 
   useEffect(() => {
     if (onChange) onChange();

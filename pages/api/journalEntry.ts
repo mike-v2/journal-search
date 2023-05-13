@@ -60,7 +60,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(200).json(entry);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'An error occurred while fetching journal entry data' });
+      res.status(500).json({ error: `prisma = ${prisma}` });
     }
   } else { //get all journal entries
     try {

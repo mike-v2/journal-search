@@ -93,9 +93,14 @@ export default function Search() {
         method: 'GET',
       });
 
-      const entry = await res.json() as JournalEntry;
-      if (entry) {
-        setSelectedEntry(entry);
+      if (res.status === 200) {
+        const entry = await res.json() as JournalEntry;
+        if (entry) {
+          setSelectedEntry(entry);
+        }
+      } else if (res.status === 500) {
+        const data = await res.json();
+        console.log("500 error while trying to find journal entry: " + data.error)
       } else {
         console.log("Could not find journal entry by date");
       }
