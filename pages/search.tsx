@@ -92,6 +92,9 @@ export default function Search() {
       console.log("trying to get journal entry");
       const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
         method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
       console.log("finished fetch request. res: ");
       console.log(res);
