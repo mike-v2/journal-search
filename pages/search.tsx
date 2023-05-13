@@ -89,18 +89,22 @@ export default function Search() {
     const dateISO = dateToISOString(selectedTopic.date);
 
     try {
+      console.log("trying to get journal entry");
       const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
         method: 'GET',
       });
+      console.log("finished fetch request");
 
       if (res.status === 200) {
+        console.log("get journal entry success");
         const entry = await res.json() as JournalEntry;
         if (entry) {
           setSelectedEntry(entry);
         }
       } else if (res.status === 500) {
+        console.log("500 error while trying to find journal entry");
         const data = await res.json();
-        console.log("500 error while trying to find journal entry: " + data.error)
+        console.log(data.error)
       } else {
         console.log("Could not find journal entry by date");
       }
