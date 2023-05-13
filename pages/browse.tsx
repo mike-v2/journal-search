@@ -26,11 +26,19 @@ export default function Browse() {
   const [displayEntryAfter, setDisplayEntryAfter] = useState<JournalEntry>();
   const [graphMinDate, setGraphMinDate] = useState<Date>(sliderStartDate);
   const [graphMaxDate, setGraphMaxDate] = useState<Date>(sliderEndDate);
+  const [screenWidth, setScreenWidth] = useState<number>(0);
 
   useEffect(() => {
     fetchMapData();
     fetchJournalEntries();
+
+    window.addEventListener('resize', onResize);
   }, []);
+
+  function onResize() {
+    setScreenWidth(window.innerWidth);
+  }
+
 
   useEffect(() => {
     function findMostFrequentProperties(start: Date, end: Date) {
@@ -251,7 +259,7 @@ export default function Browse() {
           onChange={handleSliderChange}
           styles={{
             track: {
-              width: '500px',
+              width: window.innerWidth * .8,
             },
           }}
         />
@@ -278,7 +286,7 @@ export default function Browse() {
           <div className='hidden lg:block lg:w-1/3'>
             {displayEntryBefore && <JournalEntryBox {...displayEntryBefore} />}
           </div>
-          <div className='lg:w-1/3'>
+          <div className='w-full lg:w-1/3'>
             {displayEntryMain && <JournalEntryBox {...displayEntryMain} />}
           </div>
           <div className='hidden lg:block lg:w-1/3'>

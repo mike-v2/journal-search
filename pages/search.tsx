@@ -378,7 +378,7 @@ export default function Search() {
         </div>
         <div className="flex flex-col lg:flex-row justify-center align-middle">
           {searchIsActive && (
-            <div className="flex flex-col w-4/5 mx-auto lg:w-1/2 h-fit border-2 border-slate-400">
+            <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 h-fit border-2 border-slate-400">
               {searchResults && searchResults.map((result) => {
                 return (
                   <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.topic + result.summary.slice(0, 25)} />
@@ -387,7 +387,7 @@ export default function Search() {
             </div>
           )}
           {searchIsActive && selectedEntry && (
-            <div className="w-3/4 mx-auto lg:w-1/2">
+            <div className="w-full md:w-3/4 mx-auto lg:w-1/2">
               <JournalEntryBox {...selectedEntry}/>
             </div>
           )}

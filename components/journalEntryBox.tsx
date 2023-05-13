@@ -127,18 +127,18 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
         <div className={'w-8 h-8' + (isStarred ? ' bg-yellow-400' : ' bg-black')} onClick={() => handleStarClick()}></div>
       </div>
       <div className="">
-        <div className="flex w-fit bg-amber-300 rounded-full mx-auto p-2 px-4">
+        <div className="flex flex-wrap w-fit max-w-full bg-amber-300 mx-auto p-2 px-4">
           {topics && topics.map((topic) => {
             return (
               <div className='flex-auto p-1 px-4' key={topic.summary.slice(0, 25)}>
                 <div className="flex justify-evenly">
                   {getTopicIconPath(topic) && <Image src={getTopicIconPath(topic)} width={30} height={30} alt={topic.name + " icon"} />}
-                  <p className=" capitalize text-center font-bold text-slate-800 text-lg">
+                  <p className=" capitalize text-center font-bold text-slate-800">
                     {topic.name}
                   </p>
                 </div>
                 
-                <p className="text-center text-sm text-slate-800">
+                <p className="hidden md:block text-center text-sm text-slate-800">
                   {getTopicSubheading(topic)}
                 </p>
               </div>

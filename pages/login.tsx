@@ -14,7 +14,7 @@ export default function Login() {
       )
     } else {
       return (
-        <div>
+        <div className="flex justify-end">
           <button onClick={() => signIn()}>Sign In</button>
         </div>
       )
