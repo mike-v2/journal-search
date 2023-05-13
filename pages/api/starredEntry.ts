@@ -40,8 +40,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const body = req.body;
     const { userId, journalEntryId, isStarred } = JSON.parse(body);
 
-    console.log(`starredEntry started with user ${userId} and journal id ${journalEntryId} and isStarred = ${isStarred}`);
-
     try {
       if (isStarred) {
         const starredEntry = await prisma.starredEntry.delete({

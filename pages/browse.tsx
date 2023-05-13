@@ -51,13 +51,13 @@ export default function Browse() {
               propertyCounts.set(property, new Map());
             }
 
-            let countMap = propertyCounts.get(property);
+            let countMap: Map<string, number> = propertyCounts.get(property);
 
             if (!countMap.has(value)) {
               countMap.set(value, 0);
             }
 
-            countMap.set(value, countMap.get(value) + count * Math.abs(strength));
+            countMap.set(value, (countMap.get(value) ?? 0) + count * Math.abs(strength));
 
             if (!trackedCounts.has(property)) {
               trackedCounts.set(property, new Map());
@@ -74,12 +74,15 @@ export default function Browse() {
         }
       }
 
-      let mostFrequentProperties = new Map<string, { value: string, score: number }>();
+      let mostFrequentProperties: Map<string, { value: string, score: number }> = new Map(); 
       for (let [property, countMap] of propertyCounts) {
-        let mostFrequentValue = Array.from(countMap.entries()).reduce((a, b) => b[1] > a[1] ? b : a);
+        let entries: Array<[string, number]> = Array.from(countMap.entries());
+
+        let mostFrequentValue: [string, number] = entries.length > 0
+          ? entries.reduce((a: [string, number], b: [string, number]) => b[1] > a[1] ? b : a, ['', 0])
+          : ['', 0];
         mostFrequentProperties.set(property, { value: mostFrequentValue[0], score: mostFrequentValue[1] });
       }
-
 
       let allDates = [];
       let currentDate = start;
@@ -178,7 +181,7 @@ export default function Browse() {
     return closestEntry;
   }
 
-  function handleSliderChange ({ x }) {
+  function handleSliderChange ({ x }: {x: number}) {
     if (!journalEntries) return;
 
     setSliderDay(x);
@@ -217,8 +220,9 @@ export default function Browse() {
   return (
     <div className=''>
       <div className='w-fit h-fit mx-auto p-5'>
+        {graphData && 
         <Plot
-          data={graphData && graphData.map((gData) => {
+          data={graphData.map((gData) => {
             return {
               name: `${gData.property}:${gData.value}`,
               type: 'scatter',
@@ -228,15 +232,16 @@ export default function Browse() {
               connectgaps: true,
             };
           })}
-          layout={{ 
-            width: 800, 
-            height: 300, 
+          layout={{
+            width: 800,
+            height: 300,
             title: 'Significant Topics',
             xaxis: {
               tickformat: '%m-%d',
             }
-           }}
-        />
+          }}
+        />}
+        
       </div>
       
       <div className='w-fit h-100 mx-auto relative m-5'>

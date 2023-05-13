@@ -22,7 +22,7 @@ export default function MySaved() {
     } catch (error) {
       console.log("error retrieving user's starred entries: " + error);
     }
-  }, [session]);
+  }, [session?.user]);
 
   useEffect(() => {
     retrieveStarredEntries();

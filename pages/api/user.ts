@@ -13,7 +13,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       where: { email: email as string },
       select: {
         id: true,
-        // Add any additional fields you want to fetch here
       },
     });
 

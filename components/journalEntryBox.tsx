@@ -146,7 +146,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
           })}
         </div>
         <p className="text-lg font-bold p-4 mt-4">
-          {makeDatePretty(dateToJournalDate(new Date(date)))}
+          {makeDatePretty(dateToJournalDate(date))}
         </p>
         <p className="p-4">
           {content !== '' && content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}

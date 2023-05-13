@@ -1,9 +1,11 @@
 import prisma from "@/utils/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import NextAuth from "next-auth";
+import NextAuth, { Account, AuthOptions, Session, User } from "next-auth";
+import { AdapterUser } from "next-auth/adapters";
+import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -12,52 +14,22 @@ export const authOptions = {
   ],
   adapter: PrismaAdapter(prisma),
   callbacks: {
-    async jwt(token, user, account, profile) {
+    async jwt({ token, user }: { token: JWT, user: AdapterUser }) {
       if (user) {
         token.id = user.id;
-      } else if (account) {
-        token.accessToken = account.access_token;
-        token.id = profile.id;
       }
       return token;
     },
-    async session(session, token) {
+    session: (async (session: Session, token: JWT) => {
       if (token) {
-        session.accessToken = token.accessToken;
-        session.user.id = token.id;
+        session.sessionToken = token.accessToken as string;
+        session.user.id = token.id as string;
       }
-      
-
       return session;
-    },
+    }) as any,
   },
 
-  /* adapter: {
-    async getAdapter() {
-      return {
-        async createUser(profile) {
-          return prisma.user.create({
-            data: {
-              id: profile.id,
-              name: profile.name,
-              email: profile.email,
-              image: profile.image,
-            },
-          });
-        },
-        async getUser(id) {
-          return prisma.user.findUnique({
-            where: { id },
-          });
-        },
-        async getUserByEmail(email) {
-          return prisma.user.findUnique({
-            where: { email },
-          });
-        },
-      };
-    },
-  }, */
+  
 };
 
 export default NextAuth(authOptions);

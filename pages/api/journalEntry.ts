@@ -48,6 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         select: {
           id: true,
           content: true,
+          date: true,
           starredBy: true,
         },
       });

@@ -9,9 +9,17 @@ function makeDatePretty(date: string): string {
 }
 
 function dateToJournalDate(date: Date) : string {
-  const dateStr = date.toISOString().split('T')[0];
+  let d = date;
+  if (typeof date === 'string') {
+    d = new Date(date);
+  }
+  const dateStr = d.toISOString().split('T')[0];
   let [year, month, day] = dateStr.split('-');
   return `${month}-${day}-${year}`;
+}
+
+function databaseDateToJournalDate(date: Date) {
+
 }
 
 function journalDateToDate(dateStr: string) {
