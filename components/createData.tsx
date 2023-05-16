@@ -1,4 +1,4 @@
-import { dateToISOString } from "@/utils/convertDate";
+import { journalDateToISOString } from "@/utils/convertDate";
 import { JournalEntry } from "@prisma/client";
 import useSWR from "swr";
 
@@ -26,7 +26,7 @@ export default function CreateData() {
 
     for (let i = 0; i < entries1948.length; i++) {
       //get journal entry id
-      const dateISO = dateToISOString(entries1948[i].date);
+      const dateISO = journalDateToISOString(entries1948[i].date);
       try {
         const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
           method: 'GET',

@@ -3,7 +3,7 @@ import {SearchTerms} from '@/components/searchTermsType'
 import Image from "next/image";
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-import { timestampToDate, dateToISOString } from "@/utils/convertDate";
+import { timestampToDate, journalDateToISOString } from "@/utils/convertDate";
 import { Josefin_Sans } from "next/font/google";
 import { JournalEntry } from "@prisma/client";
 import JournalTopicBox from "@/components/journalTopicBox";
@@ -66,13 +66,21 @@ export default function Search() {
   const journalEntryBox = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const handleKeyDown = (e: Event) => {
+      const keyboardEvent = e as KeyboardEvent;
+      if (keyboardEvent.key === 'Enter') {
+        //e.preventDefault();
+        handleSearch();
+      }
+    }
+
     if (typeof window !== 'undefined') {
       window.addEventListener('keydown', handleKeyDown);
       return () => {
         window.removeEventListener('keydown', handleKeyDown);
       };
     }
-  }, []);
+  }, [handleSearch]);
 
   useEffect(() => {
     if (selectedTopic && journalEntryBox.current) {
@@ -80,17 +88,8 @@ export default function Search() {
     }
   }, [selectedTopic])
 
-  const handleKeyDown = (e: Event) => {
-    const keyboardEvent = e as KeyboardEvent;
-    if (keyboardEvent.key === 'Enter') {
-      e.preventDefault();
-      handleSearch();
-    }
-  }
-
   function handleSearch() {
     if (searchBox.current) {
-      console.log("Searching: " + searchBox.current.value);
       setSelectedTopic(undefined);
       setSelectedEntry(undefined);
       setSearchIsActive(true);
@@ -101,7 +100,7 @@ export default function Search() {
   const handleSelectResult = async (selectedTopic: Topic) => {
     setSelectedTopic(selectedTopic);
 
-    const dateISO = dateToISOString(selectedTopic.date);
+    const dateISO = journalDateToISOString(selectedTopic.date);
 
     try {
       const res = await fetch(`/api/journalEntry?date=${dateISO}`, {

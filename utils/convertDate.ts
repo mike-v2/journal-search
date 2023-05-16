@@ -28,7 +28,7 @@ function journalDateToDate(dateStr: string) {
   return new Date(dateStr);
 }
 
-function dateToISOString(date: string): string {
+function journalDateToISOString(date: string): string {
   let [month, day, year] = date.split('-');
   return new Date(`${year}-${month}-${day}`).toISOString();
 }
@@ -76,4 +76,4 @@ function convertMonthNumberToWord(month: string): string {
   }
 }
 
-export { makeDatePretty, dateToISOString, timestampToDate, dateToJournalDate, journalDateToDate, journalDateToCondensedDate }
+export { makeDatePretty, journalDateToISOString, timestampToDate, dateToJournalDate, journalDateToDate, journalDateToCondensedDate }
