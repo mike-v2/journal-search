@@ -102,7 +102,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className='flex flex-col md:flex-row mt-10 max-w-7xl mx-auto h-fit'>
+        <div className='flex flex-col-reverse md:flex-row mt-10 max-w-7xl mx-auto h-fit'>
           <div className='text-center whitespace-pre-line w-full md:w-1/2 my-auto'>
             <h3 className={`${playball.className} p-5 text-4xl text-slate-200`}>
               Grace Howard
@@ -131,7 +131,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className='flex flex-col md:flex-row mt-10 max-w-7xl mx-auto h-fit'>
+        <div className='flex flex-col-reverse md:flex-row mt-10 max-w-7xl mx-auto h-fit'>
           <div className='text-center whitespace-pre-line w-full md:w-1/2 my-auto'>
             <h3 className={`${playball.className} p-5 text-4xl text-slate-200`}>
               Charles, Sonny, and Sharon Howard
