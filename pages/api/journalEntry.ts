@@ -61,11 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(200).json(entry);
     } catch (error) {
       console.error(error);
-      if (!prisma) {
-        res.status(500).json({ error: `prisma is null or undefined` });
-      } else {
-        res.status(500).json({ error: error });
-      }
+      res.status(500).json({ error: error });
     }
   } else { //get all journal entries
     try {

@@ -63,11 +63,27 @@ export default function Search() {
   const [activeFilterStrings, setActiveFilterStrings] = useState<FilterStrings>({});
   const [customFilterStrings, setCustomFilterStrings] = useState<FilterStrings>({});
   const [searchResults, setSearchResults] = useState<Topic[]>([]);
+  const journalEntryBox = useRef<HTMLDivElement>(null);
 
-  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, []);
+
+  useEffect(() => {
+    if (selectedTopic && journalEntryBox.current) {
+      journalEntryBox.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [selectedTopic])
+
+  const handleKeyDown = (e: Event) => {
+    const keyboardEvent = e as KeyboardEvent;
+    if (keyboardEvent.key === 'Enter') {
       e.preventDefault();
-      
       handleSearch();
     }
   }
@@ -86,34 +102,20 @@ export default function Search() {
     setSelectedTopic(selectedTopic);
 
     const dateISO = dateToISOString(selectedTopic.date);
-    //let dateISO = '324';
 
     try {
-      console.log("trying to get journal entry");
       const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
         method: 'GET',
-        headers: {
-          'content-type': 'application/json',
-        },
       });
-      console.log("finished fetch request. res: ");
-      console.log(res);
 
       if (res.status === 200) {
-        console.log("get journal entry success");
         const entry = await res.json() as JournalEntry;
         if (entry) {
           setSelectedEntry(entry);
         }
       } else if (res.status === 500) {
-        console.log("500 error while trying to find journal entry");
-        const contentType = res.headers.get("content-type");
-        if (contentType && contentType.indexOf("application/json") !== -1) {
-          const data = await res.json();
-          console.log(data.error);
-        } else {
-          console.log("Response was not JSON, unable to parse");
-        }
+        const data = await res.json();
+        console.log(data.error);
       } else {
         console.log("Could not find journal entry by date");
       }
@@ -313,7 +315,7 @@ export default function Search() {
               <Image src='/images/search-icon.svg' className="invert p-1" height={30} width={30} alt="search-icon" />
             </div>
             <div className="flex-auto">
-              <input ref={searchBox} onKeyDown={handleSearchKeyDown} className="w-full h-full p-4 text-lg text-black placeholder:italic" type="text" placeholder="Search.." />
+              <input ref={searchBox} className="w-full h-full p-4 text-lg text-black placeholder:italic" type="text" placeholder="Search.." />
             </div>
           </div>
           <div className="flex flex-wrap ms-10 my-3">
@@ -333,7 +335,7 @@ export default function Search() {
               return (
                 <div className="basis-full" key={filter}>
                   <div className="bg-slate-600 rounded-md w-100" >
-                    <div className={`${josefin.className} flex-initial h-10 text-xl font-bold text-center text-slate-50 p-1 hover:cursor-pointer capitalize`} onClick={handleFilterClick}>
+                    <div className={`${josefin.className} flex-initial h-10 text-xl font-bold text-center text-slate-50 p-1 hover:cursor-pointer capitalize border-b-2 border-slate-800 rounded-md `} onClick={handleFilterClick}>
                       {filter}
                     </div>
 
@@ -386,11 +388,12 @@ export default function Search() {
               })}
             </div>
           )}
-          {searchIsActive && selectedEntry && (
-            <div className="w-full md:w-3/4 mx-auto lg:w-1/2">
-              <JournalEntryBox {...selectedEntry}/>
-            </div>
-          )}
+          <div className="w-full md:w-3/4 lg:w-1/2 min-h-screen mx-auto" ref={journalEntryBox}>
+            {searchIsActive && selectedEntry && (
+              <JournalEntryBox {...selectedEntry} />
+            )}
+          </div>
+          
         </div>
         
       </form>

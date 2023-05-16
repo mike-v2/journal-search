@@ -1,9 +1,10 @@
-import { dateToJournalDate, journalDateToDate, makeDatePretty } from '@/utils/convertDate';
+import { dateToJournalDate, journalDateToCondensedDate, journalDateToDate, makeDatePretty } from '@/utils/convertDate';
 import { useEffect, useState } from 'react';
 import Slider from 'react-input-slider'
 import { addDays, addWeeks, differenceInDays, eachMonthOfInterval, format, isAfter, isBefore, subWeeks } from 'date-fns';
 import { JournalEntry } from '@prisma/client';
 import JournalEntryBox from '@/components/journalEntryBox';
+import Image from 'next/image';
 
 interface GraphTrace {
   property: string,
@@ -26,23 +27,26 @@ export default function Browse() {
   const [displayEntryAfter, setDisplayEntryAfter] = useState<JournalEntry>();
   const [graphMinDate, setGraphMinDate] = useState<Date>(sliderStartDate);
   const [graphMaxDate, setGraphMaxDate] = useState<Date>(sliderEndDate);
-  const [screenWidth, setScreenWidth] = useState<number>(300);
+  const [sliderWidth, setSliderWidth] = useState<number>(300);
 
   useEffect(() => {
     fetchMapData();
     fetchJournalEntries();
 
+    onResize();
     if (typeof window !== "undefined") {
       window.addEventListener('resize', onResize);
+      return () => {
+        window.removeEventListener('resize', onResize);
+      }
     }
   }, []);
 
-  function onResize() {
-    if (typeof window !== "undefined") {
-      const width = Math.min(window.innerWidth, 800);
-      setScreenWidth(width);
+  useEffect(() => {
+    if (journalEntries && !displayEntryMain) {
+      handleSliderChange({x: 0});
     }
-  }
+  }, [journalEntries])
 
   useEffect(() => {
     function findMostFrequentProperties(start: Date, end: Date) {
@@ -143,6 +147,13 @@ export default function Browse() {
     }
   }, [dateMap, sliderDay, graphMinDate, graphMaxDate])
 
+  function onResize() {
+    if (typeof window !== "undefined") {
+      const width = Math.min(window.innerWidth * .75, 800);
+      setSliderWidth(width);
+    }
+  }
+
   async function fetchMapData() {
     try {
       const res = await fetch('/api/entriesData');
@@ -172,8 +183,6 @@ export default function Browse() {
     }
   }
 
-  
-
   function findClosestEntry(targetDate: Date) {
     if (!journalEntries) return;
 
@@ -200,86 +209,109 @@ export default function Browse() {
     const currentSliderDate = addDays(sliderStartDate, x);
     const closestEntry = findClosestEntry(currentSliderDate);
     if (closestEntry) {
-      setDisplayEntryMain(closestEntry);
-
-      const closestIndex = journalEntries.indexOf(closestEntry);
-      const beforeIndex = closestIndex - 1;
-      const afterIndex = closestIndex + 1;
-      if (beforeIndex > -1) {
-        setDisplayEntryBefore(journalEntries[beforeIndex])
-      }
-      if (afterIndex < journalEntries.length) {
-        setDisplayEntryAfter(journalEntries[afterIndex])
-      }
+      setDisplayEntry(closestEntry);
     }
-
-    //let graphMin = subMonths(currentSliderDate, 1);
-    let graphMin = subWeeks(currentSliderDate, 2);
-    if (isBefore(graphMin, sliderStartDate)) {
-      graphMin = sliderStartDate;
-    }
-    setGraphMinDate(graphMin);
-
-    //let graphMax = addMonths(currentSliderDate, 1);
-    let graphMax = addWeeks(currentSliderDate, 2);
-    if (isAfter(graphMax, sliderEndDate)) {
-      graphMax = sliderEndDate;
-    }
-    setGraphMaxDate(graphMax);
   };
 
+  function setDisplayEntry(entry: JournalEntry) {
+    if (journalEntries) {
+      setDisplayEntryMain(entry);
+
+      const prevEntry = getPreviousEntry(entry);
+      if (prevEntry) {
+        setDisplayEntryBefore(prevEntry);
+      }
+      const nextEntry = getNextEntry(entry);
+      if (nextEntry){
+        setDisplayEntryAfter(nextEntry);
+      }
+    }
+  }
+
+  function getPreviousEntry(entry: JournalEntry) : JournalEntry | undefined{
+    if (!journalEntries) return undefined;
+
+    const closestIndex = getIndexByDate(entry.date);
+    if (closestIndex > -1) {
+      const beforeIndex = closestIndex - 1;
+      if (beforeIndex > -1) {
+        return journalEntries[beforeIndex];
+      }
+    }
+  }
+
+  function getNextEntry(entry: JournalEntry) : JournalEntry | undefined {
+    if (!journalEntries) return undefined;
+
+    const closestIndex = getIndexByDate(entry.date);
+    if (closestIndex > -1) {
+      const afterIndex = closestIndex + 1;
+      if (afterIndex < journalEntries.length) {
+        return journalEntries[afterIndex];
+      }
+    }
+  }
+
+  function getIndexByDate(date: Date) : number {
+    if (journalEntries) {
+      for (let i = 0; i < journalEntries.length; i++) {
+        if (journalEntries[i].date == date) return i;
+      }
+    }
+    return -1;
+  }
+
+  function handlePrevPageButtonClick() {
+    if (displayEntryMain) {
+      const prevEntry = getPreviousEntry(displayEntryMain);
+      if (prevEntry) {
+        setDisplayEntryMain(prevEntry);
+      }
+    }
+  }
+
+  function handleNextPageButtonClick() {
+    if (displayEntryMain) {
+      const nextEntry = getNextEntry(displayEntryMain);
+      if (nextEntry) {
+        setDisplayEntryMain(nextEntry);
+      }
+    }
+  }
+
   return (
-    <div className=''>
-      <div className='w-fit h-fit mx-auto p-5'>
-        {/* graphData && 
-        <Plot
-          data={graphData.map((gData) => {
-            return {
-              name: `${gData.property}:${gData.value}`,
-              type: 'scatter',
-              mode: 'lines+markers',
-              x: gData.x,
-              y: gData.y,
-              connectgaps: true,
-            };
-          })}
-          layout={{
-            width: 800,
-            height: 300,
-            title: 'Significant Topics',
-            xaxis: {
-              tickformat: '%m-%d',
-            }
-          }}
-        /> */}
-        
-      </div>
-      
+    <div className='min-h-screen'>
       <div className='w-fit h-100 mx-auto relative m-5 mt-28'>
-        <Slider
-          axis="x"
-          x={sliderDay}
-          xmax={365}
-          onChange={handleSliderChange}
-          styles={{
-            track: {
-              width: screenWidth,
-            },
-          }}
-        />
+        <div className='relative z-10'>
+          <Slider
+            axis="x"
+            x={sliderDay}
+            xmax={365}
+            onChange={handleSliderChange}
+            styles={{
+              track: {
+                width: sliderWidth,
+              },
+            }}
+          />
+        </div>
+        
+
+        <div className='absolute left-0 bottom-3 translate-y-1/2 -translate-x-full'>
+          <div className='h-16 w-16 translate-x-4 flex justify-center' onClick={handlePrevPageButtonClick}>
+            <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon object-cover -z-10' height={70} width={70} alt='arrow icon' />
+          </div>
+        </div>
+        <div className='absolute right-0 bottom-3 translate-y-1/2 translate-x-full '>
+          <div className='h-16 w-16 -translate-x-4' onClick={handleNextPageButtonClick}>
+            <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon rotate-180 object-cover -z-10' height={70} width={70} alt='arrow icon' />
+          </div>
+        </div>
 
         {months.map((month, index) => (
-          <div
-            key={index}
-            style={{
-              position: 'absolute',
-              bottom: 30,
-              left: `${(index / 12) * 100}%`,
-              height: 10,
-              backgroundColor: '#000',
-            }}
+          <div key={index} className='absolute bottom-8 h-3' style={{left: `${(index / 12) * 100}%`,}}
           >
-            <small style={{ position: 'absolute', transform: 'translateX(-50%)' }}>
+            <small className='absolute -translate-x-1/2'>
               {format(month, 'MMM')}
             </small>
           </div>
