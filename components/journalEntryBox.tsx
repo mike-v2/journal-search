@@ -12,7 +12,9 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   const {data: session} = useSession();
   const [isStarred, setIsStarred] = useState<Boolean>();
   const [topics, setTopics] = useState<JournalTopic[]>();
-  
+  const [selected, setSelected] = useState<string>("text");
+  const [imagePaths, setImagePaths] = useState<string[]>();
+
   useEffect(() => {
     async function fetchTopics() {
       const res = await fetch(`/api/journalTopic?journalEntryId=${id}`, {
@@ -43,6 +45,25 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   useEffect(() => {
     if (onChange) onChange();
   }, [isStarred, onChange])
+
+  useEffect(() => {
+    async function fetchJournalImagePaths() {
+      if (!startPage || !endPage) return;
+
+      const year = '1948';
+      try {
+        console.log(`fetching startPage: ${startPage} and endPage: ${endPage}`)
+        const res = await fetch(`/api/journalEntryImage?year=${year}&startPage=${startPage}&endPage=${endPage}`);
+        const data = await res.json();
+
+        setImagePaths(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    fetchJournalImagePaths();
+  }, [startPage, endPage]);
   
   async function handleStarClick() {
     if (!session || !session.user) {
@@ -125,32 +146,49 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
     <div className="h-fit p-4 border-2 border-slate-400 whitespace-pre-wrap">
       <div className="flex justify-end">
         {session?.user && <div className={'w-8 h-8' + (isStarred ? ' bg-yellow-400' : ' bg-black')} onClick={() => handleStarClick()}></div>}
+        <div className="btn-group">
+          <label htmlFor={`image ${date}`} className={`btn ${selected === 'image' ? 'btn-active' : ''}`}>
+            <input type="radio" id={`image ${date}`} name={`options ${date}`} className="hidden" onClick={() => {setSelected('image'); console.log('set to image')}} />
+            <Image src='/images/book_icon.svg' width={25} height={25} alt='display image button' />
+          </label>
+          <label htmlFor={`text ${date}`} className={`btn ${selected === 'text' ? 'btn-active' : ''}`}>
+            <input type="radio" id={`text ${date}`} name={`options ${date}`} className="hidden" onClick={() => setSelected('text')} />
+            <Image src='/images/text_icon.svg' width={20} height={20} alt='display text button' />
+          </label>
+        </div>
       </div>
-      <div className="">
-        <div className="flex flex-wrap w-fit max-w-full bg-amber-300 mx-auto p-2 px-4">
-          {topics && topics.map((topic) => {
-            return (
-              <div className='flex-auto p-1 px-4' key={topic.summary.slice(0, 25)}>
-                <div className="flex justify-center">
-                  {getTopicIconPath(topic) && <Image src={getTopicIconPath(topic)} className="me-2" width={30} height={30} alt={topic.name + " icon"} />}
-                  <p className=" capitalize text-center font-bold text-slate-800">
-                    {topic.name}
-                  </p>
-                </div>
-                
-                <p className="hidden md:block text-center text-sm text-slate-800">
-                  {getTopicSubheading(topic)}
+      <div className="flex flex-wrap w-fit max-w-full bg-amber-300 mx-auto p-2 px-4">
+        {topics && topics.map((topic) => {
+          return (
+            <div className='flex-auto p-1 px-4' key={topic.summary.slice(0, 25)}>
+              <div className="flex justify-center">
+                {getTopicIconPath(topic) && <Image src={getTopicIconPath(topic)} className="me-2" width={30} height={30} alt={topic.name + " icon"} />}
+                <p className=" capitalize text-center font-bold text-slate-800">
+                  {topic.name}
                 </p>
               </div>
-            )
-          })}
-        </div>
-        <p className="text-lg font-bold p-4 mt-4">
-          {makeDatePretty(dateToJournalDate(date))}
-        </p>
+              
+              <p className="hidden md:block text-center text-sm text-slate-800">
+                {getTopicSubheading(topic)}
+              </p>
+            </div>
+          )
+        })}
+      </div>
+      <p className="text-lg font-bold p-4 mt-4">
+        {makeDatePretty(dateToJournalDate(date))}
+      </p>
+      <div className={`${selected === 'text' ? '' : 'hidden'}`}>
         <p className="p-4">
           {content !== '' && content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
         </p>
+      </div>
+      <div className={`${selected === 'image' ? '' : 'hidden'}`}>
+        {imagePaths && imagePaths.map((path, index) => {
+          return (
+            <Image src={path} width={600} height={800} alt={`journal image ${index}`} key={`${date}-${index}`}/>
+          )
+        })}
       </div>
     </div>
   )

@@ -1,0 +1,47 @@
+import { GetSignedUrlConfig, Storage } from "@google-cloud/storage";
+import { NextApiRequest, NextApiResponse } from "next";
+
+const storage = new Storage({
+  projectId: process.env.GCLOUD_PROJECT_ID,
+  credentials: JSON.parse(
+    Buffer.from(process.env.GCLOUD_KEYFILE_CONTENTS_BASE64 as string, "base64").toString("utf-8")
+  ),
+});
+
+const bucket = storage.bucket(process.env.GCLOUD_BUCKET_NAME as string);
+const options: GetSignedUrlConfig = {
+  action: "read",
+  expires: Date.now() + 1000 * 60 * 60, // 1 hour
+};
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { year, startPage, endPage } = req.query;
+
+  if (!year || !startPage || !endPage) {
+    res.status(400).send("year, startPage, and endPage are required to find journal page image");
+    return;
+  }
+
+  const pages = [];
+  for (let i=Number(startPage); i<=Number(endPage); i++) {
+    pages.push(i);
+    console.log(typeof i);
+    console.log("adding page " + i);
+  }
+
+  try {
+    const urls = [];
+
+    for (const i in pages) {
+      console.log("getting url for page = " + pages[i]);
+      const imagePath = `${year}_pages/${year}-${pages[i].toString().padStart(4, '0') }.jpg`;
+      const [url] = await bucket.file(imagePath).getSignedUrl(options);
+      urls.push(url);
+    }
+    
+    res.status(200).json(urls);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error });
+  }
+};

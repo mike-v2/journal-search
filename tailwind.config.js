@@ -17,6 +17,6 @@ module.exports = {
       accent: '#F1C970',
     } */
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }
 
