@@ -189,7 +189,6 @@ export default function Browse() {
     let closestEntry = journalEntries[0];
     let smallestDifference = Infinity;
 
-
     journalEntries.forEach(entry => {
       const difference = Math.abs(differenceInDays(targetDate, new Date(entry.date)));
       if (difference < smallestDifference) {

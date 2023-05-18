@@ -11,11 +11,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         data: data,
         skipDuplicates: true,
       }); */
-      const newTopic = await prisma.journalTopic.create({
+      /* const newTopic = await prisma.journalTopic.create({
         data: data,
-      });
+      }); */
+      /* const newTopic = await prisma.journalTopic.updateMany({
+        where: {
+          id: data.id,
+        },
+        data: {
+          date: data.date,
+        },
+      }); */
 
-      res.status(200).json(newTopic);
+      //res.status(200).json(newTopic);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error creating prisma data" });

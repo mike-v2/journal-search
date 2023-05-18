@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import { Topic } from "./topicType";
 import { makeDatePretty } from "@/utils/convertDate";
+import { JournalTopic } from "@prisma/client";
 
+interface JournalTopicExt extends JournalTopic {
+  date: string;
+}
 
-interface TopicBoxProps extends Topic {
-  handleSelectResult: (data: Topic) => void;
+interface TopicBoxProps extends JournalTopic {
+  handleSelectResult: (data: JournalTopicExt) => void;
   isSelected: boolean;
+  date: string;
 }
 
 export default function JournalTopicBox(props: TopicBoxProps) {
@@ -28,7 +32,7 @@ export default function JournalTopicBox(props: TopicBoxProps) {
         {date}
       </div>
       <div className="text-lg font-bold py-3">
-        {props.topic}
+        {props.name}
       </div>
       <div className="pl-2">
         {props.summary}

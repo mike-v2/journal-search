@@ -52,7 +52,6 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
 
       const year = '1948';
       try {
-        console.log(`fetching startPage: ${startPage} and endPage: ${endPage}`)
         const res = await fetch(`/api/journalEntryImage?year=${year}&startPage=${startPage}&endPage=${endPage}`);
         const data = await res.json();
 
@@ -144,7 +143,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
 
   return (
     <div className="h-fit p-4 border-2 border-slate-400 whitespace-pre-wrap">
-      <div className="flex justify-end">
+      <div className="flex justify-end py-4">
         {session?.user && <div className={'w-8 h-8' + (isStarred ? ' bg-yellow-400' : ' bg-black')} onClick={() => handleStarClick()}></div>}
         <div className="btn-group">
           <label htmlFor={`image ${date}`} className={`btn ${selected === 'image' ? 'btn-active' : ''}`}>
@@ -175,7 +174,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
           )
         })}
       </div>
-      <p className="text-lg font-bold p-4 mt-4">
+      <p className="text-2xl font-bold p-4 mt-4 text-center text-slate-200">
         {makeDatePretty(dateToJournalDate(date))}
       </p>
       <div className={`${selected === 'text' ? '' : 'hidden'}`}>
@@ -183,7 +182,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
           {content !== '' && content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
         </p>
       </div>
-      <div className={`${selected === 'image' ? '' : 'hidden'}`}>
+      <div className={`${selected === 'image' ? '' : 'hidden'} flex justify-center flex-wrap`}>
         {imagePaths && imagePaths.map((path, index) => {
           return (
             <Image src={path} width={600} height={800} alt={`journal image ${index}`} key={`${date}-${index}`}/>

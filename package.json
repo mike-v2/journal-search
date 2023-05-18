@@ -26,6 +26,7 @@
     "dotenv-cli": "^7.2.1",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "lunr": "^2.3.9",
     "next": "13.3.0",
     "next-auth": "^4.22.1",
     "react": "18.2.0",
@@ -35,6 +36,7 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "@types/lunr": "^2.3.4",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
     "prisma": "^4.13.0",

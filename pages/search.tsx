@@ -5,9 +5,10 @@ import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { timestampToDate, journalDateToISOString } from "@/utils/convertDate";
 import { Josefin_Sans } from "next/font/google";
-import { JournalEntry } from "@prisma/client";
+import { JournalEntry, JournalTopic } from "@prisma/client";
 import JournalTopicBox from "@/components/journalTopicBox";
 import JournalEntryBox from "@/components/journalEntryBox";
+import lunr, { Index } from "lunr";
 
 const exampleSearchResult: Topic = {
   topic: "Family",
@@ -54,16 +55,54 @@ const filterNumbersPredefined: FilterNumbers = {
   sentiment: .5,
 }
 
+interface JournalTopicExt extends JournalTopic {
+  date: string;
+}
+
 export default function Search() {
   const searchBox = useRef<HTMLInputElement>(null);
   const [searchIsActive, setSearchIsActive] = useState(false);
-  const [selectedTopic, setSelectedTopic] = useState<Topic>();
+  const [selectedTopic, setSelectedTopic] = useState<JournalTopicExt>();
   const [selectedEntry, setSelectedEntry] = useState<JournalEntry>();
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [activeFilterStrings, setActiveFilterStrings] = useState<FilterStrings>({});
   const [customFilterStrings, setCustomFilterStrings] = useState<FilterStrings>({});
-  const [searchResults, setSearchResults] = useState<Topic[]>([]);
+  const [searchResults, setSearchResults] = useState<JournalTopicExt[]>([]);
   const journalEntryBox = useRef<HTMLDivElement>(null);
+  const [query, setQuery] = useState(undefined);
+  const [searchIndex, setSearchIndex] = useState<Index>();
+
+  useEffect(() => {
+    async function setLunrIndex() {
+      const res = await fetch('/api/journalTopic');
+      const documents = await res.json();
+
+      const index = lunr(function () {
+        this.ref("id");
+        this.field("name");
+        this.field("summary");
+        this.field("people");
+        this.field("places");
+        this.field("organizations");
+        this.field("things");
+        this.field("emotion");
+
+        documents.forEach( (doc: Object) => {
+          this.add(doc);
+        }, this);
+      });
+
+      setSearchIndex(index);
+    }
+
+    setLunrIndex();
+  }, []);
+
+  useEffect(() => {
+    console.log("search results::");
+    const results = searchIndex?.search('Grace');
+    console.log(results);
+  }, [searchIndex]);
 
   useEffect(() => {
     const handleKeyDown = (e: Event) => {
@@ -93,11 +132,11 @@ export default function Search() {
       setSelectedTopic(undefined);
       setSelectedEntry(undefined);
       setSearchIsActive(true);
-      runElasticSearch();
+      runSearch();
     }
   }
 
-  const handleSelectResult = async (selectedTopic: Topic) => {
+  const handleSelectResult = async (selectedTopic: JournalTopicExt) => {
     setSelectedTopic(selectedTopic);
 
     const dateISO = journalDateToISOString(selectedTopic.date);
@@ -214,15 +253,15 @@ export default function Search() {
     }
   }
 
-  const runElasticSearch = async () => {
+  const runSearch = async () => {
     
     const searchTerms = getSearchTerms();
     console.log("searching for terms: ");
     console.log(searchTerms);
 
-    const {date, text, people, places, things, organizations, emotions, moods} = searchTerms;
+    const {text, people, places, things, organizations, emotions, moods} = searchTerms;
 
-    let apiString = '/api/elasticClient?'
+    /* let apiString = '/api/elasticClient?'
     if (date && date !== '') {
       apiString = apiString.concat(`date=${date}&`);
     }
@@ -247,9 +286,56 @@ export default function Search() {
     if (moods && moods.length > 0) {
       apiString = apiString.concat(`moods=${moods}&`);
     }
-    console.log("api string = " + apiString);
+    console.log("api string = " + apiString); */
 
-    try {
+    let searchString = '';
+    if (text) {
+      searchString += text;
+    } 
+    if (people) {
+      searchString += people.join(' ');
+    } 
+    if (places) {
+     searchString += places.join(' ');
+    }
+    if (things) {
+      searchString += things.join(' ');
+    } 
+    if (organizations) {
+      searchString += organizations.join(' ');
+    } 
+
+    console.log("search string = " + searchString);
+    const results = searchIndex?.search(searchString);
+    console.log("initial results::");
+    console.log(results);
+    const topics = [];
+    for (const index in results) {
+      const topicId = results[parseInt(index)].ref;
+
+      try {
+        const res = await fetch(`/api/journalTopic?topicId=${topicId}`)
+        const data = await res.json();
+
+        data["date"] = timestampToDate(data.journalEntry.date);
+
+        let name = data["name"];
+        name = name.charAt(0).toUpperCase() + name.slice(1);
+        data["name"] = name;
+
+        let summary = data["summary"];
+        summary = summary.charAt(0).toUpperCase() + summary.slice(1);
+        data["summary"] = summary;
+
+        console.log(data);
+        topics.push(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    setSearchResults(topics);
+    /* try {
       const res = await fetch(apiString);
       const data = await res.json();
 
@@ -278,7 +364,7 @@ export default function Search() {
       }
     } catch (error) {
       console.log(`Error accessing search api: ${error}`);
-    }
+    } */
   };
 
   function getSearchTerms() {
@@ -314,7 +400,7 @@ export default function Search() {
               <Image src='/images/search-icon.svg' className="invert p-1" height={30} width={30} alt="search-icon" />
             </div>
             <div className="flex-auto">
-              <input ref={searchBox} className="w-full h-full p-4 text-lg text-black placeholder:italic" type="text" placeholder="Search.." />
+              <input ref={searchBox} className="w-full h-full p-4 text-lg text-black placeholder:italic bg-slate-200" type="text" placeholder="Search.." />
             </div>
           </div>
           <div className="flex flex-wrap ms-10 my-3">
@@ -343,7 +429,7 @@ export default function Search() {
                     <div className="flex flex-wrap justify-center max-w-full">
                       {filterStringsPredefined[filter]?.map((filterValue) => {
                         return (
-                          <div className={`${josefin.className} hover:cursor-pointer px-2 py-1 m-1 capitalize` + (activeFilterStrings.hasOwnProperty(filter) && activeFilterStrings[filter]?.includes(filterValue) ? ' font-bold text-slate-200' : '')} onClick={handleFilterValueClick} key={`${filter}-${filterValue}`} data-filter={`${filter}-${filterValue}`} >
+                          <div className={`${josefin.className} hover:cursor-pointer px-2 py-1 m-1 capitalize` + (activeFilterStrings.hasOwnProperty(filter) && activeFilterStrings[filter]?.includes(filterValue) ? ' font-bold text-slate-200 underline' : '')} onClick={handleFilterValueClick} key={`${filter}-${filterValue}`} data-filter={`${filter}-${filterValue}`} >
                             {filterValue}
                           </div>
                         )
@@ -354,7 +440,7 @@ export default function Search() {
                       {customFilterStrings[filter]?.map((filterValue) => {
                         return (
                           <div className="flex m-1 p-1" key={`${filter}-${filterValue}`}>
-                            <span className="px-1 my-auto italic font-bold text-slate-200">
+                            <span className="px-1 my-auto italic font-bold text-slate-200 underline">
                               {filterValue}
                             </span>
                             <button type="button" className="px-1 text-white" onClick={(e) => handleCustomFilterRemove(e, filter, filterValue)}>
@@ -365,7 +451,7 @@ export default function Search() {
                       })}
                     </div>
 
-                    <input type="text" className="m-2 p-1 text-black placeholder:italic" placeholder="custom filter..." onKeyDown={(e) => handleCustomFilterSubmit(e, filter)}></input>
+                    <input type="text" className="m-2 p-1 text-black placeholder:italic bg-slate-200" placeholder="custom filter..." onKeyDown={(e) => handleCustomFilterSubmit(e, filter)}></input>
 
                     
                   </ div>
@@ -382,7 +468,7 @@ export default function Search() {
             <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 h-fit border-2 border-slate-400">
               {searchResults && searchResults.map((result) => {
                 return (
-                  <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.topic + result.summary.slice(0, 25)} />
+                  <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.name + result.summary.slice(0, 25)} />
                 )
               })}
             </div>

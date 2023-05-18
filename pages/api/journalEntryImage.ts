@@ -25,15 +25,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const pages = [];
   for (let i=Number(startPage); i<=Number(endPage); i++) {
     pages.push(i);
-    console.log(typeof i);
-    console.log("adding page " + i);
   }
 
   try {
     const urls = [];
 
     for (const i in pages) {
-      console.log("getting url for page = " + pages[i]);
       const imagePath = `${year}_pages/${year}-${pages[i].toString().padStart(4, '0') }.jpg`;
       const [url] = await bucket.file(imagePath).getSignedUrl(options);
       urls.push(url);
