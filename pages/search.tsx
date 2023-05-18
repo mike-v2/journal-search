@@ -9,6 +9,8 @@ import { JournalEntry, JournalTopic } from "@prisma/client";
 import JournalTopicBox from "@/components/journalTopicBox";
 import JournalEntryBox from "@/components/journalEntryBox";
 import lunr, { Index } from "lunr";
+import Pagination from "@etchteam/next-pagination";
+import { useRouter } from "next/router";
 
 const exampleSearchResult: Topic = {
   topic: "Family",
@@ -71,6 +73,22 @@ export default function Search() {
   const journalEntryBox = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState(undefined);
   const [searchIndex, setSearchIndex] = useState<Index>();
+  const router = useRouter();
+  const [displaySearchResults, setDisplaySearchResults] = useState<JournalTopicExt[]>();
+
+  useEffect(() => {
+    if (searchResults) {
+      let { page, size } = router.query as { page: string, size: string };
+      if (!page) page = '1';
+      if (!size) size = '5';
+      const pageNum = parseInt(page);
+      const sizeNum = parseInt(size);
+
+      const startIndex = (pageNum - 1) * sizeNum;
+      const endIndex = startIndex + sizeNum;
+      setDisplaySearchResults(searchResults.slice(startIndex, endIndex));
+    }
+  }, [router.query, searchResults])
 
   useEffect(() => {
     async function setLunrIndex() {
@@ -386,7 +404,7 @@ export default function Search() {
 
   return (
     <>
-      <form className="max-w-7xl h-fit min-h-screen mx-auto">
+      <div className="max-w-7xl h-fit mx-auto">
         <div className={"flex flex-col w-1/2 max-w-lg h-fit m-10 mx-auto"}>
           <div className="flex h-10 w-full">
             <div className="border-2 border-slate-200 w-10 flex align-middle justify-center hover:cursor-pointer" onClick={(e) => handleSearch()}>
@@ -456,14 +474,17 @@ export default function Search() {
             
           </div>
         </div>
+      </div>
+
         <div className="flex flex-col lg:flex-row justify-center align-middle">
           {searchIsActive && (
             <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 h-fit border-2 border-slate-400">
-              {searchResults && searchResults.map((result) => {
+              {displaySearchResults && displaySearchResults.map((result) => {
                 return (
                   <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.name + result.summary.slice(0, 25)} />
                 )
               })}
+              <Pagination total={searchResults.length} sizes={[5,10,20,50,100]}/>
             </div>
           )}
           <div className="w-full md:w-3/4 lg:w-1/2 min-h-screen mx-auto" ref={journalEntryBox}>
@@ -474,7 +495,6 @@ export default function Search() {
           
         </div>
         
-      </form>
     </>
   )
 }

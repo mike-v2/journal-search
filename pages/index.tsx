@@ -63,9 +63,7 @@ export default function Home() {
   ]);
 
   useEffect(() => {
-    console.log("setting topics")
     async function fetchJournalEntryByDate(journalDate: string): Promise<JournalEntry | undefined> {
-
       const dateISO = journalDateToISOString(journalDate);
 
       try {

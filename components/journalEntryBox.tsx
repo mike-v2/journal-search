@@ -1,4 +1,5 @@
 import { dateToJournalDate, makeDatePretty } from "@/utils/convertDate";
+import Pagination from "@etchteam/next-pagination";
 import { JournalEntry, JournalTopic } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -14,7 +15,12 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   const [topics, setTopics] = useState<JournalTopic[]>();
   const [selected, setSelected] = useState<string>("text");
   const [imagePaths, setImagePaths] = useState<string[]>();
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
+  useEffect(() => {
+    console.log("current image index = " + currentImageIndex);
+    console.log("num paths = " + imagePaths?.length);
+  }, [currentImageIndex])
   useEffect(() => {
     async function fetchTopics() {
       const res = await fetch(`/api/journalTopic?journalEntryId=${id}`, {
@@ -183,11 +189,17 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
         </p>
       </div>
       <div className={`${selected === 'image' ? '' : 'hidden'} flex justify-center flex-wrap`}>
-        {imagePaths && imagePaths.map((path, index) => {
-          return (
-            <Image src={path} width={600} height={800} alt={`journal image ${index}`} key={`${date}-${index}`}/>
-          )
-        })}
+        {imagePaths && imagePaths[currentImageIndex] && (
+          
+          <div>
+            <Image src={imagePaths[currentImageIndex]} width={600} height={800} alt={`journal image ${currentImageIndex}`} key={`${date}-${currentImageIndex}`} />
+            <div className="btn-group flex justify-center">
+              <div className={`btn h-16 w-16 ${currentImageIndex <= 0 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex - 1)}>{'<'}</div>
+              <div className={`btn h-16 w-16 ${currentImageIndex >= imagePaths.length - 1 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex + 1)}>{'>'}</div>
+            </div>
+          </div>
+        )
+        }
       </div>
     </div>
   )
