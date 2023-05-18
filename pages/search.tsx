@@ -99,12 +99,6 @@ export default function Search() {
   }, []);
 
   useEffect(() => {
-    console.log("search results::");
-    const results = searchIndex?.search('Grace');
-    console.log(results);
-  }, [searchIndex]);
-
-  useEffect(() => {
     const handleKeyDown = (e: Event) => {
       const keyboardEvent = e as KeyboardEvent;
       if (keyboardEvent.key === 'Enter') {
@@ -289,20 +283,20 @@ export default function Search() {
     console.log("api string = " + apiString); */
 
     let searchString = '';
-    if (text) {
-      searchString += text;
+    if (text && text.length > 0) {
+      searchString += text + ' ';
     } 
-    if (people) {
-      searchString += people.join(' ');
+    if (people && people.length > 0) {
+      searchString += people.join(' ') + ' ';
     } 
-    if (places) {
-     searchString += places.join(' ');
+    if (places && places.length > 0) {
+      searchString += places.join(' ') + ' ';
     }
-    if (things) {
-      searchString += things.join(' ');
+    if (things && things.length > 0) {
+      searchString += things.join(' ') + ' ';
     } 
-    if (organizations) {
-      searchString += organizations.join(' ');
+    if (organizations && organizations.length > 0) {
+      searchString += organizations.join(' ') + ' ';
     } 
 
     console.log("search string = " + searchString);
@@ -327,7 +321,6 @@ export default function Search() {
         summary = summary.charAt(0).toUpperCase() + summary.slice(1);
         data["summary"] = summary;
 
-        console.log(data);
         topics.push(data);
       } catch (error) {
         console.log(error);
