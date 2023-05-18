@@ -71,7 +71,6 @@ export default function Search() {
   const [customFilterStrings, setCustomFilterStrings] = useState<FilterStrings>({});
   const [searchResults, setSearchResults] = useState<JournalTopicExt[]>([]);
   const journalEntryBox = useRef<HTMLDivElement>(null);
-  const [query, setQuery] = useState(undefined);
   const [searchIndex, setSearchIndex] = useState<Index>();
   const router = useRouter();
   const [displaySearchResults, setDisplaySearchResults] = useState<JournalTopicExt[]>();
@@ -92,25 +91,29 @@ export default function Search() {
 
   useEffect(() => {
     async function setLunrIndex() {
-      const res = await fetch('/api/journalTopic');
-      const documents = await res.json();
+      try {
+        const res = await fetch('/api/journalTopic');
+        const documents = await res.json();
 
-      const index = lunr(function () {
-        this.ref("id");
-        this.field("name");
-        this.field("summary");
-        this.field("people");
-        this.field("places");
-        this.field("organizations");
-        this.field("things");
-        this.field("emotion");
+        const index = lunr(function () {
+          this.ref("id");
+          this.field("name");
+          this.field("summary");
+          this.field("people");
+          this.field("places");
+          this.field("organizations");
+          this.field("things");
+          this.field("emotion");
 
-        documents.forEach( (doc: Object) => {
-          this.add(doc);
-        }, this);
-      });
+          documents.forEach((doc: Object) => {
+            this.add(doc);
+          }, this);
+        });
 
-      setSearchIndex(index);
+        setSearchIndex(index);
+      } catch (error) {
+        console.log("Could not fetch topics: " + error);
+      }
     }
 
     setLunrIndex();
@@ -143,6 +146,8 @@ export default function Search() {
     if (searchBox.current) {
       setSelectedTopic(undefined);
       setSelectedEntry(undefined);
+      setSearchResults([]);
+      setDisplaySearchResults(undefined);
       setSearchIsActive(true);
       runSearch();
     }
@@ -475,26 +480,33 @@ export default function Search() {
           </div>
         </div>
       </div>
-
-        <div className="flex flex-col lg:flex-row justify-center align-middle">
-          {searchIsActive && (
-            <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 h-fit border-2 border-slate-400">
-              {displaySearchResults && displaySearchResults.map((result) => {
-                return (
-                  <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.name + result.summary.slice(0, 25)} />
-                )
-              })}
-              <Pagination total={searchResults.length} sizes={[5,10,20,50,100]}/>
-            </div>
-          )}
-          <div className="w-full md:w-3/4 lg:w-1/2 min-h-screen mx-auto" ref={journalEntryBox}>
-            {searchIsActive && selectedEntry && (
-              <JournalEntryBox {...selectedEntry} />
-            )}
+      <div className="text-center text-2xl italic">
+        {searchIsActive && 
+          (searchResults && searchResults.length > 0 ?
+            `Found ${searchResults.length} Journal Topics` :
+            "Loading Journal Entries..."
+          )
+        }
+      </div>
+      <div className="flex flex-col lg:flex-row justify-center align-middle">
+        {searchIsActive && (
+          <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 h-fit border-2 border-slate-400">
+            {displaySearchResults && displaySearchResults.map((result) => {
+              return (
+                <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.name + result.summary.slice(0, 25)} />
+              )
+            })}
+            {displaySearchResults && displaySearchResults.length > 0 &&
+              <Pagination total={searchResults.length} sizes={[5, 10, 20, 50, 100]} />
+            }
           </div>
-          
+        )}
+        <div className="w-full md:w-3/4 lg:w-1/2 min-h-screen mx-auto mt-8" ref={journalEntryBox}>
+          {searchIsActive && selectedEntry && (
+            <JournalEntryBox {...selectedEntry} />
+          )}
         </div>
-        
+      </div>
     </>
   )
 }
