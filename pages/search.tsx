@@ -482,7 +482,7 @@ export default function Search() {
         {searchIsActive && 
           (searchResults && searchResults.length > 0 ?
             `Found ${searchResults.length} Journal Topics` :
-            "Loading Journal Entries..."
+            "Loading Topics..."
           )
         }
       </div>

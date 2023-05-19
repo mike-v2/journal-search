@@ -17,8 +17,8 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   const {data: session} = useSession();
   const [isStarred, setIsStarred] = useState<Boolean>();
   const [topics, setTopics] = useState<JournalTopic[]>();
-  const [selected, setSelected] = useState<string>("text");
-  const [imagePaths, setImagePaths] = useState<string[]>();
+  const [displayMode, setDisplayMode] = useState<string>("text");
+  const [imagePaths, setImagePaths] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [postText, setPostText] = useState<string>('');
@@ -190,12 +190,12 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
         <div className="flex-auto flex justify-start py-4">
           
           <div className="btn-group px-4">
-            <label htmlFor={`image ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${selected === 'image' ? 'btn-active' : ''}`}>
-              <input type="radio" id={`image ${date}`} name={`options ${date}`} className="hidden" onClick={() => { setSelected('image'); console.log('set to image') }} />
+            <label htmlFor={`image ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${displayMode === 'image' ? 'btn-active' : ''}`}>
+              <input type="radio" id={`image ${date}`} name={`options ${date}`} className="hidden" onClick={() => { setDisplayMode('image');}} />
               <Image src='/images/book_icon.svg' width={25} height={25} alt='display image button' />
             </label>
-            <label htmlFor={`text ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${selected === 'text' ? 'btn-active' : ''}`}>
-              <input type="radio" id={`text ${date}`} name={`options ${date}`} className="hidden" onClick={() => setSelected('text')} />
+            <label htmlFor={`text ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${displayMode === 'text' ? 'btn-active' : ''}`}>
+              <input type="radio" id={`text ${date}`} name={`options ${date}`} className="hidden" onClick={() => setDisplayMode('text')} />
               <Image src='/images/text_icon.svg' width={20} height={20} alt='display text button' />
             </label>
           </div>
@@ -265,14 +265,13 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
       <p className="text-2xl font-bold p-4 mt-4 text-center text-slate-200">
         {makeDatePretty(dateToJournalDate(date))}
       </p>
-      <div className={`${selected === 'text' ? '' : 'hidden'}`}>
+      <div className={`${displayMode === 'text' ? '' : 'hidden'}`}>
         <p className="p-4">
           {content !== '' && content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
         </p>
       </div>
-      <div className={`${selected === 'image' ? '' : 'hidden'} flex justify-center flex-wrap`}>
+      <div className={`${displayMode === 'image' ? '' : 'hidden'} flex justify-center flex-wrap`}>
         {imagePaths && imagePaths[currentImageIndex] && (
-          
           <div>
             <Image src={imagePaths[currentImageIndex]} width={600} height={800} alt={`journal image ${currentImageIndex}`} key={`${date}-${currentImageIndex}`} />
             <div className="btn-group flex justify-center">
