@@ -3,7 +3,11 @@ import Pagination from "@etchteam/next-pagination";
 import { JournalEntry, JournalTopic } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { ReactEventHandler, useEffect, useState } from "react";
+import Modal from 'react-modal';
+
+// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
+Modal.setAppElement('#__next');
 
 interface EntryBoxProps extends JournalEntry {
   onChange?: () => void,
@@ -16,11 +20,9 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   const [selected, setSelected] = useState<string>("text");
   const [imagePaths, setImagePaths] = useState<string[]>();
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [postText, setPostText] = useState<string>('');
 
-  useEffect(() => {
-    console.log("current image index = " + currentImageIndex);
-    console.log("num paths = " + imagePaths?.length);
-  }, [currentImageIndex])
   useEffect(() => {
     async function fetchTopics() {
       const res = await fetch(`/api/journalTopic?journalEntryId=${id}`, {
@@ -147,21 +149,101 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
     return '';
   }
 
+  function openModal() {
+    setModalIsOpen(true);
+  }
+
+  function closeModal() {
+    setPostText('');
+    setModalIsOpen(false);
+  }
+
+  async function handleCreatePost(e: React.MouseEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (session?.user) {
+      try {
+        const res = await fetch('/api/post', {
+          method: 'POST',
+          body: JSON.stringify({
+            journalEntryId: id,
+            userId: session?.user.id,
+            text: postText,
+          }),
+        })
+
+        if (res.status === 200) {
+          const data = await res.json();
+          //console.log(data.message)
+        }
+      } catch (error) {
+        console.log("error creating post: " + error);
+      }
+    }
+    
+    closeModal();
+  }
+
   return (
     <div className="h-fit p-4 border-2 border-slate-400 whitespace-pre-wrap">
-      <div className="flex justify-end py-4">
-        {session?.user && <div className={'w-8 h-8' + (isStarred ? ' bg-yellow-400' : ' bg-black')} onClick={() => handleStarClick()}></div>}
-        <div className="btn-group">
-          <label htmlFor={`image ${date}`} className={`btn ${selected === 'image' ? 'btn-active' : ''}`}>
-            <input type="radio" id={`image ${date}`} name={`options ${date}`} className="hidden" onClick={() => {setSelected('image'); console.log('set to image')}} />
-            <Image src='/images/book_icon.svg' width={25} height={25} alt='display image button' />
-          </label>
-          <label htmlFor={`text ${date}`} className={`btn ${selected === 'text' ? 'btn-active' : ''}`}>
-            <input type="radio" id={`text ${date}`} name={`options ${date}`} className="hidden" onClick={() => setSelected('text')} />
-            <Image src='/images/text_icon.svg' width={20} height={20} alt='display text button' />
-          </label>
+      <div className="flex">
+        <div className="flex-auto flex justify-start py-4">
+          
+          <div className="btn-group px-4">
+            <label htmlFor={`image ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${selected === 'image' ? 'btn-active' : ''}`}>
+              <input type="radio" id={`image ${date}`} name={`options ${date}`} className="hidden" onClick={() => { setSelected('image'); console.log('set to image') }} />
+              <Image src='/images/book_icon.svg' width={25} height={25} alt='display image button' />
+            </label>
+            <label htmlFor={`text ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${selected === 'text' ? 'btn-active' : ''}`}>
+              <input type="radio" id={`text ${date}`} name={`options ${date}`} className="hidden" onClick={() => setSelected('text')} />
+              <Image src='/images/text_icon.svg' width={20} height={20} alt='display text button' />
+            </label>
+          </div>
+        </div>
+        <div className="flex-auto flex justify-end my-auto">
+          {session?.user &&
+            <div className={'flex mx-4 ' + (isStarred ? 'filter-yellow' : 'filter-gray')} onClick={() => handleStarClick()}>
+              <Image src='/images/star_icon.svg' width={35} height={35} alt='display text button' />
+            </div>
+          }
+          <div className="dropdown dropdown-bottom dropdown-end w-12">
+            <label tabIndex={0} className="btn m-1 p-0 bg-transparent">
+              <Image src="/images/kebab_icon.svg" className="invert" width={50} height={50} alt="kebab icon" />
+            </label>
+            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+              {session?.user && 
+                <li><a onClick={openModal}>Create Post</a></li>
+              }
+            </ul>
+          </div>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            className="m-auto p-5 border rounded-md max-w-md bg-slate-800"
+            overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex"
+          >
+            <form onSubmit={handleCreatePost}>
+              <h2 className="mb-3 text-xl text-slate-200">Create Post</h2>
+              <textarea
+                className="w-full mb-3 p-2 border rounded-md"
+                value={postText}
+                onChange={e => setPostText(e.target.value)}
+                placeholder="What's on your mind?"
+                required
+              />
+              <div className="flex justify-end">
+                <button className="mr-2 px-3 py-1 bg-gray-300 text-black rounded-md" onClick={closeModal}>
+                  Cancel
+                </button>
+                <button type="submit" className="px-3 py-1 bg-blue-600 text-white rounded-md">
+                  Post
+                </button>
+              </div>
+            </form>
+          </Modal>
         </div>
       </div>
+      
       <div className="flex flex-wrap w-fit max-w-full bg-amber-300 mx-auto p-2 px-4">
         {topics && topics.map((topic) => {
           return (

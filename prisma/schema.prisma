@@ -43,6 +43,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   starredEntries StarredEntry[]
+  posts         Post[]
+  comments      Comment[]
 }
 
 model VerificationToken {
@@ -61,6 +63,7 @@ model JournalEntry {
   content   String
   starredBy StarredEntry[]
   topics    JournalTopic[]
+  posts     Post[]
 }
 
 model StarredEntry {
@@ -86,4 +89,25 @@ model JournalTopic {
   emotion         String
   mood            String
   strength        Float
+}
+
+model Comment {
+  id             String       @id @default(cuid())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         String
+  post           Post         @relation(fields: [postId], references: [id])
+  postId         String
+  createdAt      DateTime     @default(now())
+  text           String
+}
+
+model Post {
+  id             String       @id @default(cuid())
+  createdBy      User         @relation(fields: [creatorId], references: [id])
+  creatorId      String
+  createdAt      DateTime     @default(now())
+  journalEntry   JournalEntry @relation(fields: [journalEntryId], references: [id])
+  journalEntryId String
+  text           String
+  comments       Comment[]
 }

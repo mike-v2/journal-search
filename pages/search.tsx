@@ -50,7 +50,6 @@ const filterStringsPredefined: FilterStrings = {
   things: ["goiter", "cigarettes", "World War I", "Book of Mormon"],
   organizations: ["Church", "Genealogical Society", "LDS", "FHA", "RMS"],
   emotions: ["satisfaction", "hope", "concern", "frustration"],
-  moods: ["focused", "concerned", "engaged", "determined"],
 }
 
 const filterNumbersPredefined: FilterNumbers = {
@@ -410,7 +409,7 @@ export default function Search() {
   return (
     <>
       <div className="max-w-7xl h-fit mx-auto">
-        <div className={"flex flex-col w-1/2 max-w-lg h-fit m-10 mx-auto"}>
+        <div className={"flex flex-col w-1/2 max-w-xl h-fit m-10 mx-auto"}>
           <div className="flex h-10 w-full">
             <div className="border-2 border-slate-200 w-10 flex align-middle justify-center hover:cursor-pointer" onClick={(e) => handleSearch()}>
               <Image src='/images/search-icon.svg' className="invert p-1" height={30} width={30} alt="search-icon" />
@@ -423,7 +422,6 @@ export default function Search() {
             {Object.keys(filterStringsPredefined).map((filter) => {
               return (
                 activeFilters.includes(filter) === false &&
-
                 <div className={`${josefin.className} flex-initial h-10 text-xl border border-slate-400 rounded-md m-1 p-1 hover:cursor-pointer capitalize`} onClick={handleFilterClick} key={filter}>
                   {filter}
                 </div>

@@ -33,11 +33,13 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-input-slider": "^6.0.1",
+    "react-modal": "^3.16.1",
     "swr": "^2.1.5",
     "typescript": "5.0.4"
   },
   "devDependencies": {
     "@types/lunr": "^2.3.4",
+    "@types/react-modal": "^3.16.0",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
     "prisma": "^4.13.0",

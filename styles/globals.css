@@ -10,3 +10,11 @@
   -webkit-mask: linear-gradient(to right, #000, #0000);
   mask: linear-gradient(to right,#000, #0000);
 }
+
+.filter-yellow {
+  filter: invert(87%) sepia(77%) saturate(6871%) hue-rotate(358deg) brightness(105%) contrast(101%);
+}
+
+.filter-gray {
+  filter: invert(40%) sepia(4%) saturate(6%) hue-rotate(35deg) brightness(98%) contrast(91%);
+}
