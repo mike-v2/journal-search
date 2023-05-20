@@ -19,7 +19,7 @@ interface EntryBoxProps extends JournalEntry {
   onStarRemoved?: (journalEntryId: string) => void,
 }
 
-export default function JournalEntryBox({ id, date, startPage, endPage, content, onStarRemoved: onStarRemoved}: EntryBoxProps) {
+export default function JournalEntryBox({ id, date, startPage, endPage, content, onStarRemoved}: EntryBoxProps) {
   const {data: session} = useSession();
   const [isStarred, setIsStarred] = useState<boolean>(false);
   const [topics, setTopics] = useState<JournalTopic[]>([]);
@@ -80,6 +80,8 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
     }
 
     try {
+      console.log("star clicked. isStarred = " + isStarred);
+
       const entryData = {
         userId: session.user.id,
         journalEntryId: id,
@@ -93,7 +95,9 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
 
       if (res.status === 200) {
         const { currentIsStarred } = await res.json();
+        console.log("setting isStarred = " + currentIsStarred);
         if (!currentIsStarred && isStarred) {
+          console.log("on star removed")
           if (onStarRemoved) onStarRemoved(id);
         }
         setIsStarred(!!currentIsStarred);

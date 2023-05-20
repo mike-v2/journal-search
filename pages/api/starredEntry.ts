@@ -51,7 +51,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           },
         });
 
-        res.status(200).json({ isStarred: false });
+        //use 'currentIsStarred' to avoid naming conflicts in receiving component
+        res.status(200).json({ currentIsStarred: false });
       } else {
         const starredEntry = await prisma.starredEntry.create({
           data: {
@@ -60,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           },
         });
 
-        res.status(200).json({ isStarred: !!starredEntry });
+        res.status(200).json({ currentIsStarred: !!starredEntry });
       }
     } catch (error) {
       console.error('Error creating starred entry:', error);
