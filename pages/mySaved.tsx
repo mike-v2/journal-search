@@ -1,7 +1,13 @@
 import JournalEntryBox from "@/components/journalEntryBox";
 import { JournalEntry, StarredEntry } from "@prisma/client"
 import { useSession } from "next-auth/react";
+import { Josefin_Sans } from "next/font/google";
 import { useCallback, useEffect, useState } from "react"
+
+const josefin = Josefin_Sans({
+  subsets: ['latin'],
+  weight: ['500', '700'],
+});
 
 type StarredEntryExt = StarredEntry & { journalEntry: JournalEntry };
 

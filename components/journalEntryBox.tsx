@@ -2,12 +2,18 @@ import { dateToJournalDate, makeDatePretty } from "@/utils/convertDate";
 import Pagination from "@etchteam/next-pagination";
 import { JournalEntry, JournalTopic } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { ReactEventHandler, useEffect, useState } from "react";
 import Modal from 'react-modal';
 
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement('#__next');
+
+const josefin = Josefin_Sans({
+  subsets: ['latin'],
+  weight: ['500', '700'],
+});
 
 interface EntryBoxProps extends JournalEntry {
   onChange?: () => void,
@@ -78,7 +84,6 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
     }
 
     try {
-      console.log("handle star click with isStarred = " + isStarred);
       const entryData = {
         userId: session.user.id,
         journalEntryId: id,
@@ -92,7 +97,6 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
 
       if (res.status === 200) {
         const { isStarred } = await res.json();
-        console.log((isStarred ? "Star" : "Unstar") + " successful");
         setIsStarred(!!isStarred);
       }
     } catch (error) {
@@ -185,10 +189,9 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   }
 
   return (
-    <div className="h-fit p-4 border-2 border-slate-400 whitespace-pre-wrap">
+    <div className={`${josefin.className} h-fit p-4 border-2 border-slate-400 whitespace-pre-wrap`}>
       <div className="flex">
         <div className="flex-auto flex justify-start py-4">
-          
           <div className="btn-group px-4">
             <label htmlFor={`image ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${displayMode === 'image' ? 'btn-active' : ''}`}>
               <input type="radio" id={`image ${date}`} name={`options ${date}`} className="hidden" onClick={() => { setDisplayMode('image');}} />
@@ -203,7 +206,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
         <div className="flex-auto flex justify-end my-auto">
           {session?.user &&
             <div className={'flex mx-4 ' + (isStarred ? 'filter-yellow' : 'filter-gray')} onClick={() => handleStarClick()}>
-              <Image src='/images/star_icon.svg' width={35} height={35} alt='display text button' />
+              <Image src='/images/star_icon.svg' width={30} height={30} alt='display text button' />
             </div>
           }
           <div className="dropdown dropdown-bottom dropdown-end w-12">
@@ -250,7 +253,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
             <div className='flex-auto p-1 px-4' key={topic.summary.slice(0, 25)}>
               <div className="flex justify-center">
                 {getTopicIconPath(topic) && <Image src={getTopicIconPath(topic)} className="me-2" width={30} height={30} alt={topic.name + " icon"} />}
-                <p className=" capitalize text-center font-bold text-slate-800">
+                <p className="my-auto capitalize text-center font-bold text-slate-800">
                   {topic.name}
                 </p>
               </div>

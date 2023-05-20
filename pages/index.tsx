@@ -113,10 +113,10 @@ export default function Home() {
       </Head>
       <main>
         <div className='flex flex-col md:flex-row mt-10 max-w-7xl mx-auto h-fit'>
-          <div className='mx-auto w-full md:w-1/2 flex justify-center'>
+          <div className='mx-auto basis-full flex justify-center'>
             <Image src='/images/Harry-1.png' className='object-contain' width={600} height={800} alt='picture of Harry Howard' />
           </div>
-          <div className='text-center whitespace-pre-line w-full md:w-1/2'>
+          <div className='flex flex-col justify-center text-center whitespace-pre-line basis-full'>
             <h3 className={`${playball.className} p-5 text-4xl text-slate-200`}>
               {bioText.header}
             </h3>

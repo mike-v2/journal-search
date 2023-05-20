@@ -27,7 +27,7 @@ const exampleSearchResult: Topic = {
 
 const josefin = Josefin_Sans({
   subsets: ['latin'],
-  weight: ['500'],
+  weight: ['500', '700'],
 });
 
 type FilterStrings = {
@@ -443,7 +443,7 @@ export default function Search() {
                     <div className="flex flex-wrap justify-center max-w-full">
                       {filterStringsPredefined[filter]?.map((filterValue) => {
                         return (
-                          <div className={`${josefin.className} hover:cursor-pointer px-2 py-1 m-1 capitalize` + (activeFilterStrings.hasOwnProperty(filter) && activeFilterStrings[filter]?.includes(filterValue) ? ' font-bold text-slate-200 underline' : '')} onClick={handleFilterValueClick} key={`${filter}-${filterValue}`} data-filter={`${filter}-${filterValue}`} >
+                          <div className={`${josefin.className} hover:cursor-pointer px-2 py-1 m-1 capitalize` + (activeFilterStrings.hasOwnProperty(filter) && activeFilterStrings[filter]?.includes(filterValue) ? ' font-bold text-slate-200' : '')} onClick={handleFilterValueClick} key={`${filter}-${filterValue}`} data-filter={`${filter}-${filterValue}`} >
                             {filterValue}
                           </div>
                         )
@@ -454,7 +454,7 @@ export default function Search() {
                       {customFilterStrings[filter]?.map((filterValue) => {
                         return (
                           <div className="flex m-1 p-1" key={`${filter}-${filterValue}`}>
-                            <span className="px-1 my-auto italic font-bold text-slate-200 underline">
+                            <span className="px-1 my-auto italic font-bold text-slate-200">
                               {filterValue}
                             </span>
                             <button type="button" className="px-1 text-white" onClick={(e) => handleCustomFilterRemove(e, filter, filterValue)}>

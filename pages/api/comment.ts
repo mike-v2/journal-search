@@ -1,5 +1,6 @@
 import prisma from "@/utils/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
+import { Rubik_Marker_Hatch } from "next/font/google";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') { //get all comments on a post
@@ -13,6 +14,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const comments = await prisma.comment.findMany({
         where: {
           postId: postId as string,
+        },
+        select: {
+          id: true,
+          userId: true,
+          user: true,
+          postId: true,
+          post: true,
+          text: true,
+          createdAt: true,
         }
       });
 
@@ -37,9 +47,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       });
 
-      res.status(200).json({ message: "success" });
+      res.status(200).json(comment);
     } catch (error) {
       console.error('Error creating comment:', error);
+      res.status(500).json({ error: error });
+    }
+  } else if (req.method === 'DELETE') {
+    const {commentId} = req.query;
+
+    if (!commentId) {
+      return res.status(404).json({ error: 'CommentId is required to delete a comment' });
+    }
+
+    try {
+      const comment = await prisma.comment.delete({
+        where: {
+          id: commentId as string,
+        }
+      });
+
+      res.status(200).json({ message: "success" });
+    } catch(error) {
+      console.error('Error deleting comment:', error);
       res.status(500).json({ error: error });
     }
   } else {
