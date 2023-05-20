@@ -264,7 +264,7 @@ export default function Browse() {
     if (displayEntryMain) {
       const prevEntry = getPreviousEntry(displayEntryMain);
       if (prevEntry) {
-        setDisplayEntryMain(prevEntry);
+        setDisplayEntry(prevEntry);
       }
     }
   }
@@ -273,7 +273,7 @@ export default function Browse() {
     if (displayEntryMain) {
       const nextEntry = getNextEntry(displayEntryMain);
       if (nextEntry) {
-        setDisplayEntryMain(nextEntry);
+        setDisplayEntry(nextEntry);
       }
     }
   }
@@ -318,13 +318,13 @@ export default function Browse() {
       </div>
       <div>
         <div className="flex">
-          <div className='hidden lg:block lg:w-1/3'>
+          <div className='hidden lg:block lg:w-1/3 p-8'>
             {displayEntryBefore && <JournalEntryBox {...displayEntryBefore} />}
           </div>
           <div className='w-full lg:w-1/3'>
             {displayEntryMain && <JournalEntryBox {...displayEntryMain} />}
           </div>
-          <div className='hidden lg:block lg:w-1/3'>
+          <div className='hidden lg:block lg:w-1/3 p-8'>
             {displayEntryAfter && <JournalEntryBox {...displayEntryAfter} />}
           </div>
         </div>
