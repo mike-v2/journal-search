@@ -13,35 +13,35 @@ type StarredEntryExt = StarredEntry & { journalEntry: JournalEntry };
 
 export default function MySaved() {
   const {data: session} = useSession();
-  const [starredEntries, setStarredEntries] = useState<StarredEntryExt[]>();
-
-  const retrieveStarredEntries = useCallback(async () => {
-    if (!session || !session.user) return;
-
-    try {
-      const res = await fetch(`/api/starredEntry?userId=${session.user.id}`, {
-        method: 'GET'
-      });
-
-      const starredEntries = await res.json();
-      setStarredEntries(starredEntries);
-    } catch (error) {
-      console.log("error retrieving user's starred entries: " + error);
-    }
-  }, [session]);
+  const [starredEntries, setStarredEntries] = useState<StarredEntryExt[]>([]);
 
   useEffect(() => {
-    retrieveStarredEntries();
-  }, [retrieveStarredEntries]);
+    async function retrieveStarredEntries() {
+      if (!session || !session.user) return;
 
-  function handleEntryChanged() {
+      try {
+        const res = await fetch(`/api/starredEntry?userId=${session.user.id}`, {
+          method: 'GET'
+        });
+
+        const starredEntries = await res.json();
+        setStarredEntries(starredEntries);
+      } catch (error) {
+        console.log("error retrieving user's starred entries: " + error);
+      }
+    }
+
     retrieveStarredEntries();
+  }, []);
+
+  function handleStarRemoved(journalEntryId: string) {
+    setStarredEntries(prevEntries => prevEntries.filter(entry => entry.journalEntryId !== journalEntryId));
   }
 
   return (
     <div className="h-fit min-h-screen mt-20">
       {starredEntries && starredEntries.map((starredEntry) => {
-        return <JournalEntryBox {...starredEntry.journalEntry} key={starredEntry.journalEntryId} onChange={handleEntryChanged}/>
+        return <JournalEntryBox {...starredEntry.journalEntry} key={starredEntry.journalEntryId} onStarRemoved={handleStarRemoved}/>
       })}
     </ div>
   )

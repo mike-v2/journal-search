@@ -16,13 +16,13 @@ const josefin = Josefin_Sans({
 });
 
 interface EntryBoxProps extends JournalEntry {
-  onChange?: () => void,
+  onStarRemoved?: (journalEntryId: string) => void,
 }
 
-export default function JournalEntryBox({ id, date, startPage, endPage, content, onChange}: EntryBoxProps) {
+export default function JournalEntryBox({ id, date, startPage, endPage, content, onStarRemoved: onStarRemoved}: EntryBoxProps) {
   const {data: session} = useSession();
-  const [isStarred, setIsStarred] = useState<Boolean>();
-  const [topics, setTopics] = useState<JournalTopic[]>();
+  const [isStarred, setIsStarred] = useState<boolean>(false);
+  const [topics, setTopics] = useState<JournalTopic[]>([]);
   const [displayMode, setDisplayMode] = useState<string>("text");
   const [imagePaths, setImagePaths] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
@@ -55,10 +55,6 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
     fetchTopics();
     checkIsStarred();
   }, [id, session]);
-
-  useEffect(() => {
-    if (onChange) onChange();
-  }, [isStarred, onChange])
 
   useEffect(() => {
     async function fetchJournalImagePaths() {
@@ -96,8 +92,11 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
       });
 
       if (res.status === 200) {
-        const { isStarred } = await res.json();
-        setIsStarred(!!isStarred);
+        const { currentIsStarred } = await res.json();
+        if (!currentIsStarred && isStarred) {
+          if (onStarRemoved) onStarRemoved(id);
+        }
+        setIsStarred(!!currentIsStarred);
       }
     } catch (error) {
       console.error('Error starring journal entry:', error);
