@@ -136,9 +136,9 @@ export default function Home() {
                 <h3 className={`${playball.className} p-5 text-4xl text-slate-200`}>
                   {topic.header}
                 </h3>
-                <h3 className={`p-5 pt-0`}>
+                <div className={`p-5 pt-0`}>
                   {topic.entry && <JournalEntryBox {...topic.entry} />}
-                </h3>
+                </div>
               </div>
               <div className='mx-auto w-full md:w-1/2 flex justify-center'>
                 <Image src={`${topic.imagePath}`} className='object-contain' width={600} height={800} alt={`picture of ${topic.header}`} />

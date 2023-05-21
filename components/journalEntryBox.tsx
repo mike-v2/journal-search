@@ -4,7 +4,7 @@ import { JournalEntry, JournalTopic } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
-import { ReactEventHandler, useEffect, useState } from "react";
+import { ReactEventHandler, useEffect, useRef, useState } from "react";
 import Modal from 'react-modal';
 
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
@@ -28,6 +28,8 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [postText, setPostText] = useState<string>('');
+  const [cornerCutoutWidth, setCornerCutoutWidth] = useState<string>('1.2rem');
+  const [cornerFoldWidth, setCornerFoldWidth] = useState<string>('1.2rem');
 
   useEffect(() => {
     async function fetchTopics() {
@@ -48,8 +50,10 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
         method: 'GET',
       });
 
-      const { isStarred } = await res.json();
-      setIsStarred(isStarred);
+      const { currentIsStarred } = await res.json();
+      setIsStarred(currentIsStarred);
+      setCornerCutoutWidth(currentIsStarred ? '1.8rem' : '.8rem');
+      setCornerFoldWidth(currentIsStarred ? '2.8rem' : '1.2rem');
     }
 
     fetchTopics();
@@ -187,102 +191,130 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
     closeModal();
   }
 
+  function handleHoverCorner() {
+    setCornerCutoutWidth(isStarred ? '.8rem' : '1.8rem');
+    setCornerFoldWidth(isStarred ? '1.2rem' : '2.8rem');
+  }
+
+  function handleUnhoverCorner() {
+    setCornerCutoutWidth(isStarred ? '1.8rem' : '.8rem');
+    setCornerFoldWidth(isStarred ? '2.8rem' : '1.2rem');
+  }
+
   return (
-    <div className={`${josefin.className} h-fit p-4 border-2 border-slate-400 whitespace-pre-wrap`}>
-      <div className="flex">
-        <div className="flex-auto flex justify-start py-4">
-          <div className="btn-group px-4">
-            <label htmlFor={`image ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${displayMode === 'image' ? 'btn-active' : ''}`}>
-              <input type="radio" id={`image ${date}`} name={`options ${date}`} className="hidden" onClick={() => { setDisplayMode('image');}} />
-              <Image src='/images/book_icon.svg' width={25} height={25} alt='display image button' />
-            </label>
-            <label htmlFor={`text ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${displayMode === 'text' ? 'btn-active' : ''}`}>
-              <input type="radio" id={`text ${date}`} name={`options ${date}`} className="hidden" onClick={() => setDisplayMode('text')} />
-              <Image src='/images/text_icon.svg' width={20} height={20} alt='display text button' />
-            </label>
+    <div style={{
+      '--corner-cutout-width': cornerCutoutWidth,
+      '--corner-fold-width': cornerFoldWidth,
+    } as React.CSSProperties}>
+      {session?.user &&
+        <div className="relative">
+          <div 
+          className="absolute top-0 right-0 w-12 h-12 z-10" 
+          onMouseEnter={handleHoverCorner} 
+          onMouseLeave={handleUnhoverCorner} 
+          onClick={handleStarClick} 
+          ></div>
+          <div className="absolute top-0 right-0 w-12 h-12 mt-3 mr-6 italic">
+            {isStarred ? 'Unsave' : 'Save'}
           </div>
+          <div className="corner-fold absolute top-0 right-0 shadow-xl shadow-black" ></div>
         </div>
-        <div className="flex-auto flex justify-end my-auto">
-          {session?.user &&
-            <div className={'flex mx-4 ' + (isStarred ? 'filter-yellow' : 'filter-gray')} onClick={() => handleStarClick()}>
-              <Image src='/images/star_icon.svg' width={30} height={30} alt='display text button' />
+      }
+      <div className={`${josefin.className} corner-cut-out h-fit p-8 border-2  border-slate-400 whitespace-pre-wrap`}>
+        <div className="flex">
+          <div className="flex-auto flex justify-start py-4">
+            <div className="btn-group px-4">
+              <label htmlFor={`image ${date}`} className={`btn min-h-0 h-10 w-10 p-0  ${displayMode === 'image' ? 'btn-active' : 'bg-transparent border-none'}`}>
+                <input type="radio" id={`image ${date}`} name={`options ${date}`} className="hidden" onClick={() => { setDisplayMode('image'); }} />
+                <Image src='/images/book_icon.svg' width={23} height={23} alt='display image button' />
+              </label>
+              <label htmlFor={`text ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${displayMode === 'text' ? 'btn-active' : 'bg-transparent border-none'}`}>
+                <input type="radio" id={`text ${date}`} name={`options ${date}`} className="hidden" onClick={() => setDisplayMode('text')} />
+                <Image src='/images/text_icon.svg' width={18} height={18} alt='display text button' />
+              </label>
             </div>
-          }
-          <div className="dropdown dropdown-bottom dropdown-end w-12">
-            <label tabIndex={0} className="btn m-1 p-0 bg-transparent">
-              <Image src="/images/kebab_icon.svg" className="invert" width={50} height={50} alt="kebab icon" />
-            </label>
-            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-              {session?.user && 
-                <li><a onClick={openModal}>Create Post</a></li>
-              }
-            </ul>
           </div>
-          <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            className="m-auto p-5 border rounded-md max-w-md bg-slate-800"
-            overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex"
-          >
-            <form onSubmit={handleCreatePost}>
-              <h2 className="mb-3 text-xl text-slate-200">Create Post</h2>
-              <textarea
-                className="w-full mb-3 p-2 border rounded-md"
-                value={postText}
-                onChange={e => setPostText(e.target.value)}
-                placeholder="What's on your mind?"
-                required
-              />
-              <div className="flex justify-end">
-                <button className="mr-2 px-3 py-1 bg-gray-300 text-black rounded-md" onClick={closeModal}>
-                  Cancel
-                </button>
-                <button type="submit" className="px-3 py-1 bg-blue-600 text-white rounded-md">
-                  Post
-                </button>
+          <div className="flex-auto flex justify-end my-auto mr-6">
+            {/* {session?.user &&
+              <div className={'flex mx-4 ' + (isStarred ? 'filter-yellow' : 'filter-gray')} onClick={() => handleStarClick()}>
+                <Image src='/images/star_icon.svg' width={30} height={30} alt='display text button' />
               </div>
-            </form>
-          </Modal>
+            } */}
+            <div className="dropdown dropdown-bottom dropdown-end w-12">
+              <label tabIndex={0} className="btn m-1 p-0 bg-transparent border-none">
+                <Image src="/images/kebab_icon.svg" className="" width={50} height={50} alt="kebab icon" />
+              </label>
+              <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                {session?.user &&
+                  <li><a onClick={openModal}>Create Post</a></li>
+                }
+              </ul>
+            </div>
+            <Modal
+              isOpen={modalIsOpen}
+              onRequestClose={closeModal}
+              className="m-auto p-5 border rounded-md max-w-md bg-slate-800"
+              overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex"
+            >
+              <form onSubmit={handleCreatePost}>
+                <h2 className="mb-3 text-xl text-slate-200">Create Post</h2>
+                <textarea
+                  className="w-full mb-3 p-2 border rounded-md"
+                  value={postText}
+                  onChange={e => setPostText(e.target.value)}
+                  placeholder="What's on your mind?"
+                  required
+                />
+                <div className="flex justify-end">
+                  <button className="mr-2 px-3 py-1 bg-gray-300 text-black rounded-md" onClick={closeModal}>
+                    Cancel
+                  </button>
+                  <button type="submit" className="px-3 py-1 bg-blue-600 text-white rounded-md">
+                    Post
+                  </button>
+                </div>
+              </form>
+            </Modal>
+          </div>
         </div>
-      </div>
-      
-      <div className="flex flex-wrap w-fit max-w-full bg-amber-300 mx-auto p-2 px-4">
-        {topics && topics.map((topic) => {
-          return (
-            <div className='flex-auto p-1 px-4' key={topic.summary.slice(0, 25)}>
-              <div className="flex justify-center">
-                {getTopicIconPath(topic) && <Image src={getTopicIconPath(topic)} className="me-2" width={30} height={30} alt={topic.name + " icon"} />}
-                <p className="my-auto capitalize text-center font-bold text-slate-800">
-                  {topic.name}
+        <div className="flex flex-wrap w-fit max-w-full bg-amber-300 mx-auto p-2 px-4">
+          {topics && topics.map((topic) => {
+            return (
+              <div className='flex-auto p-1 px-4' key={topic.summary.slice(0, 25)}>
+                <div className="flex justify-center">
+                  {getTopicIconPath(topic) && <Image src={getTopicIconPath(topic)} className="me-2" width={30} height={30} alt={topic.name + " icon"} />}
+                  <p className="my-auto capitalize text-center font-bold text-slate-800">
+                    {topic.name}
+                  </p>
+                </div>
+
+                <p className="hidden md:block text-center text-sm text-slate-800">
+                  {getTopicSubheading(topic)}
                 </p>
               </div>
-              
-              <p className="hidden md:block text-center text-sm text-slate-800">
-                {getTopicSubheading(topic)}
-              </p>
+            )
+          })}
+        </div>
+        <p className="text-2xl font-bold p-4 mt-4 text-center text-slate-800">
+          {makeDatePretty(dateToJournalDate(date))}
+        </p>
+        <div className={`${displayMode === 'text' ? '' : 'hidden'}`}>
+          <p className="p-4 text-slate-800">
+            {content !== '' && content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
+          </p>
+        </div>
+        <div className={`${displayMode === 'image' ? '' : 'hidden'} flex justify-center flex-wrap`}>
+          {imagePaths && imagePaths[currentImageIndex] && (
+            <div>
+              <Image src={imagePaths[currentImageIndex]} width={600} height={800} alt={`journal image ${currentImageIndex}`} key={`${date}-${currentImageIndex}`} />
+              <div className="btn-group flex justify-center">
+                <div className={`btn h-16 w-16 ${currentImageIndex <= 0 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex - 1)}>{'<'}</div>
+                <div className={`btn h-16 w-16 ${currentImageIndex >= imagePaths.length - 1 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex + 1)}>{'>'}</div>
+              </div>
             </div>
           )
-        })}
-      </div>
-      <p className="text-2xl font-bold p-4 mt-4 text-center text-slate-200">
-        {makeDatePretty(dateToJournalDate(date))}
-      </p>
-      <div className={`${displayMode === 'text' ? '' : 'hidden'}`}>
-        <p className="p-4">
-          {content !== '' && content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
-        </p>
-      </div>
-      <div className={`${displayMode === 'image' ? '' : 'hidden'} flex justify-center flex-wrap`}>
-        {imagePaths && imagePaths[currentImageIndex] && (
-          <div>
-            <Image src={imagePaths[currentImageIndex]} width={600} height={800} alt={`journal image ${currentImageIndex}`} key={`${date}-${currentImageIndex}`} />
-            <div className="btn-group flex justify-center">
-              <div className={`btn h-16 w-16 ${currentImageIndex <= 0 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex - 1)}>{'<'}</div>
-              <div className={`btn h-16 w-16 ${currentImageIndex >= imagePaths.length - 1 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex + 1)}>{'>'}</div>
-            </div>
-          </div>
-        )
-        }
+          }
+        </div>
       </div>
     </div>
   )

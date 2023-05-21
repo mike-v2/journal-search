@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --corner-cutout-width: 1.41rem;
+  --corner-fold-width: 2rem;
+}
+
 .flex-break {
   flex-basis: 100%;
 }
@@ -17,4 +22,14 @@
 
 .filter-gray {
   filter: invert(40%) sepia(4%) saturate(6%) hue-rotate(35deg) brightness(98%) contrast(91%);
+}
+
+.corner-cut-out {
+  background: linear-gradient(225deg, transparent var(--corner-cutout-width), #fef3c7 0)
+}
+
+.corner-fold {
+  width: calc(var(--corner-fold-width));
+  height: calc(var(--corner-fold-width));
+  background: linear-gradient(225deg, transparent var(--corner-cutout-width), #fde68a 0);
 }

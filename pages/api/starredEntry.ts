@@ -14,7 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           },
         });
 
-        res.status(200).json({ isStarred: !!starredEntry });
+        //use 'currentIsStarred' to avoid naming conflicts in receiving component
+        res.status(200).json({ currentIsStarred: !!starredEntry });
       } catch (error) {
         console.error('Error checking if user starred entry:', error);
         res.status(500).json({ error: error });
