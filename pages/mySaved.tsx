@@ -39,7 +39,7 @@ export default function MySaved() {
   }
 
   return (
-    <div className="h-fit min-h-screen mt-20">
+    <div className="h-fit min-h-screen mt-20 max-w-7xl mx-auto">
       {starredEntries && starredEntries.map((starredEntry) => {
         return <JournalEntryBox {...starredEntry.journalEntry} key={starredEntry.journalEntryId} onStarRemoved={handleStarRemoved}/>
       })}

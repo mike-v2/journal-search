@@ -121,7 +121,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
     } else if (topic.places.length > 0) {
       subheading = topic.places.slice(0, 3).join(', ');
     } else {
-      const summaryLength = 5;
+      const summaryLength = 50;
       const summaryWords = topic.summary.split(' ');
       subheading = summaryWords.slice(0, summaryLength).join(' ');
       if (summaryWords.length > summaryLength) {
@@ -221,81 +221,73 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
         </div>
       }
       <div className={`${josefin.className} corner-cut-out h-fit p-8 border-2  border-slate-400 whitespace-pre-wrap`}>
-        <div className="flex">
-          <div className="flex-auto flex justify-start py-4">
-            <div className="btn-group px-4">
-              <label htmlFor={`image ${date}`} className={`btn min-h-0 h-10 w-10 p-0  ${displayMode === 'image' ? 'btn-active' : 'bg-transparent border-none'}`}>
-                <input type="radio" id={`image ${date}`} name={`options ${date}`} className="hidden" onClick={() => { setDisplayMode('image'); }} />
-                <Image src='/images/book_icon.svg' width={23} height={23} alt='display image button' />
-              </label>
-              <label htmlFor={`text ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${displayMode === 'text' ? 'btn-active' : 'bg-transparent border-none'}`}>
-                <input type="radio" id={`text ${date}`} name={`options ${date}`} className="hidden" onClick={() => setDisplayMode('text')} />
-                <Image src='/images/text_icon.svg' width={18} height={18} alt='display text button' />
-              </label>
-            </div>
+        <div className="flex justify-end mr-6 my-8">
+          <div className="btn-group pr-8 my-auto">
+            <label htmlFor={`image ${date}`} className={`btn min-h-0 h-10 w-10 p-0  ${displayMode === 'image' ? 'btn-active' : 'bg-transparent border-none'}`}>
+              <input type="radio" id={`image ${date}`} name={`options ${date}`} className="hidden" onClick={() => { setDisplayMode('image'); }} />
+              <Image src='/images/book_icon.svg' width={23} height={23} alt='display image button' />
+            </label>
+            <label htmlFor={`text ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${displayMode === 'text' ? 'btn-active' : 'bg-transparent border-none'}`}>
+              <input type="radio" id={`text ${date}`} name={`options ${date}`} className="hidden" onClick={() => setDisplayMode('text')} />
+              <Image src='/images/text_icon.svg' width={18} height={18} alt='display text button' />
+            </label>
           </div>
-          <div className="flex-auto flex justify-end my-auto mr-6">
-            {/* {session?.user &&
-              <div className={'flex mx-4 ' + (isStarred ? 'filter-yellow' : 'filter-gray')} onClick={() => handleStarClick()}>
-                <Image src='/images/star_icon.svg' width={30} height={30} alt='display text button' />
+          <div className="dropdown dropdown-bottom dropdown-end w-12">
+            <label tabIndex={0} className="btn m-1 p-0 bg-transparent border-none">
+              <Image src="/images/kebab_icon.svg" className="" width={50} height={50} alt="kebab icon" />
+            </label>
+            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+              {session?.user &&
+                <li><a onClick={openModal}>Create Post</a></li>
+              }
+            </ul>
+          </div>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            className="m-auto p-5 border rounded-md max-w-md bg-slate-800"
+            overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex"
+          >
+            <form onSubmit={handleCreatePost}>
+              <h2 className="mb-3 text-xl text-slate-200">Create Post</h2>
+              <textarea
+                className="w-full mb-3 p-2 border rounded-md"
+                value={postText}
+                onChange={e => setPostText(e.target.value)}
+                placeholder="What's on your mind?"
+                required
+              />
+              <div className="flex justify-end">
+                <button className="mr-2 px-3 py-1 bg-gray-300 text-black rounded-md" onClick={closeModal}>
+                  Cancel
+                </button>
+                <button type="submit" className="px-3 py-1 bg-blue-600 text-white rounded-md">
+                  Post
+                </button>
               </div>
-            } */}
-            <div className="dropdown dropdown-bottom dropdown-end w-12">
-              <label tabIndex={0} className="btn m-1 p-0 bg-transparent border-none">
-                <Image src="/images/kebab_icon.svg" className="" width={50} height={50} alt="kebab icon" />
-              </label>
-              <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                {session?.user &&
-                  <li><a onClick={openModal}>Create Post</a></li>
-                }
-              </ul>
-            </div>
-            <Modal
-              isOpen={modalIsOpen}
-              onRequestClose={closeModal}
-              className="m-auto p-5 border rounded-md max-w-md bg-slate-800"
-              overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex"
-            >
-              <form onSubmit={handleCreatePost}>
-                <h2 className="mb-3 text-xl text-slate-200">Create Post</h2>
-                <textarea
-                  className="w-full mb-3 p-2 border rounded-md"
-                  value={postText}
-                  onChange={e => setPostText(e.target.value)}
-                  placeholder="What's on your mind?"
-                  required
-                />
-                <div className="flex justify-end">
-                  <button className="mr-2 px-3 py-1 bg-gray-300 text-black rounded-md" onClick={closeModal}>
-                    Cancel
-                  </button>
-                  <button type="submit" className="px-3 py-1 bg-blue-600 text-white rounded-md">
-                    Post
-                  </button>
-                </div>
-              </form>
-            </Modal>
-          </div>
+            </form>
+          </Modal>
         </div>
-        <div className="flex flex-wrap w-fit max-w-full bg-amber-300 mx-auto p-2 px-4">
+        <div className="flex flex-col w-full bg-slate-800 p-2 px-4">
           {topics && topics.map((topic) => {
             return (
-              <div className='flex-auto p-1 px-4' key={topic.summary.slice(0, 25)}>
-                <div className="flex justify-center">
-                  {getTopicIconPath(topic) && <Image src={getTopicIconPath(topic)} className="me-2" width={30} height={30} alt={topic.name + " icon"} />}
-                  <p className="my-auto capitalize text-center font-bold text-slate-800">
-                    {topic.name}
+              <div className='flex-auto py-2 px-4 my-auto' key={topic.summary.slice(0, 25)}>
+                <div className="flex">
+                  <div className="basis-10 flex-none my-auto">
+                    {getTopicIconPath(topic) && <Image src={getTopicIconPath(topic)} className="invert" width={25} height={25} alt={topic.name + " icon"} />}
+                  </div>
+                  <p className="basis-24 flex-none capitalize text-lg font-bold text-slate-200 my-auto pl-2">
+                    {`${topic.name}`}
+                  </p>
+                  <p className="truncate text-sm text-slate-400 my-auto pl-2">
+                    {getTopicSubheading(topic)}
                   </p>
                 </div>
-
-                <p className="hidden md:block text-center text-sm text-slate-800">
-                  {getTopicSubheading(topic)}
-                </p>
               </div>
             )
           })}
         </div>
-        <p className="text-2xl font-bold p-4 mt-4 text-center text-slate-800">
+        <p className="text-2xl font-bold p-4 mt-10 text-center text-slate-800">
           {makeDatePretty(dateToJournalDate(date))}
         </p>
         <div className={`${displayMode === 'text' ? '' : 'hidden'}`}>
