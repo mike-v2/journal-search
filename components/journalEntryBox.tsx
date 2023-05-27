@@ -268,18 +268,18 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
             </form>
           </Modal>
         </div>
-        <div className="flex flex-col w-full bg-slate-800 p-2 px-4">
+        <div className="flex flex-col w-full bg-amber-200 p-6">
           {topics && topics.map((topic) => {
             return (
               <div className='flex-auto py-2 px-4 my-auto' key={topic.summary.slice(0, 25)}>
                 <div className="flex">
                   <div className="basis-10 flex-none my-auto">
-                    {getTopicIconPath(topic) && <Image src={getTopicIconPath(topic)} className="invert" width={25} height={25} alt={topic.name + " icon"} />}
+                    {getTopicIconPath(topic) && <Image src={getTopicIconPath(topic)} className="" width={25} height={25} alt={topic.name + " icon"} />}
                   </div>
-                  <p className="basis-24 flex-none capitalize text-lg font-bold text-slate-200 my-auto pl-2">
+                  <p className="w-32 flex-none capitalize truncate text-lg font-bold text-slate-800 my-auto pl-2">
                     {`${topic.name}`}
                   </p>
-                  <p className="truncate text-sm text-slate-400 my-auto pl-2">
+                  <p className="flex-auto truncate text-sm text-slate-600 my-auto pl-2">
                     {getTopicSubheading(topic)}
                   </p>
                 </div>
