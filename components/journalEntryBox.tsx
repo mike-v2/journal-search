@@ -30,6 +30,8 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   const [postText, setPostText] = useState<string>('');
   const [cornerCutoutWidth, setCornerCutoutWidth] = useState<string>('1.2rem');
   const [cornerFoldWidth, setCornerFoldWidth] = useState<string>('1.2rem');
+  const [isCornerHovered, setIsCornerHovered] = useState<boolean>(false);
+
 
   useEffect(() => {
     async function fetchTopics() {
@@ -77,7 +79,18 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
     
     fetchJournalImagePaths();
   }, [startPage, endPage]);
-  
+
+  useEffect(() => {
+    if (isCornerHovered) {
+      setCornerCutoutWidth(isStarred ? '.8rem' : '1.8rem');
+      setCornerFoldWidth(isStarred ? '1.2rem' : '2.8rem');
+    } else {
+      setCornerCutoutWidth(isStarred ? '1.8rem' : '.8rem');
+      setCornerFoldWidth(isStarred ? '2.8rem' : '1.2rem');
+    }
+
+  }, [isCornerHovered, isStarred]);
+
   async function handleStarClick() {
     if (!session || !session.user) {
       return;
@@ -192,13 +205,11 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   }
 
   function handleHoverCorner() {
-    setCornerCutoutWidth(isStarred ? '.8rem' : '1.8rem');
-    setCornerFoldWidth(isStarred ? '1.2rem' : '2.8rem');
+    setIsCornerHovered(true);
   }
 
   function handleUnhoverCorner() {
-    setCornerCutoutWidth(isStarred ? '1.8rem' : '.8rem');
-    setCornerFoldWidth(isStarred ? '2.8rem' : '1.2rem');
+    setIsCornerHovered(false);
   }
 
   return (
@@ -276,12 +287,15 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
                   <div className="basis-10 flex-none my-auto">
                     {getTopicIconPath(topic) && <Image src={getTopicIconPath(topic)} className="" width={25} height={25} alt={topic.name + " icon"} />}
                   </div>
-                  <p className="w-32 flex-none capitalize truncate text-lg font-bold text-slate-800 my-auto pl-2">
-                    {`${topic.name}`}
-                  </p>
-                  <p className="flex-auto truncate text-sm text-slate-600 my-auto pl-2">
-                    {getTopicSubheading(topic)}
-                  </p>
+                  <div className="flex flex-col pl-2 truncate">
+                    <p className="flex-auto capitalize text-lg font-bold text-slate-800 my-auto">
+                      {`${topic.name}`}
+                    </p>
+                    <p className="flex-auto truncate text-sm text-slate-600 my-auto">
+                      {getTopicSubheading(topic)}
+                    </p>
+                  </div>
+
                 </div>
               </div>
             )
