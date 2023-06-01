@@ -132,8 +132,8 @@ export default function Home() {
         {exampleTopics && exampleTopics.map((topic, index) => {
           return (
             <div className={`flex flex-col-reverse ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} mt-10 max-w-7xl mx-auto h-fit`} key={topic.header}>
-              <div className='text-center whitespace-pre-line w-full md:w-1/2 my-auto'>
-                <h3 className={`${playball.className} p-5 text-4xl text-slate-200`}>
+              <div className=' whitespace-pre-line w-full md:w-1/2 my-auto'>
+                <h3 className={`${playball.className} text-center text-4xl text-slate-200 p-5`}>
                   {topic.header}
                 </h3>
                 <div className={`p-5 pt-0`}>

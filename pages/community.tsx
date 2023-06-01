@@ -31,10 +31,10 @@ export default function Community() {
   }, []);
 
   return (
-    <div className={`flex mt-20 border-4 rounded-2xl w-fit p-10`}>
+    <div className={`flex border-4 rounded-2xl w-10/12 max-w-4xl mx-auto mt-20 p-10`}>
       {posts && posts.map(post => {
         return (
-          <div key={post.id}>
+          <div className="mt-5" key={post.id}>
             <PostBox {...post} />
           </div>
         )

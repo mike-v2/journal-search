@@ -20,7 +20,7 @@ export default function Navbar() {
     <>
       <div className="flex">
         <div className='relative basis-1/5 flex justify-center ml-6 mt-6'>
-          <Image src='/images/logo.png' className="" width={200} height={200} alt='Harry Howard Logo' />
+          <Image src='/images/logo.png' className="w-auto" width={200} height={200} alt='Harry Howard Logo' />
         </div>
         <div className="basis-4/5">
           <div className="mr-4">

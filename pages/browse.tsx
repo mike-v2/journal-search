@@ -53,9 +53,7 @@ export default function Browse() {
   useEffect(() => {
     if (journalEntries && !displayEntryMain) {
       for (const index in journalEntries) {
-        let hasRead = journalEntries[index].readBy.some(prop => {
-          return prop.userId === session?.user.id;
-        });
+        let hasRead = journalEntries[index].readBy.some(prop => prop.userId === session?.user.id);
         if (!hasRead) {
           const dateStr = journalEntries[index].date.toString();
           const date = parseISO(dateStr);

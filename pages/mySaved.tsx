@@ -39,9 +39,13 @@ export default function MySaved() {
   }
 
   return (
-    <div className="h-fit min-h-screen mt-20 max-w-7xl mx-auto">
+    <div className="h-fit min-h-screen w-10/12 max-w-4xl mx-auto mt-20">
       {starredEntries && starredEntries.map((starredEntry) => {
-        return <JournalEntryBox {...starredEntry.journalEntry} key={starredEntry.journalEntryId} onStarRemoved={handleStarRemoved}/>
+        return (
+          <div className="pt-10" key={starredEntry.journalEntryId}>
+            <JournalEntryBox {...starredEntry.journalEntry} key={starredEntry.journalEntryId} onStarRemoved={handleStarRemoved} />
+          </div>
+        )
       })}
     </ div>
   )
