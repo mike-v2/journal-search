@@ -43,6 +43,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   starredEntries StarredEntry[]
+  readEntries   ReadEntry[]
   posts         Post[]
   comments      Comment[]
 }
@@ -62,6 +63,7 @@ model JournalEntry {
   endPage   String
   content   String
   starredBy StarredEntry[]
+  readBy    ReadEntry[]
   topics    JournalTopic[]
   posts     Post[]
 }
@@ -111,3 +113,13 @@ model Post {
   text           String
   comments       Comment[]
 }
+
+model ReadEntry {
+  user           User         @relation(fields: [userId], references: [id])
+  userId         String
+  journalEntry   JournalEntry @relation(fields: [journalEntryId], references: [id])
+  journalEntryId String
+  createdAt      DateTime     @default(now())
+
+  @@id([userId, journalEntryId])
+} 

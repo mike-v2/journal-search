@@ -2,9 +2,11 @@ import { dateToJournalDate, journalDateToCondensedDate, journalDateToDate, makeD
 import { useEffect, useState } from 'react';
 import Slider from 'react-input-slider'
 import { addDays, addWeeks, differenceInDays, eachMonthOfInterval, format, isAfter, isBefore, subWeeks } from 'date-fns';
-import { JournalEntry } from '@prisma/client';
+import { JournalEntry, ReadEntry, User } from '@prisma/client';
 import JournalEntryBox from '@/components/journalEntryBox';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import { parseISO } from 'date-fns';
 
 interface GraphTrace {
   property: string,
@@ -13,15 +15,21 @@ interface GraphTrace {
   y: number[],
 }
 
+interface JournalEntryExt extends JournalEntry {
+  userId: string,
+  readBy: ReadEntry[],
+}
+
 const sliderStartDate = new Date("01/01/1948"); 
 const sliderEndDate = new Date("12/31/1948");
 const months = eachMonthOfInterval({ start: sliderStartDate, end: sliderEndDate });
 
 export default function Browse() {
+  const { data: session } = useSession();
   const [dateMap, setDateMap] = useState<Map<string, []>>();
   const [graphData, setGraphData] = useState<GraphTrace[]>();
   const [sliderDay, setSliderDay] = useState(0);
-  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>();
+  const [journalEntries, setJournalEntries] = useState<JournalEntryExt[]>();
   const [displayEntryMain, setDisplayEntryMain] = useState<JournalEntry>();
   const [displayEntryBefore, setDisplayEntryBefore] = useState<JournalEntry>();
   const [displayEntryAfter, setDisplayEntryAfter] = useState<JournalEntry>();
@@ -44,6 +52,19 @@ export default function Browse() {
 
   useEffect(() => {
     if (journalEntries && !displayEntryMain) {
+      for (const index in journalEntries) {
+        let hasRead = journalEntries[index].readBy.some(prop => {
+          return prop.userId === session?.user.id;
+        });
+        if (!hasRead) {
+          const dateStr = journalEntries[index].date.toString();
+          const date = parseISO(dateStr);
+          const days = differenceInDays(date, sliderStartDate);
+          handleSliderChange({ x: days });
+          return;
+        }
+      }
+
       handleSliderChange({x: 0});
     }
   }, [journalEntries])
@@ -217,13 +238,9 @@ export default function Browse() {
       setDisplayEntryMain(entry);
 
       const prevEntry = getPreviousEntry(entry);
-      if (prevEntry) {
-        setDisplayEntryBefore(prevEntry);
-      }
+      setDisplayEntryBefore(prevEntry);
       const nextEntry = getNextEntry(entry);
-      if (nextEntry){
-        setDisplayEntryAfter(nextEntry);
-      }
+      setDisplayEntryAfter(nextEntry);
     }
   }
 
@@ -294,8 +311,6 @@ export default function Browse() {
             }}
           />
         </div>
-        
-
         <div className='absolute left-0 bottom-3 translate-y-1/2 -translate-x-full'>
           <div className='h-16 w-16 translate-x-4 flex justify-center' onClick={handlePrevPageButtonClick}>
             <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon object-cover -z-10' height={70} width={70} alt='arrow icon' />
@@ -306,7 +321,6 @@ export default function Browse() {
             <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon rotate-180 object-cover -z-10' height={70} width={70} alt='arrow icon' />
           </div>
         </div>
-
         {months.map((month, index) => (
           <div key={index} className='absolute bottom-8 h-3' style={{left: `${(index / 12) * 100}%`,}}
           >
@@ -321,7 +335,7 @@ export default function Browse() {
           <div className='hidden lg:block lg:w-1/3 p-8'>
             {displayEntryBefore && <JournalEntryBox {...displayEntryBefore} />}
           </div>
-          <div className='w-full lg:w-1/3'>
+          <div className='w-11/12 lg:w-1/3 mx-auto'>
             {displayEntryMain && <JournalEntryBox {...displayEntryMain} />}
           </div>
           <div className='hidden lg:block lg:w-1/3 p-8'>
