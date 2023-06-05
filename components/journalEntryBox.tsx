@@ -8,7 +8,7 @@ import { ReactEventHandler, useEffect, useRef, useState } from "react";
 import Modal from 'react-modal';
 
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-Modal.setAppElement('#__next');
+if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#__next');
 
 const josefin = Josefin_Sans({
   subsets: ['latin'],
@@ -273,7 +273,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
           <div className="corner-fold absolute top-0 right-0 shadow-xl shadow-black" ></div>
         </div>
       }
-      <div className={`${josefin.className} corner-cut-out h-fit p-8 border-2 border-slate-400 whitespace-pre-wrap`}>
+      <div className={`${josefin.className} corner-cut-out h-fit p-8 pb-16 border-2 border-slate-400 whitespace-pre-wrap`}>
         <div className="flex my-8" >
           <div className="dropdown dropdown-bottom w-12">
             <label tabIndex={0} className="btn m-1 p-0 bg-transparent border-none">
