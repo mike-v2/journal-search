@@ -1,7 +1,6 @@
 import { dateToJournalDate, makeDatePretty } from "@/utils/convertDate";
-import Pagination from "@etchteam/next-pagination";
 import { JournalEntry, JournalTopic } from "@prisma/client";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { ReactEventHandler, useEffect, useRef, useState } from "react";
@@ -32,7 +31,6 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   const [cornerCutoutWidth, setCornerCutoutWidth] = useState<string>('1.2rem');
   const [cornerFoldWidth, setCornerFoldWidth] = useState<string>('1.2rem');
   const [isCornerHovered, setIsCornerHovered] = useState<boolean>(false);
-
 
   useEffect(() => {
     async function fetchTopics() {
@@ -106,6 +104,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
 
   async function handleStarClick() {
     if (!session || !session.user) {
+      signIn();
       return;
     }
 
@@ -135,6 +134,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
 
   async function handleReadClick() {
     if (!session || !session.user) {
+      signIn();
       return;
     }
 
@@ -212,6 +212,11 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   }
 
   function openModal() {
+    if (!session || !session.user) {
+      signIn();
+      return;
+    }
+
     setModalIsOpen(true);
   }
 
@@ -259,43 +264,39 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
       '--corner-cutout-width': cornerCutoutWidth,
       '--corner-fold-width': cornerFoldWidth,
     } as React.CSSProperties}>
-      {session?.user &&
-        <div className="relative">
-          <div 
-            className="absolute top-0 right-0 w-12 h-12 z-10 cursor-pointer" 
-          onMouseEnter={handleHoverCorner} 
-          onMouseLeave={handleUnhoverCorner} 
-          onClick={handleStarClick} 
-          ></div>
-          <div className="absolute top-0 right-0 w-12 h-12 mt-3 mr-6 italic">
-            {isStarred ? 'Unsave' : 'Save'}
-          </div>
-          <div className="corner-fold absolute top-0 right-0 shadow-xl shadow-black" ></div>
+      <div className="relative">
+        <div
+          className="absolute top-0 right-0 w-12 h-12 z-10 cursor-pointer"
+          onMouseEnter={handleHoverCorner}
+          onMouseLeave={handleUnhoverCorner}
+          onClick={handleStarClick}
+        ></div>
+        <div className="absolute top-0 right-0 w-12 h-12 mt-3 mr-6 italic">
+          {isStarred ? 'Unsave' : 'Save'}
         </div>
-      }
+        <div className="corner-fold absolute top-0 right-0 shadow-xl shadow-black" ></div>
+      </div>
       <div className={`${josefin.className} corner-cut-out h-fit p-8 pb-16 border-2 border-slate-400 whitespace-pre-wrap`}>
         <div className="flex my-8" >
           <div className="dropdown dropdown-bottom w-12">
             <label tabIndex={0} className="btn m-1 p-0 bg-transparent border-none">
               <Image src="/images/kebab_icon.svg" className="" width={50} height={50} alt="kebab icon" />
             </label>
-            {session?.user &&
-              <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                <li>
-                  <div className="btn-group my-auto gap-0">
-                    <label htmlFor={`image ${date}`} className={`btn min-h-0 h-10 w-10 p-0  ${displayMode === 'image' ? 'btn-active' : 'bg-transparent border-none'}`}>
-                      <input type="radio" id={`image ${date}`} name={`options ${date}`} className="hidden" onClick={() => { setDisplayMode('image'); }} />
-                      <Image src='/images/book_icon.svg' className="invert" width={23} height={23} alt='display image button' />
-                    </label>
-                    <label htmlFor={`text ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${displayMode === 'text' ? 'btn-active' : 'bg-transparent border-none'}`}>
-                      <input type="radio" id={`text ${date}`} name={`options ${date}`} className="hidden" onClick={() => setDisplayMode('text')} />
-                      <Image src='/images/text_icon.svg' className="invert" width={18} height={18} alt='display text button' />
-                    </label>
-                  </div>
-                </li>
-                <li><a onClick={openModal}>Create Post</a></li>
-              </ul>
-            }
+            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+              <li>
+                <div className="btn-group my-auto gap-0">
+                  <label htmlFor={`image ${date}`} className={`btn min-h-0 h-10 w-10 p-0  ${displayMode === 'image' ? 'btn-active' : 'bg-transparent border-none'}`}>
+                    <input type="radio" id={`image ${date}`} name={`options ${date}`} className="hidden" onClick={() => { setDisplayMode('image'); }} />
+                    <Image src='/images/book_icon.svg' className="invert" width={23} height={23} alt='display image button' />
+                  </label>
+                  <label htmlFor={`text ${date}`} className={`btn min-h-0 h-10 w-10 p-0 ${displayMode === 'text' ? 'btn-active' : 'bg-transparent border-none'}`}>
+                    <input type="radio" id={`text ${date}`} name={`options ${date}`} className="hidden" onClick={() => setDisplayMode('text')} />
+                    <Image src='/images/text_icon.svg' className="invert" width={18} height={18} alt='display text button' />
+                  </label>
+                </div>
+              </li>
+              <li><a onClick={openModal}>Create Post</a></li>
+            </ul>
           </div>
           <Modal
             isOpen={modalIsOpen}

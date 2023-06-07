@@ -7,6 +7,7 @@ import CreateData from '@/components/createData'
 import { JournalEntry } from '@prisma/client'
 import { journalDateToISOString } from '@/utils/convertDate'
 import JournalEntryBox from '@/components/journalEntryBox'
+import fetchJournalEntryByDate from '@/utils/fetchJournalEntryByDate'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -59,38 +60,15 @@ export default function Home() {
   ]);
 
   useEffect(() => {
-    async function fetchJournalEntryByDate(journalDate: string): Promise<JournalEntry | undefined> {
-      const dateISO = journalDateToISOString(journalDate);
-
-      try {
-        const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
-          method: 'GET',
-        });
-
-        if (res.status === 200) {
-          const entry = await res.json() as JournalEntry;
-          if (entry) {
-            return entry;
-          }
-        } else if (res.status === 500) {
-          const data = await res.json();
-          console.log(data.error);
-        } else {
-          console.log("Could not find journal entry by date");
-        }
-      } catch (error) {
-        console.log("Could not find journal entry by date: " + error);
-      }
-
-      return undefined;
-    }
-
     async function updateTopics() {
       const newState = [...exampleTopics];
       const promises = newState.map((topic, index) =>
         fetchJournalEntryByDate(topic.entryDate)
           .then(entry => {
             newState[index].entry = entry;
+          })
+          .catch(error => {
+            console.error(error);
           })
       );
 

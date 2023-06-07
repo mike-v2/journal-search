@@ -1,7 +1,7 @@
 import JournalEntryBox from "@/components/journalEntryBox";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { JournalEntry, Post, User, Comment } from "@prisma/client";
 
 interface PostExt extends Post {
@@ -20,6 +20,11 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
   const [updatedComments, setUpdatedComments] = useState<Comment[]>(comments);
 
   async function handleSubmitComment() {
+    if (!session || !session.user) {
+      signIn();
+      return;
+    }
+
     try {
       const res = await fetch('/api/comment', {
         method: 'POST',
