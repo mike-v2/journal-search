@@ -62,15 +62,15 @@ export default function Home() {
   useEffect(() => {
     async function updateTopics() {
       const newState = [...exampleTopics];
-      const promises = newState.map((topic, index) =>
-        fetchJournalEntryByDate(topic.entryDate)
-          .then(entry => {
-            newState[index].entry = entry;
-          })
-          .catch(error => {
-            console.error(error);
-          })
-      );
+
+      const promises = newState.map(async (topic, index) => {
+        try {
+          const entry = await fetchJournalEntryByDate(topic.entryDate);
+          newState[index].entry = entry;
+        } catch (error) {
+          console.error(error);
+        }
+      });
 
       await Promise.all(promises);
       setExampleTopics(newState);
@@ -88,7 +88,7 @@ export default function Home() {
       <main>
         <div className='flex flex-col md:flex-row mt-10 max-w-7xl mx-auto h-fit'>
           <div className='mx-auto basis-full flex justify-center'>
-            <Image src='/images/Harry-1.png' className='object-contain' width={600} height={800} alt='picture of Harry Howard' />
+            <Image src='/images/Harry-1.png' className='object-contain w-auto' width={600} height={800} alt='picture of Harry Howard' />
           </div>
           <div className='flex flex-col justify-center text-center whitespace-pre-line basis-full'>
             <h3 className={`${playball.className} p-5 text-4xl text-slate-200`}>
@@ -115,7 +115,7 @@ export default function Home() {
                 </div>
               </div>
               <div className='mx-auto w-full md:w-1/2 flex justify-center'>
-                <Image src={`${topic.imagePath}`} className='object-contain' width={600} height={800} alt={`picture of ${topic.header}`} />
+                <Image src={`${topic.imagePath}`} className='object-contain w-auto' width={600} height={800} alt={`picture of ${topic.header}`} />
               </div>
             </div>
           )

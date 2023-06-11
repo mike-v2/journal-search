@@ -310,7 +310,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
                 className="w-full mb-3 p-2 border rounded-md"
                 value={postText}
                 onChange={e => setPostText(e.target.value)}
-                placeholder="What's on your mind?"
+                placeholder="What would you like to say about this journal entry?"
                 required
               />
               <div className="flex justify-end">
@@ -330,7 +330,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
           </div>
         </div>
         <div className="flex flex-col w-full bg-amber-200 p-6">
-          {topics && topics.map((topic) => {
+          {topics && Array.isArray(topics) && topics.map((topic) => {
             return (
               <div className='flex-auto py-2 px-4 my-auto' key={topic.summary.slice(0, 25)}>
                 <div className="flex">
