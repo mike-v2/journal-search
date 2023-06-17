@@ -52,6 +52,9 @@ export default function Navbar() {
                 <Link href='/search'>Search</Link>
               </div>
               <div className='flex-auto text-center'>
+                <Link href='/chat'>Chat</Link>
+              </div>
+              <div className='flex-auto text-center'>
                 <Link href='/community'>Community</Link>
               </div>
               {session && session.user &&

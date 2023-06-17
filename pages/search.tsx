@@ -277,33 +277,6 @@ export default function Search() {
 
     const {text, people, places, things, organizations, emotions, moods} = searchTerms;
 
-    /* let apiString = '/api/elasticClient?'
-    if (date && date !== '') {
-      apiString = apiString.concat(`date=${date}&`);
-    }
-    if (text && text.length > 0) {
-      apiString = apiString.concat(`text=${text}&`);
-    }
-    if (people && people.length > 0) {
-      apiString = apiString.concat(`people=${people}&`);
-    }
-    if (places && places.length > 0) {
-      apiString = apiString.concat(`places=${places}&`);
-    }
-    if (things && things.length > 0) {
-      apiString = apiString.concat(`things=${things}&`);
-    }
-    if (organizations && organizations.length > 0) {
-      apiString = apiString.concat(`organizations=${organizations}&`);
-    }
-    if (emotions && emotions.length > 0) {
-      apiString = apiString.concat(`emotions=${emotions}&`);
-    }
-    if (moods && moods.length > 0) {
-      apiString = apiString.concat(`moods=${moods}&`);
-    }
-    console.log("api string = " + apiString); */
-
     let searchString = '';
     if (text && text.length > 0) {
       searchString += text + ' ';
@@ -319,7 +292,7 @@ export default function Search() {
     } 
     if (organizations && organizations.length > 0) {
       searchString += organizations.join(' ') + ' ';
-    } 
+    }  
 
     console.log("search string = " + searchString);
     const results = searchIndex?.search(searchString);
@@ -349,37 +322,16 @@ export default function Search() {
       }
     }
 
-    setSearchResults(topics);
     /* try {
-      const res = await fetch(apiString);
+      const res = await fetch(`/api/searchEmbeddings?query=${text}`)
       const data = await res.json();
 
-      if (res.ok) {
-        console.log(data);
-        const analyses : Topic[] = [];
-        data.map((d: any) => {
-          const analysis = d._source;
-          analysis["date"] = timestampToDate(analysis["@timestamp"]);
-          delete analysis["@timestamp"];
-          analyses.push(d._source);
-
-          let topic = analysis["topic"];
-          topic = topic.charAt(0).toUpperCase() + topic.slice(1);
-          analysis["topic"] = topic;
-
-          let summary = analysis["summary"];
-          summary = summary.charAt(0).toUpperCase() + summary.slice(1);
-          analysis["summary"] = summary;
-        })
-        setSearchResults(analyses);
-        console.log(`display search results:`)
-        console.log(analyses)
-      } else {
-        console.log(`Error getting search results: ${data}`);
-      }
     } catch (error) {
-      console.log(`Error accessing search api: ${error}`);
+      console.log(error);
     } */
+
+    //TODO create embeddings for topic name and summary
+    setSearchResults(topics);
   };
 
   function getSearchTerms() {
@@ -467,14 +419,11 @@ export default function Search() {
 
                     <input type="text" className="m-2 p-1 text-black placeholder:italic bg-slate-200" placeholder="custom filter..." onKeyDown={(e) => handleCustomFilterSubmit(e, filter)}></input>
 
-                    
                   </ div>
                   <div className="flex-break h-6"></div>
                 </div>
-                
               )
             })}
-            
           </div>
         </div>
       </div>
@@ -488,7 +437,7 @@ export default function Search() {
       </div>
       <div className="flex flex-col lg:flex-row justify-center align-middle">
         {searchIsActive && (
-          <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 h-fit border-2 border-slate-400">
+          <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 lg:mr-4 h-fit border-2 border-slate-400">
             {displaySearchResults && displaySearchResults.map((result) => {
               return (
                 <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.name + result.summary.slice(0, 25)} />
@@ -499,7 +448,7 @@ export default function Search() {
             }
           </div>
         )}
-        <div className="w-full md:w-3/4 lg:w-1/2 min-h-screen mx-auto mt-8" ref={journalEntryBox}>
+        <div className="w-full md:w-3/4 lg:w-1/2 min-h-screen mx-auto mt-8 lg:mt-0" ref={journalEntryBox}>
           {searchIsActive && selectedEntry && (
             <JournalEntryBox {...selectedEntry} />
           )}

@@ -60,23 +60,33 @@ export default function Home() {
   ]);
 
   useEffect(() => {
+    let isCancelled = false;
+
     async function updateTopics() {
       const newState = [...exampleTopics];
 
       const promises = newState.map(async (topic, index) => {
         try {
           const entry = await fetchJournalEntryByDate(topic.entryDate);
-          newState[index].entry = entry;
+          if (!isCancelled) {
+            newState[index].entry = entry;
+          }
         } catch (error) {
           console.error(error);
         }
       });
 
       await Promise.all(promises);
-      setExampleTopics(newState);
+      if (!isCancelled) {
+        setExampleTopics(newState);
+      }
     }
 
     updateTopics();
+
+    return () => {
+      isCancelled = true;
+    }
   }, []);
 
   return (
