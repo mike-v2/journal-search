@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRef, useState } from "react"
 
 type Message = {
@@ -91,33 +92,52 @@ export default function Chat() {
   }
 
   return (
-    <div className="mt-16 min-h-screen">
-      <div className="w-full">
-        <div className="w-3/4 max-w-4xl mx-auto">
-          <textarea ref={textBox} onChange={handleTextChange} className="w-full rounded-xl h-12 p-3" placeholder="chat with Harry..." />
+    <>
+      <Head>
+        <title>Harry's Journals</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
+        <link rel="manifest" href="/images/favicon/site.webmanifest" />
+      </Head>
+      <main className="mt-8 min-h-screen">
+        <div className="w-full">
+          <div className="w-3/4 max-w-4xl mx-auto">
+            <textarea ref={textBox} onChange={handleTextChange} className="w-full rounded-xl h-12 p-3" placeholder="chat with Harry..." />
+          </div>
         </div>
-      </div>
-      <div className="w-12 h-12 mx-auto">
-        <span className="loading loading-dots loading-md"></span>
-      </div>
-      {isLoadingResponse &&
-        <p className="text-lg italic text-center">Harry is thinking...</p>
-      }
-      <div className="flex flex-col w-11/12 max-w-7xl mx-auto pt-10">
-        {msgHistory && msgHistory.slice().reverse().map((msg, i) => {
-          const speaker =
-            msg.role === 'user' ? 'You:' :
-              msg.role === 'assistant' ? 'Harry Howard:' :
-                '';
+        <div className="w-12 h-12 mx-auto">
+          <span className="loading loading-dots loading-md"></span>
+        </div>
+        {isLoadingResponse &&
+          <p className="text-lg italic text-center">Harry is thinking...</p>
+        }
+        <div className="flex flex-col w-11/12 max-w-7xl mx-auto pt-10">
+          {msgHistory && msgHistory.slice().reverse().map((msg, i) => {
+            const speaker =
+              msg.role === 'user' ? 'You:' :
+                msg.role === 'assistant' ? 'Harry Howard:' :
+                  '';
 
-          return (
-            <div className="flex pb-8" key={i}>
-              <span className="basis-1/6 font-bold text-lg leading-5 text-right">{speaker}</span>
-              <span className="basis-5/6 ps-3">{msg.content}</span>
-            </div>
-          )
-        })}
-      </div>
-    </div>
+
+            let border = 'border-slate-200';
+            let textColor = '';
+
+            if (msg.role === 'assistant') {
+              border = 'border-amber-300';
+              textColor = 'text-amber-200';
+            }
+
+            return (
+              <div className={`${border} flex border rounded-xl p-4 mb-8`} key={i}>
+                <span className={`${textColor} basis-1/6 font-bold text-lg leading-5 text-right pr-4`}>{speaker}</span>
+                <span className="basis-5/6 ps-3">{msg.content}</span>
+              </div>
+            )
+          })}
+        </div>
+      </main>
+    </>
   )
 }

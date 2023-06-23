@@ -11,6 +11,7 @@ import JournalEntryBox from "@/components/journalEntryBox";
 import lunr, { Index } from "lunr";
 import Pagination from "@etchteam/next-pagination";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const exampleSearchResult: Topic = {
   topic: "Family",
@@ -360,100 +361,110 @@ export default function Search() {
 
   return (
     <>
-      <div className="max-w-7xl h-fit mx-auto">
-        <div className={"flex flex-col w-1/2 max-w-xl h-fit m-10 mx-auto"}>
-          <div className="flex h-10 w-full">
-            <div className="border-2 border-slate-200 w-10 flex align-middle justify-center hover:cursor-pointer" onClick={(e) => handleSearch()}>
-              <Image src='/images/search-icon.svg' className="invert p-1" height={30} width={30} alt="search-icon" />
+      <Head>
+        <title>Harry's Journals</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
+        <link rel="manifest" href="/images/favicon/site.webmanifest" />
+      </Head>
+      <main>
+        <div className="max-w-7xl h-fit mx-auto">
+          <div className={"flex flex-col w-1/2 max-w-xl h-fit m-10 mx-auto"}>
+            <div className="flex h-10 w-full">
+              <div className="border-2 border-slate-200 w-10 flex align-middle justify-center hover:cursor-pointer" onClick={(e) => handleSearch()}>
+                <Image src='/images/search-icon.svg' className="invert p-1" height={30} width={30} alt="search-icon" />
+              </div>
+              <div className="flex-auto">
+                <input ref={searchBox} className="w-full h-full p-4 text-lg text-black placeholder:italic bg-slate-200" type="text" placeholder="Search.." />
+              </div>
             </div>
-            <div className="flex-auto">
-              <input ref={searchBox} className="w-full h-full p-4 text-lg text-black placeholder:italic bg-slate-200" type="text" placeholder="Search.." />
-            </div>
-          </div>
-          <div className="flex flex-wrap ms-10 my-3">
-            {Object.keys(filterStringsPredefined).map((filter) => {
-              return (
-                activeFilters.includes(filter) === false &&
-                <div className={`${josefin.className} flex-initial h-10 text-xl border border-slate-400 rounded-md m-1 p-1 hover:cursor-pointer capitalize`} onClick={handleFilterClick} key={filter}>
-                  {filter}
-                </div>
-              )
-            })}
+            <div className="flex flex-wrap ms-10 my-3">
+              {Object.keys(filterStringsPredefined).map((filter) => {
+                return (
+                  activeFilters.includes(filter) === false &&
+                  <div className={`${josefin.className} flex-initial h-10 text-xl border border-slate-400 rounded-md m-1 p-1 hover:cursor-pointer capitalize`} onClick={handleFilterClick} key={filter}>
+                    {filter}
+                  </div>
+                )
+              })}
 
-            <div className="flex-break h-3"></div>
+              <div className="flex-break h-3"></div>
 
-            {activeFilters.slice(0).reverse().map((filter) => {
-              return (
-                <div className="basis-full" key={filter}>
-                  <div className="bg-slate-600 rounded-md w-100" >
-                    <div className={`${josefin.className} flex-initial h-10 text-xl font-bold text-center text-slate-50 p-1 hover:cursor-pointer capitalize border-b-2 border-slate-800 rounded-md `} onClick={handleFilterClick}>
-                      {filter}
-                    </div>
-
-                    <div className="flex-break"></div>
-
-                    <div className="flex flex-wrap justify-center max-w-full">
-                      {filterStringsPredefined[filter]?.map((filterValue) => {
-                        return (
-                          <div className={`${josefin.className} hover:cursor-pointer px-2 py-1 m-1 capitalize` + (activeFilterStrings.hasOwnProperty(filter) && activeFilterStrings[filter]?.includes(filterValue) ? ' font-bold text-slate-200' : '')} onClick={handleFilterValueClick} key={`${filter}-${filterValue}`} data-filter={`${filter}-${filterValue}`} >
-                            {filterValue}
-                          </div>
-                        )
-                      })}
+              {activeFilters.slice(0).reverse().map((filter) => {
+                return (
+                  <div className="basis-full" key={filter}>
+                    <div className="bg-slate-600 rounded-md w-100" >
+                      <div className={`${josefin.className} flex-initial h-10 text-xl font-bold text-center text-slate-50 p-1 hover:cursor-pointer capitalize border-b-2 border-slate-800 rounded-md `} onClick={handleFilterClick}>
+                        {filter}
+                      </div>
 
                       <div className="flex-break"></div>
 
-                      {customFilterStrings[filter]?.map((filterValue) => {
-                        return (
-                          <div className="flex m-1 p-1" key={`${filter}-${filterValue}`}>
-                            <span className="px-1 my-auto italic font-bold text-slate-200">
+                      <div className="flex flex-wrap justify-center max-w-full">
+                        {filterStringsPredefined[filter]?.map((filterValue) => {
+                          return (
+                            <div className={`${josefin.className} hover:cursor-pointer px-2 py-1 m-1 capitalize` + (activeFilterStrings.hasOwnProperty(filter) && activeFilterStrings[filter]?.includes(filterValue) ? ' font-bold text-slate-200' : '')} onClick={handleFilterValueClick} key={`${filter}-${filterValue}`} data-filter={`${filter}-${filterValue}`} >
                               {filterValue}
-                            </span>
-                            <button type="button" className="px-1 text-white" onClick={(e) => handleCustomFilterRemove(e, filter, filterValue)}>
-                              &#215;
-                            </button>
-                          </div>
-                        )
-                      })}
-                    </div>
+                            </div>
+                          )
+                        })}
 
-                    <input type="text" className="m-2 p-1 text-black placeholder:italic bg-slate-200" placeholder="custom filter..." onKeyDown={(e) => handleCustomFilterSubmit(e, filter)}></input>
+                        <div className="flex-break"></div>
 
-                  </ div>
-                  <div className="flex-break h-6"></div>
-                </div>
-              )
-            })}
+                        {customFilterStrings[filter]?.map((filterValue) => {
+                          return (
+                            <div className="flex m-1 p-1" key={`${filter}-${filterValue}`}>
+                              <span className="px-1 my-auto italic font-bold text-slate-200">
+                                {filterValue}
+                              </span>
+                              <button type="button" className="px-1 text-white" onClick={(e) => handleCustomFilterRemove(e, filter, filterValue)}>
+                                &#215;
+                              </button>
+                            </div>
+                          )
+                        })}
+                      </div>
+
+                      <input type="text" className="m-2 p-1 text-black placeholder:italic bg-slate-200" placeholder="custom filter..." onKeyDown={(e) => handleCustomFilterSubmit(e, filter)}></input>
+
+                    </ div>
+                    <div className="flex-break h-6"></div>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="text-center text-2xl italic">
-        {searchIsActive && 
-          (searchResults && searchResults.length > 0 ?
-            `Found ${searchResults.length} Journal Topics` :
-            "Loading Topics..."
-          )
-        }
-      </div>
-      <div className="flex flex-col lg:flex-row justify-center align-middle">
-        {searchIsActive && (
-          <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 lg:mr-4 h-fit border-2 border-slate-400">
-            {displaySearchResults && displaySearchResults.map((result) => {
-              return (
-                <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.name + result.summary.slice(0, 25)} />
-              )
-            })}
-            {displaySearchResults && displaySearchResults.length > 0 &&
-              <Pagination total={searchResults.length} sizes={[5, 10, 20, 50, 100]} />
-            }
-          </div>
-        )}
-        <div className="w-full md:w-3/4 lg:w-1/2 min-h-screen mx-auto mt-8 lg:mt-0" ref={journalEntryBox}>
-          {searchIsActive && selectedEntry && (
-            <JournalEntryBox {...selectedEntry} />
+        <div className="text-center text-2xl italic">
+          {searchIsActive &&
+            (searchResults && searchResults.length > 0 ?
+              `Found ${searchResults.length} Journal Topics` :
+              "Loading Topics..."
+            )
+          }
+        </div>
+        <div className="flex flex-col lg:flex-row justify-center align-middle">
+          {searchIsActive && (
+            <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 lg:mr-4 h-fit border-2 border-slate-400">
+              {displaySearchResults && displaySearchResults.map((result) => {
+                return (
+                  <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.name + result.summary.slice(0, 25)} />
+                )
+              })}
+              {displaySearchResults && displaySearchResults.length > 0 &&
+                <Pagination total={searchResults.length} sizes={[5, 10, 20, 50, 100]} />
+              }
+            </div>
           )}
+          <div className="w-full md:w-3/4 lg:w-1/2 min-h-screen mx-auto mt-8 lg:mt-0" ref={journalEntryBox}>
+            {searchIsActive && selectedEntry && (
+              <JournalEntryBox {...selectedEntry} />
+            )}
+          </div>
         </div>
-      </div>
+      </main>
     </>
   )
 }

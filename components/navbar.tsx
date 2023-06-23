@@ -33,7 +33,6 @@ export default function Navbar() {
                   <Image src='/images/menu_icon.svg' className='invert' width={50} height={50} alt='menu icon' />
                 </label>
                 <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                  <li><Link href='/' onClick={blurElement}>Home</Link></li>
                   <li><Link href='/browse' onClick={blurElement}>Browse</Link></li>
                   <li><Link href='/search' onClick={blurElement}>Search</Link></li>
                   <li><Link href='/community' onClick={blurElement}>Community</Link></li>
@@ -41,10 +40,7 @@ export default function Navbar() {
                 </ul>
               </div>
             </div>
-            <div className={`${limelight.className} hidden md:flex items-end h-full max-w-2xl mt-auto ml-auto md:text-lg lg:text-2xl`}>
-              <div className='flex-auto text-center'>
-                <Link href='/'>Home</Link>
-              </div>
+            <div className={`${limelight.className} hidden md:flex items-end h-full max-w-3xl mt-auto ml-auto md:text-lg lg:text-2xl`}>
               <div className='flex-auto text-center'>
                 <Link href='/browse'>Browse</Link>
               </div>

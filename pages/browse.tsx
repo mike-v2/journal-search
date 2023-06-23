@@ -328,17 +328,15 @@ export default function Browse() {
           </div>
         ))}
       </div>
-      <div>
-        <div className="flex">
-          <div className='hidden lg:block lg:w-1/3 p-8'>
-            {displayEntryBefore && <JournalEntryBox {...displayEntryBefore} />}
-          </div>
-          <div className='w-11/12 lg:w-1/3 mx-auto'>
-            {displayEntryMain && <JournalEntryBox {...displayEntryMain} />}
-          </div>
-          <div className='hidden lg:block lg:w-1/3 p-8'>
-            {displayEntryAfter && <JournalEntryBox {...displayEntryAfter} />}
-          </div>
+      <div className="flex pb-12">
+        <div className='hidden lg:block lg:w-1/3 p-8'>
+          {displayEntryBefore && <JournalEntryBox {...displayEntryBefore} />}
+        </div>
+        <div className='w-11/12 lg:w-1/3 mx-auto'>
+          {displayEntryMain && <JournalEntryBox {...displayEntryMain} />}
+        </div>
+        <div className='hidden lg:block lg:w-1/3 p-8'>
+          {displayEntryAfter && <JournalEntryBox {...displayEntryAfter} />}
         </div>
       </div>
     </div>
