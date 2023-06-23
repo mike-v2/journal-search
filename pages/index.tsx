@@ -94,22 +94,26 @@ export default function Home() {
       <Head>
         <title>Journal Search</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
+        <link rel="manifest" href="/images/favicon/site.webmanifest" />
       </Head>
       <main>
-        <div className='flex flex-col md:flex-row mt-10 max-w-7xl mx-auto h-fit'>
+        <div className='flex flex-col md:flex-row max-w-7xl mx-auto h-fit'>
           <div className='mx-auto basis-full flex justify-center'>
             <Image src='/images/Harry-1.png' className='object-contain w-auto' width={600} height={800} alt='picture of Harry Howard' />
           </div>
-          <div className='flex flex-col justify-center text-center whitespace-pre-line basis-full'>
-            <h3 className={`${playball.className} p-5 text-4xl text-slate-200`}>
+          <div className='flex flex-col pt-16 px-2  whitespace-pre-line basis-full'>
+            <h3 className={`${playball.className} text-4xl text-slate-200 pb-2`}>
               {bioText.header}
             </h3>
-            <h3 className={`p-5 pt-0 text-xl text-slate-200`}>
+            <h5 className={`text-xl text-slate-200 pb-4`}>
               {bioText.subheader}
-            </h3>
-            <div className={`p-5`}>
+            </h5>
+            <p>
               {bioText.body}
-            </div>
+            </p>
           </div>
         </div>
 

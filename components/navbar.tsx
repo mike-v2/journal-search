@@ -20,13 +20,13 @@ export default function Navbar() {
     <>
       <div className="flex">
         <div className='relative basis-1/5 flex justify-center ml-6 mt-6'>
-          <Image src='/images/logo.png' className="w-auto" width={200} height={200} alt='Harry Howard Logo' />
+          <Link href='/'><Image src='/images/logo.png' className="w-auto" width={200} height={200} alt='Harry Howard Logo' /></Link>
         </div>
         <div className="basis-4/5">
           <div className="mr-4">
             <Login></Login>
           </div>
-          <nav className="border-b-4 border-amber-300 h-16 text-slate-200 ml-12">
+          <nav className="border-b-4 border-amber-300 h-24 text-slate-200 ml-12">
             <div className="flex md:hidden justify-end h-full mr-4">
               <div className="dropdown dropdown-bottom dropdown-end w-14 mx-2 my-auto">
                 <label tabIndex={0} className="btn p-2 bg-transparent my-auto">
