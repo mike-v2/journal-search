@@ -7,6 +7,7 @@ import JournalEntryBox from '@/components/journalEntryBox';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { parseISO } from 'date-fns';
+import Head from 'next/head';
 
 interface GraphTrace {
   property: string,
@@ -294,51 +295,62 @@ export default function Browse() {
   }
 
   return (
-    <div className='min-h-screen'>
-      <div className='w-fit h-100 mx-auto relative m-5 mt-28'>
-        <div className='relative z-10'>
-          <Slider
-            axis="x"
-            x={sliderDay}
-            xmax={365}
-            onChange={handleSliderChange}
-            styles={{
-              track: {
-                width: sliderWidth,
-              },
-            }}
-          />
+    <>
+      <Head>
+        <title>Harry&apos;s Journals</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
+        <link rel="manifest" href="/images/favicon/site.webmanifest" />
+      </Head>
+      <main className='min-h-screen'>
+        <div className='w-fit h-100 mx-auto relative m-5 mt-28'>
+          <div className='relative z-10'>
+            <Slider
+              axis="x"
+              x={sliderDay}
+              xmax={365}
+              onChange={handleSliderChange}
+              styles={{
+                track: {
+                  width: sliderWidth,
+                },
+              }}
+            />
+          </div>
+          <div className='absolute left-0 bottom-3 translate-y-1/2 -translate-x-full'>
+            <div className='h-16 w-16 translate-x-4 flex justify-center' onClick={handlePrevPageButtonClick}>
+              <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon object-cover -z-10' height={70} width={70} alt='arrow icon' />
+            </div>
+          </div>
+          <div className='absolute right-0 bottom-3 translate-y-1/2 translate-x-full '>
+            <div className='h-16 w-16 -translate-x-4' onClick={handleNextPageButtonClick}>
+              <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon rotate-180 object-cover -z-10' height={70} width={70} alt='arrow icon' />
+            </div>
+          </div>
+          {months.map((month, index) => (
+            <div key={index} className='absolute bottom-8 h-3' style={{ left: `${(index / 12) * 100}%`, }}
+            >
+              <small className='absolute -translate-x-1/2'>
+                {format(month, 'MMM')}
+              </small>
+            </div>
+          ))}
         </div>
-        <div className='absolute left-0 bottom-3 translate-y-1/2 -translate-x-full'>
-          <div className='h-16 w-16 translate-x-4 flex justify-center' onClick={handlePrevPageButtonClick}>
-            <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon object-cover -z-10' height={70} width={70} alt='arrow icon' />
+        <div className="flex pb-12">
+          <div className='hidden lg:block lg:w-1/3 p-8'>
+            {displayEntryBefore && <JournalEntryBox {...displayEntryBefore} />}
+          </div>
+          <div className='w-11/12 lg:w-1/3 mx-auto'>
+            {displayEntryMain && <JournalEntryBox {...displayEntryMain} />}
+          </div>
+          <div className='hidden lg:block lg:w-1/3 p-8'>
+            {displayEntryAfter && <JournalEntryBox {...displayEntryAfter} />}
           </div>
         </div>
-        <div className='absolute right-0 bottom-3 translate-y-1/2 translate-x-full '>
-          <div className='h-16 w-16 -translate-x-4' onClick={handleNextPageButtonClick}>
-            <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon rotate-180 object-cover -z-10' height={70} width={70} alt='arrow icon' />
-          </div>
-        </div>
-        {months.map((month, index) => (
-          <div key={index} className='absolute bottom-8 h-3' style={{left: `${(index / 12) * 100}%`,}}
-          >
-            <small className='absolute -translate-x-1/2'>
-              {format(month, 'MMM')}
-            </small>
-          </div>
-        ))}
-      </div>
-      <div className="flex pb-12">
-        <div className='hidden lg:block lg:w-1/3 p-8'>
-          {displayEntryBefore && <JournalEntryBox {...displayEntryBefore} />}
-        </div>
-        <div className='w-11/12 lg:w-1/3 mx-auto'>
-          {displayEntryMain && <JournalEntryBox {...displayEntryMain} />}
-        </div>
-        <div className='hidden lg:block lg:w-1/3 p-8'>
-          {displayEntryAfter && <JournalEntryBox {...displayEntryAfter} />}
-        </div>
-      </div>
-    </div>
+      </main>
+    </>
+
   )
 }
