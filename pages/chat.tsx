@@ -10,6 +10,7 @@ export default function Chat() {
   const [msgHistory, setMsgHistory] = useState<Message[]>([]);
   const textBox = useRef<HTMLTextAreaElement>(null);
   const [isLoadingResponse, setIsLoadingResponse] = useState<boolean>(false);
+  const [isErrorLoadingResponse, setIsErrorLoadingResponse] = useState<boolean>(false);
 
   function handleTextChange() {
     if (textBox.current) {
@@ -59,6 +60,8 @@ export default function Chat() {
 
       const fetchChatApi = async () => {
         setIsLoadingResponse(true);
+        setIsErrorLoadingResponse(false);
+        console.log("...loading response")
 
         try {
           const response = await fetch('/api/chat', {
@@ -69,6 +72,8 @@ export default function Chat() {
             body: JSON.stringify(updatedHistory)
           });
 
+          console.log("openAI response::");
+          console.log(response);
           const data = await response.json();
           console.log("data received from openAI:: ");
           console.log(data);
@@ -78,10 +83,12 @@ export default function Chat() {
             } else if (data.error) {
               console.log("error getting openAI response:: ");
               console.log(data.error);
+              setIsErrorLoadingResponse(true);
             }
           }
         } catch (error) {
           console.error('Error:', error);
+          setIsErrorLoadingResponse(true);
         } finally {
           setIsLoadingResponse(false);
         }
@@ -112,6 +119,9 @@ export default function Chat() {
         </div>
         {isLoadingResponse &&
           <p className="text-lg italic text-center">Harry is thinking...</p>
+        }
+        {isErrorLoadingResponse &&
+          <p className="border border-red-600 w-11/12 max-w-7xl mx-auto p-4">Error loading response. Please try again.</p>
         }
         <div className="flex flex-col w-11/12 max-w-7xl mx-auto pt-10">
           {msgHistory && msgHistory.slice().reverse().map((msg, i) => {

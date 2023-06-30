@@ -77,7 +77,12 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
     async function fetchJournalImagePaths() {
       if (!startPage || !endPage) return;
 
-      const year = '1948';
+      let d = date;
+      if (typeof date === 'string') {
+        d = new Date(date);
+      }
+      const year = d.toISOString().split('-')[0];
+
       try {
         const res = await fetch(`/api/journalEntryImage?year=${year}&startPage=${startPage}&endPage=${endPage}`);
         const data = await res.json();

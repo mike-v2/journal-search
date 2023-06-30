@@ -22,8 +22,8 @@ def download_blob(bucket_name, source_blob_name, destination_file_name):
 
     print(f"Blob {source_blob_name} downloaded to {destination_file_name}.")
 
-download_blob("journal_entries_harry_howard", "1948-journal-entries-with-embeddings.csv", "/tmp/1948-journal-entries-with-embeddings.csv")
-datafile_path = "/tmp/1948-journal-entries-with-embeddings.csv"
+download_blob("journal_entries_harry_howard", "journal-entries-with-embeddings.csv", "/tmp/journal-entries-with-embeddings.csv")
+datafile_path = "/tmp/journal-entries-with-embeddings.csv"
 df = pd.read_csv(datafile_path)
 df["embedding"] = df.embedding.apply(eval).apply(np.array)
 
@@ -67,8 +67,8 @@ def search():
 def chat():
     app.logger.setLevel(logging.DEBUG) 
 
-    response_model_name = 'gpt-3.5-turbo'
-    response_model_context_length = 4000
+    response_model_name = 'gpt-4'
+    response_model_context_length = 8000
     response_model_temperature = .2
 
     query_model_name = 'gpt-3.5-turbo'

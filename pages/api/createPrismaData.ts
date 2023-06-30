@@ -11,6 +11,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         data: data,
         skipDuplicates: true,
       }); */
+      /* const newEntry = await prisma.journalEntry.create({
+        data: data,
+      }); */
       /* const newTopic = await prisma.journalTopic.create({
         data: data,
       }); */
@@ -22,8 +25,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           date: data.date,
         },
       }); */
+      const updateEntry = await prisma.journalEntry.create({
+        data: data,
+      })
 
-      //res.status(200).json(newTopic);
+      res.status(200).json(updateEntry);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error creating prisma data" });

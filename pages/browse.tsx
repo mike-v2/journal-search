@@ -1,7 +1,7 @@
 import { dateToJournalDate, journalDateToCondensedDate, journalDateToDate, makeDatePretty } from '@/utils/convertDate';
 import { useEffect, useState } from 'react';
 import Slider from 'react-input-slider'
-import { addDays, addWeeks, differenceInDays, eachMonthOfInterval, format, isAfter, isBefore, subWeeks } from 'date-fns';
+import { addDays, addWeeks, differenceInDays, eachMonthOfInterval, format, isAfter, isBefore, startOfYear, subWeeks } from 'date-fns';
 import { JournalEntry, ReadEntry, User } from '@prisma/client';
 import JournalEntryBox from '@/components/journalEntryBox';
 import Image from 'next/image';
@@ -21,9 +21,9 @@ interface JournalEntryExt extends JournalEntry {
   readBy: ReadEntry[],
 }
 
-const sliderStartDate = new Date("01/01/1948"); 
-const sliderEndDate = new Date("12/31/1948");
-const months = eachMonthOfInterval({ start: sliderStartDate, end: sliderEndDate });
+const startYear = '1948';
+const yearsIncluded = ['1947', '1948'];
+const displayMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] 
 
 export default function Browse() {
   const { data: session } = useSession();
@@ -34,13 +34,14 @@ export default function Browse() {
   const [displayEntryMain, setDisplayEntryMain] = useState<JournalEntry>();
   const [displayEntryBefore, setDisplayEntryBefore] = useState<JournalEntry>();
   const [displayEntryAfter, setDisplayEntryAfter] = useState<JournalEntry>();
-  const [graphMinDate, setGraphMinDate] = useState<Date>(sliderStartDate);
-  const [graphMaxDate, setGraphMaxDate] = useState<Date>(sliderEndDate);
+  const [graphMinDate, setGraphMinDate] = useState<Date>(new Date(parseInt(startYear), 0, 1));
+  const [graphMaxDate, setGraphMaxDate] = useState<Date>(new Date(parseInt(startYear), 12, 31));
   const [sliderWidth, setSliderWidth] = useState<number>(300);
+  const [currentYear, setCurrentYear] = useState<string>(startYear);
+
 
   useEffect(() => {
     fetchMapData();
-    fetchJournalEntries();
 
     onResize();
     if (typeof window !== "undefined") {
@@ -52,13 +53,15 @@ export default function Browse() {
   }, []);
 
   useEffect(() => {
-    if (journalEntries && !displayEntryMain) {
+    if (journalEntries) {
       for (const index in journalEntries) {
-        let hasRead = journalEntries[index].readBy.some(prop => prop.userId === session?.user.id);
+        const hasRead = journalEntries[index].readBy.some(prop => prop.userId === session?.user.id);
         if (!hasRead) {
           const dateStr = journalEntries[index].date.toString();
-          const date = parseISO(dateStr);
-          const days = differenceInDays(date, sliderStartDate);
+          const date = new Date(dateStr);
+          const start = Date.UTC(date.getUTCFullYear(), 0, 1);
+          const days = Math.floor((date.getTime() - start) / (1000 * 60 * 60 * 24));
+
           handleSliderChange({ x: days });
           return;
         }
@@ -167,6 +170,10 @@ export default function Browse() {
     }
   }, [dateMap, sliderDay, graphMinDate, graphMaxDate])
 
+  useEffect(() => {
+    fetchJournalEntries(currentYear);
+  }, [currentYear])
+
   function onResize() {
     if (typeof window !== "undefined") {
       const width = Math.min(window.innerWidth * .75, 800);
@@ -186,10 +193,12 @@ export default function Browse() {
     }
   }
 
-  async function fetchJournalEntries() {
+  async function fetchJournalEntries(year: string) {
     try {
-      const res = await fetch('/api/journalEntry');
+      const res = await fetch(`/api/journalEntry?year=${year}`);
       const data = await res.json();
+
+      console.log(`retrieved ${data.length} entries`)
 
       data.sort((x: JournalEntry, y: JournalEntry) => {
         const dateX = new Date(x.date);
@@ -225,7 +234,8 @@ export default function Browse() {
 
     setSliderDay(x);
 
-    const currentSliderDate = addDays(sliderStartDate, x);
+    const firstDayOfCurrentYear = new Date(parseInt(currentYear), 0, 1);
+    const currentSliderDate = addDays(firstDayOfCurrentYear, x);
     const closestEntry = findClosestEntry(currentSliderDate);
     if (closestEntry) {
       setDisplayEntry(closestEntry);
@@ -294,6 +304,11 @@ export default function Browse() {
     }
   }
 
+  function handleYearClick(year: string) {
+    console.log("setting current year to " + year);
+    setCurrentYear(year);
+  }
+
   return (
     <>
       <Head>
@@ -305,6 +320,15 @@ export default function Browse() {
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
       </Head>
       <main className='min-h-screen'>
+        <div className='flex justify-center'>
+          {yearsIncluded.map((year, i) => {
+            return (
+              <div className='tabs tabs-boxed' key={i}>
+                <button className={`tab tab-lg ${year === currentYear ? 'tab-active' : ''}`} onClick={e => handleYearClick(year)}>{year}</button>
+              </div>
+            )
+          })}
+        </div>
         <div className='w-fit h-100 mx-auto relative m-5 mt-28'>
           <div className='relative z-10'>
             <Slider
@@ -329,11 +353,11 @@ export default function Browse() {
               <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon rotate-180 object-cover -z-10' height={70} width={70} alt='arrow icon' />
             </div>
           </div>
-          {months.map((month, index) => (
+          {displayMonths.map((month, index) => (
             <div key={index} className='absolute bottom-8 h-3' style={{ left: `${(index / 12) * 100}%`, }}
             >
               <small className='absolute -translate-x-1/2'>
-                {format(month, 'MMM')}
+                {month}
               </small>
             </div>
           ))}

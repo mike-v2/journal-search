@@ -84,7 +84,8 @@ model JournalTopic {
   journalEntryId  String
   name            String
   summary         String
-  people          String[]
+  text            String      @default("")
+  people          String[]    
   places          String[]
   organizations   String[]
   things          String[]
