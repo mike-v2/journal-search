@@ -1,4 +1,6 @@
+from io import StringIO
 import os
+import time
 
 from flask import Flask, jsonify, request
 import numpy as np
@@ -13,18 +15,35 @@ import logging
 app = Flask(__name__)
 openai.api_key = os.environ['OPENAI_API_KEY']
 
-def download_blob(bucket_name, source_blob_name, destination_file_name):
+def download_blob(bucket_name, source_blob_name):
+    app.logger.setLevel(logging.DEBUG) 
+    
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(source_blob_name)
 
-    blob.download_to_filename(destination_file_name)
+    if not blob.exists():
+        app.logger.debug('Blob %s does not exist.', source_blob_name)
+        return None
+    
+    start_time = time.time()
+    data = blob.download_as_text()
+    end_time = time.time()
+    app.logger.debug('Time taken to download blob %s: %s seconds', source_blob_name, str(end_time - start_time))
 
-    print(f"Blob {source_blob_name} downloaded to {destination_file_name}.")
+    return data
+    #blob.download_to_filename(destination_file_name)
+    #print(f"Blob {source_blob_name} downloaded to {destination_file_name}.")
 
-download_blob("journal_entries_harry_howard", "journal-entries-with-embeddings.csv", "/tmp/journal-entries-with-embeddings.csv")
-datafile_path = "/tmp/journal-entries-with-embeddings.csv"
-df = pd.read_csv(datafile_path)
+# Download embeddings into memory instead of file storage to save time. Google Cloud Run allows 512 MiB memory, with 1947 and 1948 the file is 9.6 MB
+#download_blob("journal_entries_harry_howard", "journal-entries-with-embeddings.csv", "/tmp/journal-entries-with-embeddings.csv")
+#datafile_path = "/tmp/journal-entries-with-embeddings.csv"
+#df = pd.read_csv(datafile_path)
+
+csv_data = download_blob("journal_entries_harry_howard", "journal-entries-with-embeddings.csv")
+if csv_data is not None:
+    df = pd.read_csv(StringIO(csv_data))
+
 df["embedding"] = df.embedding.apply(eval).apply(np.array)
 
 def get_token_count(string):
@@ -41,6 +60,9 @@ def prune_string(string, max_tokens, prune_end=True):
         return string[:new_length] if prune_end else string[(len(string) - new_length):]
     
 def find_entries_related_to_message(query, n=20):
+    app.logger.setLevel(logging.DEBUG) 
+    start_time = time.time()
+
     query_embedding = get_embedding(
         query,
         engine="text-embedding-ada-002"
@@ -53,6 +75,10 @@ def find_entries_related_to_message(query, n=20):
     results_combined = ''
     for r in results:
         results_combined += r
+
+    end_time = time.time()
+    app.logger.debug('Time taken to compare embeddings: %s seconds', str(end_time - start_time))
+
     return results_combined
 
 @app.route('/', methods=['POST'])
@@ -67,15 +93,17 @@ def search():
 def chat():
     app.logger.setLevel(logging.DEBUG) 
 
-    response_model_name = 'gpt-4'
-    response_model_context_length = 8000
+    response_model_name = 'gpt-3.5-turbo'
+    response_model_context_length = 4000
     response_model_temperature = .2
 
     query_model_name = 'gpt-3.5-turbo'
-    query_model_temperature = .5
+    query_model_temperature = .2
     
-    search_results_max_tokens = 2000
-    expected_response_length_tokens = 500
+    search_results_max_tokens = 1200
+    max_response_tokens = 250
+    max_msg_history_tokens = 600
+    #expected_response_length_tokens = 500
 
     data = request.get_json()
     msg_history = data.get('msgHistory')
@@ -88,17 +116,22 @@ def chat():
         elif msg["role"] == "assistant":
             condensed_history += "Harry Howard: " + msg["content"] + ' '
             
-    condensed_history = prune_string(condensed_history, 1000, prune_end=False)
+    condensed_history = prune_string(condensed_history, max_msg_history_tokens, prune_end=False)
     #use chatGPT to convert user's message into a search query that considers context
-    system_msg = "You are part of a website that is centered around the personal journals of Harry Howard. Generate a search query for the Guest's most recent message that will be used to find relevant information from Harry's journal entries. Embeddings have been generated for each journal entry, and the query you generate will be turned into an embedding and compared to each journal entry to find the most similar. Try to generate a search query that will return the most relevant journal entries for Person 1's most recent message. Please don't add any explanation, just generate a search query, as your output will be fed directly into the next step without any modifications."
+    system_msg = "You are part of a website that is centered around the personal journals of Harry Howard. Generate a search query for the Guest's most recent message that will be used to find relevant information from Harry's journal entries. Embeddings have been generated for each journal entry, and the query you generate will be turned into an embedding and compared to each journal entry to find the most similar. Try to generate a search query that will return the most relevant journal entries for Person 1's most recent message. Please don't add any explanation, just generate a short but contextual search query, as your output will be fed directly into the next step without any modifications."
+    start_time = time.time()
     full_response = openai.ChatCompletion.create(
         model=query_model_name,
         messages=[
             {"role": "system", "content": system_msg},
             {"role": "user", "content": condensed_history},
         ],
-        temperature=query_model_temperature
+        temperature=query_model_temperature,
+        max_tokens=max_response_tokens
     )
+    end_time = time.time()
+    app.logger.debug('Time taken for OpenAI to create contextual prompt: %s seconds', str(end_time - start_time))
+
     response = full_response["choices"][0]["message"]["content"]
     app.logger.debug('search query: %s', response)
 
@@ -110,7 +143,10 @@ def chat():
     system_msg = system_msg_stub + search_results
     
     system_msg_stub_tokens = get_token_count(system_msg_stub)
-    msg_history_token_count = response_model_context_length - search_results_max_tokens - expected_response_length_tokens - system_msg_stub_tokens
+    msg_history_token_count = response_model_context_length - search_results_max_tokens - max_response_tokens - system_msg_stub_tokens
+    if msg_history_token_count > max_msg_history_tokens:
+        msg_history_token_count = max_msg_history_tokens
+
     remaining_tokens = msg_history_token_count
     messages = []
     # loop backwards to get most recent messages first, then reverse the list after finishing
@@ -127,11 +163,15 @@ def chat():
 
     app.logger.debug('message history tokens: %s', (msg_history_token_count - remaining_tokens))
 
+    start_time = time.time()
     full_response = openai.ChatCompletion.create(
         model=response_model_name,
         messages=messages,
         temperature=response_model_temperature,
     )
+    end_time = time.time()
+    app.logger.debug('Time taken for OpenAI to respond to user prompt: %s seconds', str(end_time - start_time))
+
 
     response = full_response["choices"][0]["message"]["content"]
     return jsonify(response)

@@ -19,15 +19,15 @@ export default function CreateData() {
   }
 
   async function handleCreatePrismaData() {
-    /* const data = await loadLocalData();
+    const data = await loadLocalData();
     if (!data) {
       console.log("could not find local data");
       return;
-    } */
+    }
     console.log("Updating Supabase data...");
 
 
-    try {
+    /* try {
       const newEntry = {
         date: new Date('1947-05-02'),
         startPage: '20',
@@ -40,17 +40,19 @@ export default function CreateData() {
       });
     } catch (error) {
       console.error("Could not post to supabase", error);
-    }
-/* 
+    } */
+
+
     let count = 0;
 
-    for (let i = 0; i < data.length; i++) {
+    /* for (let i = 0; i < data.length; i++) {
       try {
         const newEntry = {
           date: new Date(data[i].date),
           startPage: data[i].startPage,
           endPage: data[i].endPage,
           content: data[i].content
+        }
 
         const response = await fetch(`/api/createPrismaData`, {
           method: "POST",
@@ -59,13 +61,13 @@ export default function CreateData() {
       } catch (error) {
         console.error("Could not post to supabase", error);
       }
-    }
-    */
+    } */
+
 
 
     //add journal topic, get journalEntryId first to add to topic data
 
-    /* for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       const dateISO = new Date(data[i].date).toISOString();
 
       try {
@@ -103,7 +105,7 @@ export default function CreateData() {
     } 
 
 
-    console.log(`Finished sending ${count} journal entries`); */
+    console.log(`Finished sending ${count} journal entries`); 
   }
 
   return (

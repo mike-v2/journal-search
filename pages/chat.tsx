@@ -25,7 +25,7 @@ export default function Chat() {
 
   async function handleSubmitText() {
     if (textBox.current) {
-      let text = textBox.current.value;
+      const text = textBox.current.value;
       console.log("text submitted: " + text);
       /* setMsgHistory(prevHistory => {
         const updatedHistory = [...prevHistory, { "role": "user", "content": text }];
@@ -54,7 +54,8 @@ export default function Chat() {
 
         return updatedHistory;
       }); */
-      //use the following method instead so that strict mode doesn't cause double fetch calls
+      // use the following method instead so that strict mode doesn't cause double fetch calls
+      // would be better to add user's message when response from OpenAI is successfully received so we're not adding extra messages to chat history, but then user's message won't get displayed after submitting
       const updatedHistory = [...msgHistory, { "role": "user", "content": text }];
       setMsgHistory(updatedHistory);
 
@@ -79,7 +80,7 @@ export default function Chat() {
           console.log(data);
           if (data) {
             if (data.message) {
-              setMsgHistory(prev => [...prev, { "role": "assistant", "content": data.message }]);
+              setMsgHistory(prev => [...prev, { "role": "assistant", "content": data.message }]);              
             } else if (data.error) {
               console.log("error getting openAI response:: ");
               console.log(data.error);

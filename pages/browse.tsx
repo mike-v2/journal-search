@@ -22,26 +22,26 @@ interface JournalEntryExt extends JournalEntry {
 }
 
 const startYear = '1948';
-const yearsIncluded = ['1947', '1948'];
+const yearsIncluded = ['1946', '1947', '1948'];
 const displayMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] 
 
 export default function Browse() {
   const { data: session } = useSession();
-  const [dateMap, setDateMap] = useState<Map<string, []>>();
-  const [graphData, setGraphData] = useState<GraphTrace[]>();
+  //const [dateMap, setDateMap] = useState<Map<string, []>>();
+  //const [graphData, setGraphData] = useState<GraphTrace[]>();
   const [sliderDay, setSliderDay] = useState(0);
   const [journalEntries, setJournalEntries] = useState<JournalEntryExt[]>();
   const [displayEntryMain, setDisplayEntryMain] = useState<JournalEntry>();
   const [displayEntryBefore, setDisplayEntryBefore] = useState<JournalEntry>();
   const [displayEntryAfter, setDisplayEntryAfter] = useState<JournalEntry>();
-  const [graphMinDate, setGraphMinDate] = useState<Date>(new Date(parseInt(startYear), 0, 1));
-  const [graphMaxDate, setGraphMaxDate] = useState<Date>(new Date(parseInt(startYear), 12, 31));
+  //const [graphMinDate, setGraphMinDate] = useState<Date>(new Date(parseInt(startYear), 0, 1));
+  //const [graphMaxDate, setGraphMaxDate] = useState<Date>(new Date(parseInt(startYear), 12, 31));
   const [sliderWidth, setSliderWidth] = useState<number>(300);
   const [currentYear, setCurrentYear] = useState<string>(startYear);
 
 
   useEffect(() => {
-    fetchMapData();
+    //fetchMapData();
 
     onResize();
     if (typeof window !== "undefined") {
@@ -71,7 +71,7 @@ export default function Browse() {
     }
   }, [journalEntries])
 
-  useEffect(() => {
+  /* useEffect(() => {
     function findMostFrequentProperties(start: Date, end: Date) {
       if (!dateMap) return;
 
@@ -168,7 +168,7 @@ export default function Browse() {
     if (dateMap) {
       setGraphValues();
     }
-  }, [dateMap, sliderDay, graphMinDate, graphMaxDate])
+  }, [dateMap, sliderDay, graphMinDate, graphMaxDate]) */
 
   useEffect(() => {
     fetchJournalEntries(currentYear);
@@ -182,7 +182,9 @@ export default function Browse() {
   }
 
   async function fetchMapData() {
-    try {
+    //TODO fetch any required analysis data from Google Cloud Storage
+
+    /* try {
       const res = await fetch('/api/entriesData');
       const dataStr = await res.json();
       const data = JSON.parse(dataStr);
@@ -190,7 +192,7 @@ export default function Browse() {
       setDateMap(new Map(Object.entries(data)));
     } catch (error) {
       console.log("error retrieving data: " + error);
-    }
+    } */
   }
 
   async function fetchJournalEntries(year: string) {
@@ -363,13 +365,13 @@ export default function Browse() {
           ))}
         </div>
         <div className="flex pb-12">
-          <div className='hidden lg:block lg:w-1/3 p-8'>
+          <div className='hidden xl:block xl:w-1/4 p-8'>
             {displayEntryBefore && <JournalEntryBox {...displayEntryBefore} />}
           </div>
-          <div className='w-11/12 lg:w-1/3 mx-auto'>
+          <div className='basis-11/12 lg:w-3/4 xl:w-1/2 mx-auto'>
             {displayEntryMain && <JournalEntryBox {...displayEntryMain} />}
           </div>
-          <div className='hidden lg:block lg:w-1/3 p-8'>
+          <div className='hidden xl:block xl:w-1/4 p-8'>
             {displayEntryAfter && <JournalEntryBox {...displayEntryAfter} />}
           </div>
         </div>
