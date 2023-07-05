@@ -265,17 +265,18 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   }
 
   return (
-    <div className={`${isRead ? 'opacity-50' : ''}`} style={{
+    <article className={`${isRead ? 'opacity-50' : ''}`} style={{
       '--corner-cutout-width': cornerCutoutWidth,
       '--corner-fold-width': cornerFoldWidth,
     } as React.CSSProperties}>
       <div className="relative">
-        <div
+        <button
           className="absolute top-0 right-0 w-12 h-12 z-10 cursor-pointer"
           onMouseEnter={handleHoverCorner}
           onMouseLeave={handleUnhoverCorner}
           onClick={handleStarClick}
-        ></div>
+          aria-label="Save Entry Clickable Area"
+        ></button>
         <div className="absolute top-0 right-0 w-12 h-12 mt-3 mr-6 italic">
           {isStarred ? 'Unsave' : 'Save'}
         </div>
@@ -283,13 +284,13 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
       </div>
       <div className={`${josefin.className} corner-cut-out h-fit p-8 pb-16 border-2 border-slate-400 whitespace-pre-wrap`}>
         <div className="flex my-8" >
-          <div className="dropdown dropdown-bottom w-12">
-            <label tabIndex={0} className="btn m-1 p-0 bg-transparent border-none">
+          <div className="dropdown dropdown-bottom w-12" role="menu" aria-label="Dropdown Menu" aria-haspopup="true">
+            <label tabIndex={0} className="btn m-1 p-0 bg-transparent border-none" role="button" aria-label="Kebab Icon Button">
               <Image src="/images/kebab_icon.svg" className="" width={50} height={50} alt="kebab icon" />
             </label>
             <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
               <li>
-                <div className="btn-group my-auto gap-0">
+                <div className="btn-group my-auto gap-0" role="radiogroup" aria-label="Display Options">
                   <label htmlFor={`image ${date}`} className={`btn min-h-0 h-10 w-10 p-0  ${displayMode === 'image' ? 'btn-active' : 'bg-transparent border-none'}`}>
                     <input type="radio" id={`image ${date}`} name={`options ${date}`} className="hidden" onClick={() => { setDisplayMode('image'); }} />
                     <Image src='/images/book_icon.svg' className="invert" width={23} height={23} alt='display image button' />
@@ -300,7 +301,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
                   </label>
                 </div>
               </li>
-              <li><a onClick={openModal}>Create Post</a></li>
+              <li><button onClick={openModal}>Create Post</button></li>
             </ul>
           </div>
           <Modal
@@ -308,6 +309,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
             onRequestClose={closeModal}
             className="m-auto p-5 border rounded-md max-w-md bg-slate-800"
             overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex"
+            contentLabel="Create Post Modal"
           >
             <form onSubmit={handleCreatePost}>
               <h2 className="mb-3 text-xl text-slate-200">Create Post</h2>
@@ -317,6 +319,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
                 onChange={e => setPostText(e.target.value)}
                 placeholder="What would you like to say about this journal entry?"
                 required
+                aria-label="Post Text"
               />
               <div className="flex justify-end">
                 <button className="mr-2 px-3 py-1 bg-gray-300 text-black rounded-md" onClick={closeModal}>
@@ -329,12 +332,12 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
             </form>
           </Modal>
 
-          <div className={`w-16 h-16 my-auto ml-auto relative flex flex-col justify-center cursor-pointer border rounded-sm border-slate-400`} onClick={handleReadClick}>
+          <button className={`w-16 h-16 my-auto ml-auto relative flex flex-col justify-center cursor-pointer border rounded-sm border-slate-400`} onClick={handleReadClick} aria-label="Mark Read Button">
             {isRead && <Image src='/images/stamp.jpg' fill alt='stamp' />}
             {!isRead && <p className="text-center">Mark<br />Read</p>}
-          </div>
+          </button>
         </div>
-        <div className="flex flex-col w-full bg-amber-200 p-6">
+        <section className="flex flex-col w-full bg-amber-200 p-6" aria-label="topics">
           {topics && Array.isArray(topics) && topics.map((topic) => {
             return (
               <div className='flex-auto py-2 px-4 my-auto' key={topic.summary.slice(0, 25)}>
@@ -355,7 +358,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
               </div>
             )
           })}
-        </div>
+        </section>
         <p className="text-2xl font-bold p-4 mt-10 text-center text-slate-800">
           {makeDatePretty(dateToJournalDate(date))}
         </p>
@@ -369,14 +372,14 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
             <div>
               <Image src={imagePaths[currentImageIndex]} width={600} height={800} alt={`journal image ${currentImageIndex}`} key={`${date}-${currentImageIndex}`} />
               <div className="btn-group flex justify-center">
-                <div className={`btn h-16 w-16 ${currentImageIndex <= 0 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex - 1)}>{'<'}</div>
-                <div className={`btn h-16 w-16 ${currentImageIndex >= imagePaths.length - 1 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex + 1)}>{'>'}</div>
+                <button className={`btn h-16 w-16 ${currentImageIndex <= 0 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex - 1)} aria-label="Previous Image Button">{'<'}</button>
+                <button className={`btn h-16 w-16 ${currentImageIndex >= imagePaths.length - 1 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex + 1)} aria-label="Next Image Button">{'>'}</button>
               </div>
             </div>
           )
           }
         </div>
       </div>
-    </div>
+    </article>
   )
 }

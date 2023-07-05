@@ -288,7 +288,7 @@ export default function Browse() {
     return -1;
   }
 
-  function handlePrevPageButtonClick() {
+  function handlePrevEntryButtonClick() {
     if (displayEntryMain) {
       const prevEntry = getPreviousEntry(displayEntryMain);
       if (prevEntry) {
@@ -297,7 +297,7 @@ export default function Browse() {
     }
   }
 
-  function handleNextPageButtonClick() {
+  function handleNextEntryButtonClick() {
     if (displayEntryMain) {
       const nextEntry = getNextEntry(displayEntryMain);
       if (nextEntry) {
@@ -322,49 +322,48 @@ export default function Browse() {
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
       </Head>
       <main className='min-h-screen'>
-        <div className='flex justify-center'>
-          {yearsIncluded.map((year, i) => {
-            return (
-              <div className='tabs tabs-boxed' key={i}>
-                <button className={`tab tab-lg ${year === currentYear ? 'tab-active' : ''}`} onClick={e => handleYearClick(year)}>{year}</button>
+        <section aria-label="Year navigation and day slider">
+          <div className='flex justify-center' aria-label="Year navigation">
+            {yearsIncluded.map((year, i) => {
+              return (
+                <div className='tabs tabs-boxed' key={i}>
+                  <button className={`tab tab-lg ${year === currentYear ? 'tab-active' : ''}`} onClick={e => handleYearClick(year)} aria-label={`Year ${year}`}>{year}</button>
+                </div>
+              )
+            })}
+          </div>
+          <div className='w-fit h-100 mx-auto relative m-5 mt-28'>
+            <div className='relative z-10'>
+              <Slider
+                axis="x"
+                x={sliderDay}
+                xmax={365}
+                onChange={handleSliderChange}
+                styles={{
+                  track: {
+                    width: sliderWidth,
+                  },
+                }}
+                aria-label="Day of the year slider"
+              />
+            </div>
+            <button className='absolute left-0 bottom-3 translate-y-1/2 -translate-x-full' onClick={handlePrevEntryButtonClick} aria-label="Previous entry">
+              <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon object-cover -z-10' height={70} width={70} alt='Previous entry icon' />
+            </button>
+            <button className='absolute right-0 bottom-3 translate-y-1/2 translate-x-full' onClick={handleNextEntryButtonClick} aria-label="Next entry">
+              <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon rotate-180 object-cover -z-10' height={70} width={70} alt='Next entry icon' />
+            </button>
+            {displayMonths.map((month, index) => (
+              <div key={index} className='absolute bottom-8 h-3' style={{ left: `${(index / 12) * 100}%`, }}>
+                <small className='absolute -translate-x-1/2'>
+                  {month}
+                </small>
               </div>
-            )
-          })}
-        </div>
-        <div className='w-fit h-100 mx-auto relative m-5 mt-28'>
-          <div className='relative z-10'>
-            <Slider
-              axis="x"
-              x={sliderDay}
-              xmax={365}
-              onChange={handleSliderChange}
-              styles={{
-                track: {
-                  width: sliderWidth,
-                },
-              }}
-            />
+            ))}
           </div>
-          <div className='absolute left-0 bottom-3 translate-y-1/2 -translate-x-full'>
-            <div className='h-16 w-16 translate-x-4 flex justify-center' onClick={handlePrevPageButtonClick}>
-              <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon object-cover -z-10' height={70} width={70} alt='arrow icon' />
-            </div>
-          </div>
-          <div className='absolute right-0 bottom-3 translate-y-1/2 translate-x-full '>
-            <div className='h-16 w-16 -translate-x-4' onClick={handleNextPageButtonClick}>
-              <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon rotate-180 object-cover -z-10' height={70} width={70} alt='arrow icon' />
-            </div>
-          </div>
-          {displayMonths.map((month, index) => (
-            <div key={index} className='absolute bottom-8 h-3' style={{ left: `${(index / 12) * 100}%`, }}
-            >
-              <small className='absolute -translate-x-1/2'>
-                {month}
-              </small>
-            </div>
-          ))}
-        </div>
-        <div className="flex pb-12">
+        </section>
+
+        <section className="flex pb-12" aria-label="Journal entries">
           <div className='hidden xl:block xl:w-1/4 p-8'>
             {displayEntryBefore && <JournalEntryBox {...displayEntryBefore} />}
           </div>
@@ -374,9 +373,8 @@ export default function Browse() {
           <div className='hidden xl:block xl:w-1/4 p-8'>
             {displayEntryAfter && <JournalEntryBox {...displayEntryAfter} />}
           </div>
-        </div>
+        </section>
       </main>
     </>
-
   )
 }

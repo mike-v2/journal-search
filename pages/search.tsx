@@ -123,7 +123,7 @@ export default function Search() {
     const handleKeyDown = (e: Event) => {
       const keyboardEvent = e as KeyboardEvent;
       if (keyboardEvent.key === 'Enter') {
-        //e.preventDefault();
+        e.preventDefault();
         handleSearch();
       }
     }
@@ -153,6 +153,11 @@ export default function Search() {
     }
   }
 
+  function handleSearchClick(e: React.FormEvent<HTMLElement>) {
+    e.preventDefault();
+    handleSearch();
+  }
+
   const handleSelectResult = async (selectedTopic: JournalTopicExt) => {
     setSelectedTopic(selectedTopic);
 
@@ -179,7 +184,7 @@ export default function Search() {
     }
   }
 
-  const handleFilterClick = (e: React.FormEvent<HTMLDivElement>) => {
+  const handleFilterClick = (e: React.FormEvent<HTMLElement>) => {
     const filter = e.currentTarget.textContent;
     if (filter == null || filter === "") return;
 
@@ -205,7 +210,7 @@ export default function Search() {
     }
   }
 
-  const handleFilterValueClick = (e: React.FormEvent<HTMLDivElement>) => {
+  const handleFilterValueClick = (e: React.FormEvent<HTMLElement>) => {
     const filterValue = e.currentTarget.textContent;
     const filter = e.currentTarget.getAttribute('data-filter')?.split('-')[0];
     console.log("filter: " + filter + "  filterValue: " + filterValue);
@@ -296,7 +301,7 @@ export default function Search() {
     }  
 
     console.log("search string = " + searchString);
-    const results = searchIndex?.search(searchString);
+    const results = searchIndex?.search(searchString); //array of topicIds
     console.log("initial results::");
     console.log(results);
     const topics = [];
@@ -370,23 +375,23 @@ export default function Search() {
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
       </Head>
       <main>
-        <div className="max-w-7xl h-fit mx-auto">
-          <div className={"flex flex-col w-1/2 max-w-xl h-fit m-10 mx-auto"}>
+        <section className="max-w-7xl h-fit mx-auto">
+          <form className={"flex flex-col w-1/2 max-w-xl h-fit m-10 mx-auto"} role="search">
             <div className="flex h-10 w-full">
-              <div className="border-2 border-slate-200 w-10 flex align-middle justify-center hover:cursor-pointer" onClick={(e) => handleSearch()}>
+              <button className="border-2 border-slate-200 w-10 flex align-middle justify-center hover:cursor-pointer" onClick={handleSearchClick} aria-label="Search">
                 <Image src='/images/search-icon.svg' className="invert p-1" height={30} width={30} alt="search-icon" />
-              </div>
+              </button>
               <div className="flex-auto">
-                <input ref={searchBox} className="w-full h-full p-4 text-lg text-black placeholder:italic bg-slate-200" type="text" placeholder="Search.." />
+                <input ref={searchBox} className="w-full h-full p-4 text-lg text-black placeholder:italic bg-slate-200" type="search" placeholder="Search.." aria-label="Search input" />
               </div>
             </div>
             <div className="flex flex-wrap ms-10 my-3">
               {Object.keys(filterStringsPredefined).map((filter) => {
                 return (
                   activeFilters.includes(filter) === false &&
-                  <div className={`${josefin.className} flex-initial h-10 text-xl border border-slate-400 rounded-md m-1 p-1 hover:cursor-pointer capitalize`} onClick={handleFilterClick} key={filter}>
+                  <button className={`${josefin.className} flex-initial h-10 text-xl border border-slate-400 rounded-md m-1 p-1 hover:cursor-pointer capitalize`} onClick={handleFilterClick} key={filter} aria-label={`Filter by ${filter}`}>
                     {filter}
-                  </div>
+                    </button>
                 )
               })}
 
@@ -435,19 +440,19 @@ export default function Search() {
                 )
               })}
             </div>
-          </div>
-        </div>
-        <div className="text-center text-2xl italic">
+          </form>
+        </section>
+        <section className="text-center text-2xl italic" aria-live="polite">
           {searchIsActive &&
             (searchResults && searchResults.length > 0 ?
               `Found ${searchResults.length} Journal Topics` :
               "Loading Topics..."
             )
           }
-        </div>
-        <div className="flex flex-col lg:flex-row justify-center align-middle">
+        </section>
+        <section className="flex flex-col lg:flex-row justify-center align-middle" aria-label="Search results and selected entry">
           {searchIsActive && (
-            <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 lg:mr-4 h-fit border-2 border-slate-400">
+            <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 lg:mr-4 h-fit border-2 border-slate-400" aria-label="Search results">
               {displaySearchResults && displaySearchResults.map((result) => {
                 return (
                   <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.name + result.summary.slice(0, 25)} />
@@ -458,13 +463,14 @@ export default function Search() {
               }
             </div>
           )}
-          <div className="w-full md:w-3/4 lg:w-1/2 min-h-screen mx-auto mt-8 lg:mt-0" ref={journalEntryBox}>
+          <div className="w-full md:w-3/4 lg:w-1/2 min-h-screen mx-auto mt-8 lg:mt-0" ref={journalEntryBox} aria-label="Selected entry">
             {searchIsActive && selectedEntry && (
               <JournalEntryBox {...selectedEntry} />
             )}
           </div>
-        </div>
+        </section>
       </main>
+
     </>
   )
 }

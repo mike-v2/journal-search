@@ -109,28 +109,30 @@ export default function Chat() {
         <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
       </Head>
-      <main className="mt-8 min-h-screen">
+      <main className="mt-8 min-h-screen" aria-label="Chat with Harry">
         <div className="w-full">
           <div className="w-3/4 max-w-4xl mx-auto">
-            <textarea ref={textBox} onChange={handleTextChange} className="w-full rounded-xl h-12 p-3" placeholder="chat with Harry..." />
+            <textarea
+              ref={textBox}
+              onChange={handleTextChange}
+              className="w-full rounded-xl h-12 p-3"
+              placeholder="chat with Harry..."
+              aria-label="Chat input"
+            />
           </div>
-        </div>
-        <div className="w-12 h-12 mx-auto">
-          <span className="loading loading-dots loading-md"></span>
         </div>
         {isLoadingResponse &&
           <p className="text-lg italic text-center">Harry is thinking...</p>
         }
         {isErrorLoadingResponse &&
-          <p className="border border-red-600 w-11/12 max-w-7xl mx-auto p-4">Error loading response. Please try again.</p>
+          <p className="border border-red-600 w-11/12 max-w-7xl mx-auto p-4" role="alert">Error loading response. Please try again.</p>
         }
-        <div className="flex flex-col w-11/12 max-w-7xl mx-auto pt-10">
+        <section className="flex flex-col w-11/12 max-w-7xl mx-auto pt-10" aria-label="Chat history">
           {msgHistory && msgHistory.slice().reverse().map((msg, i) => {
             const speaker =
               msg.role === 'user' ? 'You:' :
                 msg.role === 'assistant' ? 'Harry Howard:' :
                   '';
-
 
             let border = 'border-slate-200';
             let textColor = '';
@@ -142,12 +144,12 @@ export default function Chat() {
 
             return (
               <div className={`${border} flex border rounded-xl p-4 mb-8`} key={i}>
-                <span className={`${textColor} basis-1/6 font-bold text-lg leading-5 text-right pr-4`}>{speaker}</span>
-                <span className="basis-5/6 ps-3">{msg.content}</span>
+                <h4 className={`${textColor} basis-1/6 font-bold text-lg leading-5 text-right pr-4`}>{speaker}</h4>
+                <p className="basis-5/6 ps-3">{msg.content}</p>
               </div>
             )
           })}
-        </div>
+        </section>
       </main>
     </>
   )
