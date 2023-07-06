@@ -323,7 +323,7 @@ export default function Browse() {
       </Head>
       <main className='min-h-screen'>
         <section aria-label="Year navigation and day slider">
-          <div className='flex justify-center' aria-label="Year navigation">
+          <div className='flex justify-center mt-12' aria-label="Year navigation">
             {yearsIncluded.map((year, i) => {
               return (
                 <div className='tabs tabs-boxed' key={i}>
@@ -348,14 +348,24 @@ export default function Browse() {
               />
             </div>
             <button className='absolute left-0 bottom-3 translate-y-1/2 -translate-x-full' onClick={handlePrevEntryButtonClick} aria-label="Previous entry">
-              <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon object-cover -z-10' height={70} width={70} alt='Previous entry icon' />
+              <div className='hidden md:block'>
+                <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon object-cover -z-10' height={70} width={70} alt='Previous entry icon' />
+              </div>
+              <div className='md:hidden text-4xl pr-1'>
+                {'<'}
+              </div>
             </button>
             <button className='absolute right-0 bottom-3 translate-y-1/2 translate-x-full' onClick={handleNextEntryButtonClick} aria-label="Next entry">
-              <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon rotate-180 object-cover -z-10' height={70} width={70} alt='Next entry icon' />
+              <div className='hidden md:block'>
+                <Image src={'/images/vintage_arrow_icon_2.png'} className='arrow-icon rotate-180 object-cover -z-10' height={70} width={70} alt='Next entry icon' />
+              </div>
+              <div className='md:hidden text-4xl pl-1'>
+                {'>'}
+              </div>
             </button>
             {displayMonths.map((month, index) => (
               <div key={index} className='absolute bottom-8 h-3' style={{ left: `${(index / 12) * 100}%`, }}>
-                <small className='absolute -translate-x-1/2'>
+                <small className='absolute -translate-x-1/2 -rotate-90 md:rotate-0'>
                   {month}
                 </small>
               </div>
@@ -367,7 +377,7 @@ export default function Browse() {
           <div className='hidden xl:block xl:w-1/4 p-8'>
             {displayEntryBefore && <JournalEntryBox {...displayEntryBefore} />}
           </div>
-          <div className='basis-11/12 lg:w-3/4 xl:w-1/2 mx-auto'>
+          <div className='w-11/12 lg:w-3/4 xl:w-1/2 mx-auto'>
             {displayEntryMain && <JournalEntryBox {...displayEntryMain} />}
           </div>
           <div className='hidden xl:block xl:w-1/4 p-8'>
