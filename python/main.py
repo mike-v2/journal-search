@@ -59,7 +59,7 @@ def prune_string(string, max_tokens, prune_end=True):
         new_length = int(len(string) * ratio)
         return string[:new_length] if prune_end else string[(len(string) - new_length):]
     
-def find_entries_related_to_message(query, n=20):
+def find_entries_related_to_message(query, n=20, similarity_threshold=0):
     app.logger.setLevel(logging.DEBUG) 
     start_time = time.time()
 
@@ -69,7 +69,11 @@ def find_entries_related_to_message(query, n=20):
     )
     df["similarity"] = df.embedding.apply(lambda x: cosine_similarity(x, query_embedding))
 
-    results = df.sort_values("similarity", ascending=False).head(n)
+    if similarity_threshold > 0:
+      results = df[df["similarity"] >= similarity_threshold].sort_values("similarity", ascending=False)
+    else:
+      results = df.sort_values("similarity", ascending=False).head(n)
+
     results = results.combined   #results = results.combined.str.replace("Date: ", "").str.replace("; Text:", ": ")
     
     results_combined = ''
@@ -85,7 +89,8 @@ def find_entries_related_to_message(query, n=20):
 def search():
     data = request.get_json()
     query = data.get('query')
-    results = find_entries_related_to_message(query, n=10)
+    threshold = data.get('threshold')
+    results = find_entries_related_to_message(query, similarity_threshold=threshold)
 
     return jsonify(results)
 

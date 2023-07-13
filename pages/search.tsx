@@ -1,79 +1,28 @@
 import { Topic } from "@/components/topicType";
-import {SearchTerms} from '@/components/searchTermsType'
 import Image from "next/image";
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-import { timestampToDate, journalDateToISOString } from "@/utils/convertDate";
 import { Josefin_Sans } from "next/font/google";
 import { JournalEntry, JournalTopic } from "@prisma/client";
-import JournalTopicBox from "@/components/journalTopicBox";
 import JournalEntryBox from "@/components/journalEntryBox";
-import lunr, { Index } from "lunr";
 import Pagination from "@etchteam/next-pagination";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
-const exampleSearchResult: Topic = {
-  topic: "Family",
-  summary: "met Sharon's husband",
-  date: "4-1-1948",
-  people: [],
-  places: [],
-  organizations: [],
-  things: [],
-  emotion: "",
-  mood: "",
-  strength: 0
-}
-
-const josefin = Josefin_Sans({
-  subsets: ['latin'],
-  weight: ['500', '700'],
-});
-
-type FilterStrings = {
-  people?: string[];
-  places?: string[];
-  things?: string[];
-  organizations?: string[];
-  emotions?: string[];
-  moods?: string[];
-  [key: string]: string[] | undefined | null; // Add index signature
-};
-
-type FilterNumbers = {
-  sentiment: number;
-}
-
-const filterStringsPredefined: FilterStrings = {
-  people: ["Grace", "Charles", "Cathy", "Ardie"],
-  places: ["Albany", "Rochester", "Chicago", "Denver"],
-  things: ["goiter", "cigarettes", "World War I", "Book of Mormon"],
-  organizations: ["Church", "Genealogical Society", "LDS", "FHA", "RMS"],
-  emotions: ["satisfaction", "hope", "concern", "frustration"],
-}
-
-const filterNumbersPredefined: FilterNumbers = {
-  sentiment: .5,
-}
-
-interface JournalTopicExt extends JournalTopic {
+interface SearchResult {
   date: string;
+  text: string;
 }
 
 export default function Search() {
   const searchBox = useRef<HTMLInputElement>(null);
   const [searchIsActive, setSearchIsActive] = useState(false);
-  const [selectedTopic, setSelectedTopic] = useState<JournalTopicExt>();
+  const [selectedSearchResult, setSelectedSearchResult] = useState<SearchResult>();
   const [selectedEntry, setSelectedEntry] = useState<JournalEntry>();
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  const [activeFilterStrings, setActiveFilterStrings] = useState<FilterStrings>({});
-  const [customFilterStrings, setCustomFilterStrings] = useState<FilterStrings>({});
-  const [searchResults, setSearchResults] = useState<JournalTopicExt[]>([]);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [displaySearchResults, setDisplaySearchResults] = useState<SearchResult[]>([]);
   const journalEntryBox = useRef<HTMLDivElement>(null);
-  const [searchIndex, setSearchIndex] = useState<Index>();
   const router = useRouter();
-  const [displaySearchResults, setDisplaySearchResults] = useState<JournalTopicExt[]>();
 
   useEffect(() => {
     if (searchResults) {
@@ -88,36 +37,6 @@ export default function Search() {
       setDisplaySearchResults(searchResults.slice(startIndex, endIndex));
     }
   }, [router.query, searchResults])
-
-  useEffect(() => {
-    async function setLunrIndex() {
-      try {
-        const res = await fetch('/api/journalTopic');
-        const documents = await res.json();
-
-        const index = lunr(function () {
-          this.ref("id");
-          this.field("name");
-          this.field("summary");
-          this.field("people");
-          this.field("places");
-          this.field("organizations");
-          this.field("things");
-          this.field("emotion");
-
-          documents.forEach((doc: Object) => {
-            this.add(doc);
-          }, this);
-        });
-
-        setSearchIndex(index);
-      } catch (error) {
-        console.log("Could not fetch topics: " + error);
-      }
-    }
-
-    setLunrIndex();
-  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: Event) => {
@@ -137,17 +56,17 @@ export default function Search() {
   }, [handleSearch]);
 
   useEffect(() => {
-    if (selectedTopic && journalEntryBox.current) {
+    if (selectedEntry && journalEntryBox.current) {
       journalEntryBox.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [selectedTopic])
+  }, [selectedEntry])
 
   function handleSearch() {
     if (searchBox.current) {
-      setSelectedTopic(undefined);
+      setSelectedSearchResult(undefined);
       setSelectedEntry(undefined);
       setSearchResults([]);
-      setDisplaySearchResults(undefined);
+      setDisplaySearchResults([]);
       setSearchIsActive(true);
       runSearch();
     }
@@ -158,10 +77,10 @@ export default function Search() {
     handleSearch();
   }
 
-  const handleSelectResult = async (selectedTopic: JournalTopicExt) => {
-    setSelectedTopic(selectedTopic);
+  const handleSelectResult = async (selectedSearchResult: SearchResult) => {
+    setSelectedSearchResult(selectedSearchResult);
 
-    const dateISO = journalDateToISOString(selectedTopic.date);
+    const dateISO = new Date(selectedSearchResult.date).toISOString();
 
     try {
       const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
@@ -184,185 +103,48 @@ export default function Search() {
     }
   }
 
-  const handleFilterClick = (e: React.FormEvent<HTMLElement>) => {
-    const filter = e.currentTarget.textContent;
-    if (filter == null || filter === "") return;
-
-    if (activeFilters.includes(filter)) {
-      console.log("removing filter: " + filter);
-      //activeFilters.splice(activeFilters.indexOf(filter), 1);
-      const updatedActiveFilters = activeFilters.filter((activeFilter) => activeFilter !== filter);
-      setActiveFilters(updatedActiveFilters);
-
-      if (activeFilterStrings.hasOwnProperty(filter)) {
-        const newActiveFilters = activeFilterStrings;
-        delete newActiveFilters[filter];
-        setActiveFilterStrings(newActiveFilters);
-      }
-      if (customFilterStrings.hasOwnProperty(filter)) {
-        const newCustomFilters = customFilterStrings;
-        delete newCustomFilters[filter];
-        setActiveFilterStrings(newCustomFilters);
-      }
-    } else {
-      console.log("adding filter: " + filter);
-      setActiveFilters([...activeFilters, filter])
-    }
-  }
-
-  const handleFilterValueClick = (e: React.FormEvent<HTMLElement>) => {
-    const filterValue = e.currentTarget.textContent;
-    const filter = e.currentTarget.getAttribute('data-filter')?.split('-')[0];
-    console.log("filter: " + filter + "  filterValue: " + filterValue);
-    if (filter == null) return;
-    if (filterValue == null) return;
-
-    if (activeFilterStrings.hasOwnProperty(filter)) {
-      if (activeFilterStrings[filter]?.includes(filterValue) === false) {
-        //console.log("updating existing filter category")
-        const newFilterStrings = { ...activeFilterStrings };
-        newFilterStrings[filter]?.push(filterValue);
-        setActiveFilterStrings(newFilterStrings);
-      } else {
-        //console.log("deleting existing value")
-        const newFilterStrings = { ...activeFilterStrings };
-
-        const index = newFilterStrings[filter]?.indexOf(filterValue);
-        if (index !== undefined && index > -1) {
-          newFilterStrings[filter]?.splice(index, 1);
-        }
-
-        setActiveFilterStrings(newFilterStrings);
-      }
-    } else {
-      //console.log("Creating new value");
-      const newFilterStrings = { ...activeFilterStrings, [filter]: [filterValue] };
-      setActiveFilterStrings(newFilterStrings);
-    }
-  }
-
-  const handleCustomFilterSubmit = (e: React.KeyboardEvent<HTMLInputElement>, filter: string) => {
-    if (e.key === 'Enter') {
-      const newCustomString = e.currentTarget.value;
-
-      if (customFilterStrings.hasOwnProperty(filter)) {
-        if (customFilterStrings[filter]?.includes(newCustomString)) return;
-
-        const newFilterStrings = { ...customFilterStrings };
-        newFilterStrings[filter]?.push(newCustomString);
-        setCustomFilterStrings(newFilterStrings)
-      } else {
-        const newFilterStrings = { ...customFilterStrings, [filter]: [newCustomString] };
-        setCustomFilterStrings(newFilterStrings)
-      }
-
-      e.currentTarget.value = '';
-    }
-  }
-
-  const handleCustomFilterRemove = (e: React.MouseEvent<HTMLButtonElement>, filter: string, filterValue: string) => {
-    if (customFilterStrings.hasOwnProperty(filter)) {
-      if (customFilterStrings[filter]?.includes(filterValue)) {
-        const newCustomStrings = { ...customFilterStrings };
-
-        const index = newCustomStrings[filter]?.indexOf(filterValue);
-        if (index !== undefined && index > -1) {
-          newCustomStrings[filter]?.splice(index, 1);
-        }
-
-        setCustomFilterStrings(newCustomStrings);
-      }
-    }
-  }
-
   const runSearch = async () => {
-    
-    const searchTerms = getSearchTerms();
-    console.log("searching for terms: ");
-    console.log(searchTerms);
+    console.log("running search with query: " + searchBox.current?.value);
+    try {
+      const res = await fetch('/api/fetchSearch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: searchBox.current?.value,
+          threshold: .78
+        })
+      })
 
-    const {text, people, places, things, organizations, emotions, moods} = searchTerms;
+      console.log('res::');
+      console.log(res);
 
-    let searchString = '';
-    if (text && text.length > 0) {
-      searchString += text + ' ';
-    } 
-    if (people && people.length > 0) {
-      searchString += people.join(' ') + ' ';
-    } 
-    if (places && places.length > 0) {
-      searchString += places.join(' ') + ' ';
-    }
-    if (things && things.length > 0) {
-      searchString += things.join(' ') + ' ';
-    } 
-    if (organizations && organizations.length > 0) {
-      searchString += organizations.join(' ') + ' ';
-    }  
-
-    console.log("search string = " + searchString);
-    const results = searchIndex?.search(searchString); //array of topicIds
-    console.log("initial results::");
-    console.log(results);
-    const topics = [];
-    for (const index in results) {
-      const topicId = results[parseInt(index)].ref;
-
-      try {
-        const res = await fetch(`/api/journalTopic?topicId=${topicId}`)
-        const data = await res.json();
-
-        data["date"] = timestampToDate(data.journalEntry.date);
-
-        let name = data["name"];
-        name = name.charAt(0).toUpperCase() + name.slice(1);
-        data["name"] = name;
-
-        let summary = data["summary"];
-        summary = summary.charAt(0).toUpperCase() + summary.slice(1);
-        data["summary"] = summary;
-
-        topics.push(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    /* try {
-      const res = await fetch(`/api/searchEmbeddings?query=${text}`)
       const data = await res.json();
+      if (data) {
+        //receive a string of combined entries, each with the form: "Date: ...; Text: ..."
+        let entriesCombined = data.results;
+        console.log("entries combined = " + entriesCombined);
 
+        const entries = entriesCombined.split('Date:').slice(1);
+        const searchResults: SearchResult[] = []
+        entries.forEach((entry: string) => {
+          let [date, text] = entry.split('Text:')
+          date = date.replace(';', '').trim();
+          text = text.trim();
+          const searchResult = { date: date, text: text }
+          searchResults.push(searchResult);
+        })
+
+        console.log('searchResults::');
+        console.log(searchResults);
+        console.log('date count = ' + searchResults.length);
+        setSearchResults(searchResults);
+      }
     } catch (error) {
-      console.log(error);
-    } */
-
-    //TODO create embeddings for topic name and summary
-    setSearchResults(topics);
-  };
-
-  function getSearchTerms() {
-    const terms : SearchTerms = { };
-
-    const date = '01-01-1930:01-01-1950'
-    terms["date"] = date;
-
-    const text = searchBox.current?.value.split(' ');
-    terms.text = text;
-
-    for (const prop in filterStringsPredefined) {
-      const value = []
-      if (activeFilterStrings.hasOwnProperty(prop) && activeFilterStrings[prop]) {
-        value.push(...activeFilterStrings[prop] as string[]);
-      }
-      if (customFilterStrings.hasOwnProperty(prop) && customFilterStrings[prop]) {
-        value.push(...customFilterStrings[prop] as string[]);
-      }
-
-      terms[prop] = value;
+      console.error(error);
     }
-
-    return terms;
-  }
+  };
 
   return (
     <>
@@ -385,68 +167,14 @@ export default function Search() {
                 <input ref={searchBox} className="w-full h-full p-4 text-lg text-black placeholder:italic bg-slate-200" type="search" placeholder="Search.." aria-label="Search input" />
               </div>
             </div>
-            <div className="flex flex-wrap ms-10 my-3">
-              {Object.keys(filterStringsPredefined).map((filter) => {
-                return (
-                  activeFilters.includes(filter) === false &&
-                  <button className={`${josefin.className} flex-initial h-10 text-xl border border-slate-400 rounded-md m-1 p-1 hover:cursor-pointer capitalize`} onClick={handleFilterClick} key={filter} aria-label={`Filter by ${filter}`}>
-                    {filter}
-                    </button>
-                )
-              })}
 
-              <div className="flex-break h-3"></div>
-
-              {activeFilters.slice(0).reverse().map((filter) => {
-                return (
-                  <div className="basis-full" key={filter}>
-                    <div className="bg-slate-600 rounded-md w-100" >
-                      <div className={`${josefin.className} flex-initial h-10 text-xl font-bold text-center text-slate-50 p-1 hover:cursor-pointer capitalize border-b-2 border-slate-800 rounded-md `} onClick={handleFilterClick}>
-                        {filter}
-                      </div>
-
-                      <div className="flex-break"></div>
-
-                      <div className="flex flex-wrap justify-center max-w-full">
-                        {filterStringsPredefined[filter]?.map((filterValue) => {
-                          return (
-                            <div className={`${josefin.className} hover:cursor-pointer px-2 py-1 m-1 capitalize` + (activeFilterStrings.hasOwnProperty(filter) && activeFilterStrings[filter]?.includes(filterValue) ? ' font-bold text-slate-200' : '')} onClick={handleFilterValueClick} key={`${filter}-${filterValue}`} data-filter={`${filter}-${filterValue}`} >
-                              {filterValue}
-                            </div>
-                          )
-                        })}
-
-                        <div className="flex-break"></div>
-
-                        {customFilterStrings[filter]?.map((filterValue) => {
-                          return (
-                            <div className="flex m-1 p-1" key={`${filter}-${filterValue}`}>
-                              <span className="px-1 my-auto italic font-bold text-slate-200">
-                                {filterValue}
-                              </span>
-                              <button type="button" className="px-1 text-white" onClick={(e) => handleCustomFilterRemove(e, filter, filterValue)}>
-                                &#215;
-                              </button>
-                            </div>
-                          )
-                        })}
-                      </div>
-
-                      <input type="text" className="m-2 p-1 text-black placeholder:italic bg-slate-200" placeholder="custom filter..." onKeyDown={(e) => handleCustomFilterSubmit(e, filter)}></input>
-
-                    </ div>
-                    <div className="flex-break h-6"></div>
-                  </div>
-                )
-              })}
-            </div>
           </form>
         </section>
         <section className="text-center text-2xl italic" aria-live="polite">
           {searchIsActive &&
             (searchResults && searchResults.length > 0 ?
-              `Found ${searchResults.length} Journal Topics` :
-              "Loading Topics..."
+            `Found ${searchResults.length} Journal Entries` :
+            "Loading Entries..."
             )
           }
         </section>
@@ -455,7 +183,17 @@ export default function Search() {
             <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 lg:mr-4 h-fit border-2 border-slate-400" aria-label="Search results">
               {displaySearchResults && displaySearchResults.map((result) => {
                 return (
-                  <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.name + result.summary.slice(0, 25)} />
+                  <div key={result.date}>
+                    {/* <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.name + result.summary.slice(0, 25)} /> */}
+                    <div className={"border border-slate-400 m-3 p-3 hover:cursor-pointer" + (selectedSearchResult?.date === result.date ? ' border-4 bg-slate-700' : '')} onClick={e => handleSelectResult(result)}>
+                      <div className="italic">
+                        {result.date}
+                      </div>
+                      <div className="pl-2">
+                        {result.text.slice(0, 100) + '...'}
+                      </div>
+                    </div>
+                  </div>
                 )
               })}
               {displaySearchResults && displaySearchResults.length > 0 &&

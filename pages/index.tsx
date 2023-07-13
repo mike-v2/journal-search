@@ -33,7 +33,7 @@ const bioText = {
   body: "Discover the fascinating world of Harry Howard (1899-1959), a devoted husband, father, and proud resident of Salt Lake City. Through the pages of his personal journals, we invite you to journey back in time and gain insight into the life and experiences of a family man in the 1930s.\n\nHarry worked tirelessly at the post office, ensuring the smooth flow of communication within his community. He was married to the love of his life, Grace, with whom he built a beautiful family. Together, they raised seven children: Cathy, Charles, Sonny, Sharon, Ardie, Dorothy and Betty.\n\nHarry was a deeply spiritual man, actively involved in the Latter-Day Saints (LDS) church. His faith and commitment to his community played a significant role in shaping his daily life.\n\nAs you explore this site, take a moment to immerse yourself in Harry's world. Delve into his thoughts, hopes, and dreams, and witness the unfolding of a rich and vibrant family history that has been lovingly preserved for future generations.\n\nWelcome to the Harry Howard Journals – your portal to the past."
 }
 
-interface ExampleTopic {
+interface ExampleEntry {
   header: string,
   entryDate: string,
   entry?: JournalEntry,
@@ -41,7 +41,7 @@ interface ExampleTopic {
 }
 
 export default function Home() {
-  const [exampleTopics, setExampleTopics] = useState<ExampleTopic[]>([
+  const [exampleEntries, setExampleEntries] = useState<ExampleEntry[]>([
     {
       header: 'Grace Howard',
       entryDate: '06-24-1948',
@@ -63,22 +63,24 @@ export default function Home() {
     let isCancelled = false;
 
     async function updateTopics() {
-      const newState = [...exampleTopics];
-
-      const promises = newState.map(async (topic, index) => {
+      const promises = exampleEntries.map(async (topic, index) => {
         try {
           const entry = await fetchJournalEntryByDate(topic.entryDate);
           if (!isCancelled) {
-            newState[index].entry = entry;
+            return { ...topic, entry };
+          } else {
+            return topic;
           }
         } catch (error) {
           console.error(error);
+          return topic;
         }
       });
 
-      await Promise.all(promises);
+      const newState = await Promise.all(promises);
+
       if (!isCancelled) {
-        setExampleTopics(newState);
+        setExampleEntries(newState);
       }
     }
 
@@ -117,7 +119,7 @@ export default function Home() {
           </article>
         </section>
 
-        {exampleTopics && exampleTopics.map((topic, index) => {
+        {exampleEntries && exampleEntries.map((topic, index) => {
           return (
             <section className={`flex flex-col-reverse ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} mt-10 max-w-7xl mx-auto h-fit`} key={topic.header}>
               <div className=' whitespace-pre-line w-full md:w-1/2 my-auto'>
