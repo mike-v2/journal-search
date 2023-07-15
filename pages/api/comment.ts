@@ -32,25 +32,43 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ error: error });
     }
   } else if (req.method === 'POST') { //user has created a comment
-    const { userId, postId, text } = JSON.parse(req.body);
+    const { userId, postId, text, commentId } = JSON.parse(req.body);
 
     if (!userId || !postId || !text) {
       return res.status(404).json({ error: 'UserId, PostId, and Text are required to make a comment' });
     }
 
-    try {
-      const comment = await prisma.comment.create({
-        data: {
-          userId: userId as string,
-          postId: postId as string,
-          text: text as string,
-        },
-      });
+    if (commentId) {
+      try {
+        const updatedComment = await prisma.comment.update({
+          where: {
+            id: commentId,
+          },
+          data: {
+            text: text,
+          },
+        })
 
-      res.status(200).json(comment);
-    } catch (error) {
-      console.error('Error creating comment:', error);
-      res.status(500).json({ error: error });
+        res.status(200).json(updatedComment);
+      } catch (error) {
+        console.error('Error updating comment:', error);
+        res.status(500).json({ error: error });
+      }
+    } else {
+      try {
+        const comment = await prisma.comment.create({
+          data: {
+            userId: userId,
+            postId: postId,
+            text: text,
+          },
+        });
+
+        res.status(200).json(comment);
+      } catch (error) {
+        console.error('Error creating comment:', error);
+        res.status(500).json({ error: error });
+      }
     }
   } else if (req.method === 'DELETE') {
     const {commentId} = req.query;

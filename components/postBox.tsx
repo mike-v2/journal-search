@@ -16,10 +16,12 @@ interface CommentExt extends Comment {
 
 export default function PostBox({id, journalEntry, createdBy, text, comments} : PostExt) {
   const { data: session } = useSession();
-  const [commentText, setCommentText] = useState<string>('');
+  const [newCommentText, setNewCommentText] = useState<string>('');
   const [updatedComments, setUpdatedComments] = useState<Comment[]>(comments);
+  const [editingComment, setEditingComment] = useState<Comment>();
+  const [editingCommentText, setEditingCommentText] = useState<string>('');
 
-  async function handleSubmitComment() {
+  async function handleSubmitNewComment() {
     if (!session || !session.user) {
       signIn();
       return;
@@ -31,7 +33,7 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
         body: JSON.stringify({
           userId: session?.user.id,
           postId: id,
-          text: commentText,
+          text: newCommentText,
         })
       });
 
@@ -43,11 +45,50 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
       console.log("error submitting post comment: " + error);
     }
 
-    setCommentText('');
+    setNewCommentText('');
   }
 
-  function handleEditComment(comment: CommentExt) {
+  async function handleSubmitEditComment() {
+    if (!session || !session.user) {
+      signIn();
+      return;
+    }
 
+    if (!editingComment) {
+      console.log("trying to edit comment while it's null")
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/comment', {
+        method: 'POST',
+        body: JSON.stringify({
+          commentId: editingComment.id,
+          userId: session?.user.id,
+          postId: id,
+          text: editingCommentText,
+        })
+      });
+
+      const postedComment = await res.json();
+      postedComment["user"] = session?.user;
+
+      setUpdatedComments(prevComments =>
+        prevComments.map(comment =>
+          comment.id === editingComment.id ? { ...comment, text: editingCommentText } : comment
+        )
+      );
+
+    } catch (error) {
+      console.log("error submitting post's edited comment: " + error);
+    }
+
+    stopEditingComment();
+  }
+
+  function stopEditingComment() {
+    setEditingComment(undefined);
+    setEditingCommentText('');
   }
 
   async function handleDeleteComment(comment: CommentExt) {
@@ -96,12 +137,12 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
             id="comment"
             className="ml-4 placeholder:italic"
             placeholder="Add a comment..."
-            value={commentText}
-            onChange={e => setCommentText(e.target.value)}
+            value={newCommentText}
+            onChange={e => setNewCommentText(e.target.value)}
             aria-label="Comment Input"
           ></textarea>
           <div className="flex justify-end mt-2">
-            <button className="btn bg-transparent" onClick={handleSubmitComment}>
+            <button className="btn bg-transparent" onClick={handleSubmitNewComment}>
               Comment
             </button>
           </div>
@@ -120,9 +161,31 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
               <p>
                 {comment.user && comment.user.name}
               </p>
-              <p>
-                {comment.text}
-              </p>
+              {editingComment && editingComment.id === comment.id &&
+                <div className="flex flex-col w-11/12">
+                  <textarea
+                    name="editingComment"
+                    id="editingComment"
+                    className="ml-4 placeholder:italic"
+                    value={editingCommentText}
+                    onChange={e => setEditingCommentText(e.target.value)}
+                    aria-label="Edit Comment Input"
+                  ></textarea>
+                  <div className="flex justify-end mt-2">
+                    <button className="btn bg-transparent" onClick={handleSubmitEditComment}>
+                      Submit
+                    </button>
+                    <button className="btn bg-transparent" onClick={stopEditingComment}>
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              }
+              {(!editingComment || editingComment.id !== comment.id) &&
+                <p>
+                  {comment.text}
+                </p>
+              }
             </div>
             <div className="flex justify-end ml-auto w-12">
               {comment.userId === session?.user.id &&
@@ -133,7 +196,8 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
                   <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-fit">
                     <li><button
                       onClick={e => {
-                        handleEditComment(comment);
+                        setEditingComment(comment);
+                        setEditingCommentText(comment.text);
                         blurElement(e);
                       }}>Edit</button></li>
                     <li><button

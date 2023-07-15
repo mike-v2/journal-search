@@ -62,8 +62,8 @@ export default function Home() {
   useEffect(() => {
     let isCancelled = false;
 
-    async function updateTopics() {
-      const promises = exampleEntries.map(async (topic, index) => {
+    async function updateExampleEntries() {
+      const promises = exampleEntries.map(async (topic) => {
         try {
           const entry = await fetchJournalEntryByDate(topic.entryDate);
           if (!isCancelled) {
@@ -84,7 +84,7 @@ export default function Home() {
       }
     }
 
-    updateTopics();
+    updateExampleEntries();
 
     return () => {
       isCancelled = true;
