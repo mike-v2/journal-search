@@ -173,7 +173,7 @@ export default function Search() {
         </section>
         <section className="text-center text-2xl italic" aria-live="polite">
           {searchIsActive &&
-            <p>"Loading Entries..."</p>
+            <p>Loading Entries...</p>
           }
           {!searchIsActive && searchResults.length > 0 &&
             <p>{`Found ${searchResults.length} Journal Entries`}</p>
