@@ -66,15 +66,15 @@ export default function Search() {
     }
   }, [selectedEntry])
 
-  function handleSearch() {
-    if (searchBox.current) {
-      setSelectedSearchResult(undefined);
-      setSelectedEntry(undefined);
-      setSearchResults([]);
-      setDisplaySearchResults([]);
-      setSearchIsActive(true);
-      runSearch();
-    }
+  async function handleSearch() {
+    setSelectedSearchResult(undefined);
+    setSelectedEntry(undefined);
+    setSearchResults([]);
+    setDisplaySearchResults([]);
+
+    setSearchIsActive(true);
+    await runSearch();
+    setSearchIsActive(false);
   }
 
   function handleSearchClick(e: React.FormEvent<HTMLElement>) {
@@ -173,16 +173,19 @@ export default function Search() {
         </section>
         <section className="text-center text-2xl italic" aria-live="polite">
           {searchIsActive &&
-            (searchResults && searchResults.length > 0 ?
-            `Found ${searchResults.length} Journal Entries` :
-            "Loading Entries..."
-            )
+            <p>"Loading Entries..."</p>
+          }
+          {!searchIsActive && searchResults.length > 0 &&
+            <p>{`Found ${searchResults.length} Journal Entries`}</p>
+          }
+          {!searchIsActive && searchResults.length === 0 &&
+            <p>Found 0 Results</p>
           }
         </section>
         <section className="flex flex-col lg:flex-row justify-center align-middle" aria-label="Search results and selected entry">
-          {searchIsActive && (
+          {displaySearchResults.length > 0 && (
             <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 lg:mr-4 h-fit border-2 border-slate-400" aria-label="Search results">
-              {displaySearchResults && displaySearchResults.map((result, i) => {
+              {displaySearchResults.map((result, i) => {
                 return (
                   <div key={i}>
                     {/* <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.name + result.summary.slice(0, 25)} /> */}
