@@ -4,12 +4,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react"
 import PostBox from "../components/postBox";
 import Head from "next/head";
-
-interface PostExt extends Post {
-  journalEntry: JournalEntry,
-  createdBy: User,
-  comments: Comment[],
-}
+import PostExt from "@/types/postExt";
 
 export default function Community() {
   const [posts, setPosts] = useState<PostExt[]>();
@@ -22,7 +17,7 @@ export default function Community() {
         })
         const data = await res.json();
 
-        setPosts(data);
+        setPosts(data as PostExt[]);
       } catch (error) {
         console.log("could not fetch posts: " + error);
       }

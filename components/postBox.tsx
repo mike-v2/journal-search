@@ -3,16 +3,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
 import { JournalEntry, Post, User, Comment } from "@prisma/client";
-
-interface PostExt extends Post {
-  journalEntry: JournalEntry,
-  createdBy: User,
-  comments: Comment[],
-}
-
-interface CommentExt extends Comment {
-  user: User,
-}
+import PostExt from "@/types/postExt";
+import CommentExt from '@/types/commentExt'
 
 export default function PostBox({id, journalEntry, createdBy, text, comments} : PostExt) {
   const { data: session } = useSession();
@@ -125,29 +117,29 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
           </p>
         </div>
       </div>
-      <div className="flex my-4">
-        <div className="w-14">
-          {session?.user &&
+      {session?.user && 
+        <div className="flex my-4">
+          <div className="w-14">
             <Image src={session.user.image} className="rounded-full" width={50} height={50} alt={`${session.user.name}'s avatar`} />
-          }
-        </div>
-        <div className="flex flex-col w-11/12">
-          <textarea
-            name="comment"
-            id="comment"
-            className="ml-4 placeholder:italic"
-            placeholder="Add a comment..."
-            value={newCommentText}
-            onChange={e => setNewCommentText(e.target.value)}
-            aria-label="Comment Input"
-          ></textarea>
-          <div className="flex justify-end mt-2">
-            <button className="btn bg-transparent" onClick={handleSubmitNewComment}>
-              Comment
-            </button>
+          </div>
+          <div className="flex flex-col w-11/12">
+            <textarea
+              name="comment"
+              id="comment"
+              className="ml-4 placeholder:italic"
+              placeholder="Add a comment..."
+              value={newCommentText}
+              onChange={e => setNewCommentText(e.target.value)}
+              aria-label="Comment Input"
+            ></textarea>
+            <div className="flex justify-end mt-2">
+              <button className="btn bg-transparent" onClick={handleSubmitNewComment}>
+                Comment
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      }
       <div className="divider">Comments</div>
       {(updatedComments as CommentExt[]).map((comment, index) => {
         return (
