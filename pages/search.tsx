@@ -34,7 +34,12 @@ export default function Search() {
 
       const startIndex = (pageNum - 1) * sizeNum;
       const endIndex = startIndex + sizeNum;
-      setDisplaySearchResults(searchResults.slice(startIndex, endIndex));
+
+      const newSearchResults = searchResults.slice(startIndex, endIndex);
+      //only change state if necessary, otherwise this will trigger a re-render and jest will think 'router.query' has changed because it's getting a different object (albeit with the same values) from the jest mock function
+      if (JSON.stringify(newSearchResults) !== JSON.stringify(displaySearchResults)) {
+        setDisplaySearchResults(newSearchResults);
+      }
     }
   }, [router.query, searchResults])
 
@@ -117,14 +122,10 @@ export default function Search() {
         })
       })
 
-      console.log('res::');
-      console.log(res);
-
       const data = await res.json();
       if (data) {
         //receive a string of combined entries, each with the form: "Date: ...; Text: ..."
         let entriesCombined = data.results;
-        console.log("entries combined = " + entriesCombined);
 
         const entries = entriesCombined.split('Date:').slice(1);
         const searchResults: SearchResult[] = []
@@ -181,9 +182,9 @@ export default function Search() {
         <section className="flex flex-col lg:flex-row justify-center align-middle" aria-label="Search results and selected entry">
           {searchIsActive && (
             <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 lg:mr-4 h-fit border-2 border-slate-400" aria-label="Search results">
-              {displaySearchResults && displaySearchResults.map((result) => {
+              {displaySearchResults && displaySearchResults.map((result, i) => {
                 return (
-                  <div key={result.date}>
+                  <div key={i}>
                     {/* <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.name + result.summary.slice(0, 25)} /> */}
                     <div className={"border border-slate-400 m-3 p-3 hover:cursor-pointer" + (selectedSearchResult?.date === result.date ? ' border-4 bg-slate-700' : '')} onClick={e => handleSelectResult(result)}>
                       <div className="italic">
