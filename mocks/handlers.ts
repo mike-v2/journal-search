@@ -1,7 +1,6 @@
-import { journalDateToISOString } from '@/utils/convertDate';
 import { rest } from 'msw';
 
-export const fetchJournalEntryByDate = rest.get('/api/journalEntry', (req, res, ctx) => {
+export const mockGetJournalEntryByDate = rest.get('/api/journalEntry', (req, res, ctx) => {
   return res(
     ctx.status(200),
     ctx.json(
@@ -16,7 +15,7 @@ export const fetchJournalEntryByDate = rest.get('/api/journalEntry', (req, res, 
   )
 });
 
-export const fetchJournalEntryImage = rest.get('/api/journalEntryImage', (req, res, ctx) => {
+export const mockGetJournalEntryImage = rest.get('/api/journalEntryImage', (req, res, ctx) => {
     const year = req.url.searchParams.get('year');
     const startPage = req.url.searchParams.get('startPage');
     const endPage = req.url.searchParams.get('endPage');
@@ -27,7 +26,7 @@ export const fetchJournalEntryImage = rest.get('/api/journalEntryImage', (req, r
     )
 });
 
-export const fetchJournalTopics = rest.get('/api/journalTopic', (req, res, ctx) => {
+export const mockGetJournalTopics = rest.get('/api/journalTopic', (req, res, ctx) => {
     const queryEntryId = req.url.searchParams.get('journalEntryId');
     const queryTopicId = req.url.searchParams.get('topicId');
 
@@ -107,7 +106,7 @@ export const fetchJournalTopics = rest.get('/api/journalTopic', (req, res, ctx) 
     }
 });
 
-export const fetchRead = rest.get('/api/readEntry', (req, res, ctx) => {
+export const mockGetReadEntry = rest.get('/api/readEntry', (req, res, ctx) => {
     const userId = req.url.searchParams.get('userId');
     const journalEntryId = req.url.searchParams.get('journalEntryId');
 
@@ -148,7 +147,7 @@ export const fetchRead = rest.get('/api/readEntry', (req, res, ctx) => {
     }
 });
 
-export const fetchStarred = rest.get('/api/starredEntry', (req, res, ctx) => {
+export const mockGetStarredEntry = rest.get('/api/starredEntry', (req, res, ctx) => {
     const userId = req.url.searchParams.get('userId');
     const journalEntryId = req.url.searchParams.get('journalEntryId');
 
@@ -190,16 +189,12 @@ export const fetchStarred = rest.get('/api/starredEntry', (req, res, ctx) => {
 
 });
 
-export const post = rest.post('/api/post', (req, res, ctx) => {
-    const queryDate = req.url.searchParams.get('date');
-    //console.log('mock journal entry handler called with date = ', queryDate);
-    const dateISO = journalDateToISOString('06-24-1948');
-
+/* export const post = rest.post('/api/post', (req, res, ctx) => {
     return res(
         ctx.status(200),
         ctx.json({ message: "success" })
     )
-});
+}); */
 
 /* export const post = rest.get('/api/post', (req, res, ctx) => {
     const queryDate = req.url.searchParams.get('date');
@@ -237,11 +232,46 @@ export const post = rest.post('/api/post', (req, res, ctx) => {
     )
 }); */
 
-export const fetchSearch = rest.post('/api/fetchSearch', (req, res, ctx) => {
+export const mockPostComment = rest.post('/api/comment', async (req, res, ctx) => {
+  console.log("posting comment");
+
+  const { userId, postId, text } = await req.json();
+  console.log("userId = " + userId);
+
+  return res(
+    ctx.status(200),
+    ctx.json({ userId, postId, text })
+  )
+});
+
+export const mockDeleteComment = rest.delete('/api/comment', (req, res, ctx) => {
+  return res(
+    ctx.status(200),
+    ctx.json({ message: "success" })
+  )
+});
+
+export const mockPostSearch = rest.post('/api/fetchSearch', (req, res, ctx) => {
   return res(
     ctx.status(200),
     ctx.json({ results: 'Date:2023-07-14; Text:first5'.repeat(5) + 'Date:2023-07-14; Text:second5'.repeat(5) })
   )
 });
 
-export const handlers = [fetchJournalEntryByDate, fetchJournalEntryImage, fetchJournalTopics, fetchRead, fetchStarred, post, fetchSearch]
+export const mockPostAuthSession = rest.get('/api/auth/session', (req, res, ctx) => {
+  return res(
+    ctx.status(200),
+    ctx.json({ message: 'success' })
+  )
+});
+
+export const mockPostAuthLog = rest.post('/api/auth/_log', (req, res, ctx) => {
+  return res(
+    ctx.status(200),
+    ctx.json({ message: 'success' })
+  )
+});
+
+
+
+export const handlers = [mockGetJournalEntryByDate, mockGetJournalEntryImage, mockGetJournalTopics, mockGetReadEntry, mockGetStarredEntry, mockPostSearch, mockPostComment, mockDeleteComment, mockPostAuthSession, mockPostAuthLog]

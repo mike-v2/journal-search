@@ -19,6 +19,7 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
       return;
     }
 
+    console.log("starting fetch")
     try {
       const res = await fetch('/api/comment', {
         method: 'POST',
@@ -28,6 +29,7 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
           text: newCommentText,
         })
       });
+      console.log("finished fetch")
 
       const postedComment = await res.json();
       postedComment["user"] = session?.user;

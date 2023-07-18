@@ -32,6 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ error: error });
     }
   } else if (req.method === 'POST') { //user has created a comment
+    console.log("posting in comment api");
     const { userId, postId, text, commentId } = JSON.parse(req.body);
 
     if (!userId || !postId || !text) {
