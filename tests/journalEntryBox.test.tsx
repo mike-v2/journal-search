@@ -17,14 +17,14 @@ const mockEntry = {
 
 const modalPlaceholderText = /What would you like to say about this journal entry?/i;
 
-describe('JournalEntryBox', () => {
-    beforeAll(() => {
-        server.listen();
-        Modal.setAppElement(document.body);
-    });
-    afterEach(() => server.resetHandlers());
-    afterAll(() => server.close());
+beforeAll(() => {
+  server.listen();
+  Modal.setAppElement(document.body);
+});
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
+describe('JournalEntryBox', () => {
     const TestWrapper = ({ children }: { children: JSX.Element }) => {
         return (
             <SessionProvider session={{

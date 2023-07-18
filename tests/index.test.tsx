@@ -15,11 +15,11 @@ const mockSession = {
   sessionToken: '123',
 };
 
-describe('Home', () => {
-  beforeAll(() => server.listen());
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
+describe('Home', () => {
   test("renders image for Harry Howard", () => {
     render(<SessionProvider session={mockSession}><Home /></SessionProvider>);
 

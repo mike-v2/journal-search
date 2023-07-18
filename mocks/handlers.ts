@@ -233,10 +233,7 @@ export const mockGetStarredEntry = rest.get('/api/starredEntry', (req, res, ctx)
 }); */
 
 export const mockPostComment = rest.post('/api/comment', async (req, res, ctx) => {
-  console.log("posting comment");
-
   const { userId, postId, text } = await req.json();
-  console.log("userId = " + userId);
 
   return res(
     ctx.status(200),

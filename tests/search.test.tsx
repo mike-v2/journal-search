@@ -28,11 +28,11 @@ const TestWrapper = ({ children }: { children: JSX.Element }) => {
   );
 };
 
-describe('Search', () => {
-  beforeAll(() => server.listen());
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
+describe('Search', () => {
   test("pressing 'Enter' key performs search", async () => {
     render(<Search />);
 

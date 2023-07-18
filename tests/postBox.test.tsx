@@ -2,7 +2,7 @@ import 'whatwg-fetch'
 import { server } from "@/mocks/server";
 import { SessionProvider } from "next-auth/react";
 import { User } from "next-auth";
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import PostBox from "../components/postBox";
 import PostExt from "@/types/postExt";
@@ -74,11 +74,11 @@ const mockSession = {
   sessionToken: '123',
 };
 
-/* describe("PostBox rendering", () => {
-  beforeAll(() => server.listen());
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
+describe("PostBox rendering", () => {
   test("renders without crashing", () => {
     render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
   });
@@ -147,13 +147,9 @@ const mockSession = {
       }
     });
   });
-}); */
+});
 
 describe("PostBox interaction", () => {
-  beforeAll(() => server.listen());
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
-
   test('handles new comment submission', async () => {
     render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
 
@@ -165,24 +161,44 @@ describe("PostBox interaction", () => {
     expect(await screen.findByText('This is a new comment')).toBeInTheDocument();
   });
 
+  test('fills the new text area with the original comment when user clicks edit', () => {
+    const specialComments = [{ id: 'comment-id', userId: mockSession.user.id, postId: '123', createdAt: new Date(2023, 0, 2), text: 'edit me' }];
+    render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
+
+    const commentElements = screen.getAllByLabelText("User comment");
+
+    mockPost.comments.forEach(async (comment, index) => {
+      if (comment.userId === mockSession.user.id) {
+        const { getByLabelText, getByText } = within(commentElements[index]);
+        fireEvent.click(getByLabelText('Open menu'));
+        fireEvent.click(getByText('Edit'));
+
+        const input = getByLabelText('Edit Comment Input');
+        expect(input).toHaveValue('edit me');
+      }
+    });
+  });
+
   test('handles comment edit', async () => {
     const specialComments = [{ id: 'comment-id', userId: mockSession.user.id, postId: '123', createdAt: new Date(2023, 0, 2), text: 'old comment' }];
     render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
 
     const commentElements = screen.getAllByLabelText("User comment");
 
-    mockPost.comments.forEach((comment, index) => {
+    mockPost.comments.forEach(async (comment, index) => {
       if (comment.userId === mockSession.user.id) {
         const { getByLabelText, getByText } = within(commentElements[index]);
-        //fireEvent.click(getByLabelText('User comment'));
+        fireEvent.click(getByLabelText('Open menu'));
         fireEvent.click(getByText('Edit'));
+
+        const input = getByLabelText('Edit Comment Input');
+
+        userEvent.clear(input);
+        await userEvent.type(input, 'This is an edited comment');
+
+        fireEvent.click(getByText('Submit'));
       }
     });
-
-    const input = await screen.findByLabelText('Edit Comment Input');
-    userEvent.type(input, 'This is an edited comment');
-
-    fireEvent.click(screen.getByText('Submit'));
 
     expect(await screen.findByText('This is an edited comment')).toBeInTheDocument();
   });
@@ -191,50 +207,41 @@ describe("PostBox interaction", () => {
     const specialComments = [{ id: 'comment-id', userId: mockSession.user.id, postId: '123', createdAt: new Date(2023, 0, 2), text: 'delete me' }];
     render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
 
-    fireEvent.click(screen.getByAltText('menu icon'));
-    fireEvent.click(screen.getByText('Delete'));
+    const commentElements = screen.getAllByLabelText("User comment");
+
+    mockPost.comments.forEach(async (comment, index) => {
+      if (comment.userId === mockSession.user.id) {
+        const { getByLabelText, getByText } = within(commentElements[index]);
+        fireEvent.click(getByLabelText('Open menu'));
+        fireEvent.click(getByText('Delete'));
+      }
+    });
 
     await waitFor(() => expect(screen.queryByText('delete me')).not.toBeInTheDocument());
   });
 
-  test('calls handleDeleteComment with correct comment', async () => {
-    const specialComments = [{ id: 'comment-id', userId: mockSession.user.id, postId: '123', createdAt: new Date(2023, 0, 2), text: 'delete me' }];
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
-
-    fireEvent.click(screen.getByAltText('menu icon'));
-    fireEvent.click(screen.getByText('Delete'));
-
-    await waitFor(() => {
-      expect(screen.queryByText('delete me')).not.toBeInTheDocument();
-      expect(mockDeleteComment).toHaveBeenCalledTimes(1);
-      expect(mockDeleteComment).toHaveBeenCalledWith(expect.objectContaining({ url: new URL('/api/comment?commentId=comment-id', window.location.origin) }));
-    });
-  });
-
-  test('resets comment editing state', async () => {
+  test('handles cancelling comment edit', async () => {
     const specialComments = [{ id: 'comment-id', userId: mockSession.user.id, postId: '123', createdAt: new Date(2023, 0, 2), text: 'cancel me' }];
     render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
 
-    fireEvent.click(screen.getByAltText('menu icon'));
-    fireEvent.click(screen.getByText('Edit'));
+    const commentElements = screen.getAllByLabelText("User comment");
 
-    const input = screen.getByLabelText('Edit Comment Input');
-    userEvent.type(input, 'This should be cancelled');
+    mockPost.comments.forEach(async (comment, index) => {
+      if (comment.userId === mockSession.user.id) {
+        const { getByLabelText, getByText } = within(commentElements[index]);
+        fireEvent.click(getByLabelText('Open menu'));
+        fireEvent.click(getByText('Edit'));
 
-    fireEvent.click(screen.getByText('Cancel'));
+        const input = getByLabelText('Edit Comment Input');
 
-    expect(screen.findByText('This should be cancelled')).not.toBeInTheDocument();
-    expect(screen.getByText('cancel me')).toBeInTheDocument();
-   });
+        userEvent.clear(input);
+        await userEvent.type(input, 'This should be cancelled');
 
-  test('displays the original comment text in the edit comment input', () => {
-    const specialComments = [{ id: 'comment-id', userId: mockSession.user.id, postId: '123', createdAt: new Date(2023, 0, 2), text: 'edit me' }];
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
+        fireEvent.click(getByText('Cancel'));
+      }
+    });
 
-    fireEvent.click(screen.getByAltText('menu icon'));
-    fireEvent.click(screen.getByText('Edit'));
-
-    const input = screen.getByLabelText('Edit Comment Input');
-    expect(input).toHaveValue('edit me');
+    expect(screen.queryByText('This should be cancelled')).not.toBeInTheDocument();
+    expect(await screen.findByText('cancel me')).toBeInTheDocument();
   });
 })

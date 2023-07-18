@@ -11,7 +11,7 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
   const [newCommentText, setNewCommentText] = useState<string>('');
   const [updatedComments, setUpdatedComments] = useState<Comment[]>(comments);
   const [editingComment, setEditingComment] = useState<Comment>();
-  const [editingCommentText, setEditingCommentText] = useState<string>('');
+  const [editingCommentNewText, setEditingCommentNewText] = useState<string>('');
 
   async function handleSubmitNewComment() {
     if (!session || !session.user) {
@@ -19,7 +19,6 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
       return;
     }
 
-    console.log("starting fetch")
     try {
       const res = await fetch('/api/comment', {
         method: 'POST',
@@ -29,7 +28,6 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
           text: newCommentText,
         })
       });
-      console.log("finished fetch")
 
       const postedComment = await res.json();
       postedComment["user"] = session?.user;
@@ -60,7 +58,7 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
           commentId: editingComment.id,
           userId: session?.user.id,
           postId: id,
-          text: editingCommentText,
+          text: editingCommentNewText,
         })
       });
 
@@ -69,7 +67,7 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
 
       setUpdatedComments(prevComments =>
         prevComments.map(comment =>
-          comment.id === editingComment.id ? { ...comment, text: editingCommentText } : comment
+          comment.id === editingComment.id ? { ...comment, text: editingCommentNewText } : comment
         )
       );
 
@@ -82,7 +80,7 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
 
   function stopEditingComment() {
     setEditingComment(undefined);
-    setEditingCommentText('');
+    setEditingCommentNewText('');
   }
 
   async function handleDeleteComment(comment: CommentExt) {
@@ -161,8 +159,8 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
                     name="editingComment"
                     id="editingComment"
                     className="ml-4 placeholder:italic"
-                    value={editingCommentText}
-                    onChange={e => setEditingCommentText(e.target.value)}
+                    value={editingCommentNewText}
+                    onChange={e => setEditingCommentNewText(e.target.value)}
                     aria-label="Edit Comment Input"
                   ></textarea>
                   <div className="flex justify-end mt-2">
@@ -191,7 +189,7 @@ export default function PostBox({id, journalEntry, createdBy, text, comments} : 
                     <li><button
                       onClick={e => {
                         setEditingComment(comment);
-                        setEditingCommentText(comment.text);
+                        setEditingCommentNewText(comment.text);
                         blurElement(e);
                       }}>Edit</button></li>
                     <li><button
