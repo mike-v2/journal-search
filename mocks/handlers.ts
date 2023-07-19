@@ -189,12 +189,12 @@ export const mockGetStarredEntry = rest.get('/api/starredEntry', (req, res, ctx)
 
 });
 
-/* export const post = rest.post('/api/post', (req, res, ctx) => {
+export const mockPostCommunityPost = rest.post('/api/post', (req, res, ctx) => {
     return res(
         ctx.status(200),
         ctx.json({ message: "success" })
     )
-}); */
+});
 
 /* export const post = rest.get('/api/post', (req, res, ctx) => {
     const queryDate = req.url.searchParams.get('date');
@@ -271,4 +271,4 @@ export const mockPostAuthLog = rest.post('/api/auth/_log', (req, res, ctx) => {
 
 
 
-export const handlers = [mockGetJournalEntryByDate, mockGetJournalEntryImage, mockGetJournalTopics, mockGetReadEntry, mockGetStarredEntry, mockPostSearch, mockPostComment, mockDeleteComment, mockPostAuthSession, mockPostAuthLog]
+export const handlers = [mockGetJournalEntryByDate, mockGetJournalEntryImage, mockGetJournalTopics, mockGetReadEntry, mockGetStarredEntry, mockPostSearch, mockPostComment, mockDeleteComment, mockPostAuthSession, mockPostAuthLog, mockPostCommunityPost]

@@ -1,0 +1,50 @@
+import { journalDateToISOString } from "@/utils/convertDate";
+import { JournalEntry } from "@prisma/client";
+import { useEffect, useState } from "react";
+
+interface ExampleEntry {
+  header: string,
+  entryDate: string,
+  entry?: JournalEntry,
+  imagePath: string,
+}
+
+export default function useFetchJournalEntries(initialEntries: ExampleEntry[]) {
+  const [entries, setEntries] = useState(initialEntries);
+
+  useEffect(() => {
+    const fetchJournalEntryByDate = async (journalDate: string) => {
+      const dateISO = journalDateToISOString(journalDate);
+
+      try {
+        const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
+          method: 'GET',
+        });
+
+        if (res.status === 200) {
+          const entry = await res.json();
+          return entry;
+        }
+      } catch (error) {
+        console.log("Could not find journal entry by date: " + error);
+      }
+
+      return undefined;
+    }
+
+    const fetchEntries = async () => {
+      const fetchedEntries = await Promise.all(
+        initialEntries.map(async (entry) => ({
+          ...entry,
+          journalEntry: await fetchJournalEntryByDate(entry.entryDate),
+        })),
+      );
+
+      setEntries(fetchedEntries);
+    };
+
+    fetchEntries();
+  }, []);
+
+  return entries;
+}
