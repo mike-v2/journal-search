@@ -21,13 +21,25 @@ const mockExampleEntries = [
     header: 'Mocked Entry 1',
     entryDate: '01-01-2023',
     imagePath: '/mocked-image-1.png',
-    journalEntry: { text: 'Mocked journal entry 1' },
+    entry: {
+      id: '123',
+      date: new Date(2023, 0, 1),
+      startPage: '23',
+      endPage: '24',
+      content: 'Mocked journal entry 1',
+    },
   },
   {
     header: 'Mocked Entry 2',
     entryDate: '02-01-2023',
     imagePath: '/mocked-image-2.png',
-    journalEntry: { text: 'Mocked journal entry 2' },
+    entry: {
+      id: '1234',
+      date: new Date(2023, 1, 1),
+      startPage: '51',
+      endPage: '54',
+      content: 'Mocked journal entry 2',
+    },
   },
 ]
 
@@ -36,7 +48,7 @@ beforeAll(() => {
 });
 beforeEach(() => {
   (useFetchJournalEntries as jest.Mock).mockReturnValue(mockExampleEntries);
-  render(<Home />);
+  render(<SessionProvider session={mockSession}><Home /></SessionProvider>);
 });
 afterEach(() => {
   server.resetHandlers();
@@ -46,8 +58,8 @@ afterAll(() => server.close());
 jest.mock('../hooks/useFetchJournalEntries'); 
 
 describe('Home', () => {
-  test("renders Home", async () => {
-    const entryElement = await screen.findAllByLabelText("Journal Entry");
+  test("renders the correct number of example journal entries", () => {
+    const entryElement = screen.getAllByLabelText("Journal Entry");
     expect(entryElement.length).toBe(mockExampleEntries.length);
   });
 
@@ -70,5 +82,7 @@ describe('Home', () => {
   test('renders the entries returned by useFetchJournalEntries', () => {
     expect(screen.getByText('Mocked Entry 1')).toBeInTheDocument();
     expect(screen.getByText('Mocked Entry 2')).toBeInTheDocument();
+    expect(screen.getByText('Mocked journal entry 1')).toBeInTheDocument();
+    expect(screen.getByText('Mocked journal entry 2')).toBeInTheDocument();
   });
 });
