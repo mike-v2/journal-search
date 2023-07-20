@@ -33,13 +33,16 @@ export default function useFetchJournalEntries(initialEntries: ExampleEntry[]) {
     }
 
     const fetchEntries = async () => {
+      console.log(`fetching ${initialEntries.length} entries`)
       const fetchedEntries = await Promise.all(
         initialEntries.map(async (entry) => ({
           ...entry,
-          journalEntry: await fetchJournalEntryByDate(entry.entryDate),
+          entry: await fetchJournalEntryByDate(entry.entryDate),
         })),
       );
 
+      console.log("setting entries::");
+      console.log(fetchedEntries);
       setEntries(fetchedEntries);
     };
 
