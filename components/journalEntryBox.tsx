@@ -362,12 +362,12 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
         <p className="text-2xl font-bold p-4 mt-10 text-center text-slate-800">
           {makeDatePretty(dateToJournalDate(date))}
         </p>
-        <div className={`${displayMode === 'text' ? '' : 'hidden'}`}>
+        <div className={`${displayMode !== 'text' ? 'hidden' : ''}`}>
           <p className="p-4 text-slate-800">
             {content !== '' && content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
           </p>
         </div>
-        <div className={`${displayMode === 'image' ? '' : 'hidden'} flex justify-center flex-wrap`}>
+        <div className={`${displayMode !== 'image' ? 'hidden' : ''} flex justify-center flex-wrap`}>
           {imagePaths && imagePaths[currentImageIndex] && (
             <div>
               <Image src={imagePaths[currentImageIndex]} width={600} height={800} alt={`journal image ${currentImageIndex}`} key={`${date}-${currentImageIndex}`} />
@@ -376,8 +376,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
                 <button className={`btn h-16 w-16 ${currentImageIndex >= imagePaths.length - 1 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex + 1)} aria-label="Next Image Button">{'>'}</button>
               </div>
             </div>
-          )
-          }
+          )}
         </div>
       </div>
     </article>

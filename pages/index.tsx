@@ -11,7 +11,6 @@ import useFetchJournalEntries from '@/hooks/useFetchJournalEntries'
 
 const inter = Inter({ subsets: ['latin'] })
 
-
 const playball = Playball({
   subsets: ['latin'],
   weight: ['400'],
@@ -33,10 +32,6 @@ const bioText = {
   body: "Discover the fascinating world of Harry Howard (1899-1959), a devoted husband, father, and proud resident of Salt Lake City. Through the pages of his personal journals, we invite you to journey back in time and gain insight into the life and experiences of a family man in the 1930s.\n\nHarry worked tirelessly at the post office, ensuring the smooth flow of communication within his community. He was married to the love of his life, Grace, with whom he built a beautiful family. Together, they raised seven children: Cathy, Charles, Sonny, Sharon, Ardie, Dorothy and Betty.\n\nHarry was a deeply spiritual man, actively involved in the Latter-Day Saints (LDS) church. His faith and commitment to his community played a significant role in shaping his daily life.\n\nAs you explore this site, take a moment to immerse yourself in Harry's world. Delve into his thoughts, hopes, and dreams, and witness the unfolding of a rich and vibrant family history that has been lovingly preserved for future generations.\n\nWelcome to the Harry Howard Journals – your portal to the past."
 }
 
-
-
-
-
 const initialEntries = [
   {
     header: 'Grace Howard',
@@ -55,68 +50,8 @@ const initialEntries = [
   }
 ];
 
-
-
 export default function Home() {
   const exampleEntries = useFetchJournalEntries(initialEntries);
-
-  /* useEffect(() => {
-    let isCancelled = false;
-
-    async function fetchJournalEntryByDate(journalDate: string): Promise<JournalEntry | undefined> {
-      const dateISO = journalDateToISOString(journalDate);
-
-      try {
-        const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
-          method: 'GET',
-        });
-
-        if (res.status === 200) {
-          const entry = await res.json() as JournalEntry;
-          if (entry) {
-            return entry;
-          }
-        } else if (res.status === 500) {
-          const data = await res.json();
-          console.log(data.error);
-        } else {
-          console.log("Could not find journal entry by date");
-        }
-      } catch (error) {
-        console.log("Could not find journal entry by date: " + error);
-      }
-
-      return undefined;
-    }
-
-    async function updateExampleEntries() {
-      const promises = exampleEntries.map(async (topic) => {
-        try {
-          const entry = await fetchJournalEntryByDate(topic.entryDate);
-          if (!isCancelled) {
-            return { ...topic, entry };
-          } else {
-            return topic;
-          }
-        } catch (error) {
-          console.error(error);
-          return topic;
-        }
-      });
-
-      const newState = await Promise.all(promises);
-
-      if (!isCancelled) {
-        setExampleEntries(newState);
-      }
-    }
-
-    updateExampleEntries();
-
-    return () => {
-      isCancelled = true;
-    }
-  }, []); */
 
   return (
     <>
