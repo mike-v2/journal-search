@@ -240,6 +240,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
           body: JSON.stringify({
             journalEntryId: id,
             userId: session?.user.id,
+            title: postTitle,
             text: postText,
           }),
         })
@@ -263,6 +264,8 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   function handleUnhoverCorner() {
     setIsCornerHovered(false);
   }
+
+  const [postTitle, setPostTitle] = useState<string>('');
 
   return (
     <article className={`${isRead ? 'opacity-50' : ''}`} style={{
@@ -313,6 +316,14 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
           >
             <form onSubmit={handleCreatePost}>
               <h2 className="mb-3 text-xl text-slate-200">Create Post</h2>
+              <textarea
+                className="w-full mb-3 p-2 border rounded-md"
+                value={postTitle}
+                onChange={e => setPostTitle(e.target.value)}
+                placeholder="Title"
+                required
+                aria-label="Post Title"
+              />
               <textarea
                 className="w-full mb-3 p-2 border rounded-md"
                 value={postText}
