@@ -8,6 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         select: {
           journalEntry: true,
           createdBy: true,
+          createdAt: true,
           text: true,
           comments: {
             include: {
@@ -25,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ error: error });
     }
   } else if (req.method === 'POST') { //user has created post
-    const { userId, journalEntryId, text } = JSON.parse(req.body);
+    const { userId, journalEntryId, title, text } = JSON.parse(req.body);
 
     if (!userId || !journalEntryId || !text) {
       return res.status(404).json({ error: 'UserId, JournalEntryId, and Text are required to make a post' });
@@ -36,6 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         data: {
           creatorId: userId as string,
           journalEntryId: journalEntryId as string,
+          title: title as string,
           text: text as string,
         },
       });

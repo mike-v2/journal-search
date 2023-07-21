@@ -37,7 +37,7 @@ export default function Community() {
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
       </Head>
       <main>
-        <div className={`flex border-4 rounded-2xl w-10/12 max-w-4xl mx-auto mt-20 p-10`}>
+        <div className={`border-4 rounded-2xl w-10/12 max-w-4xl mx-auto mt-20 p-10`}>
           {posts && posts.map(post => {
             return (
               <div className="mt-5" key={post.id}>

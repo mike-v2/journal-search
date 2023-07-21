@@ -111,6 +111,7 @@ model Post {
   createdAt      DateTime     @default(now())
   journalEntry   JournalEntry @relation(fields: [journalEntryId], references: [id])
   journalEntryId String
+  title          String       @default("")
   text           String
   comments       Comment[]
 }
