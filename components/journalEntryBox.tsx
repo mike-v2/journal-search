@@ -285,8 +285,8 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
         </div>
         <div className="corner-fold absolute top-0 right-0 shadow-xl shadow-black" ></div>
       </div>
-      <div className={`${josefin.className} corner-cut-out h-fit p-8 pb-16 border-2 border-slate-400 whitespace-pre-wrap`}>
-        <div className="flex my-8" >
+      <div className={`${josefin.className} corner-cut-out h-fit p-2 md:p-8 pb-16 border-2 border-slate-400 whitespace-pre-wrap`}>
+        <section className="flex my-16 md:my-8" >
           <div className="dropdown dropdown-bottom w-12" role="menu" aria-label="Dropdown Menu" aria-haspopup="true">
             <label tabIndex={0} className="btn m-1 p-0 bg-transparent border-none" role="button" aria-label="Kebab Icon Button">
               <Image src="/images/kebab_icon.svg" className="" width={50} height={50} alt="kebab icon" />
@@ -347,12 +347,17 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
             {isRead && <Image src='/images/stamp.jpg' fill alt='stamp' />}
             {!isRead && <p className="text-center">Mark<br />Read</p>}
           </button>
-        </div>
-        <section className="flex flex-col w-full bg-amber-200 p-6" aria-label="topics">
+        </section>
+
+        <p className="text-3xl font-bold p-4 my-6 text-center text-slate-800">
+          {makeDatePretty(dateToJournalDate(date))}
+        </p>
+
+        <section className="flex flex-col w-full max-w-sm md:max-w-xl bg-amber-200 mx-auto p-6" aria-label="topics">
           {topics && Array.isArray(topics) && topics.map((topic) => {
             return (
-              <div className='flex-auto py-2 px-4 my-auto' key={topic.summary.slice(0, 25)}>
-                <div className="flex">
+              <div className='flex-auto py-2 md:px-4 my-auto' key={topic.summary.slice(0, 25)}>
+                <div className="flex justify-center md:justify-start">
                   <div className="basis-10 flex-none my-auto">
                     {getTopicIconPath(topic) && <Image src={getTopicIconPath(topic)} className="" width={25} height={25} alt={topic.name + " icon"} />}
                   </div>
@@ -360,35 +365,35 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
                     <p className="flex-auto capitalize text-lg font-bold text-slate-800 my-auto">
                       {`${topic.name}`}
                     </p>
-                    <p className="flex-auto truncate text-sm text-slate-600 my-auto">
+                    <p className="hidden md:block flex-auto truncate text-sm text-slate-600 my-auto">
                       {getTopicSubheading(topic)}
                     </p>
                   </div>
-
                 </div>
               </div>
             )
           })}
         </section>
-        <p className="text-2xl font-bold p-4 mt-10 text-center text-slate-800">
-          {makeDatePretty(dateToJournalDate(date))}
-        </p>
-        <div className={`${displayMode !== 'text' ? 'hidden' : ''}`}>
-          <p className="p-4 text-slate-800">
-            {content !== '' && content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
-          </p>
-        </div>
-        <div className={`${displayMode !== 'image' ? 'hidden' : ''} flex justify-center flex-wrap`}>
-          {imagePaths && imagePaths[currentImageIndex] && (
-            <div>
-              <Image src={imagePaths[currentImageIndex]} width={600} height={800} alt={`journal image ${currentImageIndex}`} key={`${date}-${currentImageIndex}`} />
-              <div className="btn-group flex justify-center">
-                <button className={`btn h-16 w-16 ${currentImageIndex <= 0 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex - 1)} aria-label="Previous Image Button">{'<'}</button>
-                <button className={`btn h-16 w-16 ${currentImageIndex >= imagePaths.length - 1 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex + 1)} aria-label="Next Image Button">{'>'}</button>
+
+        <section className="pt-4">
+          <div className={`${displayMode !== 'text' ? 'hidden' : ''}`}>
+            <p className="p-4 text-slate-800">
+              {content !== '' && content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
+            </p>
+          </div>
+          <div className={`${displayMode !== 'image' ? 'hidden' : ''} flex justify-center flex-wrap`}>
+            {imagePaths && imagePaths[currentImageIndex] && (
+              <div>
+                <Image src={imagePaths[currentImageIndex]} width={600} height={800} alt={`journal image ${currentImageIndex}`} key={`${date}-${currentImageIndex}`} />
+                <div className="btn-group flex justify-center">
+                  <button className={`btn h-16 w-16 ${currentImageIndex <= 0 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex - 1)} aria-label="Previous Image Button">{'<'}</button>
+                  <button className={`btn h-16 w-16 ${currentImageIndex >= imagePaths.length - 1 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex + 1)} aria-label="Next Image Button">{'>'}</button>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        </section>
+
       </div>
     </article>
   )
