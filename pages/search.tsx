@@ -1,4 +1,3 @@
-import { Topic } from "@/components/topicType";
 import Image from "next/image";
 import React from "react";
 import { useEffect, useRef, useState } from "react";
@@ -88,12 +87,9 @@ export default function Search() {
     const dateISO = new Date(selectedSearchResult.date).toISOString();
 
     try {
-      console.log("trying to get journal entry")
       const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
         method: 'GET',
       });
-      console.log('received journal entry response::');
-      console.log(res);
 
       if (res.status === 200) {
         const entry = await res.json() as JournalEntry;
@@ -114,7 +110,7 @@ export default function Search() {
   const runSearch = async () => {
     console.log("running search with query: " + searchBox.current?.value);
     try {
-      const res = await fetch('/api/fetchSearch', {
+      const res = await fetch('/api/searchEmbeddings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

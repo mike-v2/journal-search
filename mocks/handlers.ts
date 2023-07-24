@@ -204,7 +204,7 @@ export const mockDeleteComment = rest.delete('/api/comment', (req, res, ctx) => 
   )
 });
 
-export const mockPostSearch = rest.post('/api/fetchSearch', (req, res, ctx) => {
+export const mockPostSearch = rest.post('/api/searchEmbeddings', (req, res, ctx) => {
   return res(
     ctx.status(200),
     ctx.json({ results: 'Date:2023-07-14; Text:first5'.repeat(5) + 'Date:2023-07-14; Text:second5'.repeat(5) })
