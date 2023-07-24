@@ -2,12 +2,11 @@ import 'whatwg-fetch'
 import { server } from "@/mocks/server";
 import { SessionProvider } from "next-auth/react";
 import { User } from "next-auth";
-import { fireEvent, render, screen, waitFor, within, act } from "@testing-library/react";
+import { fireEvent, render, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import PostBox from "../components/postBox";
 import PostExt from "@/types/postExt";
 import CommentExt from "@/types/commentExt";
-import { mockDeleteComment } from '@/mocks/handlers';
 
 type PostExtMock = Omit<PostExt, 'comments'> & {
   comments: CommentExt[]
@@ -32,6 +31,7 @@ const mockPost: PostExtMock = {
     email: null,
     emailVerified: null,
   },
+  title: 'Test Post Title',
   text: 'Test Post Text',
   comments: [{
     id: '123',
@@ -84,56 +84,71 @@ describe("PostBox rendering", () => {
   });
 
   test("renders journal entry text", () => {
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    const { getByText } = render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    // expand post
+    fireEvent.click(getByText(mockPost.title));
 
-    expect(screen.getByText(mockPost.journalEntry.content)).toBeInTheDocument();
+    expect(getByText(mockPost.journalEntry.content)).toBeInTheDocument();
   })
 
   test("displays user's avatar correctly", () => {
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    const { getByText, getByAltText } = render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    // expand post
+    fireEvent.click(getByText(mockPost.title));
 
-    expect(screen.getByAltText(`${mockPost.createdBy.name}'s avatar`)).toBeInTheDocument();
-    expect(screen.getByAltText(`${mockPost.createdBy.name}'s avatar`)).toHaveAttribute('src', expect.stringMatching(/via\.placeholder/));
+    expect(getByAltText(`${mockPost.createdBy.name}'s avatar`)).toBeInTheDocument();
+    expect(getByAltText(`${mockPost.createdBy.name}'s avatar`)).toHaveAttribute('src', expect.stringMatching(/via\.placeholder/));
   });
 
   test("displays creator's name correctly", () => {
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    const { getByText } = render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
 
-    expect(screen.getByText(mockPost.createdBy.name as string)).toBeInTheDocument();
+    expect(getByText(mockPost.createdBy.name as string)).toBeInTheDocument();
   });
 
   test("displays post text correctly", () => {
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    const { getByText } = render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    // expand post
+    fireEvent.click(getByText(mockPost.title));
 
-    expect(screen.getByText(mockPost.text)).toBeInTheDocument();
+    expect(getByText(mockPost.text)).toBeInTheDocument();
   });
 
   test("renders comment input field and button iff session user exists", () => {
-    render(<SessionProvider session={undefined}><PostBox {...mockPost} /></SessionProvider>);
+    const { getByText, queryByText, queryByPlaceholderText } = render(<SessionProvider session={undefined}><PostBox {...mockPost} /></SessionProvider>);
+    // expand post
+    fireEvent.click(getByText(mockPost.title));
 
-    expect(screen.queryByPlaceholderText('Add a comment...')).not.toBeInTheDocument();
-    expect(screen.queryByText('Comment')).not.toBeInTheDocument();
+    expect(queryByPlaceholderText('Add a comment...')).not.toBeInTheDocument();
+    expect(queryByText('Comment')).not.toBeInTheDocument();
+  });
 
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+  test("does not render comment input field and button if user is not logged in", () => {
+    const { getByText, getByPlaceholderText } = render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    // expand post
+    fireEvent.click(getByText(mockPost.title));
 
-    expect(screen.getByPlaceholderText('Add a comment...')).toBeInTheDocument();
-    expect(screen.getByText('Comment')).toBeInTheDocument();
-
+    expect(getByPlaceholderText('Add a comment...')).toBeInTheDocument();
+    expect(getByText('Comment')).toBeInTheDocument();
   });
 
   test("renders all comments correctly", () => {
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    const { getByText } = render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    // expand post
+    fireEvent.click(getByText(mockPost.title));
 
     for (const comment of mockPost.comments) {
-      expect(screen.getByText(comment.text)).toBeInTheDocument();
-      expect(screen.getByText(comment.user.name as string)).toBeInTheDocument();
+      expect(getByText(comment.text)).toBeInTheDocument();
+      expect(getByText(comment.user.name as string)).toBeInTheDocument();
     }
   });
 
   test("shows edit and delete buttons iff comment's userId matches the session user's ID", () => {
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    const { getByText, getAllByLabelText } = render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    // expand post
+    fireEvent.click(getByText(mockPost.title));
 
-    const commentElements = screen.getAllByLabelText("User comment");
+    const commentElements = getAllByLabelText("User comment");
     expect(commentElements.length).toEqual(mockPost.comments.length);
     mockPost.comments.forEach((comment, index) => {
       if (comment.userId === mockSession.user.id) {
@@ -151,21 +166,25 @@ describe("PostBox rendering", () => {
 
 describe("PostBox interaction", () => {
   test('handles new comment submission', async () => {
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    const { getByText, findByText, getByLabelText } = render(<SessionProvider session={mockSession}><PostBox {...mockPost} /></SessionProvider>);
+    // expand post
+    fireEvent.click(getByText(mockPost.title));
 
-    const input = screen.getByLabelText('Comment Input');
+    const input = getByLabelText('Comment Input');
     userEvent.type(input, 'This is a new comment');
 
-    fireEvent.click(screen.getByText('Comment'));
+    fireEvent.click(getByText('Comment'));
 
-    expect(await screen.findByText('This is a new comment')).toBeInTheDocument();
+    expect(await findByText('This is a new comment')).toBeInTheDocument();
   });
 
   test('fills the new text area with the original comment when user clicks edit', () => {
     const specialComments = [{ id: 'comment-id', userId: mockSession.user.id, postId: '123', createdAt: new Date(2023, 0, 2), text: 'edit me' }];
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
+    const { getByText, getAllByLabelText } = render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
+    // expand post
+    fireEvent.click(getByText(mockPost.title));
 
-    const commentElements = screen.getAllByLabelText("User comment");
+    const commentElements = getAllByLabelText("User comment");
 
     mockPost.comments.forEach(async (comment, index) => {
       if (comment.userId === mockSession.user.id) {
@@ -181,9 +200,11 @@ describe("PostBox interaction", () => {
 
   test('handles comment edit', async () => {
     const specialComments = [{ id: 'comment-id', userId: mockSession.user.id, postId: '123', createdAt: new Date(2023, 0, 2), text: 'old comment' }];
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
+    const { getByText, getAllByLabelText, findByText } = render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
+    // expand post
+    fireEvent.click(getByText(mockPost.title));
 
-    const commentElements = screen.getAllByLabelText("User comment");
+    const commentElements = getAllByLabelText("User comment");
 
     mockPost.comments.forEach(async (comment, index) => {
       if (comment.userId === mockSession.user.id) {
@@ -200,14 +221,16 @@ describe("PostBox interaction", () => {
       }
     });
 
-    expect(await screen.findByText('This is an edited comment')).toBeInTheDocument();
+    expect(await findByText('This is an edited comment')).toBeInTheDocument();
   });
 
   test('handles comment delete', async () => {
     const specialComments = [{ id: 'comment-id', userId: mockSession.user.id, postId: '123', createdAt: new Date(2023, 0, 2), text: 'delete me' }];
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
+    const { getByText, getAllByLabelText, queryByText } = render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
+    // expand post
+    fireEvent.click(getByText(mockPost.title));
 
-    const commentElements = screen.getAllByLabelText("User comment");
+    const commentElements = getAllByLabelText("User comment");
 
     mockPost.comments.forEach(async (comment, index) => {
       if (comment.userId === mockSession.user.id) {
@@ -217,14 +240,16 @@ describe("PostBox interaction", () => {
       }
     });
 
-    await waitFor(() => expect(screen.queryByText('delete me')).not.toBeInTheDocument());
+    await waitFor(() => expect(queryByText('delete me')).not.toBeInTheDocument());
   });
 
   test('handles cancelling comment edit', async () => {
     const specialComments = [{ id: 'comment-id', userId: mockSession.user.id, postId: '123', createdAt: new Date(2023, 0, 2), text: 'cancel me' }];
-    render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
+    const { getByText, getAllByLabelText, queryByText, findByText } = render(<SessionProvider session={mockSession}><PostBox {...mockPost} comments={specialComments} /></SessionProvider>);
+    // expand post
+    fireEvent.click(getByText(mockPost.title));
 
-    const commentElements = screen.getAllByLabelText("User comment");
+    const commentElements = getAllByLabelText("User comment");
 
     mockPost.comments.forEach(async (comment, index) => {
       if (comment.userId === mockSession.user.id) {
@@ -241,7 +266,7 @@ describe("PostBox interaction", () => {
       }
     });
 
-    expect(screen.queryByText('This should be cancelled')).not.toBeInTheDocument();
-    expect(await screen.findByText('cancel me')).toBeInTheDocument();
+    expect(queryByText('This should be cancelled')).not.toBeInTheDocument();
+    expect(await findByText('cancel me')).toBeInTheDocument();
   });
 })
