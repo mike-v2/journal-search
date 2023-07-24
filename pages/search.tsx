@@ -88,9 +88,12 @@ export default function Search() {
     const dateISO = new Date(selectedSearchResult.date).toISOString();
 
     try {
+      console.log("trying to get journal entry")
       const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
         method: 'GET',
       });
+      console.log('received journal entry response::');
+      console.log(res);
 
       if (res.status === 200) {
         const entry = await res.json() as JournalEntry;
@@ -206,7 +209,7 @@ export default function Search() {
             </div>
           )}
           <div className="w-full md:w-3/4 lg:w-1/2 min-h-screen mx-auto mt-8 lg:mt-0" ref={journalEntryBox} aria-label="Selected entry">
-            {searchIsActive && selectedEntry && (
+            {selectedEntry && (
               <JournalEntryBox {...selectedEntry} />
             )}
           </div>
