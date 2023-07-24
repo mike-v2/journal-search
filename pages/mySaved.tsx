@@ -16,7 +16,7 @@ type StarredEntryExt = StarredEntry & { journalEntry: JournalEntry };
 export default function MySaved() {
   const {data: session} = useSession();
   const [starredEntries, setStarredEntries] = useState<StarredEntryExt[]>([]);
-  const [activeEntries, setActiveEntries] = useState<StarredEntryExt[]>([]);
+  const [activeEntry, setActiveEntry] = useState<StarredEntryExt>();
   const [sortMode, setSortMode] = useState<string>('journalDate');
 
   useEffect(() => {
@@ -62,14 +62,15 @@ export default function MySaved() {
     setStarredEntries(prevEntries => prevEntries.filter(entry => entry.journalEntryId !== journalEntryId));
   }
 
-  function handleDateClicked(activeEntry: StarredEntryExt) {
-    setActiveEntries(prevEntries => {
+  function handleDateClicked(clickedEntry: StarredEntryExt) {
+    /* setActiveEntry(prevEntries => {
       if (prevEntries.includes(activeEntry)) {
         return prevEntries.filter(entry => entry.journalEntryId !== activeEntry.journalEntryId);
       } else {
         return [...prevEntries, activeEntry];
       }
-    })
+    }) */
+    setActiveEntry(clickedEntry);
   }
 
   return (
@@ -91,17 +92,15 @@ export default function MySaved() {
         </div>
         <div className="tabs tabs-boxed w-fit mx-auto">
           {starredEntries && starredEntries.map((starredEntry, i) => {
-            return <div className={`tab ${activeEntries.includes(starredEntry) ? 'tab-active' : ''}`} onClick={e => handleDateClicked(starredEntry)} key={i}>{makeDatePretty(timestampToDate(new Date(starredEntry.journalEntry.date).toISOString()))}</div>
+            return <div className={`tab ${activeEntry?.journalEntryId === starredEntry.journalEntryId ? 'tab-active' : ''}`} onClick={e => handleDateClicked(starredEntry)} key={i}>{makeDatePretty(timestampToDate(new Date(starredEntry.journalEntry.date).toISOString()))}</div>
           })}
         </div>
         <div className="h-fit min-h-screen w-10/12 max-w-4xl mx-auto mt-20">
-          {activeEntries && activeEntries.map((starredEntry) => {
-            return (
-              <div className="pt-10" key={starredEntry.journalEntryId}>
-                <JournalEntryBox {...starredEntry.journalEntry} onStarRemoved={handleStarRemoved} />
-              </div>
-            )
-          })}
+          {activeEntry &&
+            <div className="pt-10" key={activeEntry.journalEntryId}>
+              <JournalEntryBox {...activeEntry.journalEntry} onStarRemoved={handleStarRemoved} />
+            </div>
+          }
         </ div>
       </main>
     </>
