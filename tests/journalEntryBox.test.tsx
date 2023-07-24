@@ -76,14 +76,18 @@ describe('JournalEntryBox', () => {
     fireEvent.click(getByLabelText('Dropdown Menu'));
     fireEvent.click(getByText('Create Post'));
 
-    const placeholderElement = getByPlaceholderText(modalPlaceholderText);
-    fireEvent.change(placeholderElement, {
-      target: { value: 'Hello world!' },
+    const titleInput = getByPlaceholderText('Title');
+    fireEvent.change(titleInput, {
+      target: { value: 'Test Post Title' }
+    });
+    const bodyInput = getByPlaceholderText(modalPlaceholderText);
+    fireEvent.change(bodyInput, {
+      target: { value: 'Test Post Body' },
     });
 
     fireEvent.click(getByText('Post'));
     await waitFor(() => {
-      expect(placeholderElement).toHaveValue('');
+      expect(bodyInput).toHaveValue('');
     });
   });
 });
