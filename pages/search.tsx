@@ -20,6 +20,7 @@ export default function Search() {
   const [selectedEntry, setSelectedEntry] = useState<JournalEntry>();
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [displaySearchResults, setDisplaySearchResults] = useState<SearchResult[]>([]);
+  const [hasSearched, setHasSearched] = useState<boolean>(false);
   const journalEntryBox = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -71,6 +72,7 @@ export default function Search() {
     setSearchResults([]);
     setDisplaySearchResults([]);
 
+    setHasSearched(true);
     setSearchIsActive(true);
     await runSearch();
     setSearchIsActive(false);
@@ -170,17 +172,19 @@ export default function Search() {
 
           </form>
         </section>
-        <section className="text-center text-2xl italic" aria-live="polite">
-          {searchIsActive &&
-            <p>Loading Entries...</p>
-          }
-          {!searchIsActive && searchResults.length > 0 &&
-            <p>{`Found ${searchResults.length} Journal Entries`}</p>
-          }
-          {!searchIsActive && searchResults.length === 0 &&
-            <p>Found 0 Results</p>
-          }
-        </section>
+        {hasSearched &&
+          <section className="text-center text-2xl italic" aria-live="polite">
+            {searchIsActive &&
+              <p>Loading Entries...</p>
+            }
+            {!searchIsActive && searchResults.length > 0 &&
+              <p>{`Found ${searchResults.length} Journal Entries`}</p>
+            }
+            {!searchIsActive && searchResults.length === 0 &&
+              <p>Found 0 Results</p>
+            }
+          </section>
+        }
         <section className="flex flex-col lg:flex-row justify-center align-middle" aria-label="Search results and selected entry">
           {displaySearchResults.length > 0 && (
             <div className="flex flex-col w-full md:w-4/5 mx-auto lg:w-1/2 lg:mr-4 h-fit border-2 border-slate-400" aria-label="Search results">
