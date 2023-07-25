@@ -9,6 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           journalEntry: true,
           createdBy: true,
           createdAt: true,
+          title: true,
           text: true,
           comments: {
             include: {

@@ -104,34 +104,34 @@ export default function PostBox({ id, journalEntry, createdBy, createdAt, title,
   }
 
   return (
-    <div className="collapse">
-      <summary className="collapse-title" onClick={e => setIsExpanded(prevExpanded => !prevExpanded)}>
-        <div className="flex w-100">
+    <div className="collapse" aria-label="User post">
+      <summary className="collapse-title mx-4 list-none" onClick={e => setIsExpanded(prevExpanded => !prevExpanded)}>
+        <div className="flex gap-x-6">
           <div className="text-xl font-medium">
             <p>{makeDatePretty(timestampToDate(new Date(journalEntry.date).toISOString()))}</p>
-            <p>{title}</p>
+            <p>{title.slice(0, 150)}</p>
           </div>
-          <div className="ms-auto">
-            <p className="inline">{createdBy.name}</p>
-            <p className="text-sm italic">{timestampToDate(new Date(createdAt).toISOString())}</p>
+          <div className="flex-none ms-auto">
+            <div className="flex gap-x-2">
+              {createdBy.image &&
+                <Image src={createdBy.image} className="rounded-full" width={50} height={50} alt={`${createdBy.name}'s avatar`} />
+              }
+              <div className="flex flex-col justify-center">
+                <p className="inline">{createdBy.name}</p>
+                <p className="text-sm italic">{timestampToDate(new Date(createdAt).toISOString())}</p>
+              </div>
+            </div>
+
           </div>
         </div>
       </summary>
       {isExpanded &&
         <article className="flex flex-col mx-auto" key={id} aria-label="posted journal entry">
           <JournalEntryBox {...journalEntry} />
-          <div aria-label="User post" className="flex mt-6">
-            {createdBy.image &&
-              <Image src={createdBy.image} className="rounded-full" width={50} height={50} alt={`${createdBy.name}'s avatar`} />
-            }
-            <div className="flex flex-col ml-4">
-              <p className="font-bold">
-                {createdBy.name}
-              </p>
-              <p>
-                {text}
-              </p>
-            </div>
+          <div className="flex mt-8 mb-16">
+            <p>
+              {text}
+            </p>
           </div>
           {session?.user &&
             <div className="flex my-4">
