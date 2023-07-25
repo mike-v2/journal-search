@@ -4,7 +4,7 @@ import { JournalEntry, StarredEntry } from "@prisma/client"
 import { useSession } from "next-auth/react";
 import { Josefin_Sans } from "next/font/google";
 import Head from "next/head";
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
 const josefin = Josefin_Sans({
   subsets: ['latin'],
@@ -32,6 +32,10 @@ export default function MySaved() {
           const starredEntries = await res.json() as StarredEntryExt[];
           starredEntries.sort((a, b) => new Date(a.journalEntry.date).getTime() - new Date(b.journalEntry.date).getTime());
           setStarredEntries(starredEntries);
+
+          if (!activeEntry && starredEntries && starredEntries.length > 0) {
+            setActiveEntry(starredEntries[0])
+          }
         } else console.log("received error response from starredEntry API. Status: " + res.status);
       } catch (error) {
         console.log("error retrieving user's starred entries: " + error);
@@ -63,13 +67,6 @@ export default function MySaved() {
   }
 
   function handleDateClicked(clickedEntry: StarredEntryExt) {
-    /* setActiveEntry(prevEntries => {
-      if (prevEntries.includes(activeEntry)) {
-        return prevEntries.filter(entry => entry.journalEntryId !== activeEntry.journalEntryId);
-      } else {
-        return [...prevEntries, activeEntry];
-      }
-    }) */
     setActiveEntry(clickedEntry);
   }
 
