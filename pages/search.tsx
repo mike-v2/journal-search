@@ -191,7 +191,6 @@ export default function Search() {
               {displaySearchResults.map((result, i) => {
                 return (
                   <div key={i}>
-                    {/* <JournalTopicBox {...result} handleSelectResult={handleSelectResult} isSelected={selectedTopic?.summary == result.summary} key={result.name + result.summary.slice(0, 25)} /> */}
                     <div className={"border border-slate-400 m-3 p-3 hover:cursor-pointer" + (selectedSearchResult?.date === result.date ? ' border-4 bg-slate-700' : '')} onClick={e => handleSelectResult(result)}>
                       <div className="italic">
                         {result.date}

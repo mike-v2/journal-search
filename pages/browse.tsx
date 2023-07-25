@@ -1,4 +1,4 @@
-import { dateToJournalDate, journalDateToCondensedDate, journalDateToDate, makeDatePretty } from '@/utils/convertDate';
+import { dateToJournalDate, journalDateToCondensedDate, journalDateToDate, makeDatePretty, timestampToDate } from '@/utils/convertDate';
 import { useEffect, useState } from 'react';
 import Slider from 'react-input-slider'
 import { addDays, addWeeks, differenceInDays, eachMonthOfInterval, format, isAfter, isBefore, startOfYear, subWeeks } from 'date-fns';
@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { parseISO } from 'date-fns';
 import Head from 'next/head';
+import JournalTopicBox from '@/components/journalTopicBox';
 
 interface GraphTrace {
   property: string,
@@ -375,13 +376,27 @@ export default function Browse() {
 
         <section className="flex pb-12" aria-label="Journal entries">
           <div className='hidden xl:block xl:w-1/4 p-8'>
-            {displayEntryBefore && <JournalEntryBox {...displayEntryBefore} />}
+            {displayEntryBefore &&
+              <div className='flex flex-col gap-y-4'>
+                <p className='text-xl font-bold text-center'>{makeDatePretty(timestampToDate(new Date(displayEntryBefore.date).toISOString()))}</p>
+                <div className='w-2/3 mx-auto'>
+                  <JournalTopicBox {...displayEntryBefore} />
+                </div>
+              </div>
+            }
           </div>
           <div className='w-11/12 lg:w-3/4 xl:w-1/2 mx-auto'>
             {displayEntryMain && <JournalEntryBox {...displayEntryMain} />}
           </div>
           <div className='hidden xl:block xl:w-1/4 p-8'>
-            {displayEntryAfter && <JournalEntryBox {...displayEntryAfter} />}
+            {displayEntryAfter &&
+              <div className='flex flex-col gap-y-4'>
+                <p className='text-xl font-bold text-center'>{makeDatePretty(timestampToDate(new Date(displayEntryAfter.date).toISOString()))}</p>
+                <div className='w-2/3 mx-auto'>
+                  <JournalTopicBox {...displayEntryAfter} />
+                </div>
+              </div>
+            }
           </div>
         </section>
       </main>

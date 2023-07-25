@@ -5,6 +5,7 @@ import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { ReactEventHandler, useEffect, useRef, useState } from "react";
 import Modal from 'react-modal';
+import JournalTopicBox from "./journalTopicBox";
 
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#__next');
@@ -22,7 +23,6 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   const {data: session} = useSession();
   const [isStarred, setIsStarred] = useState<boolean>(false);
   const [isRead, setIsRead] = useState<boolean>(false);
-  const [topics, setTopics] = useState<JournalTopic[]>([]);
   const [displayMode, setDisplayMode] = useState<string>("text");
   const [imagePaths, setImagePaths] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
@@ -33,15 +33,6 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   const [isCornerHovered, setIsCornerHovered] = useState<boolean>(false);
 
   useEffect(() => {
-    async function fetchTopics() {
-      const res = await fetch(`/api/journalTopic?journalEntryId=${id}`, {
-        method: 'GET',
-      });
-
-      const topics = await res.json();
-      setTopics(topics);
-    }
-
     async function checkIsStarred() {
       if (!session || !session.user) {
         return;
@@ -68,7 +59,6 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
       setIsRead(currentIsRead);
     }
 
-    fetchTopics();
     checkIsStarred();
     checkIsRead();
   }, [id, session]);
@@ -165,55 +155,6 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
     } catch (error) {
       console.error('Error starring journal entry:', error);
     }
-  }
-
-  function getTopicSubheading(topic: JournalTopic) : string {
-    let subheading = '';
-
-    if (Math.abs(topic.strength) > .5) {
-      subheading = topic.emotion;
-    } else if (topic.people.length > 0) {
-      subheading = topic.people.slice(0,3).join(', ');
-    } else if (topic.organizations.length > 0) {
-      subheading = topic.organizations.slice(0, 3).join(', ');
-    } else if (topic.things.length > 0) {
-      subheading = topic.things.slice(0, 3).join(', ');
-    } else if (topic.places.length > 0) {
-      subheading = topic.places.slice(0, 3).join(', ');
-    } else {
-      const summaryLength = 50;
-      const summaryWords = topic.summary.split(' ');
-      subheading = summaryWords.slice(0, summaryLength).join(' ');
-      if (summaryWords.length > summaryLength) {
-        subheading += '...';
-      }
-    }
-
-    return subheading.charAt(0).toUpperCase() + subheading.slice(1);
-  }
-
-  function getTopicIconPath(topic: JournalTopic) : string {
-    if (topic.name == 'family') {
-      return '/images/family_icon.svg';
-    } else if (topic.name == 'travel') {
-      return '/images/travel_icon.svg';
-    } else if (topic.name == 'religion') {
-      return '/images/religion_icon.svg';
-    } else if (topic.name == 'finance') {
-      return '/images/finance_icon.svg';
-    } else if (topic.name == 'weather') {
-      return '/images/weather_icon.svg';
-    } else if (topic.name == 'home improvement') {
-      return '/images/home_improvement_icon.svg';
-    } else if (topic.name == 'work') {
-      return '/images/work_icon.svg';
-    } else if (topic.name == 'correspondence') {
-      return '/images/mail_icon.svg';
-    } else if (topic.name == 'health') {
-      return '/images/health_icon.svg';
-    } 
-
-    return '';
   }
 
   function openModal() {
@@ -354,33 +295,10 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
         </p>
 
         <div className="flex flex-col md:flex-row gap-y-6 gap-x-4">
-          <section className="h-fit w-full md:w-1/3 max-w-sm bg-amber-200 mx-auto p-6 md:px-2" aria-label="topics">
-            <div className="flex flex-col sm:w-full mx-auto">
-              {topics && Array.isArray(topics) && topics.map((topic) => {
-                return (
-                  <div className='flex-auto py-2 md:px-4 my-auto mx-auto sm:mx-0' key={topic.summary.slice(0, 25)}>
-                    <div className="flex flex-col">
-                      <div className="flex">
-                        {getTopicIconPath(topic) &&
-                          <div className="basis-10 flex-none">
-                            <Image src={getTopicIconPath(topic)} className="" width={25} height={25} alt={topic.name + " icon"} />
-                          </div>
-                        }
-                        <p className="flex-auto capitalize whitespace-pre-wrap md:truncate text-lg font-bold text-slate-800">
-                          {`${topic.name}`}
-                        </p>
-                      </div>
-                      <p className="hidden sm:block flex-auto truncate text-sm text-slate-600 my-auto">
-                        {getTopicSubheading(topic)}
-                      </p>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </section>
-
-          <section className="w-full md:w-2/3">
+          <div className="md:w-1/3">
+            <JournalTopicBox id={id} date={date} startPage={startPage} endPage={endPage} content={content} />
+          </div>
+          <div className="w-full md:w-2/3">
             <div className={`${displayMode !== 'text' ? 'hidden' : ''}`}>
               <p className="text-slate-800">
                 {content !== '' && content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
@@ -397,13 +315,8 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
                 </div>
               )}
             </div>
-          </section>
-
-
+          </div>
         </div>
-
-
-
       </div>
     </article>
   )
