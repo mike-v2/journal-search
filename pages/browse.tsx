@@ -377,7 +377,7 @@ export default function Browse() {
         <section className="flex pb-12" aria-label="Journal entries">
           <div className='hidden xl:block xl:w-1/4 p-8'>
             {displayEntryBefore &&
-              <div className='flex flex-col gap-y-4'>
+              <div className='flex flex-col gap-y-4 cursor-pointer' onClick={handlePrevEntryButtonClick}>
                 <p className='text-xl font-bold text-center'>{makeDatePretty(timestampToDate(new Date(displayEntryBefore.date).toISOString()))}</p>
                 <div className='w-2/3 mx-auto'>
                   <JournalTopicBox {...displayEntryBefore} />
@@ -390,7 +390,7 @@ export default function Browse() {
           </div>
           <div className='hidden xl:block xl:w-1/4 p-8'>
             {displayEntryAfter &&
-              <div className='flex flex-col gap-y-4'>
+              <div className='flex flex-col gap-y-4 cursor-pointer' onClick={handleNextEntryButtonClick}>
                 <p className='text-xl font-bold text-center'>{makeDatePretty(timestampToDate(new Date(displayEntryAfter.date).toISOString()))}</p>
                 <div className='w-2/3 mx-auto'>
                   <JournalTopicBox {...displayEntryAfter} />
