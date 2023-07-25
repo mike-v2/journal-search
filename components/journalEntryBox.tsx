@@ -355,18 +355,18 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
 
         <div className="flex flex-col md:flex-row gap-y-6 gap-x-4">
           <section className="h-fit w-full md:w-1/3 max-w-sm bg-amber-200 mx-auto p-6 md:px-2" aria-label="topics">
-            <div className="flex flex-col w-fit sm:w-full mx-auto">
+            <div className="flex flex-col sm:w-full mx-auto">
               {topics && Array.isArray(topics) && topics.map((topic) => {
                 return (
-                  <div className='flex-auto py-2 md:px-4 my-auto' key={topic.summary.slice(0, 25)}>
-                    <div className="flex flex-col ">
+                  <div className='flex-auto py-2 md:px-4 my-auto mx-auto sm:mx-0' key={topic.summary.slice(0, 25)}>
+                    <div className="flex flex-col">
                       <div className="flex">
                         {getTopicIconPath(topic) &&
                           <div className="basis-10 flex-none">
                             <Image src={getTopicIconPath(topic)} className="" width={25} height={25} alt={topic.name + " icon"} />
                           </div>
                         }
-                        <p className="flex-auto capitalize whitespace-pre-wrap truncate text-lg font-bold text-slate-800">
+                        <p className="flex-auto capitalize whitespace-pre-wrap md:truncate text-lg font-bold text-slate-800">
                           {`${topic.name}`}
                         </p>
                       </div>

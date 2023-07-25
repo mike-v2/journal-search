@@ -83,19 +83,19 @@ export default function MySaved() {
         <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
       </Head>
-      <main>
+      <main className="mt-12">
         <div className="flex justify-center mb-4">
           <select className="select select-bordered" value={sortMode} onChange={e => setSortMode(e.target.value)}>
             <option value='journalDate'>By Journal Date</option>
             <option value='addedDate'>By Date Added</option>
           </select>
         </div>
-        <div className="tabs tabs-boxed w-fit mx-auto">
+        <div className="tabs tabs-boxed justify-center w-fit mx-auto">
           {starredEntries && starredEntries.map((starredEntry, i) => {
             return <div className={`tab ${activeEntry?.journalEntryId === starredEntry.journalEntryId ? 'tab-active' : ''}`} onClick={e => handleDateClicked(starredEntry)} key={i}>{makeDatePretty(timestampToDate(new Date(starredEntry.journalEntry.date).toISOString()))}</div>
           })}
         </div>
-        <div className="h-fit min-h-screen md:px-8 max-w-4xl mx-auto mt-20">
+        <div className="h-fit min-h-screen md:px-8 max-w-4xl mx-auto mt-12">
           {activeEntry &&
             <div className="pt-10" key={activeEntry.journalEntryId}>
               <JournalEntryBox {...activeEntry.journalEntry} onStarRemoved={handleStarRemoved} />
