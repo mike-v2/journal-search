@@ -36,11 +36,11 @@ export default function Community() {
         <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
       </Head>
-      <main>
-        <div className={` w-10/12 max-w-4xl min-h-screen mx-auto mt-20 p-10`}>
+      <main className="min-h-screen mt-20">
+        <div className={`w-full max-w-4xl mx-auto md:px-12`}>
           {posts && posts.map(post => {
             return (
-              <div className="mt-5 border-4 rounded-2xl p-4" key={post.id}>
+              <div className="border-4 rounded-2xl" key={post.id}>
                 <PostBox {...post} />
               </div>
             )
