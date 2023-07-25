@@ -345,7 +345,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
 
           <button className={`w-16 h-16 my-auto ml-auto relative flex flex-col justify-center cursor-pointer border rounded-sm border-slate-400`} onClick={handleReadClick} aria-label="Mark Read Button">
             {isRead && <Image src='/images/stamp.jpg' fill alt='stamp' />}
-            {!isRead && <p className="text-center">Mark<br />Read</p>}
+            {!isRead && <p className="mx-auto text-center">Mark<br />Read</p>}
           </button>
         </section>
 
@@ -353,46 +353,56 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
           {makeDatePretty(dateToJournalDate(date))}
         </p>
 
-        <section className="flex flex-col w-full max-w-sm md:max-w-xl bg-amber-200 mx-auto p-6" aria-label="topics">
-          {topics && Array.isArray(topics) && topics.map((topic) => {
-            return (
-              <div className='flex-auto py-2 md:px-4 my-auto' key={topic.summary.slice(0, 25)}>
-                <div className="flex justify-center md:justify-start">
-                  <div className="basis-10 flex-none my-auto">
-                    {getTopicIconPath(topic) && <Image src={getTopicIconPath(topic)} className="" width={25} height={25} alt={topic.name + " icon"} />}
+        <div className="flex flex-col md:flex-row gap-y-6 gap-x-4">
+          <section className="h-fit w-full md:w-1/3 max-w-sm bg-amber-200 mx-auto p-6 md:px-2" aria-label="topics">
+            <div className="flex flex-col w-fit sm:w-full mx-auto">
+              {topics && Array.isArray(topics) && topics.map((topic) => {
+                return (
+                  <div className='flex-auto py-2 md:px-4 my-auto' key={topic.summary.slice(0, 25)}>
+                    <div className="flex flex-col ">
+                      <div className="flex">
+                        {getTopicIconPath(topic) &&
+                          <div className="basis-10 flex-none">
+                            <Image src={getTopicIconPath(topic)} className="" width={25} height={25} alt={topic.name + " icon"} />
+                          </div>
+                        }
+                        <p className="flex-auto capitalize whitespace-pre-wrap truncate text-lg font-bold text-slate-800">
+                          {`${topic.name}`}
+                        </p>
+                      </div>
+                      <p className="hidden sm:block flex-auto truncate text-sm text-slate-600 my-auto">
+                        {getTopicSubheading(topic)}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex flex-col pl-2 truncate">
-                    <p className="flex-auto capitalize text-lg font-bold text-slate-800 my-auto">
-                      {`${topic.name}`}
-                    </p>
-                    <p className="hidden md:block flex-auto truncate text-sm text-slate-600 my-auto">
-                      {getTopicSubheading(topic)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
-        </section>
+                )
+              })}
+            </div>
+          </section>
 
-        <section className="pt-4">
-          <div className={`${displayMode !== 'text' ? 'hidden' : ''}`}>
-            <p className="p-4 text-slate-800">
-              {content !== '' && content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
-            </p>
-          </div>
-          <div className={`${displayMode !== 'image' ? 'hidden' : ''} flex justify-center flex-wrap`}>
-            {imagePaths && imagePaths[currentImageIndex] && (
-              <div>
-                <Image src={imagePaths[currentImageIndex]} width={600} height={800} alt={`journal image ${currentImageIndex}`} key={`${date}-${currentImageIndex}`} />
-                <div className="btn-group flex justify-center">
-                  <button className={`btn h-16 w-16 ${currentImageIndex <= 0 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex - 1)} aria-label="Previous Image Button">{'<'}</button>
-                  <button className={`btn h-16 w-16 ${currentImageIndex >= imagePaths.length - 1 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex + 1)} aria-label="Next Image Button">{'>'}</button>
+          <section className="w-full md:w-2/3">
+            <div className={`${displayMode !== 'text' ? 'hidden' : ''}`}>
+              <p className="text-slate-800">
+                {content !== '' && content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
+              </p>
+            </div>
+            <div className={`${displayMode !== 'image' ? 'hidden' : ''} flex justify-center flex-wrap`}>
+              {imagePaths && imagePaths[currentImageIndex] && (
+                <div>
+                  <Image src={imagePaths[currentImageIndex]} width={600} height={800} alt={`journal image ${currentImageIndex}`} key={`${date}-${currentImageIndex}`} />
+                  <div className="btn-group flex justify-center">
+                    <button className={`btn h-16 w-16 ${currentImageIndex <= 0 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex - 1)} aria-label="Previous Image Button">{'<'}</button>
+                    <button className={`btn h-16 w-16 ${currentImageIndex >= imagePaths.length - 1 ? 'btn-disabled' : ''}`} onClick={() => setCurrentImageIndex(prevIndex => prevIndex + 1)} aria-label="Next Image Button">{'>'}</button>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        </section>
+              )}
+            </div>
+          </section>
+
+
+        </div>
+
+
 
       </div>
     </article>

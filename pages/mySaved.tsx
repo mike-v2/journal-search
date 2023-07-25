@@ -95,7 +95,7 @@ export default function MySaved() {
             return <div className={`tab ${activeEntry?.journalEntryId === starredEntry.journalEntryId ? 'tab-active' : ''}`} onClick={e => handleDateClicked(starredEntry)} key={i}>{makeDatePretty(timestampToDate(new Date(starredEntry.journalEntry.date).toISOString()))}</div>
           })}
         </div>
-        <div className="h-fit min-h-screen w-10/12 max-w-4xl mx-auto mt-20">
+        <div className="h-fit min-h-screen md:px-8 max-w-4xl mx-auto mt-20">
           {activeEntry &&
             <div className="pt-10" key={activeEntry.journalEntryId}>
               <JournalEntryBox {...activeEntry.journalEntry} onStarRemoved={handleStarRemoved} />
