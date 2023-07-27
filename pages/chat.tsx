@@ -276,8 +276,8 @@ export default function Chat() {
             }
 
             return (
-              <div className={`${border} flex border rounded-xl p-4 mb-8`} key={i}>
-                <h4 className={`${textColor} basis-1/6 font-bold text-lg leading-5 text-right pr-4`}>{speaker}</h4>
+              <div className={`${border} flex flex-col sm:flex-row gap-y-2 border rounded-xl p-4 mb-8`} key={i}>
+                <h4 className={`${textColor} basis-1/6 font-bold text-lg leading-5 sm:text-right pr-4`}>{speaker}</h4>
                 <p className="basis-5/6 ps-3">{msg.content}</p>
               </div>
             )
