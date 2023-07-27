@@ -94,9 +94,38 @@ def search():
 
     return jsonify(results)
 
+@app.route('/chatTitle', methods=['POST'])
+def chatTitle():
+    app.logger.setLevel(logging.DEBUG) 
+
+    temperature = .2
+    max_response_tokens = 50
+
+    data = request.get_json()
+    text = data.get('text')
+
+    system_msg = "Your sole job is to create a title for a chat that a user is having with an assistant. You will be provided with the first part of the chat so that you will have enough information to create a title that concisely summarizes the subject of the chat. Do not output any explanation, only output the title, as your output will be directly used as the title without any curation or amendment."
+    start_time = time.time()
+    full_response = openai.ChatCompletion.create(
+        model='gpt-3.5-turbo',
+        messages=[
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": text},
+        ],
+        temperature=temperature,
+        max_tokens=max_response_tokens
+    )
+    end_time = time.time()
+    app.logger.debug('Time taken for OpenAI to create chat title: %s seconds', str(end_time - start_time))
+
+    response = full_response["choices"][0]["message"]["content"]
+    return jsonify(response)
+
 @app.route('/chat', methods=['POST'])
 def chat():
     app.logger.setLevel(logging.DEBUG) 
+    app.logger.debug('Received chat request')
+    start_time_full = time.time()
 
     response_model_name = 'gpt-3.5-turbo'
     response_model_context_length = 4000
@@ -112,7 +141,7 @@ def chat():
 
     data = request.get_json()
     msg_history = data.get('msgHistory')
-    app.logger.debug('message history: %s', msg_history)
+    #app.logger.debug('message history: %s', msg_history)
 
     condensed_history = ''
     for msg in msg_history:
@@ -176,7 +205,8 @@ def chat():
     )
     end_time = time.time()
     app.logger.debug('Time taken for OpenAI to respond to user prompt: %s seconds', str(end_time - start_time))
-
+    end_time_full = time.time()
+    app.logger.debug('Total time taken for OpenAI to craft response: %s seconds', str(end_time_full - start_time_full))
 
     response = full_response["choices"][0]["message"]["content"]
     return jsonify(response)

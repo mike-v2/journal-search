@@ -1,21 +1,55 @@
+import ChatSidebar from "@/components/chatSidebar";
+import { Conversation, Message } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
-type Message = {
+interface MessageCore {
   role: string,
   content: string,
 }
 
+interface ConversationExt extends Conversation {
+  messages: Message[],
+}
+
 export default function Chat() {
-  const [msgHistory, setMsgHistory] = useState<Message[]>([]);
+  const { data: session } = useSession();
+  const [messageHistory, setMessageHistory] = useState<MessageCore[]>([]);
   const textBox = useRef<HTMLTextAreaElement>(null);
   const [isLoadingResponse, setIsLoadingResponse] = useState<boolean>(false);
   const [isErrorLoadingResponse, setIsErrorLoadingResponse] = useState<boolean>(false);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [activeConversation, setActiveConversation] = useState<ConversationExt>();
+
+  useEffect(() => {
+    const loadConversationHistory = async () => {
+      try {
+        const res = await fetch(`api/conversation?userId=${session?.user.id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const convs = await res.json() as Conversation[];
+        if (convs) {
+          setConversations(convs);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    if (session?.user) {
+      loadConversationHistory();
+    }
+  }, [session]);
 
   function handleTextChange() {
     if (textBox.current) {
       let text = textBox.current.value;
-      if (text.charAt(text.length - 1) === '\n') {
+      if (text.charAt(text.length - 1) === '\n' && !isLoadingResponse) {
         textBox.current.value = textBox.current.value.slice(0, text.length - 1);
         handleSubmitText();
         textBox.current.value = '';
@@ -23,80 +57,178 @@ export default function Chat() {
     }
   }
 
-  async function handleSubmitText() {
-    if (textBox.current) {
-      const text = textBox.current.value;
-      console.log("text submitted: " + text);
-      /* setMsgHistory(prevHistory => {
-        const updatedHistory = [...prevHistory, { "role": "user", "content": text }];
+  const createNewConversation = async (chatHistory: MessageCore[]): Promise<ConversationExt | null> => {
+    try {
+      const response = await fetch('/api/conversation', {
+        method: 'POST',
+        body: JSON.stringify({
+          userId: session?.user.id,
+          messages: chatHistory,
+        })
+      })
 
-        const fetchChatApi = async () => {
-          console.log("fetching chat response with chat history::");
-          console.log(updatedHistory);
-          try {
-            const response = await fetch('/api/chat', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(updatedHistory)
-            });
+      const conv = await response.json();
+      return conv;
+    } catch (error) {
+      console.error(error);
+    }
+    return null;
+  }
 
-            const data = await response.json();
-            console.log("setting new response: " + data);
-            setMsgHistory(prev => [...prev, { "role": "assistant", "content": data }]);
-          } catch (error) {
-            console.error('Error:', error);
-          }
-        }
+  const saveMessage = async ({ role, content }: { role: string, content: string }, conv?: Conversation) => {
+    try {
+      const response = await fetch('/api/message', {
+        method: 'POST',
+        body: JSON.stringify({
+          conversationId: conv ? conv.id : activeConversation?.id,
+          role: role,
+          content: content,
+        })
+      })
+      console.log('tried to save message::')
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  } 
 
-        fetchChatApi();
+  const fetchChatApi = async (chatHistory: MessageCore[]): Promise<string> => {
+    setIsErrorLoadingResponse(false);
+    console.log("...loading response")
 
-        return updatedHistory;
-      }); */
-      // use the following method instead so that strict mode doesn't cause double fetch calls
-      // would be better to add user's message when response from OpenAI is successfully received so we're not adding extra messages to chat history, but then user's message won't get displayed after submitting
-      const updatedHistory = [...msgHistory, { "role": "user", "content": text }];
-      setMsgHistory(updatedHistory);
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(chatHistory)
+      });
 
-      const fetchChatApi = async () => {
-        setIsLoadingResponse(true);
-        setIsErrorLoadingResponse(false);
-        console.log("...loading response")
-
-        try {
-          const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedHistory)
-          });
-
-          console.log("openAI response::");
-          console.log(response);
-          const data = await response.json();
-          console.log("data received from openAI:: ");
-          console.log(data);
-          if (data) {
-            if (data.message) {
-              setMsgHistory(prev => [...prev, { "role": "assistant", "content": data.message }]);              
-            } else if (data.error) {
-              console.log("error getting openAI response:: ");
-              console.log(data.error);
-              setIsErrorLoadingResponse(true);
-            }
-          }
-        } catch (error) {
-          console.error('Error:', error);
-          setIsErrorLoadingResponse(true);
-        } finally {
-          setIsLoadingResponse(false);
+      console.log("openAI response::");
+      console.log(response);
+      const data = await response.json();
+      if (data) {
+        if (data.message) {
+          return data.message;
+        } else if (data.error) {
+          console.log("error getting openAI response:: ");
+          console.log(data.error);
         }
       }
-
-      fetchChatApi();
+    } catch (error) {
+      console.error(error);
     }
+
+    setIsErrorLoadingResponse(true);
+    return '';
+  }
+
+  async function handleSubmitText() {
+    if (!textBox.current) return;
+
+    const userText = textBox.current.value;
+    console.log("text submitted: " + userText);
+
+    // would be better to add user's message when response from OpenAI is successfully received so we're not adding extra messages to chat history, but then user's message won't get displayed after submitting
+    const userMessage = { "role": "user", "content": userText };
+    const updatedHistory = [...messageHistory, userMessage];
+    setMessageHistory(updatedHistory);
+
+    let newConvo = null;
+    if (!activeConversation) {
+      newConvo = await createNewConversation(updatedHistory);
+      console.log("created new conv::");
+      console.log(newConvo);
+      if (newConvo) {
+        setActiveConversation(newConvo);
+        saveMessage(userMessage, newConvo);
+      }
+    } else {
+      saveMessage(userMessage);
+    }
+
+    const convo = activeConversation ?? newConvo;
+    if (convo) {
+      getAIResponse(updatedHistory, convo);
+    }
+  }
+
+  async function getAIResponse(chatHistory: MessageCore[], convo: Conversation) {
+    setIsLoadingResponse(true);
+    const aiResponse = await fetchChatApi(chatHistory);
+    if (aiResponse !== '') {
+      if (chatHistory.length === 1) {
+        // first AI response just finished
+        editConversationTitle(convo.id, 'user: ' + chatHistory[0].content + ' assistant: ' + aiResponse);
+      }
+      const aiMsg = { "role": "assistant", "content": aiResponse };
+      setMessageHistory(prevHistory => [...prevHistory, aiMsg]);
+      console.log('trying to save message with convo::');
+      console.log(convo);
+      saveMessage(aiMsg, convo);
+    }
+
+    setIsLoadingResponse(false);
+  }
+
+  async function editConversationTitle(convId: string, text: string) {
+    const getChatTitleFromAI = async (chatText: string): Promise<string> => {
+      try {
+        const response = await fetch('/api/chatTitle', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+          body: chatText
+        });
+
+        const data = await response.json();
+        return data.title;
+      } catch (error) {
+        console.error(error);
+      }
+      return '';
+    }
+
+    console.log("retrieving title for text: " + text);
+    const title = await getChatTitleFromAI(text);
+    console.log("AI has created new title: " + title);
+
+    try {
+      const response = await fetch(`/api/conversation`, {
+        method: 'PATCH',
+        body: JSON.stringify({ id: convId, title: title }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function handleConversationClicked(convId: string) {
+    const fetchConversationMessages = async () => {
+      try {
+        const response = await fetch(`api/conversation?id=${convId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        const conv = await response.json() as ConversationExt;
+        if (conv) {
+          const msgHist: MessageCore[] = [];
+          conv.messages.map(message => {
+            msgHist.push({ 'role': message.role, 'content': message.content });
+          })
+          setMessageHistory(msgHist);
+          setActiveConversation(conv);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchConversationMessages();
   }
 
   return (
@@ -110,6 +242,7 @@ export default function Chat() {
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
       </Head>
       <main className="mt-8 min-h-screen" aria-label="Chat with Harry">
+        <ChatSidebar conversations={conversations} conversationClicked={handleConversationClicked} />
         <div className="w-full">
           <div className="w-3/4 max-w-4xl mx-auto">
             <textarea
@@ -128,7 +261,7 @@ export default function Chat() {
           <p className="border border-red-600 w-11/12 max-w-7xl mx-auto p-4" role="alert">Error loading response. Please try again.</p>
         }
         <section className="flex flex-col w-11/12 max-w-7xl mx-auto pt-10" aria-label="Chat history">
-          {msgHistory && msgHistory.slice().reverse().map((msg, i) => {
+          {messageHistory && messageHistory.slice().reverse().map((msg, i) => {
             const speaker =
               msg.role === 'user' ? 'You:' :
                 msg.role === 'assistant' ? 'Harry Howard:' :
