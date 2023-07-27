@@ -7,7 +7,7 @@ export default function ChatSidebar({ conversations, conversationClicked }: { co
 
   return (
     <div className="flex h-full">
-      <div className={`transition-transform top-200 left-0 w-80 bg-amber-100 fixed h-full rounded-r-3xl overflow-auto ${isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'}`}>
+      <div className={`transition-transform absolute top-200 left-0 w-80 bg-amber-100 h-full rounded-r-3xl overflow-auto ${isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'}`}>
         <div className="px-2">
           <button onClick={() => setIsOpen(false)} className="flex justify-end w-full px-4 mt-4">
             <Image src='/images/sidebar-icon.svg' width={50} height={50} alt='sidebar icon' />
@@ -24,7 +24,7 @@ export default function ChatSidebar({ conversations, conversationClicked }: { co
           </div>
         </div>
       </div>
-      <div className={`fixed top-200 left-0 w-64 ${isOpen ? 'hidden' : ''}`}>
+      <div className={`absolute top-200 left-0 w-fit ${isOpen ? 'hidden' : ''}`}>
         <button onClick={() => setIsOpen(true)} className="mt-3 ml-3">
           <Image src='/images/sidebar-icon.svg' className='invert' width={50} height={50} alt='sidebar icon' />
         </button>

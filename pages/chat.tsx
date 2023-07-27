@@ -244,12 +244,12 @@ export default function Chat() {
       <main className="mt-8 min-h-screen" aria-label="Chat with Harry">
         <ChatSidebar conversations={conversations} conversationClicked={handleConversationClicked} />
         <div className="w-full">
-          <div className="w-3/4 max-w-4xl mx-auto">
+          <div className="w-3/4 max-w-4xl mx-auto pl-6">
             <textarea
               ref={textBox}
               onChange={handleTextChange}
               className="w-full rounded-xl h-12 p-3"
-              placeholder="chat with Harry..."
+              placeholder="Chat with Harry..."
               aria-label="Chat input"
             />
           </div>
