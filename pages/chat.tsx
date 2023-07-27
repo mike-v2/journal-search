@@ -76,6 +76,7 @@ export default function Chat() {
   }
 
   const saveMessage = async ({ role, content }: { role: string, content: string }, conv?: Conversation) => {
+    console.log("trying to save message: " + content);
     try {
       const response = await fetch('/api/message', {
         method: 'POST',
@@ -85,8 +86,6 @@ export default function Chat() {
           content: content,
         })
       })
-      console.log('tried to save message::')
-      console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -135,13 +134,14 @@ export default function Chat() {
     const updatedHistory = [...messageHistory, userMessage];
     setMessageHistory(updatedHistory);
 
-    let newConvo = null;
+    let newConvo: Conversation | null = null;
     if (!activeConversation) {
       newConvo = await createNewConversation(updatedHistory);
       console.log("created new conv::");
       console.log(newConvo);
       if (newConvo) {
-        setActiveConversation(newConvo);
+        setConversations(prevConvos => [...prevConvos, newConvo as Conversation]);
+        setActiveConversation(newConvo as ConversationExt);
         saveMessage(userMessage, newConvo);
       }
     } else {
@@ -150,29 +150,25 @@ export default function Chat() {
 
     const convo = activeConversation ?? newConvo;
     if (convo) {
-      getAIResponse(updatedHistory, convo);
-    }
-  }
-
-  async function getAIResponse(chatHistory: MessageCore[], convo: Conversation) {
-    setIsLoadingResponse(true);
-    const aiResponse = await fetchChatApi(chatHistory);
-    if (aiResponse !== '') {
-      if (chatHistory.length === 1) {
-        // first AI response just finished
-        editConversationTitle(convo.id, 'user: ' + chatHistory[0].content + ' assistant: ' + aiResponse);
+      setIsLoadingResponse(true);
+      const aiResponse = await fetchChatApi(updatedHistory);
+      if (aiResponse !== '') {
+        if (updatedHistory.length === 1) {
+          // first AI response just finished
+          editConversationTitle(convo.id, 'user: ' + updatedHistory[0].content + ' assistant: ' + aiResponse);
+        }
+        const aiMsg = { "role": "assistant", "content": aiResponse };
+        setMessageHistory(prevHistory => [...prevHistory, aiMsg]);
+        console.log('trying to save message with convo::');
+        console.log(convo);
+        saveMessage(aiMsg, convo);
       }
-      const aiMsg = { "role": "assistant", "content": aiResponse };
-      setMessageHistory(prevHistory => [...prevHistory, aiMsg]);
-      console.log('trying to save message with convo::');
-      console.log(convo);
-      saveMessage(aiMsg, convo);
-    }
 
-    setIsLoadingResponse(false);
+      setIsLoadingResponse(false);
+    }
   }
 
-  async function editConversationTitle(convId: string, text: string) {
+  async function editConversationTitle(convoId: string, text: string) {
     const getChatTitleFromAI = async (chatText: string): Promise<string> => {
       try {
         const response = await fetch('/api/chatTitle', {
@@ -194,11 +190,22 @@ export default function Chat() {
     console.log("retrieving title for text: " + text);
     const title = await getChatTitleFromAI(text);
     console.log("AI has created new title: " + title);
+    setConversations(prevConvos => prevConvos.map(convo => {
+      if (convo.id === convoId) {
+        convo.title = title;
+        return convo;
+      } else return convo;
+    }))
+    if (activeConversation?.id === convoId) {
+      const newActiveConvo = activeConversation;
+      newActiveConvo.title = title;
+      setActiveConversation(newActiveConvo);
+    }
 
     try {
       const response = await fetch(`/api/conversation`, {
         method: 'PATCH',
-        body: JSON.stringify({ id: convId, title: title }),
+        body: JSON.stringify({ id: convoId, title: title }),
       });
     } catch (error) {
       console.error(error);
@@ -231,6 +238,48 @@ export default function Chat() {
     fetchConversationMessages();
   }
 
+  function handleDeleteConversation(convoId: string) {
+    const deleteAllMessagesInConversation = async () => {
+      try {
+        const response = await fetch(`api/message?conversationId=${convoId}`, {
+          method: 'DELETE'
+        });
+
+        if (response.status === 200) {
+          console.log("Deleted messages for conversation: " + convoId);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    const deleteConversation = async () => {
+      try {
+        const response = await fetch(`api/conversation?id=${convoId}`, {
+          method: 'DELETE',
+        })
+
+        if (response.status === 200) {
+          console.log("Deleted conversation: " + convoId);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    const deleteInOrder = async () => {
+      await deleteAllMessagesInConversation();
+      deleteConversation();
+      if (activeConversation && activeConversation.id === convoId) {
+        setMessageHistory([]);
+        setActiveConversation(undefined);
+      }
+      setConversations(prevConvos => prevConvos.filter(convo => convo.id !== convoId));
+    }
+
+    deleteInOrder();
+  }
+
   return (
     <>
       <Head>
@@ -242,7 +291,7 @@ export default function Chat() {
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
       </Head>
       <main className="mt-8 min-h-screen" aria-label="Chat with Harry">
-        <ChatSidebar conversations={conversations} conversationClicked={handleConversationClicked} />
+        <ChatSidebar conversations={conversations} conversationClicked={handleConversationClicked} handleDeleteConversation={handleDeleteConversation} />
         <div className="w-full">
           <div className="w-3/4 max-w-4xl mx-auto pl-6">
             <textarea

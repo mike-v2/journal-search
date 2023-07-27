@@ -33,3 +33,11 @@
   height: calc(var(--corner-fold-width));
   background: linear-gradient(225deg, transparent var(--corner-cutout-width), #fde68a 0);
 }
+
+.btn-hidden {
+  display: none;
+}
+
+.tooltip:hover .btn-hidden {
+  display: block;
+}

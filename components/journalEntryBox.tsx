@@ -7,9 +7,6 @@ import { ReactEventHandler, useEffect, useRef, useState } from "react";
 import Modal from 'react-modal';
 import JournalTopicBox from "./journalTopicBox";
 
-// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#__next');
-
 const josefin = Josefin_Sans({
   subsets: ['latin'],
   weight: ['500', '700'],
@@ -26,7 +23,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   const [displayMode, setDisplayMode] = useState<string>("text");
   const [imagePaths, setImagePaths] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [postText, setPostText] = useState<string>('');
   const [cornerCutoutWidth, setCornerCutoutWidth] = useState<string>('1.2rem');
   const [cornerFoldWidth, setCornerFoldWidth] = useState<string>('1.2rem');
@@ -163,12 +160,12 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
       return;
     }
 
-    setModalIsOpen(true);
+    setIsModalOpen(true);
   }
 
   function closeModal() {
     setPostText('');
-    setModalIsOpen(false);
+    setIsModalOpen(false);
   }
 
   async function handleCreatePost(e: React.MouseEvent<HTMLFormElement>) {
@@ -249,7 +246,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
             </ul>
           </div>
           <Modal
-            isOpen={modalIsOpen}
+            isOpen={isModalOpen}
             onRequestClose={closeModal}
             className="m-auto p-5 border rounded-md max-w-md bg-slate-800"
             overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex"

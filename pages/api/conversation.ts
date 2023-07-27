@@ -25,7 +25,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     } else if (req.query.id) { // get all messages for conversation
       const { id } = req.query;
-      console.log('getting conversation with id: ' + id);
 
       try {
         const conversation = await prisma.conversation.findUnique({
@@ -100,6 +99,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       })
 
       res.status(200).json(conversation);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error });
+    }
+  } else if (req.method === 'DELETE') {
+    const { id } = req.query;
+
+    if (!id) {
+      return res.status(404).json({ error: 'Conversation ID is required to delete a conversation' });
+    }
+
+    try {
+      const conversation = prisma.conversation.delete({
+        where: {
+          id: id as string,
+        }
+      });
+
+      const data = (await conversation).id
+      console.log("deleted convo with id: " + data);
+      res.status(200).json({ message: 'successfully deleted conversation' })
     } catch (error) {
       console.error(error);
       res.status(500).json({ error });

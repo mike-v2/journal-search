@@ -3,34 +3,9 @@ import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  /* if (req.method === 'GET') {
-    if (req.query.conversationId) { //get all messages for conversation
-      const { conversationId } = req.query;
-
-      try {
-        const messages = await prisma.message.findMany({
-          where: {
-            conversationId: conversationId as string
-          },
-        });
-
-        if (!messages) {
-          return res.status(404).json({ error: 'Messages not found for conversation ' + conversationId });
-        }
-
-        res.status(200).json(messages);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error });
-      }
-    }
-  } */
   if (req.method === 'POST') {
     const { conversationId, role, content } = JSON.parse(req.body);
-
-    if (!conversationId || !role || !content) {
-      return res.status(404).json({ error: 'ConversationId, role, and content are required to make a conversation' });
-    }
+    console.log('trying to save message: ' + content);
 
     try {
       const message = await prisma.message.create({
@@ -44,10 +19,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           content: content,
         }
       });
+
       res.status(200).json(message);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error });
+    }
+  } else if (req.method === 'DELETE') {
+    const { conversationId } = req.query;
+
+    try {
+      const deleteMessages = await prisma.message.deleteMany({
+        where: {
+          conversationId: conversationId as string,
+        },
+      })
+
+      res.status(200).json(deleteMessages);
+    } catch (error) {
+      console.error(error);
     }
   }
 }
