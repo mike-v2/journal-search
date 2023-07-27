@@ -7,8 +7,7 @@ export default function ChatSidebar({ conversations, conversationClicked }: { co
 
   return (
     <div className="flex h-full">
-      <div className={`transition-transform top-200 left-0 w-64 bg-amber-100 fixed h-full 
-                ${isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'}`}>
+      <div className={`transition-transform top-200 left-0 w-80 bg-amber-100 fixed h-full rounded-r-3xl overflow-auto ${isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'}`}>
         <div className="px-2">
           <button onClick={() => setIsOpen(false)} className="flex justify-end w-full px-4 mt-4">
             <Image src='/images/sidebar-icon.svg' width={50} height={50} alt='sidebar icon' />
@@ -17,7 +16,7 @@ export default function ChatSidebar({ conversations, conversationClicked }: { co
             <h1 className="mb-6 text-lg font-bold text-gray-700 text-center">Conversations</h1>
             <div className="flex flex-col gap-y-4">
               {conversations.map((conversation, index) => (
-                <div key={index} className="border border-black rounded-full cursor-pointer p-4" onClick={e => conversationClicked(conversation.id)}>
+                <div key={index} className="tooltip border border-black rounded-full cursor-pointer p-4" onClick={e => conversationClicked(conversation.id)} data-tip={conversation.title}>
                   <p className="font-medium text-gray-700 truncate">{conversation.title}</p>
                 </div>
               ))}

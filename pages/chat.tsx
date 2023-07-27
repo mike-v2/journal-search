@@ -258,9 +258,9 @@ export default function Chat() {
           <p className="text-lg italic text-center">Harry is thinking...</p>
         }
         {isErrorLoadingResponse &&
-          <p className="border border-red-600 w-11/12 max-w-7xl mx-auto p-4" role="alert">Error loading response. Please try again.</p>
+          <p className="border border-red-600 max-w-7xl mx-auto p-4" role="alert">Error loading response. Please try again.</p>
         }
-        <section className="flex flex-col w-11/12 max-w-7xl mx-auto pt-10" aria-label="Chat history">
+        <section className="flex flex-col max-w-5xl mx-auto pt-10 px-2" aria-label="Chat history">
           {messageHistory && messageHistory.slice().reverse().map((msg, i) => {
             const speaker =
               msg.role === 'user' ? 'You:' :
