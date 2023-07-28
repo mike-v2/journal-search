@@ -271,13 +271,17 @@ export default function Chat() {
       await deleteAllMessagesInConversation();
       deleteConversation();
       if (activeConversation && activeConversation.id === convoId) {
-        setMessageHistory([]);
-        setActiveConversation(undefined);
+        clearActiveConversation();
       }
       setConversations(prevConvos => prevConvos.filter(convo => convo.id !== convoId));
     }
 
     deleteInOrder();
+  }
+
+  function clearActiveConversation() {
+    setMessageHistory([]);
+    setActiveConversation(undefined);
   }
 
   return (
@@ -291,7 +295,7 @@ export default function Chat() {
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
       </Head>
       <main className="mt-8 min-h-screen" aria-label="Chat with Harry">
-        <ChatSidebar conversations={conversations} conversationClicked={handleConversationClicked} handleDeleteConversation={handleDeleteConversation} />
+        <ChatSidebar conversations={conversations} conversationClicked={handleConversationClicked} handleDeleteConversation={handleDeleteConversation} handleClearConversation={clearActiveConversation} />
         <div className="w-full">
           <div className="w-full max-w-md mx-auto px-2">
             <textarea

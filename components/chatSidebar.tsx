@@ -3,7 +3,7 @@ import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
 
-export default function ChatSidebar({ conversations, conversationClicked, handleDeleteConversation }: { conversations: Conversation[], conversationClicked: (convId: string) => void, handleDeleteConversation: (convId: string) => void }) {
+export default function ChatSidebar({ conversations, conversationClicked, handleDeleteConversation, handleClearConversation }: { conversations: Conversation[], conversationClicked: (convId: string) => void, handleDeleteConversation: (convId: string) => void, handleClearConversation: () => void }) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [preparedToDeleteConvoId, setPreparedToDeleteConvoId] = useState<string>('');
@@ -79,6 +79,9 @@ export default function ChatSidebar({ conversations, conversationClicked, handle
                   </button>
                 </div>
               ))}
+              <div className="relative border border-black rounded-full cursor-pointer p-4" onClick={e => handleClearConversation()}>
+                <p className="font-medium text-gray-700 truncate">New Conversation</p>
+              </div>
             </div>
           </div>
         </div>
