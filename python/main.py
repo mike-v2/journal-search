@@ -99,12 +99,12 @@ def chatTitle():
     app.logger.setLevel(logging.DEBUG) 
 
     temperature = .2
-    max_response_tokens = 50
+    max_response_tokens = 20
 
     data = request.get_json()
     text = data.get('text')
 
-    system_msg = "Your sole job is to create a title for a chat that a user is having with an assistant. You will be provided with the first part of the chat so that you will have enough information to create a title that concisely summarizes the subject of the chat. Do not output any explanation, only output the title, as your output will be directly used as the title without any curation or amendment."
+    system_msg = "Your sole job is to create a title for a chat that a user is having with an AI assistant that is playing the role of Harry Howard (1899-1959), a post-office employee, a member of the LDS church, a husband to Grace (sometimes referred to as 'Mama') and a father to seven children: (in order from youngest to oldest) Cathy, Charles, Sonny, Sharon, Ardie, Dorothy and Betty. You will be provided with the first part of the chat so that you will have enough information to create a title that concisely summarizes the subject of the chat. Make sure that the title is less than 10 words with no subtitle. Do not output any explanation, only output the title, as your output will be directly used as the title without any curation or amendment."
     start_time = time.time()
     full_response = openai.ChatCompletion.create(
         model='gpt-3.5-turbo',
@@ -152,7 +152,7 @@ def chat():
             
     condensed_history = prune_string(condensed_history, max_msg_history_tokens, prune_end=False)
     #use chatGPT to convert user's message into a search query that considers context
-    system_msg = "You are part of a website that is centered around the personal journals of Harry Howard. Generate a search query for the Guest's most recent message that will be used to find relevant information from Harry's journal entries. Embeddings have been generated for each journal entry, and the query you generate will be turned into an embedding and compared to each journal entry to find the most similar. Try to generate a search query that will return the most relevant journal entries for Person 1's most recent message. Please don't add any explanation, just generate a short but contextual search query, as your output will be fed directly into the next step without any modifications."
+    system_msg = "You are part of a website that is centered around the personal journals of Harry Howard. Generate a search query for the Guest's most recent message that will be used to find relevant information from Harry's journal entries. Embeddings have been generated for each journal entry, and the query you generate will be turned into an embedding and compared to each journal entry to find the most similar. Try to generate a search query that will return the most relevant journal entries for Guest's most recent message. Please don't add any explanation, just generate a short but contextual search query, as your output will be fed directly into the next step without any modifications."
     start_time = time.time()
     full_response = openai.ChatCompletion.create(
         model=query_model_name,
