@@ -222,6 +222,7 @@ export default function Chat() {
         })
         const conv = await response.json() as ConversationExt;
         if (conv) {
+          conv.messages.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
           const msgHist: MessageCore[] = [];
           conv.messages.map(message => {
             msgHist.push({ 'role': message.role, 'content': message.content });
