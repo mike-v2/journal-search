@@ -48,11 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
   } else if (req.method === 'POST') {
-    const { userId, messages } = JSON.parse(req.body);
-
-    if (!userId || !messages) {
-      return res.status(404).json({ error: 'UserId and messages are required to make a conversation' });
-    }
+    const { userId } = JSON.parse(req.body);
 
     try {
       const conversation = await prisma.conversation.create({
@@ -62,17 +58,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               id: userId as string,
             }
           },
-          messages: {
-            create: messages.map((message: Message) => ({
-              role: message.role,
-              content: message.content,
-            })),
-          },
           title: 'New Conversation',
         },
         select: {
           id: true,
-          messages: true,
         }
       });
 

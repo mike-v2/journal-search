@@ -57,13 +57,12 @@ export default function Chat() {
     }
   }
 
-  const createNewConversation = async (chatHistory: MessageCore[]): Promise<ConversationExt | null> => {
+  const createNewConversation = async (): Promise<ConversationExt | null> => {
     try {
       const response = await fetch('/api/conversation', {
         method: 'POST',
         body: JSON.stringify({
           userId: session?.user.id,
-          messages: chatHistory,
         })
       })
 
@@ -136,7 +135,7 @@ export default function Chat() {
 
     let newConvo: Conversation | null = null;
     if (!activeConversation) {
-      newConvo = await createNewConversation(updatedHistory);
+      newConvo = await createNewConversation();
       console.log("created new conv::");
       console.log(newConvo);
       if (newConvo) {
