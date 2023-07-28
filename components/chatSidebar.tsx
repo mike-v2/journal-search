@@ -1,12 +1,36 @@
 import { Conversation } from '@prisma/client';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
 
 export default function ChatSidebar({ conversations, conversationClicked, handleDeleteConversation }: { conversations: Conversation[], conversationClicked: (convId: string) => void, handleDeleteConversation: (convId: string) => void }) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [preparedToDeleteConvoId, setPreparedToDeleteConvoId] = useState<string>('');
+  const sidebarRef = useRef<HTMLDivElement>(null);
+
+  const logoHeight = 270;
+
+  useEffect(() => {
+    if (!sidebarRef.current) return;
+
+    sidebarRef.current.style.top = `${logoHeight}px`;
+    sidebarRef.current.style.height = `calc(100vh - ${logoHeight}px)`;
+
+    if (typeof window !== "undefined") {
+      window.addEventListener('scroll', function () {
+        if (!sidebarRef.current) return;
+
+        if (window.scrollY > logoHeight) {
+          sidebarRef.current.style.top = '0';
+          sidebarRef.current.style.height = '100vh';
+        } else {
+          sidebarRef.current.style.top = `${logoHeight - window.scrollY}px`;
+          sidebarRef.current.style.height = `calc(100vh - ${logoHeight - window.scrollY}px)`;
+        }
+      });
+    }
+  }, [sidebarRef]);
 
   function handlePrepareToDeleteConversation(convoId: string) {
     setIsModalOpen(true);
@@ -39,7 +63,7 @@ export default function ChatSidebar({ conversations, conversationClicked, handle
           <button className={`btn block ml-auto ${preparedToDeleteConvoId === '' ? 'text-gray-500' : 'text-white'}`} onClick={checkHandleDeleteConversation}>Delete</button>
         </div>
       </Modal>
-      <div className={`transition-transform absolute top-200 left-0 w-80 bg-amber-100 h-full rounded-r-3xl overflow-auto ${isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'}`}>
+      <div ref={sidebarRef} className={`transition-transform fixed left-0 bottom-0 w-80 bg-amber-100 rounded-r-3xl overflow-auto ${isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'}`}>
         <div className="px-2">
           <button onClick={() => setIsOpen(false)} className="flex justify-end w-full px-4 mt-4">
             <Image src='/images/sidebar-icon.svg' width={50} height={50} alt='sidebar icon' />
@@ -59,7 +83,7 @@ export default function ChatSidebar({ conversations, conversationClicked, handle
           </div>
         </div>
       </div>
-      <div className={`absolute top-200 left-0 w-fit ${isOpen ? 'hidden' : ''}`}>
+      <div className={`absolute top-52 left-0 w-fit ${isOpen ? 'hidden' : ''}`}>
         <button onClick={() => setIsOpen(true)} className="mt-3 ml-3">
           <Image src='/images/sidebar-icon.svg' className='invert' width={50} height={50} alt='sidebar icon' />
         </button>
