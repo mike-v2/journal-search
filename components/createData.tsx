@@ -43,9 +43,9 @@ export default function CreateData() {
     } */
 
 
-    let count = 0;
+    /* let count = 0;
 
-    /* for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       try {
         const newEntry = {
           date: new Date(data[i].date),
@@ -61,11 +61,28 @@ export default function CreateData() {
       } catch (error) {
         console.error("Could not post to supabase", error);
       }
-    } */
+    }
 
+    console.log(`Finished sending ${count} journal entries`); */
 
+    /* for (let i = 0; i < data.length; i++) {
+      data[i].date = new Date(data[i].date);
+    }
+
+    try {
+      const response = await fetch(`/api/createPrismaData`, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+    } catch (error) {
+      console.error("Could not post to supabase", error);
+    }
+
+    console.log(`Finished sending ${data.length} journal entries`); */
 
     //add journal topic, get journalEntryId first to add to topic data
+
+    let count = 0;
 
     for (let i = 0; i < data.length; i++) {
       const dateISO = new Date(data[i].date).toISOString();
@@ -102,10 +119,10 @@ export default function CreateData() {
       } catch (error) {
         console.log("Could not find journal entry by date: " + error);
       }
-    } 
+    }  
 
+    console.log(`Finished sending ${count} journal topics`); 
 
-    console.log(`Finished sending ${count} journal entries`); 
   }
 
   return (

@@ -4,10 +4,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
-      const dataStr = req.body;
-      const data = JSON.parse(dataStr as string);
+      const data = JSON.parse(req.body);
 
-      /* const newEntry = await prisma.journalEntry.createMany({
+      //not able to use createMany because the date field is not Date type
+      /* const newEntries = await prisma.journalEntry.createMany({
         data: data,
         skipDuplicates: true,
       }); */
