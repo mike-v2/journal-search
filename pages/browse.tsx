@@ -23,7 +23,7 @@ interface JournalEntryExt extends JournalEntry {
 }
 
 const startYear = '1948';
-const yearsIncluded = ['1945', '1946', '1947', '1948'];
+const yearsIncluded = ['1944', '1945', '1946', '1947', '1948'];
 const displayMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] 
 
 export default function Browse() {

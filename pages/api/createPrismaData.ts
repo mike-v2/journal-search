@@ -6,7 +6,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const data = JSON.parse(req.body);
 
-      //not able to use createMany because the date field is not Date type
       /* const newEntries = await prisma.journalEntry.createMany({
         data: data,
         skipDuplicates: true,
