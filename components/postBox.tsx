@@ -1,21 +1,22 @@
 import JournalEntryBox from "@/components/journalEntryBox";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
-import { JournalEntry, Post, User, Comment } from "@prisma/client";
+import { Comment } from "@prisma/client";
 import PostExt from "@/types/postExt";
 import CommentExt from '@/types/commentExt'
 import { makeDatePretty, timestampToDate } from "@/utils/convertDate";
 
-export default function PostBox({ id, journalEntry, createdBy, createdAt, title, text, comments }: PostExt) {
+export default function PostBox({ id, journalEntry, createdBy, createdAt, title, text, comments: cmts }: PostExt) {
   const { data: session } = useSession();
   const [newCommentText, setNewCommentText] = useState<string>('');
-  const [updatedComments, setUpdatedComments] = useState<Comment[]>(comments);
+  const [comments, setComments] = useState<CommentExt[]>(cmts);
   const [editingComment, setEditingComment] = useState<Comment>();
   const [editingCommentNewText, setEditingCommentNewText] = useState<string>('');
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   async function handleSubmitNewComment() {
+    // prompt the user to sign in if they're not already
     if (!session || !session.user) {
       signIn();
       return;
@@ -32,13 +33,14 @@ export default function PostBox({ id, journalEntry, createdBy, createdAt, title,
       });
 
       const postedComment = await res.json();
-      postedComment["user"] = session?.user;
+      if (!postedComment) throw new Error('postedComment is null');
 
-      setUpdatedComments(prevComments => [...prevComments, postedComment]);
+      setComments(prevComments => [...prevComments, postedComment]);
     } catch (error) {
-      console.log("error submitting post comment: " + error);
+      console.error("error submitting post comment: " + error); 
     }
 
+    // Reset the comment input
     setNewCommentText('');
   }
 
@@ -67,7 +69,7 @@ export default function PostBox({ id, journalEntry, createdBy, createdAt, title,
       const postedComment = await res.json();
       postedComment["user"] = session?.user;
 
-      setUpdatedComments(prevComments =>
+      setComments(prevComments =>
         prevComments.map(comment =>
           comment.id === editingComment.id ? { ...comment, text: editingCommentNewText } : comment
         )
@@ -92,7 +94,7 @@ export default function PostBox({ id, journalEntry, createdBy, createdAt, title,
       })
 
       if (res.status === 200) {
-        setUpdatedComments(prevComments => prevComments.filter(com => com.id !== comment.id));
+        setComments(prevComments => prevComments.filter(com => com.id !== comment.id));
       }
     } catch (error) {
       console.log("error deleting comment: " + error);
@@ -157,8 +159,8 @@ export default function PostBox({ id, journalEntry, createdBy, createdAt, title,
             </div>
           }
           <div className="divider">Comments</div>
-          <div className="flex flex-col gap-y-8 my-8 px-4">
-            {(updatedComments as CommentExt[]).map((comment, index) => {
+          <div className="flex flex-col gap-y-8 mt-12 mb-24 px-4">
+            {comments.map((comment, index) => {
               return (
                 <div className="flex" key={`comment-${index}`} aria-label="User comment">
                   <div className="w-14">

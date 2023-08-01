@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.error('Error getting comments:', error);
       res.status(500).json({ error: error });
     }
-  } else if (req.method === 'POST') { //user has created a comment
+  } else if (req.method === 'POST') { // user has created a comment
     console.log("posting in comment api");
     const { userId, postId, text, commentId } = JSON.parse(req.body);
 
@@ -39,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(404).json({ error: 'UserId, PostId, and Text are required to make a comment' });
     }
 
-    if (commentId) {
+    if (commentId) { // edit comment
       try {
         const updatedComment = await prisma.comment.update({
           where: {
@@ -55,7 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.error('Error updating comment:', error);
         res.status(500).json({ error: error });
       }
-    } else {
+    } else { // new comment
       try {
         const comment = await prisma.comment.create({
           data: {
@@ -63,6 +63,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             postId: postId,
             text: text,
           },
+          select: {
+            id: true,
+            userId: true,
+            user: true,
+            text: true,
+          }
         });
 
         res.status(200).json(comment);
