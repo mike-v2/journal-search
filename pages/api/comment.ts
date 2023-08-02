@@ -48,6 +48,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           data: {
             text: text,
           },
+          select: {
+            id: true,
+            userId: true,
+            user: true,
+            text: true,
+          }
         })
 
         res.status(200).json(updatedComment);
