@@ -43,7 +43,7 @@ export default function MySaved() {
     }
 
     retrieveStarredEntries();
-  }, [session]);
+  }, [session, activeEntry]);
 
   useEffect(() => {
     console.log("setting sort mode: " + sortMode);

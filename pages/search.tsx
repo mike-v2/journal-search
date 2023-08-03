@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useCallback } from "react";
 import { useEffect, useRef, useState } from "react";
 import { Josefin_Sans } from "next/font/google";
 import { JournalEntry, JournalTopic } from "@prisma/client";
@@ -41,7 +41,19 @@ export default function Search() {
         setDisplaySearchResults(newSearchResults);
       }
     }
-  }, [router.query, searchResults])
+  }, [router.query, searchResults, displaySearchResults])
+
+  const handleSearch = useCallback(async () => {
+    setSelectedSearchResult(undefined);
+    setSelectedEntry(undefined);
+    setSearchResults([]);
+    setDisplaySearchResults([]);
+
+    setHasSearched(true);
+    setSearchIsActive(true);
+    await runSearch();
+    setSearchIsActive(false);
+  }, [])
 
   useEffect(() => {
     const handleKeyDown = (e: Event) => {
@@ -66,17 +78,7 @@ export default function Search() {
     }
   }, [selectedEntry])
 
-  async function handleSearch() {
-    setSelectedSearchResult(undefined);
-    setSelectedEntry(undefined);
-    setSearchResults([]);
-    setDisplaySearchResults([]);
 
-    setHasSearched(true);
-    setSearchIsActive(true);
-    await runSearch();
-    setSearchIsActive(false);
-  }
 
   function handleSearchClick(e: React.FormEvent<HTMLElement>) {
     e.preventDefault();

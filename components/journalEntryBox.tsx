@@ -81,7 +81,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
     }
     
     fetchJournalImagePaths();
-  }, [startPage, endPage]);
+  }, [startPage, endPage, date]);
 
   useEffect(() => {
     if (isCornerHovered) {
@@ -225,7 +225,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
       </div>
       <div className={`${josefin.className} corner-cut-out h-fit p-2 md:p-8 pb-16 border-2 border-slate-400 whitespace-pre-wrap`}>
         <section className="flex my-16 md:my-8" >
-          <div className="dropdown dropdown-bottom w-12" role="menu" aria-label="Dropdown Menu" aria-haspopup="true">
+          <div className="dropdown dropdown-bottom w-12" role="menu" aria-label="Dropdown Menu">
             <label tabIndex={0} className="btn m-1 p-0 bg-transparent border-none" role="button" aria-label="Kebab Icon Button">
               <Image src="/images/kebab_icon.svg" className="" width={50} height={50} alt="kebab icon" />
             </label>
