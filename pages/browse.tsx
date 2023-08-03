@@ -266,7 +266,7 @@ export default function Browse() {
               <div className='flex flex-col gap-y-4 cursor-pointer' onClick={handlePrevEntryButtonClick}>
                 <p className='text-xl font-bold text-center'>{makeDatePretty(timestampToDate(new Date(displayEntryBefore.date).toISOString()))}</p>
                 <div className='w-2/3 mx-auto'>
-                  <JournalTopicBox {...displayEntryBefore} />
+                  <JournalTopicBox journalEntryId={displayEntryBefore.id} />
                 </div>
               </div>
             }
@@ -279,7 +279,7 @@ export default function Browse() {
               <div className='flex flex-col gap-y-4 cursor-pointer' onClick={handleNextEntryButtonClick}>
                 <p className='text-xl font-bold text-center'>{makeDatePretty(timestampToDate(new Date(displayEntryAfter.date).toISOString()))}</p>
                 <div className='w-2/3 mx-auto'>
-                  <JournalTopicBox {...displayEntryAfter} />
+                  <JournalTopicBox journalEntryId={displayEntryAfter.id} />
                 </div>
               </div>
             }

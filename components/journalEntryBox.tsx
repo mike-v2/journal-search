@@ -24,6 +24,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   const [imagePaths, setImagePaths] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [postTitle, setPostTitle] = useState<string>('');
   const [postText, setPostText] = useState<string>('');
   const [cornerCutoutWidth, setCornerCutoutWidth] = useState<string>('1.2rem');
   const [cornerFoldWidth, setCornerFoldWidth] = useState<string>('1.2rem');
@@ -203,8 +204,6 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
     setIsCornerHovered(false);
   }
 
-  const [postTitle, setPostTitle] = useState<string>('');
-
   return (
     <article className={`${isRead ? 'opacity-50' : ''}`} style={{
       '--corner-cutout-width': cornerCutoutWidth,
@@ -293,7 +292,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
 
         <div className="flex flex-col md:flex-row gap-y-6 gap-x-4">
           <div className="md:w-1/3">
-            <JournalTopicBox id={id} date={date} startPage={startPage} endPage={endPage} content={content} />
+            <JournalTopicBox journalEntryId={id} />
           </div>
           <div className="w-full md:w-2/3">
             <div className={`${displayMode !== 'text' ? 'hidden' : ''}`}>

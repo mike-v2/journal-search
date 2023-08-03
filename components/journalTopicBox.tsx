@@ -3,12 +3,12 @@ import { makeDatePretty } from "@/utils/convertDate";
 import { JournalEntry, JournalTopic } from "@prisma/client";
 import Image from "next/image";
 
-export default function JournalTopicBox(journalEntry: JournalEntry) {
+export default function JournalTopicBox({ journalEntryId }: { journalEntryId: string }) {
   const [topics, setTopics] = useState<JournalTopic[]>([]);
 
   useEffect(() => {
     async function fetchTopics() {
-      const res = await fetch(`/api/journalTopic?journalEntryId=${journalEntry.id}`, {
+      const res = await fetch(`/api/journalTopic?journalEntryId=${journalEntryId}`, {
         method: 'GET',
       });
 
@@ -17,7 +17,7 @@ export default function JournalTopicBox(journalEntry: JournalEntry) {
     }
 
     fetchTopics();
-  }, [journalEntry]);
+  }, [journalEntryId]);
 
   function getTopicIconPath(topic: JournalTopic): string {
     if (topic.name == 'family') {
