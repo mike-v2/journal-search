@@ -28,7 +28,6 @@ export default function Browse() {
   const [sliderWidth, setSliderWidth] = useState<number>(300);
   const [currentYear, setCurrentYear] = useState<string>(startYear);
 
-
   useEffect(() => {
     onResize();
     if (typeof window !== "undefined") {
@@ -98,7 +97,7 @@ export default function Browse() {
     setDisplayEntryAfter(nextEntry);
   }, [getPreviousEntry, getNextEntry]);
 
-  const handleSliderChange = useCallback(({ x }: { x: number }) => {
+  const setCurrentDay = useCallback(({ x }: { x: number }) => {
     setSliderDay(x);
 
     const firstDayOfCurrentYear = new Date(parseInt(currentYear), 0, 1);
@@ -116,20 +115,22 @@ export default function Browse() {
         for (const index in journalEntries) {
           const hasRead = journalEntries[index].readBy.some(prop => prop.userId === session?.user.id);
           if (!hasRead) {
-            const dateStr = journalEntries[index].date.toString();
-            const date = new Date(dateStr);
-            const start = Date.UTC(date.getUTCFullYear(), 0, 1);
-            const days = Math.floor((date.getTime() - start) / (1000 * 60 * 60 * 24));
-
-            handleSliderChange({ x: days });
+            const days = dateToSliderDays(journalEntries[index].date);
+            setCurrentDay({ x: days });
             return;
           }
         }
       }
 
-      handleSliderChange({ x: 0 });
+      setCurrentDay({ x: 0 });
     }
-  }, [journalEntries, session, handleSliderChange])
+  }, [journalEntries, session, setCurrentDay])
+
+  function dateToSliderDays(d: Date): number {
+    const date = new Date(d);
+    const start = Date.UTC(date.getUTCFullYear(), 0, 1);
+    return Math.floor((date.getTime() - start) / (1000 * 60 * 60 * 24));
+  }
 
   useEffect(() => {
     fetchJournalEntries(currentYear);
@@ -142,36 +143,15 @@ export default function Browse() {
     }
   }
 
-  async function fetchMapData() {
-    //TODO fetch any required analysis data from Google Cloud Storage
-
-    /* try {
-      const res = await fetch('/api/entriesData');
-      const dataStr = await res.json();
-      const data = JSON.parse(dataStr);
-
-      setDateMap(new Map(Object.entries(data)));
-    } catch (error) {
-      console.log("error retrieving data: " + error);
-    } */
-  }
-
-  async function fetchJournalEntries(year: string) {
+  async function fetchJournalEntries(year: string): Promise<void> {
     try {
-      const res = await fetch(`/api/journalEntry?year=${year}`);
-      const data = await res.json();
+      const response = await fetch(`/api/journalEntry?year=${year}`);
+      if (!response.ok) throw new Error(`HTTP error: ${response.status}`)
 
-      console.log(`retrieved ${data.length} entries`)
-
-      data.sort((x: JournalEntry, y: JournalEntry) => {
-        const dateX = new Date(x.date);
-        const dateY = new Date(y.date);
-        return dateX.getTime() - dateY.getTime();
-      })
-
+      const data = await response.json();
       setJournalEntries(data);
     } catch (error) {
-      console.log("could not retrieve journal entries: " + error);
+      console.error(error);
     }
   }
 
@@ -179,7 +159,8 @@ export default function Browse() {
     if (displayEntryMain) {
       const prevEntry = getPreviousEntry(displayEntryMain);
       if (prevEntry) {
-        setDisplayEntry(prevEntry);
+        const days = dateToSliderDays(prevEntry.date);
+        setCurrentDay({ x: days });
       }
     }
   }
@@ -188,14 +169,10 @@ export default function Browse() {
     if (displayEntryMain) {
       const nextEntry = getNextEntry(displayEntryMain);
       if (nextEntry) {
-        setDisplayEntry(nextEntry);
+        const days = dateToSliderDays(nextEntry.date);
+        setCurrentDay({ x: days });
       }
     }
-  }
-
-  function handleYearClick(year: string) {
-    console.log("setting current year to " + year);
-    setCurrentYear(year);
   }
 
   return (
@@ -214,7 +191,7 @@ export default function Browse() {
             {yearsIncluded.map((year, i) => {
               return (
                 <div className='tabs tabs-boxed' key={i}>
-                  <button className={`tab tab-lg ${year === currentYear ? 'tab-active' : ''}`} onClick={e => handleYearClick(year)} aria-label={`Year ${year}`}>{year}</button>
+                  <button className={`tab tab-lg ${year === currentYear ? 'tab-active' : ''}`} onClick={e => setCurrentYear(year)} aria-label={`Year ${year}`}>{year}</button>
                 </div>
               )
             })}
@@ -225,7 +202,7 @@ export default function Browse() {
                 axis="x"
                 x={sliderDay}
                 xmax={365}
-                onChange={handleSliderChange}
+                onChange={setCurrentDay}
                 styles={{
                   track: {
                     width: sliderWidth,

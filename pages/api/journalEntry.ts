@@ -51,6 +51,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           startPage: true,
           endPage: true,
         },
+        orderBy: {
+          date: 'asc'
+        }
       });
 
       if (!entries || entries.length === 0) {
