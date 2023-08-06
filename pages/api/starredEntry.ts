@@ -1,3 +1,4 @@
+import StarredEntryExt from "@/types/starredEntryExt";
 import prisma from "@/utils/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -22,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     } else if (userId) { //get all entries starred by users
       try {
-        const starredEntries = await prisma.starredEntry.findMany({
+        const starredEntries: StarredEntryExt[] = await prisma.starredEntry.findMany({
           where: {
             userId: userId as string,
           },
@@ -30,6 +31,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             journalEntry: true,
           }
         });
+
+        starredEntries.sort((a, b) => new Date(a.journalEntry.date).getTime() - new Date(b.journalEntry.date).getTime());
 
         res.status(200).json(starredEntries);
       } catch (error) {

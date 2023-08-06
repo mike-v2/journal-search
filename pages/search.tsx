@@ -1,8 +1,7 @@
 import Image from "next/image";
 import React, { useCallback } from "react";
 import { useEffect, useRef, useState } from "react";
-import { Josefin_Sans } from "next/font/google";
-import { JournalEntry, JournalTopic } from "@prisma/client";
+import { JournalEntry } from "@prisma/client";
 import JournalEntryBox from "@/components/journalEntryBox";
 import Pagination from "@etchteam/next-pagination";
 import { useRouter } from "next/router";
@@ -78,8 +77,6 @@ export default function Search() {
     }
   }, [selectedEntry])
 
-
-
   function handleSearchClick(e: React.FormEvent<HTMLElement>) {
     e.preventDefault();
     handleSearch();
@@ -121,7 +118,7 @@ export default function Search() {
         },
         body: JSON.stringify({
           query: searchBox.current?.value,
-          threshold: .78
+          threshold: .78   // determined through experimentation
         })
       })
 
@@ -140,9 +137,9 @@ export default function Search() {
           searchResults.push(searchResult);
         })
 
+        console.log('number of search results = ' + searchResults.length);
         console.log('searchResults::');
         console.log(searchResults);
-        console.log('date count = ' + searchResults.length);
         setSearchResults(searchResults);
       }
     } catch (error) {
@@ -171,7 +168,6 @@ export default function Search() {
                 <input ref={searchBox} className="w-full h-full p-4 text-lg text-black placeholder:italic bg-slate-200" type="search" placeholder="Search.." aria-label="Search input" />
               </div>
             </div>
-
           </form>
         </section>
         {hasSearched &&

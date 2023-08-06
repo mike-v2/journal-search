@@ -14,8 +14,8 @@ interface JournalEntryExt extends JournalEntry {
   readBy: ReadEntry[],
 }
 
-const startYear = '1948';
 const yearsIncluded = ['1944', '1945', '1946', '1947', '1948'];
+const startYear = yearsIncluded[0];
 const displayMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] 
 
 export default function Browse() {
@@ -67,9 +67,9 @@ export default function Browse() {
   const getPreviousEntry = useCallback((entry: JournalEntry): JournalEntry | undefined => {
     if (!journalEntries) return undefined;
 
-    const closestIndex = getIndexByDate(entry.date);
-    if (closestIndex > -1) {
-      const beforeIndex = closestIndex - 1;
+    const currentIndex = getIndexByDate(entry.date);
+    if (currentIndex > -1) {
+      const beforeIndex = currentIndex - 1;
       if (beforeIndex > -1) {
         return journalEntries[beforeIndex];
       }
@@ -79,9 +79,9 @@ export default function Browse() {
   const getNextEntry = useCallback((entry: JournalEntry): JournalEntry | undefined => {
     if (!journalEntries) return undefined;
 
-    const closestIndex = getIndexByDate(entry.date);
-    if (closestIndex > -1) {
-      const afterIndex = closestIndex + 1;
+    const currentIndex = getIndexByDate(entry.date);
+    if (currentIndex > -1) {
+      const afterIndex = currentIndex + 1;
       if (afterIndex < journalEntries.length) {
         return journalEntries[afterIndex];
       }

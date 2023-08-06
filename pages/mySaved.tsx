@@ -1,6 +1,6 @@
 import JournalEntryBox from "@/components/journalEntryBox";
+import StarredEntryExt from "@/types/starredEntryExt";
 import { makeDatePretty, timestampToDate } from "@/utils/convertDate";
-import { JournalEntry, StarredEntry } from "@prisma/client"
 import { useSession } from "next-auth/react";
 import { Josefin_Sans } from "next/font/google";
 import Head from "next/head";
@@ -10,8 +10,6 @@ const josefin = Josefin_Sans({
   subsets: ['latin'],
   weight: ['500', '700'],
 });
-
-type StarredEntryExt = StarredEntry & { journalEntry: JournalEntry };
 
 export default function MySaved() {
   const {data: session} = useSession();
@@ -28,15 +26,14 @@ export default function MySaved() {
           method: 'GET'
         });
 
-        if (res.status === 200) {
-          const starredEntries = await res.json() as StarredEntryExt[];
-          starredEntries.sort((a, b) => new Date(a.journalEntry.date).getTime() - new Date(b.journalEntry.date).getTime());
-          setStarredEntries(starredEntries);
+        if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
 
-          if (!activeEntry && starredEntries && starredEntries.length > 0) {
-            setActiveEntry(starredEntries[0])
-          }
-        } else console.log("received error response from starredEntry API. Status: " + res.status);
+        const starredEntries = await res.json() as StarredEntryExt[];
+        setStarredEntries(starredEntries);
+
+        if (!activeEntry && starredEntries && starredEntries.length > 0) {
+          setActiveEntry(starredEntries[0])
+        }
       } catch (error) {
         console.log("error retrieving user's starred entries: " + error);
       }

@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const parsedYear = parseInt(year as string);
       const startDate = new Date(Date.UTC(parsedYear, 0, 1));
-      console.log('startDate = ' + startDate);
+
       const entries = await prisma.journalEntry.findMany({
         where: {
           date: {
