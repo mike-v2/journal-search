@@ -4,12 +4,12 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react"
 
-interface MessageCore {
+type MessageCore = {
   role: string,
   content: string,
 }
 
-interface ConversationExt extends Conversation {
+type ConversationExt = Conversation & {
   messages: Message[],
 }
 
@@ -21,6 +21,13 @@ export default function Chat() {
   const [isErrorLoadingResponse, setIsErrorLoadingResponse] = useState<boolean>(false);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversation, setActiveConversation] = useState<ConversationExt>();
+  const [partialResponse, setPartialResponse] = useState<string>('');
+  const partialResponseRef = useRef(partialResponse);
+
+  useEffect(() => {
+    partialResponseRef.current = partialResponse;
+  }, [partialResponse]);
+
 
   useEffect(() => {
     const loadConversationHistory = async () => {
@@ -88,38 +95,6 @@ export default function Chat() {
     } catch (error) {
       console.error(error);
     }
-  } 
-
-  const fetchChatApi = async (chatHistory: MessageCore[]): Promise<string> => {
-    setIsErrorLoadingResponse(false);
-    console.log("...loading response")
-
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(chatHistory)
-      });
-
-      console.log("openAI response::");
-      console.log(response);
-      const data = await response.json();
-      if (data) {
-        if (data.message) {
-          return data.message;
-        } else if (data.error) {
-          console.log("error getting openAI response:: ");
-          console.log(data.error);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    }
-
-    setIsErrorLoadingResponse(true);
-    return '';
   }
 
   async function handleSubmitText() {
@@ -149,22 +124,49 @@ export default function Chat() {
 
     const convo = activeConversation ?? newConvo;
     if (convo) {
-      setIsLoadingResponse(true);
-      const aiResponse = await fetchChatApi(updatedHistory);
-      if (aiResponse !== '') {
-        if (updatedHistory.length === 1) {
-          // first AI response just finished
-          editConversationTitle(convo.id, 'user: ' + updatedHistory[0].content + ' assistant: ' + aiResponse);
-        }
-        const aiMsg = { "role": "assistant", "content": aiResponse };
-        setMessageHistory(prevHistory => [...prevHistory, aiMsg]);
-        console.log('trying to save message with convo::');
-        console.log(convo);
-        saveMessage(aiMsg, convo);
-      }
-
-      setIsLoadingResponse(false);
+      startStreamingResponse(updatedHistory, convo);
     }
+  }
+
+  function startStreamingResponse(chatHistory: MessageCore[], convo: Conversation) {
+    setIsLoadingResponse(true);
+
+    const eventSource = new EventSource(`/api/chat?chatHistory=${JSON.stringify(chatHistory)}`);
+
+    eventSource.onmessage = function (event) {
+      if (event.data === "end_of_stream") {
+        console.log('Connection was closed with partialReponse = ' + partialResponseRef.current.substring(0, 20));
+        if (chatHistory.length === 1) {
+          // first AI response just finished
+          editConversationTitle(convo.id, 'user: ' + chatHistory[0].content + ' assistant: ' + partialResponseRef.current);
+        }
+        onResponseFinished(convo);
+        setIsLoadingResponse(false);
+        eventSource.close();
+      } else {
+        setPartialResponse(prevRes => prevRes + event.data);
+      }
+    };
+
+    eventSource.onerror = function (error) {
+      console.error('Stream error:', error);
+      eventSource.close();
+      setPartialResponse('');
+      setIsLoadingResponse(false);
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }
+
+  function onResponseFinished(convo: Conversation) {
+    const aiMsg = { "role": "assistant", "content": partialResponseRef.current };
+    setMessageHistory(prevHistory => [...prevHistory, aiMsg]);
+    console.log('trying to save message with convo::');
+    console.log(convo);
+    saveMessage(aiMsg, convo);
+    setPartialResponse('');
   }
 
   async function editConversationTitle(convoId: string, text: string) {
@@ -314,6 +316,12 @@ export default function Chat() {
           <p className="border border-red-600 max-w-7xl mx-auto p-4" role="alert">Error loading response. Please try again.</p>
         }
         <section className="flex flex-col max-w-5xl mx-auto pt-10 px-2" aria-label="Chat history">
+          {partialResponse && partialResponse !== '' &&
+            <div className={`border-amber-300 flex flex-col sm:flex-row gap-y-2 border rounded-xl p-4 mb-8`}>
+              <h4 className={`text-amber-200 basis-1/6 font-bold text-lg leading-5 sm:text-right pr-4`}>Harry Howard:</h4>
+              <p className="basis-5/6 ps-3">{partialResponse}</p>
+            </div>
+          }
           {messageHistory && messageHistory.slice().reverse().map((msg, i) => {
             const speaker =
               msg.role === 'user' ? 'You:' :

@@ -35,7 +35,7 @@ export default function MySaved() {
           setActiveEntry(starredEntries[0])
         }
       } catch (error) {
-        console.log("error retrieving user's starred entries: " + error);
+        console.error("error retrieving user's starred entries: " + error);
       }
     }
 
