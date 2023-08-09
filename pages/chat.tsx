@@ -25,9 +25,9 @@ export default function Chat() {
   const partialResponseRef = useRef(partialResponse);
 
   useEffect(() => {
+    console.log("partial response has changed. setting response ref: " + partialResponse);
     partialResponseRef.current = partialResponse;
   }, [partialResponse]);
-
 
   useEffect(() => {
     const loadConversationHistory = async () => {
@@ -146,6 +146,7 @@ export default function Chat() {
         setIsLoadingResponse(false);
         eventSource.close();
       } else {
+        console.log('adding to partial response: ' + event.data);
         setPartialResponse(prevRes => prevRes + event.data);
       }
     };
