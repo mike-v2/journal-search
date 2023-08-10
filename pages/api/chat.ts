@@ -4,12 +4,6 @@ import tiktoken from 'tiktoken-node';
 import { Storage } from '@google-cloud/storage';
 import Papa from 'papaparse';
 
-const base64Key = process.env.GCLOUD_KEYFILE_CONTENTS_BASE64;
-const jsonString = Buffer.from(base64Key as string, 'base64').toString('utf-8');
-const credentials = JSON.parse(jsonString);
-
-
-
 const openai = new OpenAI();
 
 const queryModel = 'gpt-3.5-turbo'
@@ -74,7 +68,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   async function downloadBlob(bucketName: string, sourceBlobName: string) {
     console.debug("Starting blob download");
 
-    const storage = new Storage({ credentials });
+    const storage = new Storage();
     const bucket = storage.bucket(bucketName);
     const blob = bucket.file(sourceBlobName);
 
