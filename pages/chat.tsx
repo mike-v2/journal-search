@@ -134,8 +134,6 @@ export default function Chat() {
     const eventSource = new EventSource(`/api/chat?chatHistory=${JSON.stringify(chatHistory)}`);
 
     eventSource.onmessage = function (event) {
-      console.log("received data from stream: " + event.data);
-      console.log("ready state = " + eventSource.readyState);
       if (event.data === "end_of_stream") {
         console.log('Connection was closed with partialReponse = ' + partialResponseRef.current.substring(0, 20));
         if (chatHistory.length === 1) {

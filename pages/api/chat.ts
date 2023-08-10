@@ -6,7 +6,9 @@ import Papa from 'papaparse';
 
 const base64Key = process.env.GCLOUD_KEYFILE_CONTENTS_BASE64;
 const jsonString = Buffer.from(base64Key as string, 'base64').toString('utf-8');
-const gCloudCredentials = JSON.parse(jsonString);
+const credentials = JSON.parse(jsonString);
+
+
 
 const openai = new OpenAI();
 
@@ -72,7 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   async function downloadBlob(bucketName: string, sourceBlobName: string) {
     console.debug("Starting blob download");
 
-    const storage = new Storage({ credentials: gCloudCredentials });
+    const storage = new Storage({ credentials });
     const bucket = storage.bucket(bucketName);
     const blob = bucket.file(sourceBlobName);
 
@@ -144,6 +146,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           condensedHistory += "Harry Howard: " + msg["content"] + ' '
         }
       }
+
       condensedHistory = pruneString(condensedHistory, maxChatHistoryTokens, false)
       // use chatGPT to convert user's message into a search query that considers context
       const querySystemMsg = "You are part of a website that is centered around the personal journals of Harry Howard. Generate a search query for the Guest's most recent message that will be used to find relevant information from Harry's journal entries. Embeddings have been generated for each journal entry, and the query you generate will be turned into an embedding and compared to each journal entry to find the most similar. Try to generate a search query that will return the most relevant journal entries for Guest's most recent message. Please don't add any explanation, just generate a short but contextual search query, as your output will be fed directly into the next step without any modifications."
@@ -155,6 +158,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         ],
         temperature: queryModelTemperature,
       });
+
+
       const response: string = fullResponse["choices"][0]["message"]["content"] as string;
       const queryResponseTokenCount = getTokenCount(response);
       console.log("received contextual query from OpenAI: " + response);
