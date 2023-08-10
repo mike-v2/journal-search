@@ -15,7 +15,7 @@ export default function MySaved() {
   const {data: session} = useSession();
   const [starredEntries, setStarredEntries] = useState<StarredEntryExt[]>([]);
   const [activeEntry, setActiveEntry] = useState<StarredEntryExt>();
-  const [sortMode, setSortMode] = useState<string>('journalDate');
+  const [sortMode, setSortMode] = useState<string>();
 
   useEffect(() => {
     async function retrieveStarredEntries() {
@@ -39,7 +39,9 @@ export default function MySaved() {
       }
     }
 
-    retrieveStarredEntries();
+    if (starredEntries.length === 0) {
+      retrieveStarredEntries();
+    }
   }, [session, activeEntry]);
 
   useEffect(() => {
