@@ -162,14 +162,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const response: string = fullResponse["choices"][0]["message"]["content"] as string;
       const queryResponseTokenCount = getTokenCount(response);
-      console.log("received contextual query from OpenAI: " + response);
 
-      let searchResults = await findEntriesRelatedToMessage(response);
-      searchResults = pruneString(searchResults, searchResultsMaxTokens);
-      console.log('journal search results length: ' + searchResults.length);
+      let search_results = await findEntriesRelatedToMessage(response);
+      search_results = pruneString(search_results, searchResultsMaxTokens);
 
       const systemMsgStub = "You are part of a website centered around the personal journals of Harry Howard (1899-1959), a post-office employee, a member of the LDS church, a husband to Grace (sometimes referred to as 'Mama') and a father to seven children: (in order from youngest to oldest) Cathy, Charles, Sonny, Sharon, Ardie, Dorothy and Betty. You will be playing the role of Harry Howard. Users will interact with you and you will be provided with journal entries that are the most relevant to the user's message. You should respond in the style of Harry Howard and your responses should only reflect the contents of the journal entries provided. Don't improvise, make things up, or reference things that aren't explicitly mentioned in the entries, as users will expect authenticity above all else. If there isn't enough relevant information in the provided entries, just say you're having a hard time remembering or that you don't know. Please feel free to cite specific people, events, and dates from the journal entries. It is very important that you mention specific journal entry dates as often as possible so that users can go look up more information. Here are the most relevant journal entries:";
-      const responseSystemMsg = systemMsgStub + searchResults;
+      const responseSystemMsg = systemMsgStub + search_results;
 
       const systemMsgStubTokens = getTokenCount(systemMsgStub);
       let msgHistoryTokenCount = responseModelContextLength - searchResultsMaxTokens - queryResponseTokenCount - systemMsgStubTokens
@@ -186,16 +184,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           messages.push(msg)
         }
       }
+
       messages.push({ "role": "system", "content": responseSystemMsg }) // add system msg before reversing so it's first
       messages = messages.reverse();
-      console.log("message history length (including system message): " + messages.length);
+
 
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');
-      res.setHeader('Connection', 'keep-alive');
       res.flushHeaders();
 
-      console.log("getting response from OpenAI...");
       const stream = await openai.chat.completions.create({
         model: responseModel,
         messages: messages,
@@ -204,10 +201,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       for await (const part of stream) {
-        console.log('received chunk: ' + part.choices[0]?.delta?.content);
         res.write(`data: ${part.choices[0]?.delta?.content || ''}\n\n`);
       }
-      console.log("end of stream");
       res.write('data: end_of_stream\n\n');
 
       res.end();
