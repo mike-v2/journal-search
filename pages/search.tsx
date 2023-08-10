@@ -35,6 +35,7 @@ export default function Search() {
       const endIndex = startIndex + sizeNum;
 
       const newSearchResults = searchResults.slice(startIndex, endIndex);
+      //only change state if necessary, otherwise this will trigger a re-render and jest will think 'router.query' has changed because it's getting a different object (albeit with the same values) from the jest mock function
       if (JSON.stringify(newSearchResults) !== JSON.stringify(displaySearchResults)) {
         setDisplaySearchResults(newSearchResults);
       }

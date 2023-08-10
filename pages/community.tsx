@@ -1,3 +1,6 @@
+import JournalEntryBox from "@/components/journalEntryBox";
+import { Comment, JournalEntry, Post, User } from "@prisma/client";
+import { useSession } from "next-auth/react"; 
 import { useEffect, useState } from "react"
 import PostBox from "../components/postBox";
 import Head from "next/head";
@@ -9,16 +12,14 @@ export default function Community() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const response = await fetch('/api/post', {
+        const res = await fetch('/api/post', {
           method: 'GET',
         })
+        const data = await res.json();
 
-        if (!response.ok) throw new Error(`HTTP error: ${response.status}`)
-
-        const data = await response.json();
         setPosts(data as PostExt[]);
       } catch (error) {
-        console.error("could not fetch posts: " + error);
+        console.log("could not fetch posts: " + error);
       }
     }
 
