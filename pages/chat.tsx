@@ -25,7 +25,7 @@ export default function Chat() {
   const partialResponseRef = useRef(partialResponse);
 
   useEffect(() => {
-    console.log("partial response has changed. setting response ref: " + partialResponse);
+    //console.log("partial response has changed. setting response ref: " + partialResponse);
     partialResponseRef.current = partialResponse;
   }, [partialResponse]);
 
@@ -81,13 +81,13 @@ export default function Chat() {
     return null;
   }
 
-  const saveMessage = async ({ role, content }: { role: string, content: string }, conv?: Conversation) => {
+  const saveMessage = async ({ role, content }: { role: string, content: string }, conv: Conversation) => {
     console.log("trying to save message: " + content);
     try {
       const response = await fetch('/api/message', {
         method: 'POST',
         body: JSON.stringify({
-          conversationId: conv ? conv.id : activeConversation?.id,
+          conversationId: conv.id,
           role: role,
           content: content,
         })
@@ -109,26 +109,26 @@ export default function Chat() {
     setMessageHistory(updatedHistory);
 
     let newConvo: Conversation | null = null;
-    if (!activeConversation) {
-      newConvo = await createNewConversation();
-      console.log("created new conv::");
-      console.log(newConvo);
-      if (newConvo) {
-        setConversations(prevConvos => [...prevConvos, newConvo as Conversation]);
-        setActiveConversation(newConvo as ConversationExt);
-        saveMessage(userMessage, newConvo);
+    if (session?.user) {
+      if (!activeConversation) {
+        newConvo = await createNewConversation();
+        console.log("created new conversation::");
+        console.log(newConvo);
+        if (newConvo) {
+          setConversations(prevConvos => [...prevConvos, newConvo as Conversation]);
+          setActiveConversation(newConvo as ConversationExt);
+          saveMessage(userMessage, newConvo);
+        }
+      } else {
+        saveMessage(userMessage, activeConversation);
       }
-    } else {
-      saveMessage(userMessage);
     }
 
     const convo = activeConversation ?? newConvo;
-    if (convo) {
-      startStreamingResponse(updatedHistory, convo);
-    }
+    startStreamingResponse(updatedHistory, convo ?? undefined);
   }
 
-  function startStreamingResponse(chatHistory: MessageCore[], convo: Conversation) {
+  function startStreamingResponse(chatHistory: MessageCore[], convo?: Conversation) {
     setIsLoadingResponse(true);
 
     const eventSource = new EventSource(`/api/chat?chatHistory=${JSON.stringify(chatHistory)}`);
@@ -138,7 +138,7 @@ export default function Chat() {
       console.log("ready state = " + eventSource.readyState);
       if (event.data === "end_of_stream") {
         console.log('Connection was closed with partialReponse = ' + partialResponseRef.current.substring(0, 20));
-        if (chatHistory.length === 1) {
+        if (chatHistory.length === 1 && convo) {
           // first AI response just finished
           editConversationTitle(convo.id, 'user: ' + chatHistory[0].content + ' assistant: ' + partialResponseRef.current);
         }
@@ -163,12 +163,15 @@ export default function Chat() {
     };
   }
 
-  function onResponseFinished(convo: Conversation) {
+  function onResponseFinished(convo?: Conversation) {
     const aiMsg = { "role": "assistant", "content": partialResponseRef.current };
     setMessageHistory(prevHistory => [...prevHistory, aiMsg]);
-    console.log('trying to save message with convo::');
-    console.log(convo);
-    saveMessage(aiMsg, convo);
+    if (convo) {
+      console.log('trying to save message with convo::');
+      console.log(convo);
+      saveMessage(aiMsg, convo);
+    }
+
     setPartialResponse('');
   }
 
