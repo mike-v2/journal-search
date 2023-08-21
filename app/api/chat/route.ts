@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import tiktoken from 'tiktoken-node';
+/* import tiktoken from 'tiktoken-node'; */
 import { Storage } from '@google-cloud/storage';
 import Papa from 'papaparse';
 import { NextRequest, NextResponse } from 'next/server';
@@ -55,8 +55,10 @@ export async function POST(req: Request) {
   }
 
   function getTokenCount(str: string) {
-    const enc = tiktoken.encodingForModel(responseModel);
-    return enc.encode(str).length;
+    /* const enc = tiktoken.encodingForModel(responseModel);
+    return enc.encode(str).length; */
+    const words = str.split(' ');
+    return words.length * 1.5; // roughly 75 words per 100 tokens. Give overestimate to be safe
   }
 
   function pruneString(str: string, maxTokens: number, pruneEnd = true) {
