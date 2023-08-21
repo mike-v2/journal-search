@@ -1,8 +1,11 @@
+'use client'
+
 import { Conversation } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
+
 
 export default function ChatSidebar({ conversations, conversationClicked, handleDeleteConversation, handleClearConversation }: { conversations: Conversation[], conversationClicked: (convId: string) => void, handleDeleteConversation: (convId: string) => void, handleClearConversation: () => void }) {
   const { data: session } = useSession();
@@ -65,6 +68,7 @@ export default function ChatSidebar({ conversations, conversationClicked, handle
         className="m-auto p-5 border rounded-md max-w-md bg-slate-800"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex"
         contentLabel="Create Post Modal"
+        ariaHideApp={false}
       >
         <div className='flex flex-col gap-y-8 p-4'>
           <p>Delete this conversation?</p>

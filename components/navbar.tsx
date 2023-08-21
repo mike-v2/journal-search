@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link";
 import { Limelight } from "next/font/google";
 import Login from "@/pages/login";
@@ -16,6 +18,7 @@ export default function Navbar() {
   function blurElement(e: React.MouseEvent<HTMLAnchorElement>) {
     e.currentTarget.blur();
   }
+
   return (
     <header className="flex">
       <div className='relative basis-1/5 flex justify-center ml-6 mt-6'>
