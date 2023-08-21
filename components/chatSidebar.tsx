@@ -1,20 +1,17 @@
 'use client'
 
 import { Conversation } from '@prisma/client';
-import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
 
+const logoHeight = 270;
 
 export default function ChatSidebar({ conversations, conversationClicked, handleDeleteConversation, handleClearConversation }: { conversations: Conversation[], conversationClicked: (convId: string) => void, handleDeleteConversation: (convId: string) => void, handleClearConversation: () => void }) {
-  const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [preparedToDeleteConvoId, setPreparedToDeleteConvoId] = useState<string>('');
   const sidebarRef = useRef<HTMLDivElement>(null);
-
-  const logoHeight = 270;
 
   useEffect(() => {
     if (!sidebarRef.current) return;
@@ -36,12 +33,6 @@ export default function ChatSidebar({ conversations, conversationClicked, handle
       });
     }
   }, [sidebarRef]);
-
-  useEffect(() => {
-    if (session?.user) {
-      setIsOpen(true);
-    }
-  }, [session])
 
   function handlePrepareToDeleteConversation(convoId: string) {
     setIsModalOpen(true);
