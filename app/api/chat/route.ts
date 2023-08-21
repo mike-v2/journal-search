@@ -37,8 +37,6 @@ type EmbeddingEntry = {
 
 export async function POST(req: Request) {
   const { chatHistory } = await req.json();
-  /* const { searchParams } = new URL(req.url);
-  const chatHistory = JSON.parse(searchParams.get('chatHistory') as string); */
   console.log("received chat history: ", chatHistory);
 
   function dot(vecA: number[], vecB: number[]): number {
@@ -195,34 +193,15 @@ export async function POST(req: Request) {
     messages = messages.reverse();
     console.log("message history length (including system message): " + messages.length);
 
-    console.log("getting response from OpenAI...");
-
-    /* const encoder = new TextEncoder();
-    const { readable, writable } = new TransformStream();
-    const writer = writable.getWriter(); */
-
     const stream = await openai.chat.completions.create({
       model: responseModel,
       messages: messages,
       temperature: responseModelTemperature,
       stream: true,
     });
-    console.log("openai finished");
 
-    const streamingResponse = OpenAIStream(stream);
-    return new StreamingTextResponse(streamingResponse);
-    /* for await (const part of stream) {
-      console.log("received stream part: ", part.choices[0].delta.content);
-      writer.write(encoder.encode(`${part.choices[0].delta.content}`));
-    }
-
-    return new NextResponse(readable, {
-      headers: {
-        'Content-Type': 'text/event-stream',
-        Connection: 'keep-alive',
-        'Cache-Control': 'no-cache, no-transform',
-      },
-    }); */
+    const responseStream = OpenAIStream(stream);
+    return new StreamingTextResponse(responseStream);
   } catch (error) {
     console.error('An error occurred during OpenAI request', error);
   }
