@@ -99,6 +99,70 @@ export default function Chat() {
     }
   }
 
+  useEffect(() => {
+    /* console.log("starting test...")
+    const eventSource = new EventSource('/api/test');
+
+    eventSource.onmessage = function (event) {
+      console.log('Received event:', event.data);
+    };
+
+    eventSource.onerror = function (error) {
+      console.log("ready state = " + eventSource.readyState.toString());
+      if (eventSource.readyState === EventSource.CLOSED) {
+        console.log('Connection was closed by the server.');
+      } else {
+        console.error('EventSource failed:', error);
+      }
+      eventSource.close();
+    };
+
+    return () => {
+      console.log("closing")
+      eventSource.close();
+    }; */
+
+    async function fetchTest() {
+      try {
+        const response = await fetch('/api/test', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          /* body: JSON.stringify({ messages }), */
+        });
+
+        // Check if the response is okay
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        // Read the response as a stream
+        const reader = response.body?.getReader();
+        if (!reader) {
+          throw new Error('no reader');
+        }
+
+        // This is where you handle the streaming data
+        while (true) {
+          const { value, done } = await reader.read();
+
+          if (done) {
+            break;
+          }
+
+          // Assuming the stream is sending chunks of valid HTML or text
+          const text = new TextDecoder().decode(value);
+          console.log(text);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    //fetchTest();
+  }, []);
+
   async function handleSubmitText() {
     if (!textBox.current) return;
 
@@ -133,7 +197,53 @@ export default function Chat() {
   function startStreamingResponse(chatHistory: MessageCore[], convo?: Conversation) {
     setIsLoadingResponse(true);
 
-    const eventSource = new EventSource(`/api/chat?chatHistory=${JSON.stringify(chatHistory)}`);
+    async function fetchChatResponse() {
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ chatHistory }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const reader = response.body?.getReader();
+        if (!reader) {
+          throw new Error('no reader');
+        }
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+
+          const text = new TextDecoder().decode(value);
+          console.log('received chunk: ', text);
+          if (text === "end_of_stream") {
+            console.log('Connection was closed with partialReponse = ' + partialResponseRef.current.substring(0, 20));
+            if (chatHistory.length === 1 && convo) {
+              // first AI response just finished
+              editConversationTitle(convo.id, 'user: ' + chatHistory[0].content + ' assistant: ' + partialResponseRef.current);
+            }
+            onResponseFinished(convo);
+            setIsLoadingResponse(false);
+            //eventSource.close();
+          } else {
+            console.log('adding to partial response: ' + text);
+            setPartialResponse(prevRes => prevRes + text);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchChatResponse();
+
+    /* const eventSource = new EventSource(`/api/chat?chatHistory=${JSON.stringify(chatHistory)}`);
 
     eventSource.onmessage = function (event) {
       console.log("received data from stream: " + event.data);
@@ -162,7 +272,7 @@ export default function Chat() {
 
     return () => {
       eventSource.close();
-    };
+    }; */
   }
 
   function onResponseFinished(convo?: Conversation) {
