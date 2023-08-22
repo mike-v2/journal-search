@@ -2,7 +2,6 @@ import OpenAI from 'openai';
 /* import tiktoken from 'tiktoken-node'; */
 import { Storage } from '@google-cloud/storage';
 import Papa from 'papaparse';
-import { NextRequest, NextResponse } from 'next/server';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 
 /* export const runtime = 'edge' */
