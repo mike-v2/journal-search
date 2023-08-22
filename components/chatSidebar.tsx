@@ -1,15 +1,17 @@
+'use client'
+
 import { Conversation } from '@prisma/client';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
 
+const logoHeight = 270;
+
 export default function ChatSidebar({ conversations, conversationClicked, handleDeleteConversation, handleClearConversation }: { conversations: Conversation[], conversationClicked: (convId: string) => void, handleDeleteConversation: (convId: string) => void, handleClearConversation: () => void }) {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [preparedToDeleteConvoId, setPreparedToDeleteConvoId] = useState<string>('');
   const sidebarRef = useRef<HTMLDivElement>(null);
-
-  const logoHeight = 270;
 
   useEffect(() => {
     if (!sidebarRef.current) return;
@@ -57,6 +59,7 @@ export default function ChatSidebar({ conversations, conversationClicked, handle
         className="m-auto p-5 border rounded-md max-w-md bg-slate-800"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex"
         contentLabel="Create Post Modal"
+        ariaHideApp={false}
       >
         <div className='flex flex-col gap-y-8 p-4'>
           <p>Delete this conversation?</p>

@@ -1,3 +1,5 @@
+'use client'
+
 import ChatSidebar from "@/components/chatSidebar";
 import { Conversation, Message } from "@prisma/client";
 import { useSession } from "next-auth/react";
@@ -21,6 +23,13 @@ export default function Chat() {
   const [isErrorLoadingResponse, setIsErrorLoadingResponse] = useState<boolean>(false);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversation, setActiveConversation] = useState<ConversationExt>();
+  const [partialResponse, setPartialResponse] = useState<string>('');
+  const partialResponseRef = useRef(partialResponse);
+
+  useEffect(() => {
+    //console.log("partial response has changed. setting response ref: " + partialResponse);
+    partialResponseRef.current = partialResponse;
+  }, [partialResponse]);
 
   useEffect(() => {
     const loadConversationHistory = async () => {
@@ -74,13 +83,13 @@ export default function Chat() {
     return null;
   }
 
-  const saveMessage = async ({ role, content }: { role: string, content: string }, conv?: Conversation) => {
-    console.log("trying to save message: " + content);
+  const saveMessage = async ({ role, content }: { role: string, content: string }, conv: Conversation) => {
+    console.log("trying to save message: " + content.slice(0, 200));
     try {
       const response = await fetch('/api/message', {
         method: 'POST',
         body: JSON.stringify({
-          conversationId: conv ? conv.id : activeConversation?.id,
+          conversationId: conv.id,
           role: role,
           content: content,
         })
@@ -134,37 +143,82 @@ export default function Chat() {
     setMessageHistory(updatedHistory);
 
     let newConvo: Conversation | null = null;
-    if (!activeConversation) {
-      newConvo = await createNewConversation();
-      console.log("created new conv::");
-      console.log(newConvo);
-      if (newConvo) {
-        setConversations(prevConvos => [...prevConvos, newConvo as Conversation]);
-        setActiveConversation(newConvo as ConversationExt);
-        saveMessage(userMessage, newConvo);
+    if (session?.user) {
+      if (!activeConversation) {
+        newConvo = await createNewConversation();
+        console.log("created new conversation::");
+        console.log(newConvo);
+        if (newConvo) {
+          setConversations(prevConvos => [...prevConvos, newConvo as Conversation]);
+          setActiveConversation(newConvo as ConversationExt);
+          saveMessage(userMessage, newConvo);
+        }
+      } else {
+        saveMessage(userMessage, activeConversation);
       }
-    } else {
-      saveMessage(userMessage);
     }
 
     const convo = activeConversation ?? newConvo;
-    if (convo) {
-      setIsLoadingResponse(true);
-      const aiResponse = await fetchChatApi(updatedHistory);
-      if (aiResponse !== '') {
-        if (updatedHistory.length === 1) {
-          // first AI response just finished
-          editConversationTitle(convo.id, 'user: ' + updatedHistory[0].content + ' assistant: ' + aiResponse);
-        }
-        const aiMsg = { "role": "assistant", "content": aiResponse };
-        setMessageHistory(prevHistory => [...prevHistory, aiMsg]);
-        console.log('trying to save message with convo::');
-        console.log(convo);
-        saveMessage(aiMsg, convo);
-      }
+    startStreamingResponse(updatedHistory, convo ?? undefined);
+  }
 
-      setIsLoadingResponse(false);
+  function startStreamingResponse(chatHistory: MessageCore[], convo?: Conversation) {
+    setIsLoadingResponse(true);
+
+    async function fetchChatResponse() {
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ chatHistory }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const reader = response.body?.getReader();
+        if (!reader) {
+          throw new Error('no reader');
+        }
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) {
+            console.log('Connection was closed with partialReponse = ' + partialResponseRef.current.substring(0, 20));
+            if (chatHistory.length === 1 && convo) {
+              // first AI response just finished
+              editConversationTitle(convo.id, 'user: ' + chatHistory[0].content + ' assistant: ' + partialResponseRef.current);
+            }
+            onResponseFinished(convo);
+            setIsLoadingResponse(false);
+            break;
+          }
+
+          const text = new TextDecoder().decode(value);
+          //console.log('received chunk: ', text);
+          setPartialResponse(prevRes => prevRes + text);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
+
+    fetchChatResponse();
+  }
+
+  function onResponseFinished(convo?: Conversation) {
+    const aiMsg = { "role": "assistant", "content": partialResponseRef.current };
+    setMessageHistory(prevHistory => [...prevHistory, aiMsg]);
+    if (convo) {
+      console.log('trying to save message with convo::');
+      console.log(convo);
+      saveMessage(aiMsg, convo);
+    }
+
+    setPartialResponse('');
   }
 
   async function editConversationTitle(convoId: string, text: string) {
@@ -186,7 +240,7 @@ export default function Chat() {
       return '';
     }
 
-    console.log("retrieving title for text: " + text);
+    console.log("retrieving title");
     const title = await getChatTitleFromAI(text);
     console.log("AI has created new title: " + title);
     setConversations(prevConvos => prevConvos.map(convo => {
@@ -286,14 +340,6 @@ export default function Chat() {
 
   return (
     <>
-      <Head>
-        <title>Harry&apos;s Journals</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
-        <link rel="manifest" href="/images/favicon/site.webmanifest" />
-      </Head>
       <main className="mt-8 min-h-screen" aria-label="Chat with Harry">
         <ChatSidebar conversations={conversations} conversationClicked={handleConversationClicked} handleDeleteConversation={handleDeleteConversation} handleClearConversation={clearActiveConversation} />
         <div className="w-full">

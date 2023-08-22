@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link";
 import { Limelight } from "next/font/google";
 import Login from "@/pages/login";
@@ -16,6 +18,7 @@ export default function Navbar() {
   function blurElement(e: React.MouseEvent<HTMLAnchorElement>) {
     e.currentTarget.blur();
   }
+
   return (
     <header className="flex">
       <div className='relative basis-1/5 flex justify-center ml-6 mt-6'>
@@ -36,6 +39,7 @@ export default function Navbar() {
               <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                   <li><Link href='/browse' onClick={blurElement}>Browse</Link></li>
                   <li><Link href='/search' onClick={blurElement}>Search</Link></li>
+                <li><Link href='/chat' onClick={blurElement}>Chat</Link></li>
                   <li><Link href='/community' onClick={blurElement}>Community</Link></li>
                   <li><Link href='/mySaved' onClick={blurElement}>Saved</Link></li>
               </ul>
