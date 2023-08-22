@@ -8,7 +8,7 @@ import { OpenAIStream, StreamingTextResponse } from 'ai';
 export const dynamic = 'force-dynamic';
 
 const openai = new OpenAI({
-  fetch: globalThis.fetch,
+  /* fetch: globalThis.fetch, */
 });
 
 const base64Key = process.env.GCLOUD_KEYFILE_CONTENTS_BASE64;

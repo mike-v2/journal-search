@@ -3,7 +3,6 @@
 import ChatSidebar from "@/components/chatSidebar";
 import { Conversation, Message } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import Head from "next/head";
 import { useEffect, useRef, useState } from "react"
 
 interface MessageCore {
@@ -360,6 +359,12 @@ export default function Chat() {
           <p className="border border-red-600 max-w-7xl mx-auto p-4" role="alert">Error loading response. Please try again.</p>
         }
         <section className="flex flex-col max-w-5xl mx-auto pt-10 px-2" aria-label="Chat history">
+          {partialResponse && partialResponse !== '' &&
+            <div className={`border-amber-300 flex flex-col sm:flex-row gap-y-2 border rounded-xl p-4 mb-8`}>
+              <h4 className={`text-amber-200 basis-1/6 font-bold text-lg leading-5 sm:text-right pr-4`}>Harry Howard:</h4>
+              <p className="basis-5/6 ps-3">{partialResponse}</p>
+            </div>
+          }
           {messageHistory && messageHistory.slice().reverse().map((msg, i) => {
             const speaker =
               msg.role === 'user' ? 'You:' :
