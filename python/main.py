@@ -99,7 +99,7 @@ def chatTitle():
     data = request.get_json()
     text = data.get('text')
 
-    system_msg = "Your sole job is to create a title for a chat that a user is having with an AI assistant that is playing the role of Harry Howard (1899-1959), a post-office employee, a member of the LDS church, a husband to Grace (sometimes referred to as 'Mama') and a father to seven children: (in order from youngest to oldest) Cathy, Charles, Sonny, Sharon, Ardie, Dorothy and Betty. You will be provided with the first part of the chat so that you will have enough information to create a title that concisely summarizes the subject of the chat. Make sure that the title is less than 10 words with no subtitle. Do not output any explanation, only output the title, as your output will be directly used as the title without any curation or amendment."
+    system_msg = "Your sole job is to create a title for a chat that a user is having with an AI assistant that is playing the role of Harry Howard (1899-1959), a post-office employee, a member of the LDS church, a husband to Grace (sometimes referred to as 'Mama') and a father to seven children: (in order from youngest to oldest) Cathy, Charles, Sonny, Sharon, Ardie, Dorothy and Betty. You will be provided with the first part of the chat so that you will have enough information to create a title that concisely summarizes the subject of the chat. Make sure that the title is 3 to 5 words and less than 40 characters. Do not output any explanation, only output the title, as your output will be directly used as the title without any curation or amendment."
     start_time = time.time()
     full_response = openai.ChatCompletion.create(
         model='gpt-3.5-turbo',
