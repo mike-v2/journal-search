@@ -42,7 +42,7 @@ export default function MySaved() {
     if (starredEntries.length === 0) {
       retrieveStarredEntries();
     }
-  }, [session, activeEntry]);
+  }, [session, activeEntry, starredEntries]);
 
   useEffect(() => {
     console.log("setting sort mode: " + sortMode);
