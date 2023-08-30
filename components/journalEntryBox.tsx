@@ -1,9 +1,9 @@
 import { dateToJournalDate, makeDatePretty } from "@/utils/convertDate";
-import { JournalEntry, JournalTopic } from "@prisma/client";
+import { JournalEntry } from "@prisma/client";
 import { signIn, useSession } from "next-auth/react";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
-import { ReactEventHandler, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from 'react-modal';
 import JournalTopicBox from "./journalTopicBox";
 
@@ -12,7 +12,7 @@ const josefin = Josefin_Sans({
   weight: ['500', '700'],
 });
 
-interface EntryBoxProps extends JournalEntry {
+type EntryBoxProps = JournalEntry & {
   onStarRemoved?: (journalEntryId: string) => void,
 }
 
@@ -86,11 +86,11 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
 
   useEffect(() => {
     if (isCornerHovered) {
-      setCornerCutoutWidth(isStarred ? '.8rem' : '1.8rem');
-      setCornerFoldWidth(isStarred ? '1.2rem' : '2.8rem');
+      setCornerCutoutWidth(isStarred ? '14px' : '32px');
+      setCornerFoldWidth(isStarred ? '19.8px' : '45.25px');
     } else {
-      setCornerCutoutWidth(isStarred ? '1.8rem' : '.8rem');
-      setCornerFoldWidth(isStarred ? '2.8rem' : '1.2rem');
+      setCornerCutoutWidth(isStarred ? '32px' : '14px');
+      setCornerFoldWidth(isStarred ? '45.25px' : '19.8px');
     }
 
   }, [isCornerHovered, isStarred]);
@@ -220,7 +220,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
         <div className="absolute top-0 right-0 w-12 h-12 mt-3 mr-6 italic">
           {isStarred ? 'Unsave' : 'Save'}
         </div>
-        <div className="corner-fold absolute top-0 right-0 shadow-xl shadow-black" ></div>
+        <div className="corner-fold absolute shadow-xl shadow-black" ></div>
       </div>
       <div className={`${josefin.className} corner-cut-out h-fit p-2 md:p-8 pb-16 border-2 border-slate-400 whitespace-pre-wrap`}>
         <section className="flex my-16 md:my-8" >

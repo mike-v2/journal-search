@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --corner-cutout-width: 1.41rem;
-  --corner-fold-width: 2rem;
+  --corner-cutout-width: 1.41em;
+  --corner-fold-width: 2em;
 }
 
 .flex-break {
@@ -29,6 +29,8 @@
 }
 
 .corner-fold {
+  top: 2px;
+  right: 2px;
   width: calc(var(--corner-fold-width));
   height: calc(var(--corner-fold-width));
   background: linear-gradient(225deg, transparent var(--corner-cutout-width), #fde68a 0);
