@@ -10,7 +10,7 @@ export default function Login() {
     if (session) {
       return (
         <div className="flex justify-end">
-          <Image className=" object-cover" src={session.user?.image as string} width={40} height={40} alt='user profile image' />
+          <Image className="object-cover" src={session.user?.image as string} width={40} height={40} alt='user profile image' />
           <button className="p-2" onClick={() => signOut()}>Sign Out</button>
         </div>
       )

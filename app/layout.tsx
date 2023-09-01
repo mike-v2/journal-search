@@ -4,14 +4,11 @@ import '@/styles/globals.css'
 import '@etchteam/next-pagination/dist/index.css'
 import { Josefin_Sans } from 'next/font/google'
 import NextAuthProvider from "@/pages/api/auth/nextAuthProvider"
-import Modal from 'react-modal';
 
 const josefin = Josefin_Sans({
   subsets: ['latin'],
   weight: ['500', '700'],
 });
-
-//if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#__next');
 
 export const metadata: Metadata = {
   title: "Harry's Journals",

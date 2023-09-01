@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --corner-cutout-width: 1.41em;
+  --corner-cutout-diagonal: 1.41em;
   --corner-fold-width: 2em;
 }
 
@@ -25,15 +25,13 @@
 }
 
 .corner-cut-out {
-  background: linear-gradient(225deg, transparent var(--corner-cutout-width), #fef3c7 0)
+  background: linear-gradient(225deg, transparent var(--corner-cutout-diagonal), #fef3c7 var(--corner-cutout-diagonal));
 }
 
 .corner-fold {
-  top: 2px;
-  right: 2px;
-  width: calc(var(--corner-fold-width));
-  height: calc(var(--corner-fold-width));
-  background: linear-gradient(225deg, transparent var(--corner-cutout-width), #fde68a 0);
+  width: var(--corner-fold-width);
+  height: var(--corner-fold-width);
+  background: linear-gradient(225deg, transparent var(--corner-cutout-diagonal), #fde68a var(--corner-cutout-diagonal));
 }
 
 .btn-hidden {

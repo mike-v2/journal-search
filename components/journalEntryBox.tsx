@@ -26,8 +26,8 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [postTitle, setPostTitle] = useState<string>('');
   const [postText, setPostText] = useState<string>('');
-  const [cornerCutoutWidth, setCornerCutoutWidth] = useState<string>('1.2rem');
-  const [cornerFoldWidth, setCornerFoldWidth] = useState<string>('1.2rem');
+  const [cornerCutoutDiagonal, setCornerCutoutDiagonal] = useState<string>('14px');
+  const [cornerFoldWidth, setCornerFoldWidth] = useState<string>('20px');
   const [isCornerHovered, setIsCornerHovered] = useState<boolean>(false);
 
   useEffect(() => {
@@ -39,8 +39,8 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
       const res = await fetch(`/api/starredEntry?userId=${session.user.id}&journalEntryId=${id}`, {
         method: 'GET',
       });
-
       const { currentIsStarred } = await res.json();
+
       setIsStarred(currentIsStarred);
     }
 
@@ -52,8 +52,8 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
       const res = await fetch(`/api/readEntry?userId=${session.user.id}&journalEntryId=${id}`, {
         method: 'GET',
       });
-
       const { currentIsRead } = await res.json();
+
       setIsRead(currentIsRead);
     }
 
@@ -85,14 +85,19 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   }, [startPage, endPage, date]);
 
   useEffect(() => {
-    if (isCornerHovered) {
-      setCornerCutoutWidth(isStarred ? '14px' : '32px');
-      setCornerFoldWidth(isStarred ? '19.8px' : '45.25px');
-    } else {
-      setCornerCutoutWidth(isStarred ? '32px' : '14px');
-      setCornerFoldWidth(isStarred ? '45.25px' : '19.8px');
-    }
+    const sqrt2 = 1.414;
+    const cornerDiagonalSmall = 14;
+    const cornerDiagonalLarge = 32;
+    const cornerWidthSmall = sqrt2 * cornerDiagonalSmall;
+    const cornderWidthLarge = sqrt2 * cornerDiagonalLarge;
 
+    if (isCornerHovered) {
+      setCornerCutoutDiagonal(isStarred ? `${cornerDiagonalSmall}px` : `${cornerDiagonalLarge}px`);
+      setCornerFoldWidth(isStarred ? `${cornerWidthSmall}px` : `${cornderWidthLarge}px`);
+    } else {
+      setCornerCutoutDiagonal(isStarred ? `${cornerDiagonalLarge}px` : `${cornerDiagonalSmall}px`);
+      setCornerFoldWidth(isStarred ? `${cornderWidthLarge}px` : `${cornerWidthSmall}px`);
+    }
   }, [isCornerHovered, isStarred]);
 
   async function handleStarClick() {
@@ -182,12 +187,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
             title: postTitle,
             text: postText,
           }),
-        })
-
-        if (res.status === 200) {
-          const data = await res.json();
-          //console.log(data.message)
-        }
+        });
       } catch (error) {
         console.log("error creating post: " + error);
       }
@@ -196,31 +196,23 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
     closeModal();
   }
 
-  function handleHoverCorner() {
-    setIsCornerHovered(true);
-  }
-
-  function handleUnhoverCorner() {
-    setIsCornerHovered(false);
-  }
-
   return (
     <article className={`${isRead ? 'opacity-50' : ''}`} style={{
-      '--corner-cutout-width': cornerCutoutWidth,
+      '--corner-cutout-diagonal': cornerCutoutDiagonal,
       '--corner-fold-width': cornerFoldWidth,
     } as React.CSSProperties}>
       <div className="relative">
         <button
           className="absolute top-0 right-0 w-12 h-12 z-10 cursor-pointer"
-          onMouseEnter={handleHoverCorner}
-          onMouseLeave={handleUnhoverCorner}
+          onMouseEnter={e => setIsCornerHovered(true)}
+          onMouseLeave={e => setIsCornerHovered(false)}
           onClick={handleStarClick}
           aria-label="Save Entry Clickable Area"
         ></button>
         <div className="absolute top-0 right-0 w-12 h-12 mt-3 mr-6 italic">
           {isStarred ? 'Unsave' : 'Save'}
         </div>
-        <div className="corner-fold absolute shadow-xl shadow-black" ></div>
+        <div className={`corner-fold absolute top-[2px] right-[2px] shadow-xl shadow-black`} ></div>
       </div>
       <div className={`${josefin.className} corner-cut-out h-fit p-2 md:p-8 pb-16 border-2 border-slate-400 whitespace-pre-wrap`}>
         <section className="flex my-16 md:my-8" >

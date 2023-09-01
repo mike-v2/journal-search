@@ -42,14 +42,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             lt: new Date(parsedYear + 1, 0, 1)
           },
         },
-        select: {
-          id: true,
-          content: true,
-          date: true,
+        include: {
           starredBy: true,
           readBy: true,
-          startPage: true,
-          endPage: true,
         },
         orderBy: {
           date: 'asc'
