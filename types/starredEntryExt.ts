@@ -1,5 +1,5 @@
 import { JournalEntry, StarredEntry } from "@prisma/client";
 
-export default interface StarredEntryExt extends StarredEntry {
-  journalEntry: JournalEntry
+export type StarredEntryExt = StarredEntry & {
+  journalEntry: JournalEntry;
 }

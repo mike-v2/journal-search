@@ -1,8 +1,6 @@
 import prisma from "@/utils/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth, { AuthOptions, Session } from "next-auth";
-import { AdapterUser } from "next-auth/adapters";
-import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: AuthOptions = {
@@ -14,17 +12,8 @@ export const authOptions: AuthOptions = {
   ],
   adapter: PrismaAdapter(prisma),
   callbacks: {
-    async jwt({ token, user }: { token: JWT, user: AdapterUser }) {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
-    session: (async (session: Session, token: JWT) => {
-      if (token) {
-        session.sessionToken = token.accessToken as string;
-        session.user.id = token.id as string;
-      }
+    session: (async (session: Session) => {
+      // using this empty callback seems to prompt the Prisma adapter to fetch a richer set of data from the database
       return session;
     }) as any,
   },

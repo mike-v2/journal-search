@@ -2,7 +2,7 @@ import { journalDateToISOString } from "@/utils/convertDate";
 import { JournalEntry } from "@prisma/client";
 import { useEffect, useState } from "react";
 
-interface ExampleEntry {
+type ExampleEntry = {
   header: string,
   entryDate: string,
   entry?: JournalEntry,
@@ -21,7 +21,7 @@ export default function useFetchJournalEntries(initialEntries: ExampleEntry[]) {
           method: 'GET',
         });
 
-        if (res.status === 200) {
+        if (res.ok) {
           const entry = await res.json();
           return entry;
         }
