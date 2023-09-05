@@ -16,6 +16,10 @@ type EntryBoxProps = JournalEntry & {
   onStarRemoved?: (journalEntryId: string) => void,
 }
 
+const sqrt2 = 1.414;
+const cornerDiagonalSmall = 12; // corner fold size when unsaved
+const cornerDiagonalLarge = 26; // corner fold size when saved
+
 export default function JournalEntryBox({ id, date, startPage, endPage, content, onStarRemoved}: EntryBoxProps) {
   const {data: session} = useSession();
   const [isStarred, setIsStarred] = useState<boolean>(false);
@@ -85,9 +89,6 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
   }, [startPage, endPage, date]);
 
   useEffect(() => {
-    const sqrt2 = 1.414;
-    const cornerDiagonalSmall = 14;
-    const cornerDiagonalLarge = 32;
     const cornerWidthSmall = sqrt2 * cornerDiagonalSmall;
     const cornderWidthLarge = sqrt2 * cornerDiagonalLarge;
 

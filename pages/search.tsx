@@ -25,7 +25,7 @@ export default function Search() {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
   const journalEntryBox = useRef<HTMLDivElement>(null);
-  const [searchResultsRange, setSearchResultsRange] = useState({ startIndex: 1, endIndex: 5 });
+  const [searchResultsRange, setSearchResultsRange] = useState<SearchResultsRange>({ startIndex: 1, endIndex: 5 });
   const router = useRouter();
 
   const displaySearchResults = searchResults.slice(searchResultsRange.startIndex, searchResultsRange.endIndex);
@@ -93,18 +93,9 @@ export default function Search() {
       const res = await fetch(`/api/journalEntry?date=${dateISO}`, {
         method: 'GET',
       });
+      const entry = await res.json() as JournalEntry;
 
-      if (res.status === 200) {
-        const entry = await res.json() as JournalEntry;
-        if (entry) {
-          setSelectedEntry(entry);
-        }
-      } else if (res.status === 500) {
-        const data = await res.json();
-        console.log(data.error);
-      } else {
-        console.log("Could not find journal entry by date");
-      }
+      setSelectedEntry(entry);
     } catch (error) {
       console.log("Could not find journal entry by date: " + error);
     }
@@ -125,25 +116,23 @@ export default function Search() {
       })
 
       const data = await res.json();
-      if (data) {
-        //receive a string of combined entries, each with the form: "Date: ...; Text: ..."
-        let entriesCombined = data.results;
+      //receive a string of combined entries, each with the form: "Date: ...; Text: ..."
+      let entriesCombined = data.results;
 
-        const entries = entriesCombined.split('Date:').slice(1);
-        const searchResults: SearchResult[] = []
-        entries.forEach((entry: string) => {
-          let [date, text] = entry.split('Text:')
-          date = date.replace(';', '').trim();
-          text = text.trim();
-          const searchResult = { date: date, text: text }
-          searchResults.push(searchResult);
-        })
+      const entries = entriesCombined.split('Date:').slice(1);
+      const searchResults: SearchResult[] = []
+      entries.forEach((entry: string) => {
+        let [date, text] = entry.split('Text:')
+        date = date.replace(';', '').trim();
+        text = text.trim();
+        const searchResult = { date: date, text: text }
+        searchResults.push(searchResult);
+      })
 
-        console.log('number of search results = ' + searchResults.length);
-        console.log('searchResults::');
-        console.log(searchResults);
-        setSearchResults(searchResults);
-      }
+      console.log('number of search results = ' + searchResults.length);
+      console.log('searchResults::');
+      console.log(searchResults);
+      setSearchResults(searchResults);
     } catch (error) {
       console.error(error);
     }
