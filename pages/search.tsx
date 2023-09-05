@@ -7,9 +7,14 @@ import Pagination from "@etchteam/next-pagination";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
-interface SearchResult {
+type SearchResult = {
   date: string;
   text: string;
+}
+
+type SearchResultsRange = {
+  startIndex: number;
+  endIndex: number;
 }
 
 export default function Search() {
@@ -18,13 +23,14 @@ export default function Search() {
   const [selectedSearchResult, setSelectedSearchResult] = useState<SearchResult>();
   const [selectedEntry, setSelectedEntry] = useState<JournalEntry>();
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [displaySearchResults, setDisplaySearchResults] = useState<SearchResult[]>([]);
-  const [hasSearched, setHasSearched] = useState<boolean>(false);
+  const [hasSearched, setHasSearched] = useState(false);
   const journalEntryBox = useRef<HTMLDivElement>(null);
+  const [searchResultsRange, setSearchResultsRange] = useState({ startIndex: 1, endIndex: 5 });
   const router = useRouter();
 
+  const displaySearchResults = searchResults.slice(searchResultsRange.startIndex, searchResultsRange.endIndex);
+
   useEffect(() => {
-    if (searchResults) {
       let { page, size } = router.query as { page: string, size: string };
       if (!page) page = '1';
       if (!size) size = '5';
@@ -34,19 +40,15 @@ export default function Search() {
       const startIndex = (pageNum - 1) * sizeNum;
       const endIndex = startIndex + sizeNum;
 
-      const newSearchResults = searchResults.slice(startIndex, endIndex);
-      //only change state if necessary, otherwise this will trigger a re-render and jest will think 'router.query' has changed because it's getting a different object (albeit with the same values) from the jest mock function
-      if (JSON.stringify(newSearchResults) !== JSON.stringify(displaySearchResults)) {
-        setDisplaySearchResults(newSearchResults);
+    if (startIndex !== searchResultsRange.startIndex || endIndex !== searchResultsRange.endIndex) {
+      setSearchResultsRange({ startIndex: startIndex, endIndex: endIndex });
       }
-    }
-  }, [router.query, searchResults, displaySearchResults])
+  }, [router.query])
 
   const handleSearch = useCallback(async () => {
     setSelectedSearchResult(undefined);
     setSelectedEntry(undefined);
     setSearchResults([]);
-    setDisplaySearchResults([]);
 
     setHasSearched(true);
     setSearchIsActive(true);

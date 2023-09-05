@@ -1,4 +1,4 @@
-import StarredEntryExt from "@/types/starredEntryExt";
+import { StarredEntryExt } from "@/types/starredEntryExt";
 import prisma from "@/utils/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 

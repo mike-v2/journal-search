@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const pages = [];
-  for (let i=Number(startPage); i<=Number(endPage); i++) {
+  for (let i = parseInt(startPage as string); i <= parseInt(endPage as string); i++) {
     pages.push(i);
   }
 

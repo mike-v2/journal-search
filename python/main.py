@@ -32,13 +32,6 @@ def download_blob(bucket_name, source_blob_name):
     app.logger.debug('Time taken to download blob %s: %s seconds', source_blob_name, str(end_time - start_time))
 
     return data
-    #blob.download_to_filename(destination_file_name)
-    #print(f"Blob {source_blob_name} downloaded to {destination_file_name}.")
-
-# Download embeddings into memory instead of file storage to save time. Google Cloud Run allows 512 MiB memory, with 1947 and 1948 the file is 9.6 MB
-#download_blob("journal_entries_harry_howard", "journal-entries-with-embeddings.csv", "/tmp/journal-entries-with-embeddings.csv")
-#datafile_path = "/tmp/journal-entries-with-embeddings.csv"
-#df = pd.read_csv(datafile_path)
 
 csv_data = download_blob("journal_entries_harry_howard", "journal-entries-with-embeddings.csv")
 if csv_data is not None:

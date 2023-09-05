@@ -9,7 +9,7 @@ import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import JournalTopicBox from '@/components/journalTopicBox';
 
-interface JournalEntryExt extends JournalEntry {
+type JournalEntryExt = JournalEntry & {
   userId: string,
   readBy: ReadEntry[],
 }
@@ -97,7 +97,7 @@ export default function Browse() {
     setDisplayEntryAfter(nextEntry);
   }, [getPreviousEntry, getNextEntry]);
 
-  const setCurrentDay = useCallback(({ x }: { x: number }) => {
+  const changeCurrentDay = useCallback(({ x }: { x: number }) => {
     setSliderDay(x);
 
     const firstDayOfCurrentYear = new Date(parseInt(currentYear), 0, 1);
@@ -116,15 +116,15 @@ export default function Browse() {
           const hasRead = journalEntries[index].readBy.some(prop => prop.userId === session?.user.id);
           if (!hasRead) {
             const days = dateToSliderDays(journalEntries[index].date);
-            setCurrentDay({ x: days });
+            changeCurrentDay({ x: days });
             return;
           }
         }
       }
 
-      setCurrentDay({ x: 0 });
+      changeCurrentDay({ x: 0 });
     }
-  }, [journalEntries, session, setCurrentDay])
+  }, [journalEntries, session, changeCurrentDay])
 
   function dateToSliderDays(d: Date): number {
     const date = new Date(d);
@@ -143,12 +143,11 @@ export default function Browse() {
     }
   }
 
-  async function fetchJournalEntries(year: string): Promise<void> {
+  async function fetchJournalEntries(year: string) {
     try {
       const response = await fetch(`/api/journalEntry?year=${year}`);
-      if (!response.ok) throw new Error(`HTTP error: ${response.status}`)
-
       const data = await response.json();
+
       setJournalEntries(data);
     } catch (error) {
       console.error(error);
@@ -160,7 +159,7 @@ export default function Browse() {
       const prevEntry = getPreviousEntry(displayEntryMain);
       if (prevEntry) {
         const days = dateToSliderDays(prevEntry.date);
-        setCurrentDay({ x: days });
+        changeCurrentDay({ x: days });
       }
     }
   }
@@ -170,7 +169,7 @@ export default function Browse() {
       const nextEntry = getNextEntry(displayEntryMain);
       if (nextEntry) {
         const days = dateToSliderDays(nextEntry.date);
-        setCurrentDay({ x: days });
+        changeCurrentDay({ x: days });
       }
     }
   }
@@ -202,7 +201,7 @@ export default function Browse() {
                 axis="x"
                 x={sliderDay}
                 xmax={365}
-                onChange={setCurrentDay}
+                onChange={changeCurrentDay}
                 styles={{
                   track: {
                     width: sliderWidth,
