@@ -42,8 +42,8 @@ export default function Search() {
 
     if (startIndex !== searchResultsRange.startIndex || endIndex !== searchResultsRange.endIndex) {
       setSearchResultsRange({ startIndex: startIndex, endIndex: endIndex });
-      }
-  }, [router.query])
+    }
+  }, [router.query, searchResultsRange])
 
   const handleSearch = useCallback(async () => {
     setSelectedSearchResult(undefined);

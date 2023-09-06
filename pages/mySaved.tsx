@@ -1,5 +1,5 @@
 import JournalEntryBox from "@/components/journalEntryBox";
-import StarredEntryExt from "@/types/starredEntryExt";
+import { StarredEntryExt } from "@/types/starredEntryExt";
 import { makeDatePretty, timestampToDate } from "@/utils/convertDate";
 import { useSession } from "next-auth/react";
 import { Josefin_Sans } from "next/font/google";
