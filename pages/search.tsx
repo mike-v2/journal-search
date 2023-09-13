@@ -31,19 +31,19 @@ export default function Search() {
   const displaySearchResults = searchResults.slice(searchResultsRange.startIndex, searchResultsRange.endIndex);
 
   useEffect(() => {
-      let { page, size } = router.query as { page: string, size: string };
-      if (!page) page = '1';
-      if (!size) size = '5';
-      const pageNum = parseInt(page);
-      const sizeNum = parseInt(size);
+    let { page, size } = router.query as { page: string, size: string };
+    if (!page) page = '1';
+    if (!size) size = '5';
+    const pageNum = parseInt(page);
+    const sizeNum = parseInt(size);
 
-      const startIndex = (pageNum - 1) * sizeNum;
-      const endIndex = startIndex + sizeNum;
+    const startIndex = (pageNum - 1) * sizeNum;
+    const endIndex = startIndex + sizeNum;
 
     if (startIndex !== searchResultsRange.startIndex || endIndex !== searchResultsRange.endIndex) {
       setSearchResultsRange({ startIndex: startIndex, endIndex: endIndex });
     }
-  }, [router.query, searchResultsRange])
+  }, [router.query, searchResultsRange]);
 
   const handleSearch = useCallback(async () => {
     setSelectedSearchResult(undefined);

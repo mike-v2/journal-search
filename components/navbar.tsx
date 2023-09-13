@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Limelight } from "next/font/google";
-import Login from "@/pages/login";
+import Login from "@/components/login";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";

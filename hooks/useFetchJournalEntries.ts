@@ -1,3 +1,5 @@
+'use client';
+
 import { journalDateToISOString } from "@/utils/convertDate";
 import { JournalEntry } from "@prisma/client";
 import { useEffect, useState } from "react";

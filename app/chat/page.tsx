@@ -226,9 +226,9 @@ export default function Chat() {
         const response = await fetch('/api/chatTitle', {
           method: 'POST',
           headers: {
-            'Content-Type': 'text/plain',
+            'Content-Type': 'application/json',
           },
-          body: chatText
+          body: JSON.stringify({ text: chatText })
         });
 
         const data = await response.json();

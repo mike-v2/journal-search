@@ -1,3 +1,5 @@
+'use client';
+
 import JournalEntryBox from "@/components/journalEntryBox";
 import { StarredEntryExt } from "@/types/starredEntryExt";
 import { makeDatePretty, timestampToDate } from "@/utils/convertDate";
@@ -12,7 +14,7 @@ const josefin = Josefin_Sans({
 });
 
 export default function MySaved() {
-  const {data: session} = useSession();
+  const { data: session } = useSession();
   const [starredEntries, setStarredEntries] = useState<StarredEntryExt[]>([]);
   const [activeEntry, setActiveEntry] = useState<StarredEntryExt>();
   const [sortMode, setSortMode] = useState<string>();

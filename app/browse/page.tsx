@@ -1,3 +1,5 @@
+'use client'
+
 import { makeDatePretty, timestampToDate } from '@/utils/convertDate';
 import { useCallback, useEffect, useState } from 'react';
 import Slider from 'react-input-slider'
@@ -16,7 +18,7 @@ type JournalEntryExt = JournalEntry & {
 
 const yearsIncluded = ['1944', '1945', '1946', '1947', '1948'];
 const startYear = yearsIncluded[0];
-const displayMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] 
+const displayMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 export default function Browse() {
   const { data: session } = useSession();

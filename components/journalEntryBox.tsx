@@ -1,3 +1,5 @@
+'use client';
+
 import { dateToJournalDate, makeDatePretty } from "@/utils/convertDate";
 import { JournalEntry } from "@prisma/client";
 import { signIn, useSession } from "next-auth/react";

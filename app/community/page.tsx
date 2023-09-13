@@ -1,8 +1,7 @@
-import JournalEntryBox from "@/components/journalEntryBox";
-import { Comment, JournalEntry, Post, User } from "@prisma/client";
-import { useSession } from "next-auth/react"; 
+'use client';
+
 import { useEffect, useState } from "react"
-import PostBox from "../components/postBox";
+import PostBox from "@/components/postBox";
 import Head from "next/head";
 import PostExt from "@/types/postExt";
 
