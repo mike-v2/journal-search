@@ -53,7 +53,8 @@ describe('JournalEntryBox', () => {
     fireEvent.click(getByAltText('display image button'));
 
     expect(await findByAltText(/journal image/)).toBeVisible();
-    // there's a bug with checking visibility of the entry text, so just check if the class is set correctly. expect(queryByText(mockEntry.content)).not.toBeVisible();
+    // there's a bug with checking visibility of the entry text, so just check if the class is set correctly.
+    // expect(queryByText(mockEntry.content)).not.toBeVisible();
     expect(queryByText(mockEntry.content)?.parentElement).toHaveClass('hidden');
   });
 

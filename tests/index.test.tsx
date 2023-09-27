@@ -1,6 +1,6 @@
 import 'whatwg-fetch'
 import { act, render, screen, waitFor } from '@testing-library/react';
-import Home from '../pages/index';
+import Home from '../app/page';
 import { server } from '@/mocks/server';
 import { SessionProvider } from 'next-auth/react';
 import { User } from 'next-auth';
