@@ -81,9 +81,9 @@ export default function JournalTopicBox({ journalEntryId }: { journalEntryId: st
                       <Image src={getTopicIconPath(topic)} className="" width={25} height={25} alt={topic.name + " icon"} />
                     </div>
                   }
-                  <p className="flex-auto capitalize whitespace-pre-wrap md:truncate text-lg font-bold text-slate-800">
+                  <h5 className="flex-auto capitalize whitespace-pre-wrap md:truncate text-lg font-bold text-slate-800">
                     {`${topic.name}`}
-                  </p>
+                  </h5>
                 </div>
                 <p className="hidden sm:block flex-auto truncate text-sm text-slate-600 my-auto">
                   {getTopicSubheading(topic)}

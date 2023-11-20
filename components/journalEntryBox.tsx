@@ -281,9 +281,9 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
           </button>
         </section>
 
-        <p className="text-3xl font-bold p-4 my-6 text-center text-slate-800">
+        <h3 className="text-3xl font-bold p-4 my-6 text-center text-slate-800">
           {makeDatePretty(dateToJournalDate(date))}
-        </p>
+        </h3>
 
         <div className="flex flex-col md:flex-row gap-y-6 gap-x-4">
           <div className="md:w-1/3">
