@@ -18,7 +18,7 @@ const gCloudCredentials = JSON.parse(jsonString);
 const queryModel = 'gpt-3.5-turbo'
 const queryModelTemperature = .2
 
-const responseModel = 'gpt-3.5-turbo';
+const responseModel = 'gpt-4'; //'gpt-3.5-turbo';
 const responseModelTemperature = .2;
 const responseModelContextLength = 4000;
 
