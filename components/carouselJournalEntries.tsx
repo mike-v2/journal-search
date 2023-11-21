@@ -35,7 +35,7 @@ const carouselEntries = [
   }
 ];
 
-export default function Carousel() {
+export default function CarouselJournalEntries() {
   const exampleEntries = useFetchJournalEntries(carouselEntries);
 
   return (

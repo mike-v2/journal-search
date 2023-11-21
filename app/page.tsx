@@ -3,8 +3,9 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Playball } from 'next/font/google'
-import Carousel from '@/components/carousel';
+import CarouselJournalEntries from '@/components/carouselJournalEntries';
 import ChatSample from '@/components/chatSample';
+import CarouselImages from '@/components/carouselImages';
 
 const playball = Playball({
   subsets: ['latin'],
@@ -55,11 +56,14 @@ export default function Home() {
             </p>
           </article>
         </section>
-        <section className='mt-32'>
-          <Carousel />
+        <section className='mt-64'>
+          <CarouselImages />
         </section>
-        <section className='mt-32 pb-32'>
+        <section className='mt-64'>
           <ChatSample />
+        </section>
+        <section className='mt-64 pb-32'>
+          <CarouselJournalEntries />
         </section>
       </main>
     </>
