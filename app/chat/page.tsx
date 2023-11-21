@@ -1,10 +1,10 @@
 'use client'
 
-import ChatSidebar from "@/components/chatSidebar";
-import { Conversation, Message } from "@prisma/client";
+import { useCallback, useEffect, useRef, useState } from "react"
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react"
+import { Conversation, Message } from "@prisma/client";
+import ChatSidebar from "@/components/chatSidebar";
 
 type ConversationExt = Conversation & {
   messages: Message[],
@@ -21,40 +21,9 @@ export default function Chat() {
   const [partialResponse, setPartialResponse] = useState<string>('');
   const partialResponseRef = useRef(partialResponse);
 
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const start = searchParams?.get('start');
-
-  useEffect(() => {
-    const initMessages = async () => {
-      const startMessages = JSON.parse(decodeURIComponent(start as string));
-      console.log('Starting conversation with:', startMessages);
-
-      setMessageHistory(startMessages);
-
-      let newConvo: Conversation | null = null;
-      if (session?.user) {
-        newConvo = await createNewConversation();
-        console.log("created new conversation::");
-        console.log(newConvo);
-        if (newConvo) {
-          setConversations(prevConvos => [...prevConvos, newConvo as Conversation]);
-          setActiveConversation(newConvo as ConversationExt);
-
-          const assistantMsg = startMessages[0];
-          const userMsg = startMessages[1];
-          await saveMessage(assistantMsg, newConvo);
-          saveMessage(userMsg, newConvo);
-        }
-      }
-
-      const convo = activeConversation ?? newConvo;
-      startStreamingResponse(startMessages, convo ?? undefined);
-    }
-
-    if (start) {
-      initMessages();
-    }
-  }, [start]);
 
   useEffect(() => {
     //console.log("partial response has changed. setting response ref: " + partialResponse);
@@ -85,7 +54,7 @@ export default function Chat() {
     }
   }, [session]);
 
-  const createNewConversation = async (): Promise<ConversationExt | null> => {
+  const createNewConversation = useCallback(async (): Promise<ConversationExt | null> => {
     try {
       const response = await fetch('/api/conversation', {
         method: 'POST',
@@ -100,7 +69,7 @@ export default function Chat() {
       console.error(error);
     }
     return null;
-  }
+  }, [session?.user])
 
   const saveMessage = async ({ role, content }: { role: string, content: string }, conv: Conversation) => {
     console.log("trying to save message: " + content.slice(0, 200));
@@ -181,7 +150,63 @@ export default function Chat() {
     setUserTextInput('');
   }
 
-  function startStreamingResponse(chatHistory: ChatMessage[], convo?: Conversation) {
+  const onResponseFinished = useCallback((convo?: Conversation) => {
+    const aiMsg = { "role": "assistant", "content": partialResponseRef.current };
+    setMessageHistory(prevHistory => [...prevHistory, aiMsg]);
+    if (convo) {
+      console.log('trying to save message with convo::');
+      console.log(convo);
+      saveMessage(aiMsg, convo);
+    }
+
+    setPartialResponse('');
+  }, []);
+
+  const editConversationTitle = useCallback(async (convoId: string, text: string) => {
+    const getChatTitleFromAI = async (chatText: string): Promise<string> => {
+      try {
+        const response = await fetch('/api/chatTitle', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text: chatText })
+        });
+
+        const data = await response.json();
+        return data.title;
+      } catch (error) {
+        console.error(error);
+      }
+      return '';
+    }
+
+    console.log("retrieving title");
+    const title = await getChatTitleFromAI(text);
+    console.log("AI has created new title: " + title);
+    setConversations(prevConvos => prevConvos.map(convo => {
+      if (convo.id === convoId) {
+        convo.title = title;
+        return convo;
+      } else return convo;
+    }))
+    if (activeConversation?.id === convoId) {
+      const newActiveConvo = activeConversation;
+      newActiveConvo.title = title;
+      setActiveConversation(newActiveConvo);
+    }
+
+    try {
+      const response = await fetch(`/api/conversation`, {
+        method: 'PATCH',
+        body: JSON.stringify({ id: convoId, title: title }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [activeConversation]);
+
+  const startStreamingResponse = useCallback((chatHistory: ChatMessage[], convo?: Conversation) => {
     setIsLoadingResponse(true);
 
     async function fetchChatResponse() {
@@ -226,63 +251,48 @@ export default function Chat() {
     }
 
     fetchChatResponse();
-  }
+  }, [editConversationTitle, onResponseFinished]);
 
-  function onResponseFinished(convo?: Conversation) {
-    const aiMsg = { "role": "assistant", "content": partialResponseRef.current };
-    setMessageHistory(prevHistory => [...prevHistory, aiMsg]);
-    if (convo) {
-      console.log('trying to save message with convo::');
-      console.log(convo);
-      saveMessage(aiMsg, convo);
-    }
+  useEffect(() => {
+    const initMessages = async (startMessages: ChatMessage[]) => {
+      setMessageHistory(startMessages);
 
-    setPartialResponse('');
-  }
+      let newConvo: Conversation | null = null;
+      if (session?.user) {
+        newConvo = await createNewConversation();
+        console.log("created new conversation::");
+        console.log(newConvo);
+        if (newConvo) {
+          setConversations(prevConvos => [...prevConvos, newConvo as Conversation]);
+          setActiveConversation(newConvo as ConversationExt);
 
-  async function editConversationTitle(convoId: string, text: string) {
-    const getChatTitleFromAI = async (chatText: string): Promise<string> => {
-      try {
-        const response = await fetch('/api/chatTitle', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ text: chatText })
-        });
-
-        const data = await response.json();
-        return data.title;
-      } catch (error) {
-        console.error(error);
+          const assistantMsg = startMessages[0];
+          const userMsg = startMessages[1];
+          await saveMessage(assistantMsg, newConvo);
+          saveMessage(userMsg, newConvo);
+        }
       }
-      return '';
+
+      const convo = activeConversation ?? newConvo;
+      startStreamingResponse(startMessages, convo ?? undefined);
     }
 
-    console.log("retrieving title");
-    const title = await getChatTitleFromAI(text);
-    console.log("AI has created new title: " + title);
-    setConversations(prevConvos => prevConvos.map(convo => {
-      if (convo.id === convoId) {
-        convo.title = title;
-        return convo;
-      } else return convo;
-    }))
-    if (activeConversation?.id === convoId) {
-      const newActiveConvo = activeConversation;
-      newActiveConvo.title = title;
-      setActiveConversation(newActiveConvo);
-    }
+    const start = searchParams?.get('start');
+    if (start && searchParams) {
+      const startMessages = JSON.parse(decodeURIComponent(start as string));
+      console.log('Starting conversation with:', startMessages);
 
-    try {
-      const response = await fetch(`/api/conversation`, {
-        method: 'PATCH',
-        body: JSON.stringify({ id: convoId, title: title }),
-      });
-    } catch (error) {
-      console.error(error);
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.delete('start');
+
+      if (pathname) {
+        router.replace(`${pathname}?${newSearchParams}`);
+      }
+
+      console.log('setting start messages:', startMessages);
+      initMessages(startMessages);
     }
-  }
+  }, [session?.user, activeConversation, createNewConversation, startStreamingResponse, searchParams, pathname, router]);
 
   function handleConversationClicked(convId: string) {
     const fetchConversationMessages = async () => {
