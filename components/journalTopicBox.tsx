@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { makeDatePretty } from "@/utils/convertDate";
-import { JournalEntry, JournalTopic } from "@prisma/client";
+import { JournalTopic } from "@prisma/client";
 import Image from "next/image";
 
 export default function JournalTopicBox({ journalEntryId }: { journalEntryId: string }) {
@@ -75,17 +74,17 @@ export default function JournalTopicBox({ journalEntryId }: { journalEntryId: st
           return (
             <div className='flex-auto py-2 md:px-4 my-auto mx-auto sm:mx-0' key={topic.summary.slice(0, 25)}>
               <div className="flex flex-col">
-                <div className="flex">
+                <div className="flex gap-x-4">
                   {getTopicIconPath(topic) &&
-                    <div className="basis-10 flex-none">
+                    <div className="w-7 h-7 flex-none">
                       <Image src={getTopicIconPath(topic)} className="" width={25} height={25} alt={topic.name + " icon"} />
                     </div>
                   }
-                  <h5 className="flex-auto capitalize whitespace-pre-wrap md:truncate text-lg font-bold text-slate-800">
+                  <h5 className="flex-auto capitalize whitespace-pre-wrap md:truncate text-lg font-bold text-slate-800 text-left">
                     {`${topic.name}`}
                   </h5>
                 </div>
-                <p className="hidden sm:block flex-auto truncate text-sm text-slate-600 my-auto">
+                <p className="hidden sm:block flex-auto truncate text-sm text-slate-600 text-left my-auto">
                   {getTopicSubheading(topic)}
                 </p>
               </div>

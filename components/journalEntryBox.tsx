@@ -291,7 +291,7 @@ export default function JournalEntryBox({ id, date, startPage, endPage, content,
           </div>
           <div className="w-full md:w-2/3">
             <div className={`${displayMode !== 'text' ? 'hidden' : ''}`}>
-              <p className="text-slate-800">
+              <p className="text-slate-800 text-left">
                 {content !== '' && content.replace(/\\n/g, '\n').replace(/\\t/g, '     ')}
               </p>
             </div>
