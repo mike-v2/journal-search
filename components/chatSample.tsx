@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -31,9 +32,23 @@ export default function ChatSample() {
 
   return (
     <div className="max-w-5xl mx-auto p-4">
-      <div className="max-w-md p-4 mr-auto rounded-xl border-2 border-amber-300">
-        <h5 className='text-amber-200'>Harry:</h5>
-        <p className="text-lg">{harryPrompt}</p>
+      <div className="max-w-md p-8 mr-auto rounded-xl border-2 border-amber-300">
+        <div className="flex gap-x-6">
+          <div className='w-80'>
+            <Image
+              className='w-full h-auto rounded-full'
+              src='/images/Harry-small.jpg'
+              width={0}
+              height={0}
+              sizes="100vw"
+              alt='Harry Howard'
+            />
+          </div>
+          <div className='flex flex-col justify-center'>
+            <h5 className='text-amber-200'>Harry:</h5>
+            <p className="text-lg">{harryPrompt}</p>
+          </div>
+        </div>
       </div>
       <form onSubmit={handleSubmit} className="mt-4">
         <div className="w-full max-w-md ml-auto px-2">
