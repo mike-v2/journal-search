@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Playball } from 'next/font/google'
 import Carousel from '@/components/carousel';
+import ChatSample from '@/components/chatSample';
 
 const playball = Playball({
   subsets: ['latin'],
@@ -54,7 +55,12 @@ export default function Home() {
             </p>
           </article>
         </section>
-        <Carousel />
+        <section className='mt-32'>
+          <Carousel />
+        </section>
+        <section className='mt-32 pb-32'>
+          <ChatSample />
+        </section>
       </main>
     </>
   )
