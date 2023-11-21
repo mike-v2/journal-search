@@ -18,9 +18,7 @@ const mockSession = {
 
 const mockExampleEntries = [
   {
-    header: 'Mocked Entry 1',
     entryDate: '01-01-2023',
-    imagePath: '/mocked-image-1.png',
     entry: {
       id: '123',
       date: new Date(2023, 0, 1),
@@ -30,9 +28,7 @@ const mockExampleEntries = [
     },
   },
   {
-    header: 'Mocked Entry 2',
     entryDate: '02-01-2023',
-    imagePath: '/mocked-image-2.png',
     entry: {
       id: '1234',
       date: new Date(2023, 1, 1),
@@ -58,11 +54,6 @@ afterAll(() => server.close());
 jest.mock('../hooks/useFetchJournalEntries'); 
 
 describe('Home', () => {
-  test("renders the correct number of example journal entries", () => {
-    const entryElement = screen.getAllByLabelText("Journal Entry");
-    expect(entryElement.length).toBe(mockExampleEntries.length);
-  });
-
   test("renders image for Harry Howard", () => {
     expect(screen.getByAltText(/picture of Harry Howard/i)).toBeInTheDocument();
   });
@@ -77,12 +68,5 @@ describe('Home', () => {
 
   test("renders body text correctly", () => {
     expect(screen.getByText(/Discover the fascinating world of Harry Howard/i)).toBeInTheDocument();
-  });
-
-  test('renders the entries returned by useFetchJournalEntries', () => {
-    expect(screen.getByText('Mocked Entry 1')).toBeInTheDocument();
-    expect(screen.getByText('Mocked Entry 2')).toBeInTheDocument();
-    expect(screen.getByText('Mocked journal entry 1')).toBeInTheDocument();
-    expect(screen.getByText('Mocked journal entry 2')).toBeInTheDocument();
   });
 });

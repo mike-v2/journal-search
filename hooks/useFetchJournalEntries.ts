@@ -5,10 +5,8 @@ import { JournalEntry } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 type ExampleEntry = {
-  header: string,
   entryDate: string,
   entry?: JournalEntry,
-  imagePath: string,
 }
 
 export default function useFetchJournalEntries(initialEntries: ExampleEntry[]) {
