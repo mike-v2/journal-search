@@ -3,27 +3,58 @@
 import ChatSidebar from "@/components/chatSidebar";
 import { Conversation, Message } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react"
 
-interface MessageCore {
-  role: string,
-  content: string,
-}
-
-interface ConversationExt extends Conversation {
+type ConversationExt = Conversation & {
   messages: Message[],
 }
 
 export default function Chat() {
   const { data: session } = useSession();
-  const [messageHistory, setMessageHistory] = useState<MessageCore[]>([]);
-  const textBox = useRef<HTMLTextAreaElement>(null);
+  const [userTextInput, setUserTextInput] = useState('');
+  const [messageHistory, setMessageHistory] = useState<ChatMessage[]>([]);
   const [isLoadingResponse, setIsLoadingResponse] = useState<boolean>(false);
   const [isErrorLoadingResponse, setIsErrorLoadingResponse] = useState<boolean>(false);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversation, setActiveConversation] = useState<ConversationExt>();
   const [partialResponse, setPartialResponse] = useState<string>('');
   const partialResponseRef = useRef(partialResponse);
+
+  const searchParams = useSearchParams();
+  const start = searchParams?.get('start');
+
+  useEffect(() => {
+    const initMessages = async () => {
+      const startMessages = JSON.parse(decodeURIComponent(start as string));
+      console.log('Starting conversation with:', startMessages);
+
+      setMessageHistory(startMessages);
+
+      let newConvo: Conversation | null = null;
+      if (session?.user) {
+        newConvo = await createNewConversation();
+        console.log("created new conversation::");
+        console.log(newConvo);
+        if (newConvo) {
+          setConversations(prevConvos => [...prevConvos, newConvo as Conversation]);
+          setActiveConversation(newConvo as ConversationExt);
+
+          const assistantMsg = startMessages[0];
+          const userMsg = startMessages[1];
+          await saveMessage(assistantMsg, newConvo);
+          saveMessage(userMsg, newConvo);
+        }
+      }
+
+      const convo = activeConversation ?? newConvo;
+      startStreamingResponse(startMessages, convo ?? undefined);
+    }
+
+    if (start) {
+      initMessages();
+    }
+  }, [start]);
 
   useEffect(() => {
     //console.log("partial response has changed. setting response ref: " + partialResponse);
@@ -54,17 +85,6 @@ export default function Chat() {
     }
   }, [session]);
 
-  function handleTextChange() {
-    if (textBox.current) {
-      let text = textBox.current.value;
-      if (text.charAt(text.length - 1) === '\n' && !isLoadingResponse) {
-        textBox.current.value = textBox.current.value.slice(0, text.length - 1);
-        handleSubmitText();
-        textBox.current.value = '';
-      }
-    }
-  }
-
   const createNewConversation = async (): Promise<ConversationExt | null> => {
     try {
       const response = await fetch('/api/conversation', {
@@ -89,8 +109,8 @@ export default function Chat() {
         method: 'POST',
         body: JSON.stringify({
           conversationId: conv.id,
-          role: role,
-          content: content,
+          role,
+          content,
         })
       })
     } catch (error) {
@@ -98,7 +118,7 @@ export default function Chat() {
     }
   } 
 
-  const fetchChatApi = async (chatHistory: MessageCore[]): Promise<string> => {
+  const fetchChatApi = async (chatHistory: ChatMessage[]): Promise<string> => {
     setIsErrorLoadingResponse(false);
     console.log("...loading response")
 
@@ -130,14 +150,12 @@ export default function Chat() {
     return '';
   }
 
-  async function handleSubmitText() {
-    if (!textBox.current) return;
-
-    const userText = textBox.current.value;
-    console.log("text submitted: " + userText);
+  const handleSubmitText = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("text submitted: " + userTextInput);
 
     // would be better to add user's message when response from OpenAI is successfully received so we're not adding extra messages to chat history, but then user's message won't get displayed after submitting
-    const userMessage = { "role": "user", "content": userText };
+    const userMessage = { "role": "user", "content": userTextInput };
     const updatedHistory = [...messageHistory, userMessage];
     setMessageHistory(updatedHistory);
 
@@ -159,9 +177,11 @@ export default function Chat() {
 
     const convo = activeConversation ?? newConvo;
     startStreamingResponse(updatedHistory, convo ?? undefined);
+
+    setUserTextInput('');
   }
 
-  function startStreamingResponse(chatHistory: MessageCore[], convo?: Conversation) {
+  function startStreamingResponse(chatHistory: ChatMessage[], convo?: Conversation) {
     setIsLoadingResponse(true);
 
     async function fetchChatResponse() {
@@ -187,7 +207,7 @@ export default function Chat() {
           const { value, done } = await reader.read();
           if (done) {
             console.log('Connection was closed with partialReponse = ' + partialResponseRef.current.substring(0, 20));
-            if (chatHistory.length === 1 && convo) {
+            if (convo && !convo.title) {
               // first AI response just finished
               editConversationTitle(convo.id, 'user: ' + chatHistory[0].content + ' assistant: ' + partialResponseRef.current);
             }
@@ -276,7 +296,7 @@ export default function Chat() {
         const conv = await response.json() as ConversationExt;
         if (conv) {
           conv.messages.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-          const msgHist: MessageCore[] = [];
+          const msgHist: ChatMessage[] = [];
           conv.messages.map(message => {
             msgHist.push({ 'role': message.role, 'content': message.content });
           })
@@ -341,17 +361,18 @@ export default function Chat() {
     <>
       <main className="mt-8 min-h-screen" aria-label="Chat with Harry">
         <ChatSidebar conversations={conversations} conversationClicked={handleConversationClicked} handleDeleteConversation={handleDeleteConversation} handleClearConversation={clearActiveConversation} />
-        <div className="w-full">
+        <form onSubmit={handleSubmitText}>
           <div className="w-full max-w-md mx-auto px-2">
-            <textarea
-              ref={textBox}
-              onChange={handleTextChange}
-              className="w-full rounded-xl h-12 p-3"
+            <input
+              type="text"
+              value={userTextInput}
+              onChange={(e) => setUserTextInput(e.target.value)}
+              className="w-full rounded-xl h-12 p-3 border-gray-300 border-2"
               placeholder="Chat with Harry..."
               aria-label="Chat input"
             />
           </div>
-        </div>
+        </form>
         {isLoadingResponse &&
           <p className="text-lg italic text-center">Harry is thinking...</p>
         }

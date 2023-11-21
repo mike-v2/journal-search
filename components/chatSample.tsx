@@ -1,16 +1,32 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const harryPrompt = "Did I ever tell you about the time I took a road trip with my son Charles?"
 
 export default function ChatSample() {
   const [input, setInput] = useState('');
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     console.log("harry chat submitted");
+
+    const messages: ChatMessage[] = [];
+    const assistantMsg: ChatMessage = {
+      role: 'assistant',
+      content: harryPrompt
+    }
+    const userMsg: ChatMessage = {
+      role: 'user',
+      content: input
+    }
+    messages.push(assistantMsg);
+    messages.push(userMsg);
+
+    router.push(`/chat?start=${encodeURIComponent(JSON.stringify(messages))}`);
   }
 
   return (
