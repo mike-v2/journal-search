@@ -41,3 +41,7 @@
 .tooltip:hover .btn-hidden {
   display: block;
 }
+
+.banner {
+  background-image: url('../public/images/background-1.png')
+}

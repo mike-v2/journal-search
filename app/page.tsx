@@ -40,23 +40,51 @@ export default function Home() {
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
       </Head>
       <main role="main">
-        <section className='flex flex-col md:flex-row max-w-7xl mx-auto h-fit'>
-          <div className='mx-auto basis-full flex justify-center'>
-            <Image src='/images/Harry-1.png' className='object-contain w-auto' width={600} height={800} alt='picture of Harry Howard' role="img" aria-label="Image of Harry Howard" />
+        <section className='relative flex flex-col md:flex-row h-fit'>
+          <div className="banner absolute inset-0 opacity-20">
+
           </div>
-          <article className='flex flex-col pt-16 px-2  whitespace-pre-line basis-full'>
-            <h3 className={`${playball.className} text-4xl text-slate-200 pb-2`}>
-              {bioText.header}
-            </h3>
-            <h5 className={`text-xl text-slate-200 pb-4`}>
-              {bioText.subheader}
-            </h5>
-            <p>
-              {bioText.body}
-            </p>
-          </article>
+          {/* <div className="absolute top-0 left-0 w-full h-auto opacity-10">
+            <Image className='w-full h-auto'
+              src='/images/background-1.png'
+              width={0}
+              height={0}
+              sizes="100vw"
+              alt='church'
+            />
+          </div> */}
+          <div className='relative z-0 w-full max-w-3xl mx-auto'>
+            <Image className='w-full h-auto'
+              src='/images/harry-banner.png'
+              width={0}
+              height={0}
+              sizes="100vw"
+              alt='Welcome banner'
+            />
+            <div className="absolute -bottom-20 left-0 md:-left-40 w-80 h-80">
+              <Image className='w-full h-auto'
+                src='/images/books-1.png'
+                width={0}
+                height={0}
+                sizes="100vw"
+                alt='stack of books'
+              />
+            </div>
+            <div className="absolute -bottom-20 -right-40 w-80 h-80">
+              <Image className='w-full h-auto'
+                src='/images/books-2.png'
+                width={0}
+                height={0}
+                sizes="100vw"
+                alt='stack of books'
+              />
+            </div>
+
+          </div>
+
         </section>
-        <section className='mt-64'>
+
+        <section className='mt-64 '>
           <CarouselImages />
         </section>
         <section className='mt-64'>
