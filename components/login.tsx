@@ -11,7 +11,7 @@ export default function Login() {
       return (
         <div className="flex justify-end">
           <Image className="object-cover" src={session.user?.image as string} width={40} height={40} alt='user profile image' />
-          <button className="p-2" onClick={() => signOut()}>Sign Out</button>
+          <button className="p-2 whitespace-nowrap" onClick={() => signOut()}>Sign Out</button>
         </div>
       )
     } else {
