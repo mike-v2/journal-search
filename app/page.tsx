@@ -50,7 +50,7 @@ export default function Home() {
               sizes="100vw"
               alt='Welcome banner'
             />
-            <div className="absolute -bottom-20 left-0 lg:-left-40 w-80 h-80">
+            <div className="absolute -bottom-20 left-0 lg:-left-40 w-40 h-40 sm:w-60 sm:h-60 lg:w-80 lg:h-80">
               <Image className='w-full h-auto'
                 src='/images/books-1.png'
                 width={0}
@@ -59,7 +59,7 @@ export default function Home() {
                 alt='stack of books'
               />
             </div>
-            <div className="absolute -bottom-20 right-0 lg:-right-40 w-80 h-80">
+            <div className="absolute -bottom-20 right-0 lg:-right-40 w-40 h-40 sm:w-60 sm:h-60 lg:w-80 lg:h-80">
               <Image className='w-full h-auto'
                 src='/images/books-2.png'
                 width={0}
@@ -72,7 +72,7 @@ export default function Home() {
         </section>
 
         <section>
-          <article className='whitespace-pre-line basis-full max-w-3xl relative z-0 p-20 mx-auto'>
+          <article className='whitespace-pre-line basis-full max-w-3xl relative z-0 px-4 pt-24 mx-auto'>
             <p>
               {bioText.body}
             </p>
