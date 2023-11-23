@@ -40,7 +40,7 @@ export default function CarouselJournalEntries() {
 
   return (
     <div className="max-w-5xl mx-auto border-2 border-black w-11/12 p-4">
-      <ResponsiveCarousel autoPlay={true} infiniteLoop={true} interval={7000} transitionTime={1500} showThumbs={false}>
+      <ResponsiveCarousel autoPlay={true} infiniteLoop={true} interval={7000} transitionTime={1500} showThumbs={false} showIndicators={false}>
         {exampleEntries && exampleEntries.map((entry) => (
           <div key={entry.entryDate}>
             {entry.entry &&
