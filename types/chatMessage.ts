@@ -1,4 +1,4 @@
 type ChatMessage = {
-  role: string,
-  content: string,
-}
+  role: string;
+  content: string;
+};

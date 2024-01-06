@@ -9,7 +9,8 @@
     "lint": "next lint",
     "prismaDev": "dotenv -e .env.local prisma migrate dev",
     "postinstall": "prisma generate",
-    "test": "jest"
+    "test": "jest",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.7.0",
@@ -58,6 +59,8 @@
     "jest-mock": "^29.6.1",
     "msw": "^1.2.1",
     "postcss": "^8.4.21",
+    "prettier": "^3.1.1",
+    "prettier-plugin-tailwindcss": "^0.5.11",
     "prisma": "^4.13.0",
     "tailwindcss": "^3.3.1",
     "ts-jest": "^29.1.0"

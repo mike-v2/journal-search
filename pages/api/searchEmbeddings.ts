@@ -1,8 +1,11 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const url = 'https://python-q4npvduerq-uw.a.run.app/';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   try {
     console.log(req.body);
     const { query, threshold } = req.body;
@@ -13,10 +16,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       body: JSON.stringify({
         query: query,
         threshold: threshold,
-      })
+      }),
     });
 
-    console.log("received response from openAI::");
+    console.log('received response from openAI::');
     console.log(response);
 
     const data = await response.json();

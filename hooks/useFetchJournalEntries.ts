@@ -1,13 +1,15 @@
 'use client';
 
-import { journalDateToISOString } from "@/utils/convertDate";
-import { JournalEntry } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+
+import { JournalEntry } from '@prisma/client';
+
+import { journalDateToISOString } from '@/utils/convertDate';
 
 type ExampleEntry = {
-  entryDate: string,
-  entry?: JournalEntry,
-}
+  entryDate: string;
+  entry?: JournalEntry;
+};
 
 export default function useFetchJournalEntries(initialEntries: ExampleEntry[]) {
   const [entries, setEntries] = useState(initialEntries);
@@ -26,14 +28,14 @@ export default function useFetchJournalEntries(initialEntries: ExampleEntry[]) {
           return entry;
         }
       } catch (error) {
-        console.log("Could not find journal entry by date: " + error);
+        console.log('Could not find journal entry by date: ' + error);
       }
 
       return undefined;
-    }
+    };
 
     const fetchEntries = async () => {
-      console.log(`fetching ${initialEntries.length} entries`)
+      console.log(`fetching ${initialEntries.length} entries`);
       const fetchedEntries = await Promise.all(
         initialEntries.map(async (entry) => ({
           ...entry,
@@ -41,7 +43,7 @@ export default function useFetchJournalEntries(initialEntries: ExampleEntry[]) {
         })),
       );
 
-      console.log("setting entries::");
+      console.log('setting entries::');
       console.log(fetchedEntries);
       setEntries(fetchedEntries);
     };

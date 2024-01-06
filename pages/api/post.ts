@@ -1,8 +1,13 @@
-import prisma from "@/utils/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') { //get all posts
+import prisma from '@/utils/prisma';
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  if (req.method === 'GET') {
+//get all posts
     try {
       const posts = await prisma.post.findMany({
         select: {
@@ -15,10 +20,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             include: {
               user: true,
               post: true,
-            }
+            },
           },
           id: true,
-        }
+        },
       });
 
       res.status(200).json(posts);
@@ -26,13 +31,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.error('Error getting posts:', error);
       res.status(500).json({ error: error });
     }
-  } else if (req.method === 'POST') { //user has created post
+  } else if (req.method === 'POST') {
+    //user has created post
     const { userId, journalEntryId, title, text } = JSON.parse(req.body);
 
     if (!userId || !journalEntryId || !text) {
-      return res.status(404).json({ error: 'UserId, JournalEntryId, and Text are required to make a post' });
+      return res.status(404).json({
+        error: 'UserId, JournalEntryId, and Text are required to make a post',
+      });
     }
-    
+
     try {
       const post = await prisma.post.create({
         data: {
@@ -43,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       });
 
-      res.status(200).json({ message: "success" });
+      res.status(200).json({ message: 'success' });
     } catch (error) {
       console.error('Error creating post:', error);
       res.status(500).json({ error: error });

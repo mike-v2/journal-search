@@ -1,11 +1,15 @@
-import prisma from "@/utils/prisma";
-import { startOfYear } from "date-fns";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+import prisma from '@/utils/prisma';
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const { date, year } = req.query;
 
-  if (date) { //get journal entry on specific date
+  if (date) {
+  //get journal entry on specific date
     try {
       const parsedDate = new Date(date as string);
       const entry = await prisma.journalEntry.findUnique({
@@ -30,7 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.error(error);
       res.status(500).json({ error: error });
     }
-  } else if (year) { // get journal entries for specific year
+  } else if (year) {
+    // get journal entries for specific year
     try {
       const parsedYear = parseInt(year as string);
       const startDate = new Date(Date.UTC(parsedYear, 0, 1));
@@ -39,7 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         where: {
           date: {
             gte: startDate,
-            lt: new Date(parsedYear + 1, 0, 1)
+            lt: new Date(parsedYear + 1, 0, 1),
           },
         },
         include: {
@@ -47,20 +52,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           readBy: true,
         },
         orderBy: {
-          date: 'asc'
-        }
+          date: 'asc',
+        },
       });
 
       if (!entries || entries.length === 0) {
-        return res.status(404).json({ error: 'No entries found for this year' });
+        return res
+          .status(404)
+          .json({ error: 'No entries found for this year' });
       }
 
       res.status(200).json(entries);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'An error occurred while fetching journal entry data' });
+      res
+        .status(500)
+        .json({ error: 'An error occurred while fetching journal entry data' });
     }
-  } else { //get all journal entries
+  } else {
+    //get all journal entries
     try {
       const entries = await prisma.journalEntry.findMany({
         select: {
@@ -81,7 +91,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(200).json(entries);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'An error occurred while fetching journal entry data' });
+      res
+        .status(500)
+        .json({ error: 'An error occurred while fetching journal entry data' });
     }
   }
 }

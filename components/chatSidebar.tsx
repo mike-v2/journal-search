@@ -1,16 +1,28 @@
-'use client'
+'use client';
 
-import { Conversation } from '@prisma/client';
-import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+
 import Modal from 'react-modal';
+import { Conversation } from '@prisma/client';
 
 const logoHeight = 270;
 
-export default function ChatSidebar({ conversations, conversationClicked, handleDeleteConversation, handleClearConversation }: { conversations: Conversation[], conversationClicked: (convId: string) => void, handleDeleteConversation: (convId: string) => void, handleClearConversation: () => void }) {
+export default function ChatSidebar({
+  conversations,
+  conversationClicked,
+  handleDeleteConversation,
+  handleClearConversation,
+}: {
+  conversations: Conversation[];
+  conversationClicked: (convId: string) => void;
+  handleDeleteConversation: (convId: string) => void;
+  handleClearConversation: () => void;
+}) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [preparedToDeleteConvoId, setPreparedToDeleteConvoId] = useState<string>('');
+  const [preparedToDeleteConvoId, setPreparedToDeleteConvoId] =
+    useState<string>('');
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -19,7 +31,7 @@ export default function ChatSidebar({ conversations, conversationClicked, handle
     sidebarRef.current.style.top = `${logoHeight}px`;
     sidebarRef.current.style.height = `calc(100vh - ${logoHeight}px)`;
 
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       window.addEventListener('scroll', function () {
         if (!sidebarRef.current) return;
 
@@ -28,7 +40,8 @@ export default function ChatSidebar({ conversations, conversationClicked, handle
           sidebarRef.current.style.height = '100vh';
         } else {
           sidebarRef.current.style.top = `${logoHeight - window.scrollY}px`;
-          sidebarRef.current.style.height = `calc(100vh - ${logoHeight - window.scrollY}px)`;
+          sidebarRef.current.style.height = `calc(100vh - ${logoHeight - window.scrollY
+            }px)`;
         }
       });
     }
@@ -52,48 +65,98 @@ export default function ChatSidebar({ conversations, conversationClicked, handle
   }
 
   return (
-    <div className="flex h-full">
+    <div className='flex h-full'>
       <Modal
         isOpen={isModalOpen}
-        onRequestClose={e => closeModal()}
-        className="m-auto p-5 border rounded-md max-w-md bg-slate-800"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex"
-        contentLabel="Create Post Modal"
+        onRequestClose={(e) => closeModal()}
+        className='m-auto max-w-md rounded-md border bg-slate-800 p-5'
+        overlayClassName='fixed inset-0 bg-black bg-opacity-50 flex'
+        contentLabel='Create Post Modal'
         ariaHideApp={false}
       >
         <div className='flex flex-col gap-y-8 p-4'>
           <p>Delete this conversation?</p>
-          <button className={`btn block ml-auto ${preparedToDeleteConvoId === '' ? 'text-gray-500' : 'text-white'}`} onClick={checkHandleDeleteConversation}>Delete</button>
+          <button
+            className={`btn ml-auto block ${preparedToDeleteConvoId === '' ? 'text-gray-500' : 'text-white'
+              }`}
+            onClick={checkHandleDeleteConversation}
+          >
+            Delete
+          </button>
         </div>
       </Modal>
-      <div ref={sidebarRef} className={`transition-transform fixed left-0 bottom-0 w-80 bg-amber-100 rounded-r-3xl overflow-auto ${isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'}`}>
-        <div className="px-2">
-          <button onClick={() => setIsOpen(false)} className="flex justify-end w-full px-4 mt-4">
-            <Image src='/images/sidebar-icon.svg' width={50} height={50} alt='sidebar icon' />
+      <div
+        ref={sidebarRef}
+        className={`fixed bottom-0 left-0 w-80 overflow-auto rounded-r-3xl bg-amber-100 transition-transform ${isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'
+          }`}
+      >
+        <div className='px-2'>
+          <button
+            onClick={() => setIsOpen(false)}
+            className='mt-4 flex w-full justify-end px-4'
+          >
+            <Image
+              src='/images/sidebar-icon.svg'
+              width={50}
+              height={50}
+              alt='sidebar icon'
+            />
           </button>
-          <div className="mt-6">
-            <h1 className="mb-6 text-lg font-bold text-gray-700 text-center">Conversations</h1>
-            <div className="flex flex-col gap-y-4">
+          <div className='mt-6'>
+            <h1 className='mb-6 text-center text-lg font-bold text-gray-700'>
+              Conversations
+            </h1>
+            <div className='flex flex-col gap-y-4'>
               {conversations.map((conversation, index) => (
-                <div key={index} className="tooltip relative border border-black rounded-full cursor-pointer p-4" onClick={e => conversationClicked(conversation.id)} data-tip={conversation.title}>
-                  <p className="font-medium text-gray-700 truncate">{conversation.title}</p>
-                  <button className="btn-hidden absolute right-0 top-1/2 transition-none -translate-y-1/2 bg-black rounded-md p-2 mr-4" onClick={e => { e.stopPropagation(); handlePrepareToDeleteConversation(conversation.id); }}>
-                    <Image src='/images/delete-icon.svg' className='invert' width={30} height={30} alt='delete icon' />
+                <div
+                  key={index}
+                  className='tooltip relative cursor-pointer rounded-full border border-black p-4'
+                  onClick={(e) => conversationClicked(conversation.id)}
+                  data-tip={conversation.title}
+                >
+                  <p className='truncate font-medium text-gray-700'>
+                    {conversation.title}
+                  </p>
+                  <button
+                    className='btn-hidden absolute right-0 top-1/2 mr-4 -translate-y-1/2 rounded-md bg-black p-2 transition-none'
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePrepareToDeleteConversation(conversation.id);
+                    }}
+                  >
+                    <Image
+                      src='/images/delete-icon.svg'
+                      className='invert'
+                      width={30}
+                      height={30}
+                      alt='delete icon'
+                    />
                   </button>
                 </div>
               ))}
-              <div className="relative border border-black rounded-full cursor-pointer p-4" onClick={e => handleClearConversation()}>
-                <p className="font-medium text-gray-700 truncate">New Conversation</p>
+              <div
+                className='relative cursor-pointer rounded-full border border-black p-4'
+                onClick={(e) => handleClearConversation()}
+              >
+                <p className='truncate font-medium text-gray-700'>
+                  New Conversation
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className={`absolute top-52 left-0 w-fit ${isOpen ? 'hidden' : ''}`}>
-        <button onClick={() => setIsOpen(true)} className="mt-3 ml-3">
-          <Image src='/images/sidebar-icon.svg' className='invert' width={50} height={50} alt='sidebar icon' />
+      <div className={`absolute left-0 top-52 w-fit ${isOpen ? 'hidden' : ''}`}>
+        <button onClick={() => setIsOpen(true)} className='ml-3 mt-3'>
+          <Image
+            src='/images/sidebar-icon.svg'
+            className='invert'
+            width={50}
+            height={50}
+            alt='sidebar icon'
+          />
         </button>
       </div>
     </div>
   );
-};
+}

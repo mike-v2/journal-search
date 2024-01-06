@@ -1,23 +1,27 @@
-'use client'
+'use client';
 
-import { useCallback, useEffect, useRef, useState } from "react"
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { Conversation, Message } from "@prisma/client";
-import ChatSidebar from "@/components/chatSidebar";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+
+import { Conversation, Message } from '@prisma/client';
+
+import ChatSidebar from '@/components/chatSidebar';
 
 type ConversationExt = Conversation & {
-  messages: Message[],
-}
+  messages: Message[];
+};
 
 export default function Chat() {
   const { data: session } = useSession();
   const [userTextInput, setUserTextInput] = useState('');
   const [messageHistory, setMessageHistory] = useState<ChatMessage[]>([]);
   const [isLoadingResponse, setIsLoadingResponse] = useState<boolean>(false);
-  const [isErrorLoadingResponse, setIsErrorLoadingResponse] = useState<boolean>(false);
+  const [isErrorLoadingResponse, setIsErrorLoadingResponse] =
+    useState<boolean>(false);
   const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [activeConversation, setActiveConversation] = useState<ConversationExt>();
+  const [activeConversation, setActiveConversation] =
+    useState<ConversationExt>();
   const [partialResponse, setPartialResponse] = useState<string>('');
   const partialResponseRef = useRef(partialResponse);
 
@@ -40,39 +44,43 @@ export default function Chat() {
           },
         });
 
-        const convs = await res.json() as Conversation[];
+        const convs = (await res.json()) as Conversation[];
         if (convs) {
           setConversations(convs);
         }
       } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     if (session?.user) {
       loadConversationHistory();
     }
   }, [session]);
 
-  const createNewConversation = useCallback(async (): Promise<ConversationExt | null> => {
-    try {
-      const response = await fetch('/api/conversation', {
-        method: 'POST',
-        body: JSON.stringify({
-          userId: session?.user.id,
-        })
-      })
+  const createNewConversation =
+    useCallback(async (): Promise<ConversationExt | null> => {
+      try {
+        const response = await fetch('/api/conversation', {
+          method: 'POST',
+          body: JSON.stringify({
+            userId: session?.user.id,
+          }),
+        });
 
-      const conv = await response.json();
-      return conv;
-    } catch (error) {
-      console.error(error);
-    }
-    return null;
-  }, [session?.user])
+        const conv = await response.json();
+        return conv;
+      } catch (error) {
+        console.error(error);
+      }
+      return null;
+    }, [session?.user]);
 
-  const saveMessage = async ({ role, content }: { role: string, content: string }, conv: Conversation) => {
-    console.log("trying to save message: " + content.slice(0, 200));
+  const saveMessage = async (
+    { role, content }: { role: string; content: string },
+    conv: Conversation,
+  ) => {
+    console.log('trying to save message: ' + content.slice(0, 200));
     try {
       const response = await fetch('/api/message', {
         method: 'POST',
@@ -80,16 +88,16 @@ export default function Chat() {
           conversationId: conv.id,
           role,
           content,
-        })
-      })
+        }),
+      });
     } catch (error) {
       console.error(error);
     }
-  } 
+  };
 
   const fetchChatApi = async (chatHistory: ChatMessage[]): Promise<string> => {
     setIsErrorLoadingResponse(false);
-    console.log("...loading response")
+    console.log('...loading response');
 
     try {
       const response = await fetch('/api/chat', {
@@ -97,17 +105,17 @@ export default function Chat() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(chatHistory)
+        body: JSON.stringify(chatHistory),
       });
 
-      console.log("openAI response::");
+      console.log('openAI response::');
       console.log(response);
       const data = await response.json();
       if (data) {
         if (data.message) {
           return data.message;
         } else if (data.error) {
-          console.log("error getting openAI response:: ");
+          console.log('error getting openAI response:: ');
           console.log(data.error);
         }
       }
@@ -117,14 +125,14 @@ export default function Chat() {
 
     setIsErrorLoadingResponse(true);
     return '';
-  }
+  };
 
   const handleSubmitText = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("text submitted: " + userTextInput);
+    console.log('text submitted: ' + userTextInput);
 
     // would be better to add user's message when response from OpenAI is successfully received so we're not adding extra messages to chat history, but then user's message won't get displayed after submitting
-    const userMessage = { "role": "user", "content": userTextInput };
+    const userMessage = { role: 'user', content: userTextInput };
     const updatedHistory = [...messageHistory, userMessage];
     setMessageHistory(updatedHistory);
 
@@ -132,10 +140,13 @@ export default function Chat() {
     if (session?.user) {
       if (!activeConversation) {
         newConvo = await createNewConversation();
-        console.log("created new conversation::");
+        console.log('created new conversation::');
         console.log(newConvo);
         if (newConvo) {
-          setConversations(prevConvos => [...prevConvos, newConvo as Conversation]);
+          setConversations((prevConvos) => [
+            ...prevConvos,
+            newConvo as Conversation,
+          ]);
           setActiveConversation(newConvo as ConversationExt);
           saveMessage(userMessage, newConvo);
         }
@@ -148,11 +159,11 @@ export default function Chat() {
     startStreamingResponse(updatedHistory, convo ?? undefined);
 
     setUserTextInput('');
-  }
+  };
 
   const onResponseFinished = useCallback((convo?: Conversation) => {
-    const aiMsg = { "role": "assistant", "content": partialResponseRef.current };
-    setMessageHistory(prevHistory => [...prevHistory, aiMsg]);
+    const aiMsg = { role: 'assistant', content: partialResponseRef.current };
+    setMessageHistory((prevHistory) => [...prevHistory, aiMsg]);
     if (convo) {
       console.log('trying to save message with convo::');
       console.log(convo);
@@ -162,96 +173,113 @@ export default function Chat() {
     setPartialResponse('');
   }, []);
 
-  const editConversationTitle = useCallback(async (convoId: string, text: string) => {
-    const getChatTitleFromAI = async (chatText: string): Promise<string> => {
-      try {
-        const response = await fetch('/api/chatTitle', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ text: chatText })
-        });
+  const editConversationTitle = useCallback(
+    async (convoId: string, text: string) => {
+      const getChatTitleFromAI = async (chatText: string): Promise<string> => {
+        try {
+          const response = await fetch('/api/chatTitle', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text: chatText }),
+          });
 
-        const data = await response.json();
-        return data.title;
+          const data = await response.json();
+          return data.title;
+        } catch (error) {
+          console.error(error);
+        }
+        return '';
+      };
+
+      console.log('retrieving title');
+      const title = await getChatTitleFromAI(text);
+      console.log('AI has created new title: ' + title);
+      setConversations((prevConvos) =>
+        prevConvos.map((convo) => {
+          if (convo.id === convoId) {
+            convo.title = title;
+            return convo;
+          } else return convo;
+        }),
+      );
+      if (activeConversation?.id === convoId) {
+        const newActiveConvo = activeConversation;
+        newActiveConvo.title = title;
+        setActiveConversation(newActiveConvo);
+      }
+
+      try {
+        const response = await fetch(`/api/conversation`, {
+          method: 'PATCH',
+          body: JSON.stringify({ id: convoId, title: title }),
+        });
       } catch (error) {
         console.error(error);
       }
-      return '';
-    }
+    },
+    [activeConversation],
+  );
 
-    console.log("retrieving title");
-    const title = await getChatTitleFromAI(text);
-    console.log("AI has created new title: " + title);
-    setConversations(prevConvos => prevConvos.map(convo => {
-      if (convo.id === convoId) {
-        convo.title = title;
-        return convo;
-      } else return convo;
-    }))
-    if (activeConversation?.id === convoId) {
-      const newActiveConvo = activeConversation;
-      newActiveConvo.title = title;
-      setActiveConversation(newActiveConvo);
-    }
+  const startStreamingResponse = useCallback(
+    (chatHistory: ChatMessage[], convo?: Conversation) => {
+      setIsLoadingResponse(true);
 
-    try {
-      const response = await fetch(`/api/conversation`, {
-        method: 'PATCH',
-        body: JSON.stringify({ id: convoId, title: title }),
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }, [activeConversation]);
+      async function fetchChatResponse() {
+        try {
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ chatHistory }),
+          });
 
-  const startStreamingResponse = useCallback((chatHistory: ChatMessage[], convo?: Conversation) => {
-    setIsLoadingResponse(true);
-
-    async function fetchChatResponse() {
-      try {
-        const response = await fetch('/api/chat', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ chatHistory }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const reader = response.body?.getReader();
-        if (!reader) {
-          throw new Error('no reader');
-        }
-
-        while (true) {
-          const { value, done } = await reader.read();
-          if (done) {
-            console.log('Connection was closed with partialReponse = ' + partialResponseRef.current.substring(0, 20));
-            if (convo && !convo.title) {
-              // first AI response just finished
-              editConversationTitle(convo.id, 'user: ' + chatHistory[0].content + ' assistant: ' + partialResponseRef.current);
-            }
-            onResponseFinished(convo);
-            setIsLoadingResponse(false);
-            break;
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
           }
 
-          const text = new TextDecoder().decode(value);
-          //console.log('received chunk: ', text);
-          setPartialResponse(prevRes => prevRes + text);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
+          const reader = response.body?.getReader();
+          if (!reader) {
+            throw new Error('no reader');
+          }
 
-    fetchChatResponse();
-  }, [editConversationTitle, onResponseFinished]);
+          while (true) {
+            const { value, done } = await reader.read();
+            if (done) {
+              console.log(
+                'Connection was closed with partialReponse = ' +
+                  partialResponseRef.current.substring(0, 20),
+              );
+              if (convo && !convo.title) {
+                // first AI response just finished
+                editConversationTitle(
+                  convo.id,
+                  'user: ' +
+                    chatHistory[0].content +
+                    ' assistant: ' +
+                    partialResponseRef.current,
+                );
+              }
+              onResponseFinished(convo);
+              setIsLoadingResponse(false);
+              break;
+            }
+
+            const text = new TextDecoder().decode(value);
+            //console.log('received chunk: ', text);
+            setPartialResponse((prevRes) => prevRes + text);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      fetchChatResponse();
+    },
+    [editConversationTitle, onResponseFinished],
+  );
 
   useEffect(() => {
     const initMessages = async (startMessages: ChatMessage[]) => {
@@ -260,10 +288,13 @@ export default function Chat() {
       let newConvo: Conversation | null = null;
       if (session?.user) {
         newConvo = await createNewConversation();
-        console.log("created new conversation::");
+        console.log('created new conversation::');
         console.log(newConvo);
         if (newConvo) {
-          setConversations(prevConvos => [...prevConvos, newConvo as Conversation]);
+          setConversations((prevConvos) => [
+            ...prevConvos,
+            newConvo as Conversation,
+          ]);
           setActiveConversation(newConvo as ConversationExt);
 
           const assistantMsg = startMessages[0];
@@ -275,7 +306,7 @@ export default function Chat() {
 
       const convo = activeConversation ?? newConvo;
       startStreamingResponse(startMessages, convo ?? undefined);
-    }
+    };
 
     const start = searchParams?.get('start');
     if (start && searchParams) {
@@ -292,7 +323,15 @@ export default function Chat() {
       console.log('setting start messages:', startMessages);
       initMessages(startMessages);
     }
-  }, [session?.user, activeConversation, createNewConversation, startStreamingResponse, searchParams, pathname, router]);
+  }, [
+    session?.user,
+    activeConversation,
+    createNewConversation,
+    startStreamingResponse,
+    searchParams,
+    pathname,
+    router,
+  ]);
 
   function handleConversationClicked(convId: string) {
     const fetchConversationMessages = async () => {
@@ -302,21 +341,24 @@ export default function Chat() {
           headers: {
             'Content-Type': 'application/json',
           },
-        })
-        const conv = await response.json() as ConversationExt;
+        });
+        const conv = (await response.json()) as ConversationExt;
         if (conv) {
-          conv.messages.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+          conv.messages.sort(
+            (a, b) =>
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+          );
           const msgHist: ChatMessage[] = [];
-          conv.messages.map(message => {
-            msgHist.push({ 'role': message.role, 'content': message.content });
-          })
+          conv.messages.map((message) => {
+            msgHist.push({ role: message.role, content: message.content });
+          });
           setMessageHistory(msgHist);
           setActiveConversation(conv);
         }
       } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     fetchConversationMessages();
   }
@@ -325,30 +367,30 @@ export default function Chat() {
     const deleteAllMessagesInConversation = async () => {
       try {
         const response = await fetch(`api/message?conversationId=${convoId}`, {
-          method: 'DELETE'
+          method: 'DELETE',
         });
 
         if (response.status === 200) {
-          console.log("Deleted messages for conversation: " + convoId);
+          console.log('Deleted messages for conversation: ' + convoId);
         }
       } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     const deleteConversation = async () => {
       try {
         const response = await fetch(`api/conversation?id=${convoId}`, {
           method: 'DELETE',
-        })
+        });
 
         if (response.status === 200) {
-          console.log("Deleted conversation: " + convoId);
+          console.log('Deleted conversation: ' + convoId);
         }
       } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     const deleteInOrder = async () => {
       await deleteAllMessagesInConversation();
@@ -356,8 +398,10 @@ export default function Chat() {
       if (activeConversation && activeConversation.id === convoId) {
         clearActiveConversation();
       }
-      setConversations(prevConvos => prevConvos.filter(convo => convo.id !== convoId));
-    }
+      setConversations((prevConvos) =>
+        prevConvos.filter((convo) => convo.id !== convoId),
+      );
+    };
 
     deleteInOrder();
   }
@@ -368,57 +412,84 @@ export default function Chat() {
   }
 
   return (
-    <>
-      <main className="mt-8 min-h-screen" aria-label="Chat with Harry">
-        <ChatSidebar conversations={conversations} conversationClicked={handleConversationClicked} handleDeleteConversation={handleDeleteConversation} handleClearConversation={clearActiveConversation} />
-        <form onSubmit={handleSubmitText}>
-          <div className="w-full max-w-md mx-auto px-2">
-            <input
-              type="text"
-              value={userTextInput}
-              onChange={(e) => setUserTextInput(e.target.value)}
-              className="w-full rounded-xl h-12 p-3 border-gray-300 border-2"
-              placeholder="Chat with Harry..."
-              aria-label="Chat input"
-            />
+    <main className='mt-8 min-h-screen' aria-label='Chat with Harry'>
+      <ChatSidebar
+        conversations={conversations}
+        conversationClicked={handleConversationClicked}
+        handleDeleteConversation={handleDeleteConversation}
+        handleClearConversation={clearActiveConversation}
+      />
+      <form onSubmit={handleSubmitText}>
+        <div className='mx-auto w-full max-w-md px-2'>
+          <input
+            type='text'
+            value={userTextInput}
+            onChange={(e) => setUserTextInput(e.target.value)}
+            className='h-12 w-full rounded-xl border-2 border-gray-300 p-3'
+            placeholder='Chat with Harry...'
+            aria-label='Chat input'
+          />
+        </div>
+      </form>
+      {isLoadingResponse && (
+        <p className='text-center text-lg italic'>Harry is thinking...</p>
+      )}
+      {isErrorLoadingResponse && (
+        <p className='mx-auto max-w-7xl border border-red-600 p-4' role='alert'>
+          Error loading response. Please try again.
+        </p>
+      )}
+      <section
+        className='mx-auto flex max-w-5xl flex-col px-2 pt-10'
+        aria-label='Chat history'
+      >
+        {partialResponse && partialResponse !== '' && (
+          <div
+            className={`mb-8 flex flex-col gap-y-2 rounded-xl border border-amber-300 p-4 sm:flex-row`}
+          >
+            <h4
+              className={`basis-1/6 pr-4 text-lg font-bold leading-5 text-amber-200 sm:text-right`}
+            >
+              Harry Howard:
+            </h4>
+            <p className='basis-5/6 ps-3'>{partialResponse}</p>
           </div>
-        </form>
-        {isLoadingResponse &&
-          <p className="text-lg italic text-center">Harry is thinking...</p>
-        }
-        {isErrorLoadingResponse &&
-          <p className="border border-red-600 max-w-7xl mx-auto p-4" role="alert">Error loading response. Please try again.</p>
-        }
-        <section className="flex flex-col max-w-5xl mx-auto pt-10 px-2" aria-label="Chat history">
-          {partialResponse && partialResponse !== '' &&
-            <div className={`border-amber-300 flex flex-col sm:flex-row gap-y-2 border rounded-xl p-4 mb-8`}>
-              <h4 className={`text-amber-200 basis-1/6 font-bold text-lg leading-5 sm:text-right pr-4`}>Harry Howard:</h4>
-              <p className="basis-5/6 ps-3">{partialResponse}</p>
-            </div>
-          }
-          {messageHistory && messageHistory.slice().reverse().map((msg, i) => {
-            const speaker =
-              msg.role === 'user' ? 'You:' :
-                msg.role === 'assistant' ? 'Harry Howard:' :
-                  '';
+        )}
+        {messageHistory &&
+          messageHistory
+            .slice()
+            .reverse()
+            .map((msg, i) => {
+              const speaker =
+                msg.role === 'user'
+                  ? 'You:'
+                  : msg.role === 'assistant'
+                    ? 'Harry Howard:'
+                    : '';
 
-            let border = 'border-slate-200';
-            let textColor = '';
+              let border = 'border-slate-200';
+              let textColor = '';
 
-            if (msg.role === 'assistant') {
-              border = 'border-amber-300';
-              textColor = 'text-amber-200';
-            }
+              if (msg.role === 'assistant') {
+                border = 'border-amber-300';
+                textColor = 'text-amber-200';
+              }
 
-            return (
-              <div className={`${border} flex flex-col sm:flex-row gap-y-2 border rounded-xl p-4 mb-8`} key={i}>
-                <h4 className={`${textColor} basis-1/6 font-bold text-lg leading-5 sm:text-right pr-4`}>{speaker}</h4>
-                <p className="basis-5/6 ps-3">{msg.content}</p>
-              </div>
-            )
-          })}
-        </section>
-      </main>
-    </>
-  )
+              return (
+                <div
+                  className={`${border} mb-8 flex flex-col gap-y-2 rounded-xl border p-4 sm:flex-row`}
+                  key={i}
+                >
+                  <h4
+                    className={`${textColor} basis-1/6 pr-4 text-lg font-bold leading-5 sm:text-right`}
+                  >
+                    {speaker}
+                  </h4>
+                  <p className='basis-5/6 ps-3'>{msg.content}</p>
+                </div>
+              );
+            })}
+      </section>
+    </main>
+  );
 }

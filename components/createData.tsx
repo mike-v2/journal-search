@@ -1,10 +1,9 @@
-import { journalDateToISOString } from "@/utils/convertDate";
-import { JournalEntry } from "@prisma/client";
+import { journalDateToISOString } from '@/utils/convertDate';
+import { JournalEntry } from '@prisma/client';
 
 export default function CreateData() {
-
   async function loadLocalData() {
-    console.log("Loading local data...")
+    console.log('Loading local data...');
     try {
       const res = await fetch('/api/entriesData');
       const data = await res.json();
@@ -12,20 +11,18 @@ export default function CreateData() {
       if (data) {
         return JSON.parse(data);
       }
-
     } catch (error) {
-      console.error("Failed to fetch local data ", error);
+      console.error('Failed to fetch local data ', error);
     }
   }
 
   async function handleCreatePrismaData() {
     const data = await loadLocalData();
     if (!data) {
-      console.log("could not find local data");
+      console.log('could not find local data');
       return;
     }
-    console.log("Updating Supabase data...");
-
+    console.log('Updating Supabase data...');
 
     /* try {
       const newEntry = {
@@ -41,7 +38,6 @@ export default function CreateData() {
     } catch (error) {
       console.error("Could not post to supabase", error);
     } */
-
 
     /* let count = 0;
 
@@ -92,7 +88,7 @@ export default function CreateData() {
           method: 'GET',
         });
 
-        const entry = await res.json() as JournalEntry;
+        const entry = (await res.json()) as JournalEntry;
         if (entry) {
           const newEntry = {
             journalEntryId: entry.id,
@@ -106,28 +102,27 @@ export default function CreateData() {
             emotion: data[i].emotion,
             mood: data[i].mood,
             strength: data[i].strength,
-          }
+          };
 
           const response = await fetch(`/api/createPrismaData`, {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify(newEntry),
           });
           count++;
         } else {
-          console.log("Could not find journal entry by date");
+          console.log('Could not find journal entry by date');
         }
       } catch (error) {
-        console.log("Could not find journal entry by date: " + error);
+        console.log('Could not find journal entry by date: ' + error);
       }
-    }  
+    }
 
-    console.log(`Finished sending ${count} journal topics`); 
-
+    console.log(`Finished sending ${count} journal topics`);
   }
 
   return (
     <div>
       <button onClick={handleCreatePrismaData}>Create Data</button>
     </div>
-  )
+  );
 }

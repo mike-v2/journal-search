@@ -1,13 +1,19 @@
-import prisma from "@/utils/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
-import { Rubik_Marker_Hatch } from "next/font/google";
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') { //get all comments on a post
+import prisma from '@/utils/prisma';
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  if (req.method === 'GET') {
+//get all comments on a post
     const { postId } = req.query;
 
     if (!postId) {
-      return res.status(404).json({ error: 'PostId is required to get comments' });
+      return res
+        .status(404)
+        .json({ error: 'PostId is required to get comments' });
     }
 
     try {
@@ -23,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           post: true,
           text: true,
           createdAt: true,
-        }
+        },
       });
 
       res.status(200).json(comments);
@@ -31,15 +37,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.error('Error getting comments:', error);
       res.status(500).json({ error: error });
     }
-  } else if (req.method === 'POST') { // user has created a comment
-    console.log("posting in comment api");
+  } else if (req.method === 'POST') {
+    // user has created a comment
+    console.log('posting in comment api');
     const { userId, postId, text, commentId } = JSON.parse(req.body);
 
     if (!userId || !postId || !text) {
-      return res.status(404).json({ error: 'UserId, PostId, and Text are required to make a comment' });
+      return res.status(404).json({
+        error: 'UserId, PostId, and Text are required to make a comment',
+      });
     }
 
-    if (commentId) { // edit comment
+    if (commentId) {
+    // edit comment
       try {
         const updatedComment = await prisma.comment.update({
           where: {
@@ -53,15 +63,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             userId: true,
             user: true,
             text: true,
-          }
-        })
+          },
+        });
 
         res.status(200).json(updatedComment);
       } catch (error) {
         console.error('Error updating comment:', error);
         res.status(500).json({ error: error });
       }
-    } else { // new comment
+    } else {
+      // new comment
       try {
         const comment = await prisma.comment.create({
           data: {
@@ -74,7 +85,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             userId: true,
             user: true,
             text: true,
-          }
+          },
         });
 
         res.status(200).json(comment);
@@ -84,21 +95,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
   } else if (req.method === 'DELETE') {
-    const {commentId} = req.query;
+    const { commentId } = req.query;
 
     if (!commentId) {
-      return res.status(404).json({ error: 'CommentId is required to delete a comment' });
+      return res
+        .status(404)
+        .json({ error: 'CommentId is required to delete a comment' });
     }
 
     try {
       const comment = await prisma.comment.delete({
         where: {
           id: commentId as string,
-        }
+        },
       });
 
-      res.status(200).json({ message: "success" });
-    } catch(error) {
+      res.status(200).json({ message: 'success' });
+    } catch (error) {
       console.error('Error deleting comment:', error);
       res.status(500).json({ error: error });
     }

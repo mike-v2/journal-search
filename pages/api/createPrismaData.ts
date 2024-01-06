@@ -1,7 +1,11 @@
-import prisma from "@/utils/prisma";
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+import prisma from '@/utils/prisma';
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method === 'POST') {
     try {
       const data = JSON.parse(req.body);
@@ -25,11 +29,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       }); */
 
-
       res.status(200).json(newTopic);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Error creating prisma data" });
+      res.status(500).json({ error: 'Error creating prisma data' });
     }
   } else {
     res.status(405).json({ error: 'Method not allowed' });

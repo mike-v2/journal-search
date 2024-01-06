@@ -1,10 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 
-const harryPrompt = "Did I ever tell you about the time I took a road trip with my son Charles?"
+const harryPrompt =
+  'Did I ever tell you about the time I took a road trip with my son Charles?';
 
 export default function ChatSample() {
   const [input, setInput] = useState('');
@@ -13,55 +14,55 @@ export default function ChatSample() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log("harry chat submitted");
+    console.log('harry chat submitted');
 
     const messages: ChatMessage[] = [];
     const assistantMsg: ChatMessage = {
       role: 'assistant',
-      content: harryPrompt
-    }
+      content: harryPrompt,
+    };
     const userMsg: ChatMessage = {
       role: 'user',
-      content: input
-    }
+      content: input,
+    };
     messages.push(assistantMsg);
     messages.push(userMsg);
 
     router.push(`/chat?start=${encodeURIComponent(JSON.stringify(messages))}`);
-  }
+  };
 
   return (
-    <div className="max-w-5xl mx-auto p-4">
-      <div className="max-w-md p-8 mr-auto rounded-xl border-2 border-amber-300">
-        <div className="flex gap-x-6">
+    <div className='mx-auto max-w-5xl p-4'>
+      <div className='mr-auto max-w-md rounded-xl border-2 border-amber-300 p-8'>
+        <div className='flex gap-x-6'>
           <div className='w-80'>
             <Image
-              className='w-full h-auto rounded-full'
+              className='h-auto w-full rounded-full'
               src='/images/Harry-small.jpg'
               width={0}
               height={0}
-              sizes="100vw"
+              sizes='100vw'
               alt='Harry Howard'
             />
           </div>
           <div className='flex flex-col justify-center'>
             <h5 className='text-amber-200'>Harry:</h5>
-            <p className="text-lg">{harryPrompt}</p>
+            <p className='text-lg'>{harryPrompt}</p>
           </div>
         </div>
       </div>
-      <form onSubmit={handleSubmit} className="mt-4">
-        <div className="w-full max-w-md ml-auto px-2">
+      <form onSubmit={handleSubmit} className='mt-4'>
+        <div className='ml-auto w-full max-w-md px-2'>
           <input
-            type="text"
+            type='text'
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="w-full rounded-xl h-12 p-3 border-gray-300 border-2"
-            placeholder="Chat with Harry..."
-            aria-label="Chat input"
+            className='h-12 w-full rounded-xl border-2 border-gray-300 p-3'
+            placeholder='Chat with Harry...'
+            aria-label='Chat input'
           />
         </div>
       </form>
     </div>
-  )
+  );
 }

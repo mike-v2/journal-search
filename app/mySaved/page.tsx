@@ -1,17 +1,11 @@
 'use client';
 
-import JournalEntryBox from "@/components/journalEntryBox";
-import { StarredEntryExt } from "@/types/starredEntryExt";
-import { makeDatePretty, timestampToDate } from "@/utils/convertDate";
-import { useSession } from "next-auth/react";
-import { Josefin_Sans } from "next/font/google";
-import Head from "next/head";
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
-const josefin = Josefin_Sans({
-  subsets: ['latin'],
-  weight: ['500', '700'],
-});
+import JournalEntryBox from '@/components/journalEntryBox';
+import { StarredEntryExt } from '@/types/starredEntryExt';
+import { makeDatePretty, timestampToDate } from '@/utils/convertDate';
 
 export default function MySaved() {
   const { data: session } = useSession();
@@ -25,16 +19,16 @@ export default function MySaved() {
 
       try {
         const res = await fetch(`/api/starredEntry?userId=${session.user.id}`, {
-          method: 'GET'
+          method: 'GET',
         });
 
         if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
 
-        const starredEntries = await res.json() as StarredEntryExt[];
+        const starredEntries = (await res.json()) as StarredEntryExt[];
         setStarredEntries(starredEntries);
 
         if (!activeEntry && starredEntries && starredEntries.length > 0) {
-          setActiveEntry(starredEntries[0])
+          setActiveEntry(starredEntries[0]);
         }
       } catch (error) {
         console.log("error retrieving user's starred entries: " + error);
@@ -47,24 +41,33 @@ export default function MySaved() {
   }, [session, activeEntry, starredEntries]);
 
   useEffect(() => {
-    console.log("setting sort mode: " + sortMode);
+    console.log('setting sort mode: ' + sortMode);
     if (sortMode === 'journalDate') {
-      setStarredEntries(prevEntries => {
+      setStarredEntries((prevEntries) => {
         // create new array so React recognizes state change
         const newEntries = [...prevEntries];
-        return newEntries.sort((a, b) => new Date(a.journalEntry.date).getTime() - new Date(b.journalEntry.date).getTime());
+        return newEntries.sort(
+          (a, b) =>
+            new Date(a.journalEntry.date).getTime() -
+            new Date(b.journalEntry.date).getTime(),
+        );
       });
     } else if (sortMode === 'addedDate') {
-      setStarredEntries(prevEntries => {
+      setStarredEntries((prevEntries) => {
         // create new array so React recognizes state change
         const newEntries = [...prevEntries];
-        return newEntries.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        return newEntries.sort(
+          (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+        );
       });
     }
   }, [sortMode]);
 
   function handleStarRemoved(journalEntryId: string) {
-    setStarredEntries(prevEntries => prevEntries.filter(entry => entry.journalEntryId !== journalEntryId));
+    setStarredEntries((prevEntries) =>
+      prevEntries.filter((entry) => entry.journalEntryId !== journalEntryId),
+    );
   }
 
   function handleDateClicked(clickedEntry: StarredEntryExt) {
@@ -72,27 +75,48 @@ export default function MySaved() {
   }
 
   return (
-    <>
-      <main className="mt-12">
-        <div className="flex justify-center mb-4">
-          <select className="select select-bordered" value={sortMode} onChange={e => setSortMode(e.target.value)}>
-            <option value='journalDate'>By Journal Date</option>
-            <option value='addedDate'>By Date Added</option>
-          </select>
-        </div>
-        <div className="tabs tabs-boxed justify-center w-fit mx-auto">
-          {starredEntries && starredEntries.map((starredEntry, i) => {
-            return <div className={`tab ${activeEntry?.journalEntryId === starredEntry.journalEntryId ? 'tab-active' : ''}`} onClick={e => handleDateClicked(starredEntry)} key={i}>{makeDatePretty(timestampToDate(new Date(starredEntry.journalEntry.date).toISOString()))}</div>
+    <main className='mt-12'>
+      <div className='mb-4 flex justify-center'>
+        <select
+          className='select-bordered select'
+          value={sortMode}
+          onChange={(e) => setSortMode(e.target.value)}
+        >
+          <option value='journalDate'>By Journal Date</option>
+          <option value='addedDate'>By Date Added</option>
+        </select>
+      </div>
+      <div className='tabs tabs-boxed mx-auto w-fit justify-center'>
+        {starredEntries &&
+          starredEntries.map((starredEntry, i) => {
+            return (
+              <div
+                className={`tab ${activeEntry?.journalEntryId === starredEntry.journalEntryId
+                  ? 'tab-active'
+                  : ''
+                  }`}
+                onClick={(e) => handleDateClicked(starredEntry)}
+                key={i}
+              >
+                {makeDatePretty(
+                  timestampToDate(
+                    new Date(starredEntry.journalEntry.date).toISOString(),
+                  ),
+                )}
+              </div>
+            );
           })}
-        </div>
-        <div className="h-fit min-h-screen md:px-8 max-w-4xl mx-auto mt-12">
-          {activeEntry &&
-            <div className="pt-10" key={activeEntry.journalEntryId}>
-              <JournalEntryBox {...activeEntry.journalEntry} onStarRemoved={handleStarRemoved} />
-            </div>
-          }
-        </ div>
-      </main>
-    </>
-  )
+      </div>
+      <div className='mx-auto mt-12 h-fit min-h-screen max-w-4xl md:px-8'>
+        {activeEntry && (
+          <div className='pt-10' key={activeEntry.journalEntryId}>
+            <JournalEntryBox
+              {...activeEntry.journalEntry}
+              onStarRemoved={handleStarRemoved}
+            />
+          </div>
+        )}
+      </div>
+    </main>
+  );
 }

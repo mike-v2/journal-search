@@ -5,7 +5,7 @@ function makeDatePretty(date: string): string {
   return `${month} ${day}, ${year}`;
 }
 
-function dateToJournalDate(date: Date) : string {
+function dateToJournalDate(date: Date): string {
   let d = date;
   if (typeof date === 'string') {
     d = new Date(date);
@@ -16,7 +16,7 @@ function dateToJournalDate(date: Date) : string {
 }
 
 function databaseDateToPrettyDate(date: Date) {
-  return makeDatePretty(timestampToDate(new Date(date).toISOString()))
+  return makeDatePretty(timestampToDate(new Date(date).toISOString()));
 }
 
 function journalDateToDate(dateStr: string) {
@@ -37,15 +37,16 @@ function timestampToDate(timestamp: string) {
   return `${month}-${day}-${year}`;
 }
 
-function journalDateToCondensedDate(jDate: string) : string {
+function journalDateToCondensedDate(jDate: string): string {
   let [month, day, year] = jDate.split('-');
-  return `${month.replace(/^0/, '')}-${day.replace(/^0/, '') }`;
+  return `${month.replace(/^0/, '')}-${day.replace(/^0/, '')}`;
 }
 
 function convertMonthNumberToWord(month: string): string {
   const m = Number(month);
   switch (m) {
-    default: '';
+    default:
+      '';
     case 1:
       return 'Jan.';
     case 2:
@@ -73,4 +74,12 @@ function convertMonthNumberToWord(month: string): string {
   }
 }
 
-export { makeDatePretty, journalDateToISOString, timestampToDate, dateToJournalDate, journalDateToDate, journalDateToCondensedDate, databaseDateToPrettyDate }
+export {
+  makeDatePretty,
+  journalDateToISOString,
+  timestampToDate,
+  dateToJournalDate,
+  journalDateToDate,
+  journalDateToCondensedDate,
+  databaseDateToPrettyDate,
+};

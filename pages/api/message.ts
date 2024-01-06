@@ -1,8 +1,11 @@
-import prisma from "@/utils/prisma";
-import { Prisma } from "@prisma/client";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+import prisma from '@/utils/prisma';
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method === 'POST') {
     const { conversationId, role, content } = JSON.parse(req.body);
     console.log('trying to save message: ' + content);
@@ -13,11 +16,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           conversation: {
             connect: {
               id: conversationId,
-            }
+            },
           },
           role: role,
           content: content,
-        }
+        },
       });
 
       res.status(200).json(message);
@@ -32,7 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         where: {
           conversationId: conversationId as string,
         },
-      })
+      });
 
       res.status(200).json(deleteMessages);
     } catch (error) {

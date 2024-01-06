@@ -1,12 +1,17 @@
-import { StarredEntryExt } from "@/types/starredEntryExt";
-import prisma from "@/utils/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+import { StarredEntryExt } from '@/types/starredEntryExt';
+import prisma from '@/utils/prisma';
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method === 'GET') {
-    const {userId, journalEntryId} = req.query;
+    const { userId, journalEntryId } = req.query;
 
-    if (userId && journalEntryId) { //check if user has starred entry
+    if (userId && journalEntryId) {
+    //check if user has starred entry
       try {
         const starredEntry = await prisma.starredEntry.findFirst({
           where: {
@@ -21,18 +26,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.error('Error checking if user starred entry:', error);
         res.status(500).json({ error: error });
       }
-    } else if (userId) { //get all entries starred by users
+    } else if (userId) {
+      //get all entries starred by users
       try {
-        const starredEntries: StarredEntryExt[] = await prisma.starredEntry.findMany({
-          where: {
-            userId: userId as string,
-          },
-          include: {
-            journalEntry: true,
-          }
-        });
+        const starredEntries: StarredEntryExt[] =
+          await prisma.starredEntry.findMany({
+            where: {
+              userId: userId as string,
+            },
+            include: {
+              journalEntry: true,
+            },
+          });
 
-        starredEntries.sort((a, b) => new Date(a.journalEntry.date).getTime() - new Date(b.journalEntry.date).getTime());
+        starredEntries.sort(
+          (a, b) =>
+            new Date(a.journalEntry.date).getTime() -
+            new Date(b.journalEntry.date).getTime(),
+        );
 
         res.status(200).json(starredEntries);
       } catch (error) {
@@ -40,7 +51,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(500).json({ error: error });
       }
     }
-  } else if (req.method === 'POST') { //user has starred entry
+  } else if (req.method === 'POST') {
+    //user has starred entry
     const body = req.body;
     const { userId, journalEntryId, isStarred } = JSON.parse(body);
 
