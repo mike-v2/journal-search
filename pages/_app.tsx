@@ -2,7 +2,6 @@ import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { Josefin_Sans } from 'next/font/google';
 
-import '@etchteam/next-pagination/dist/index.css';
 import Modal from 'react-modal';
 
 import Navbar from '@/components/navbar';

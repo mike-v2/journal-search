@@ -1,8 +1,6 @@
 import { Metadata } from 'next';
 import { Josefin_Sans } from 'next/font/google';
 
-import '@etchteam/next-pagination/dist/index.css';
-
 import Navbar from '@/components/navbar';
 import '@/styles/globals.css';
 import NextAuthProvider from '@/pages/api/auth/nextAuthProvider';
