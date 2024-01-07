@@ -149,113 +149,91 @@ export default function Search() {
   };
 
   return (
-    <>
-      <Head>
-        <title>Harry&apos;s Journals</title>
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link
-          rel='apple-touch-icon'
-          sizes='180x180'
-          href='/images/favicon/apple-touch-icon.png'
-        />
-        <link
-          rel='icon'
-          type='image/png'
-          sizes='32x32'
-          href='/images/favicon/favicon-32x32.png'
-        />
-        <link
-          rel='icon'
-          type='image/png'
-          sizes='16x16'
-          href='/images/favicon/favicon-16x16.png'
-        />
-        <link rel='manifest' href='/images/favicon/site.webmanifest' />
-      </Head>
-      <main>
-        <section className='mx-auto h-fit max-w-7xl'>
-          <form
-            className={'m-10 mx-auto flex h-fit w-1/2 max-w-xl flex-col'}
-            role='search'
-          >
-            <div className='flex h-10 w-full'>
-              <button
-                className='flex w-10 justify-center border-2 border-slate-200 align-middle hover:cursor-pointer'
-                onClick={handleSearchClick}
-                aria-label='Search'
-              >
-                <Image
-                  src='/images/search-icon.svg'
-                  className='p-1 invert'
-                  height={30}
-                  width={30}
-                  alt='search-icon'
-                />
-              </button>
-              <div className='flex-auto'>
-                <input
-                  ref={searchBox}
-                  className='h-full w-full bg-slate-200 p-4 text-lg text-black placeholder:italic'
-                  type='search'
-                  placeholder='Search..'
-                  aria-label='Search input'
-                />
-              </div>
-            </div>
-          </form>
-        </section>
-        {hasSearched && (
-          <section className='text-center text-2xl italic' aria-live='polite'>
-            {searchIsActive && <p>Loading Entries...</p>}
-            {!searchIsActive && searchResults.length > 0 && (
-              <p>{`Found ${searchResults.length} Journal Entries`}</p>
-            )}
-            {!searchIsActive && searchResults.length === 0 && (
-              <p>Found 0 Results</p>
-            )}
-          </section>
-        )}
-        <section
-          className='flex flex-col justify-center align-middle lg:flex-row'
-          aria-label='Search results and selected entry'
+    <main>
+      <section className='mx-auto h-fit max-w-7xl'>
+        <form
+          className={'m-10 mx-auto flex h-fit w-1/2 max-w-xl flex-col'}
+          role='search'
         >
-          {displaySearchResults.length > 0 && (
-            <div
-              className='mx-auto flex h-fit w-full flex-col border-2 border-slate-400 md:w-4/5 lg:mr-4 lg:w-1/2'
-              aria-label='Search results'
+          <div className='flex h-10 w-full'>
+            <button
+              className='flex w-10 justify-center border-2 border-slate-200 align-middle hover:cursor-pointer'
+              onClick={handleSearchClick}
+              aria-label='Search'
             >
-              {displaySearchResults.map((result, i) => {
-                return (
-                  <div key={i}>
-                    <div
-                      className={
-                        'm-3 border border-slate-400 p-3 hover:cursor-pointer' +
-                        (selectedSearchResult?.date === result.date
-                          ? ' border-4 bg-slate-700'
-                          : '')
-                      }
-                      onClick={(e) => handleSelectResult(result)}
-                    >
-                      <div className='italic'>{result.date}</div>
-                      <div className='pl-2'>
-                        {result.text.slice(0, 100) + '...'}
-                      </div>
+              <Image
+                src='/images/search-icon.svg'
+                className='p-1 invert'
+                height={30}
+                width={30}
+                alt='search-icon'
+              />
+            </button>
+            <div className='flex-auto'>
+              <input
+                ref={searchBox}
+                className='h-full w-full bg-slate-200 p-4 text-lg text-black placeholder:italic'
+                type='search'
+                placeholder='Search..'
+                aria-label='Search input'
+              />
+            </div>
+          </div>
+        </form>
+      </section>
+      {hasSearched && (
+        <section className='text-center text-2xl italic' aria-live='polite'>
+          {searchIsActive && <p>Loading Entries...</p>}
+          {!searchIsActive && searchResults.length > 0 && (
+            <p>{`Found ${searchResults.length} Journal Entries`}</p>
+          )}
+          {!searchIsActive && searchResults.length === 0 && (
+            <p>Found 0 Results</p>
+          )}
+        </section>
+      )}
+      <section
+        className='flex flex-col justify-center align-middle lg:flex-row'
+        aria-label='Search results and selected entry'
+      >
+        {displaySearchResults.length > 0 && (
+          <div
+            className='mx-auto flex h-fit w-full flex-col border-2 border-slate-400 md:w-4/5 lg:mr-4 lg:w-1/2'
+            aria-label='Search results'
+          >
+            {displaySearchResults.map((result, i) => {
+              return (
+                <div key={i}>
+                  <div
+                    className={
+                      'm-3 border border-slate-400 p-3 hover:cursor-pointer' +
+                      (selectedSearchResult?.date === result.date
+                        ? ' border-4 bg-slate-700'
+                        : '')
+                    }
+                    onClick={(e) => handleSelectResult(result)}
+                  >
+                    <div className='italic'>{result.date}</div>
+                    <div className='pl-2'>
+                      {result.text.slice(0, 100) + '...'}
                     </div>
                   </div>
-                );
-              })}
-              {<Pagination total={searchResults.length} />}
+                </div>
+              );
+            })}
+            <div className='ml-auto'>
+              <Pagination total={searchResults.length} />
             </div>
-          )}
-          <div
-            className='mx-auto mt-8 min-h-screen w-full md:w-3/4 lg:mt-0 lg:w-1/2'
-            ref={journalEntryBox}
-            aria-label='Selected entry'
-          >
-            {selectedEntry && <JournalEntryBox {...selectedEntry} />}
           </div>
-        </section>
-      </main>
-    </>
+        )}
+        <div
+          className='mx-auto mt-8 min-h-screen w-full md:w-3/4 lg:mt-0 lg:w-1/2'
+          ref={journalEntryBox}
+          aria-label='Selected entry'
+        >
+          {selectedEntry && <JournalEntryBox {...selectedEntry} />}
+        </div>
+      </section>
+    </main>
   );
 }

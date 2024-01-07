@@ -19,9 +19,6 @@ export default async function handler(
       }),
     });
 
-    console.log('received response from openAI::');
-    console.log(response);
-
     const data = await response.json();
     res.status(200).json({ results: data });
   } catch (error) {
