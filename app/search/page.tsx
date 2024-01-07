@@ -1,10 +1,12 @@
+'use client';
+
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 import Head from 'next/head';
 
 import { JournalEntry } from '@prisma/client';
-import Pagination from '@etchteam/next-pagination';
+import Pagination from '@/components/pagination';
 
 import JournalEntryBox from '@/components/journalEntryBox';
 
@@ -29,7 +31,7 @@ export default function Search() {
   const journalEntryBox = useRef<HTMLDivElement>(null);
   const [searchResultsRange, setSearchResultsRange] =
     useState<SearchResultsRange>({ startIndex: 1, endIndex: 5 });
-  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const displaySearchResults = searchResults.slice(
     searchResultsRange.startIndex,
@@ -37,9 +39,8 @@ export default function Search() {
   );
 
   useEffect(() => {
-    let { page, size } = router.query as { page: string; size: string };
-    if (!page) page = '1';
-    if (!size) size = '5';
+    const page = searchParams?.get('page') ?? '1';
+    const size = searchParams?.get('size') ?? '5';
     const pageNum = parseInt(page);
     const sizeNum = parseInt(size);
 
@@ -52,7 +53,7 @@ export default function Search() {
     ) {
       setSearchResultsRange({ startIndex: startIndex, endIndex: endIndex });
     }
-  }, [router.query, searchResultsRange]);
+  }, [searchParams, searchResultsRange]);
 
   const handleSearch = useCallback(async () => {
     setSelectedSearchResult(undefined);
@@ -243,12 +244,7 @@ export default function Search() {
                   </div>
                 );
               })}
-              {displaySearchResults && displaySearchResults.length > 0 && (
-                <Pagination
-                  total={searchResults.length}
-                  sizes={[5, 10, 20, 50, 100]}
-                />
-              )}
+              {<Pagination total={searchResults.length} />}
             </div>
           )}
           <div
