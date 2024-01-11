@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Modal from 'react-modal';
 import { Conversation } from '@prisma/client';
 
-const logoHeight = 270;
+const logoHeight = 100;
 
 export default function ChatSidebar({
   conversations,
