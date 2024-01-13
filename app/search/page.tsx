@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-import Head from 'next/head';
 
 import { JournalEntry } from '@prisma/client';
 import Pagination from '@/components/pagination';
@@ -67,29 +66,12 @@ export default function Search() {
   }, []);
 
   useEffect(() => {
-    const handleKeyDown = (e: Event) => {
-      const keyboardEvent = e as KeyboardEvent;
-      if (keyboardEvent.key === 'Enter') {
-        e.preventDefault();
-        handleSearch();
-      }
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('keydown', handleKeyDown);
-      return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-      };
-    }
-  }, [handleSearch]);
-
-  useEffect(() => {
     if (selectedEntry && journalEntryBox.current) {
       journalEntryBox.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [selectedEntry]);
 
-  function handleSearchClick(e: React.FormEvent<HTMLElement>) {
+  function handleSubmitSearch(e: React.FormEvent<HTMLElement>) {
     e.preventDefault();
     handleSearch();
   }
@@ -154,11 +136,12 @@ export default function Search() {
         <form
           className={'m-10 mx-auto flex h-fit w-1/2 max-w-xl flex-col'}
           role='search'
+          onSubmit={handleSubmitSearch}
         >
           <div className='flex h-10 w-full'>
             <button
               className='flex w-10 justify-center border-2 border-slate-200 align-middle hover:cursor-pointer'
-              onClick={handleSearchClick}
+              onClick={handleSubmitSearch}
               aria-label='Search'
             >
               <Image
