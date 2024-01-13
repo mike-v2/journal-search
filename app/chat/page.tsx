@@ -251,31 +251,37 @@ export default function Chat() {
     [editConversationTitle, onResponseFinished],
   );
 
-  const startConversationWithInitialMessages = async (
-    startMessages: ChatMessage[],
-  ) => {
-    setMessageHistory(startMessages);
+  const startConversationWithInitialMessages = useCallback(
+    async (startMessages: ChatMessage[]) => {
+      setMessageHistory(startMessages);
 
-    let newConvo: Conversation | null = null;
-    if (session?.user) {
-      newConvo = await createNewConversation();
-      if (newConvo) {
-        setConversations((prevConvos) => [
-          ...prevConvos,
-          newConvo as Conversation,
-        ]);
-        setActiveConversation(newConvo as ConversationExt);
+      let newConvo: Conversation | null = null;
+      if (session?.user) {
+        newConvo = await createNewConversation();
+        if (newConvo) {
+          setConversations((prevConvos) => [
+            ...prevConvos,
+            newConvo as Conversation,
+          ]);
+          setActiveConversation(newConvo as ConversationExt);
 
-        const assistantMsg = startMessages[0];
-        const userMsg = startMessages[1];
-        await saveMessage(assistantMsg, newConvo);
-        saveMessage(userMsg, newConvo);
+          const assistantMsg = startMessages[0];
+          const userMsg = startMessages[1];
+          await saveMessage(assistantMsg, newConvo);
+          saveMessage(userMsg, newConvo);
+        }
       }
-    }
 
-    const convo = activeConversation ?? newConvo;
-    startStreamingResponse(startMessages, convo ?? undefined);
-  };
+      const convo = activeConversation ?? newConvo;
+      startStreamingResponse(startMessages, convo ?? undefined);
+    },
+    [
+      session?.user,
+      activeConversation,
+      createNewConversation,
+      startStreamingResponse,
+    ],
+  );
 
   useEffect(() => {
     const start = searchParams?.get('start');
@@ -290,15 +296,7 @@ export default function Chat() {
 
       startConversationWithInitialMessages(startMessages);
     }
-  }, [
-    session?.user,
-    activeConversation,
-    createNewConversation,
-    startStreamingResponse,
-    searchParams,
-    pathname,
-    router,
-  ]);
+  }, [searchParams, pathname, router, startConversationWithInitialMessages]);
 
   function handleConversationClicked(convId: string) {
     const fetchConversationMessages = async () => {
