@@ -7,8 +7,8 @@ import userEvent from '@testing-library/user-event';
 
 import { server } from '@/mocks/server';
 import PostBox from '@/components/postBox';
-import PostExt from '@/types/postExt';
-import CommentExt from '@/types/commentExt';
+import { PostExt } from '@/types/prismaExtensions';
+import { CommentExt } from '@/types/prismaExtensions';
 
 type PostExtMock = Omit<PostExt, 'comments'> & {
   comments: CommentExt[];

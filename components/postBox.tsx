@@ -5,12 +5,9 @@ import { signIn, useSession } from 'next-auth/react';
 import { Comment } from '@prisma/client';
 
 import JournalEntryBox from '@/components/journalEntryBox';
-import PostExt from '@/types/postExt';
-import CommentExt from '@/types/commentExt';
-import {
-  databaseDateToPrettyDate,
-  timestampToDate,
-} from '@/utils/convertDate';
+import { PostExt } from '@/types/prismaExtensions';
+import { CommentExt } from '@/types/prismaExtensions';
+import { databaseDateToPrettyDate, timestampToDate } from '@/utils/convertDate';
 
 export default function PostBox({
   id,

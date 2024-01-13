@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 import JournalEntryBox from '@/components/journalEntryBox';
-import { StarredEntryExt } from '@/types/starredEntryExt';
+import { StarredEntryExt } from '@/types/prismaExtensions';
 import { makeDatePretty, timestampToDate } from '@/utils/convertDate';
 
 export default function MySaved() {
@@ -91,10 +91,11 @@ export default function MySaved() {
           starredEntries.map((starredEntry, i) => {
             return (
               <div
-                className={`tab ${activeEntry?.journalEntryId === starredEntry.journalEntryId
-                  ? 'tab-active'
-                  : ''
-                  }`}
+                className={`tab ${
+                  activeEntry?.journalEntryId === starredEntry.journalEntryId
+                    ? 'tab-active'
+                    : ''
+                }`}
                 onClick={(e) => handleDateClicked(starredEntry)}
                 key={i}
               >

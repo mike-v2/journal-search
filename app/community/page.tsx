@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import PostBox from '@/components/postBox';
-import PostExt from '@/types/postExt';
+import { PostExt } from '@/types/prismaExtensions';
 
 export default function Community() {
   const [posts, setPosts] = useState<PostExt[]>();

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { StarredEntryExt } from '@/types/starredEntryExt';
+import { StarredEntryExt } from '@/types/prismaExtensions';
 import prisma from '@/utils/prisma';
 
 export default async function handler(
@@ -11,7 +11,7 @@ export default async function handler(
     const { userId, journalEntryId } = req.query;
 
     if (userId && journalEntryId) {
-    //check if user has starred entry
+      //check if user has starred entry
       try {
         const starredEntry = await prisma.starredEntry.findFirst({
           where: {
