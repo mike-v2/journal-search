@@ -205,11 +205,13 @@ export default function Chat() {
           });
 
           if (!response.ok) {
+            setIsErrorLoadingResponse(true);
             throw new Error('Network response was not ok');
           }
 
           const reader = response.body?.getReader();
           if (!reader) {
+            setIsErrorLoadingResponse(true);
             throw new Error('no reader');
           }
 
@@ -240,6 +242,7 @@ export default function Chat() {
             setPartialResponse((prevRes) => prevRes + text);
           }
         } catch (error) {
+          setIsErrorLoadingResponse(true);
           console.error(error);
         }
       }
