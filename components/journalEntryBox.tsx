@@ -285,10 +285,11 @@ export default function JournalEntryBox({
                 >
                   <label
                     htmlFor={`image ${date}`}
-                    className={`btn h-10 min-h-0 w-10 p-0  ${displayMode === 'image'
-                      ? 'btn-active'
-                      : 'border-none bg-transparent'
-                      }`}
+                    className={`btn h-10 min-h-0 w-10 p-0  ${
+                      displayMode === 'image'
+                        ? 'btn-active'
+                        : 'border-none bg-transparent'
+                    }`}
                   >
                     <input
                       type='radio'
@@ -309,10 +310,11 @@ export default function JournalEntryBox({
                   </label>
                   <label
                     htmlFor={`text ${date}`}
-                    className={`btn h-10 min-h-0 w-10 p-0 ${displayMode === 'text'
-                      ? 'btn-active'
-                      : 'border-none bg-transparent'
-                      }`}
+                    className={`btn h-10 min-h-0 w-10 p-0 ${
+                      displayMode === 'text'
+                        ? 'btn-active'
+                        : 'border-none bg-transparent'
+                    }`}
                   >
                     <input
                       type='radio'
@@ -410,8 +412,9 @@ export default function JournalEntryBox({
               </p>
             </div>
             <div
-              className={`${displayMode !== 'image' ? 'hidden' : ''
-                } flex flex-wrap justify-center`}
+              className={`${
+                displayMode !== 'image' ? 'hidden' : ''
+              } flex flex-wrap justify-center`}
             >
               {imagePaths && imagePaths[currentImageIndex] && (
                 <div>
@@ -424,8 +427,9 @@ export default function JournalEntryBox({
                   />
                   <div className='btn-group flex justify-center'>
                     <button
-                      className={`btn h-16 w-16 ${currentImageIndex <= 0 ? 'btn-disabled' : ''
-                        }`}
+                      className={`btn h-16 w-16 ${
+                        currentImageIndex <= 0 ? 'btn-disabled' : ''
+                      }`}
                       onClick={() =>
                         setCurrentImageIndex((prevIndex) => prevIndex - 1)
                       }
@@ -434,10 +438,11 @@ export default function JournalEntryBox({
                       {'<'}
                     </button>
                     <button
-                      className={`btn h-16 w-16 ${currentImageIndex >= imagePaths.length - 1
-                        ? 'btn-disabled'
-                        : ''
-                        }`}
+                      className={`btn h-16 w-16 ${
+                        currentImageIndex >= imagePaths.length - 1
+                          ? 'btn-disabled'
+                          : ''
+                      }`}
                       onClick={() =>
                         setCurrentImageIndex((prevIndex) => prevIndex + 1)
                       }

@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'GET') {
-//get all comments on a post
+    //get all comments on a post
     const { postId } = req.query;
 
     if (!postId) {
@@ -49,7 +49,7 @@ export default async function handler(
     }
 
     if (commentId) {
-    // edit comment
+      // edit comment
       try {
         const updatedComment = await prisma.comment.update({
           where: {

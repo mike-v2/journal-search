@@ -9,7 +9,7 @@ export default async function handler(
   const { date, year } = req.query;
 
   if (date) {
-  //get journal entry on specific date
+    //get journal entry on specific date
     try {
       const parsedDate = new Date(date as string);
       const entry = await prisma.journalEntry.findUnique({

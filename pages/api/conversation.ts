@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   if (req.method === 'GET') {
     if (req.query.userId) {
-    //get all conversations for user
+      //get all conversations for user
       const { userId } = req.query;
 
       try {

@@ -40,8 +40,9 @@ export default function ChatSidebar({
           sidebarRef.current.style.height = '100vh';
         } else {
           sidebarRef.current.style.top = `${logoHeight - window.scrollY}px`;
-          sidebarRef.current.style.height = `calc(100vh - ${logoHeight - window.scrollY
-            }px)`;
+          sidebarRef.current.style.height = `calc(100vh - ${
+            logoHeight - window.scrollY
+          }px)`;
         }
       });
     }
@@ -77,8 +78,9 @@ export default function ChatSidebar({
         <div className='flex flex-col gap-y-8 p-4'>
           <p>Delete this conversation?</p>
           <button
-            className={`btn ml-auto block ${preparedToDeleteConvoId === '' ? 'text-gray-500' : 'text-white'
-              }`}
+            className={`btn ml-auto block ${
+              preparedToDeleteConvoId === '' ? 'text-gray-500' : 'text-white'
+            }`}
             onClick={checkHandleDeleteConversation}
           >
             Delete
@@ -87,8 +89,9 @@ export default function ChatSidebar({
       </Modal>
       <div
         ref={sidebarRef}
-        className={`fixed bottom-0 left-0 w-80 overflow-auto rounded-r-3xl bg-amber-100 transition-transform ${isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'
-          }`}
+        className={`fixed bottom-0 left-0 w-80 overflow-auto rounded-r-3xl bg-amber-100 transition-transform ${
+          isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'
+        }`}
       >
         <div className='px-2'>
           <button

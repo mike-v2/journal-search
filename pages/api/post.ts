@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'GET') {
-//get all posts
+    //get all posts
     try {
       const posts = await prisma.post.findMany({
         select: {

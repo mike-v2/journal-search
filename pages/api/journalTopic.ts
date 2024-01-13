@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   if (req.method === 'GET') {
     if (req.query.journalEntryId) {
-    //get topics for journal entry
+      //get topics for journal entry
       const { journalEntryId } = req.query;
 
       try {
