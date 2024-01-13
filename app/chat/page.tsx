@@ -95,38 +95,6 @@ export default function Chat() {
     }
   };
 
-  const fetchChatApi = async (chatHistory: ChatMessage[]): Promise<string> => {
-    setIsErrorLoadingResponse(false);
-    console.log('...loading response');
-
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(chatHistory),
-      });
-
-      console.log('openAI response::');
-      console.log(response);
-      const data = await response.json();
-      if (data) {
-        if (data.message) {
-          return data.message;
-        } else if (data.error) {
-          console.log('error getting openAI response:: ');
-          console.log(data.error);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    }
-
-    setIsErrorLoadingResponse(true);
-    return '';
-  };
-
   const handleSubmitText = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('text submitted: ' + userTextInput);
@@ -444,12 +412,8 @@ export default function Chat() {
         aria-label='Chat history'
       >
         {partialResponse && partialResponse !== '' && (
-          <div
-            className={`mb-8 flex flex-col gap-y-2 rounded-xl border border-amber-300 p-4 sm:flex-row`}
-          >
-            <h4
-              className={`basis-1/6 pr-4 text-lg font-bold leading-5 text-amber-200 sm:text-right`}
-            >
+          <div className='mb-8 flex flex-col gap-y-2 rounded-xl border border-amber-300 p-4 sm:flex-row'>
+            <h4 className='basis-1/6 pr-4 text-lg font-bold leading-5 text-amber-200 sm:text-right'>
               Harry Howard:
             </h4>
             <p className='basis-5/6 ps-3'>{partialResponse}</p>
