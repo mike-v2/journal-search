@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import { Conversation, Message } from '@prisma/client';
 
 import ChatSidebar from '@/components/chatSidebar';
+import ChatSuggestions from '@/components/chatSuggestions';
 
 type ConversationExt = Conversation & {
   messages: Message[];
@@ -24,13 +25,11 @@ export default function Chat() {
     useState<ConversationExt>();
   const [partialResponse, setPartialResponse] = useState<string>('');
   const partialResponseRef = useRef(partialResponse);
-
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    //console.log("partial response has changed. setting response ref: " + partialResponse);
     partialResponseRef.current = partialResponse;
   }, [partialResponse]);
 
@@ -252,47 +251,44 @@ export default function Chat() {
     [editConversationTitle, onResponseFinished],
   );
 
-  useEffect(() => {
-    const initMessages = async (startMessages: ChatMessage[]) => {
-      setMessageHistory(startMessages);
+  const startConversationWithInitialMessages = async (
+    startMessages: ChatMessage[],
+  ) => {
+    setMessageHistory(startMessages);
 
-      let newConvo: Conversation | null = null;
-      if (session?.user) {
-        newConvo = await createNewConversation();
-        console.log('created new conversation::');
-        console.log(newConvo);
-        if (newConvo) {
-          setConversations((prevConvos) => [
-            ...prevConvos,
-            newConvo as Conversation,
-          ]);
-          setActiveConversation(newConvo as ConversationExt);
+    let newConvo: Conversation | null = null;
+    if (session?.user) {
+      newConvo = await createNewConversation();
+      if (newConvo) {
+        setConversations((prevConvos) => [
+          ...prevConvos,
+          newConvo as Conversation,
+        ]);
+        setActiveConversation(newConvo as ConversationExt);
 
-          const assistantMsg = startMessages[0];
-          const userMsg = startMessages[1];
-          await saveMessage(assistantMsg, newConvo);
-          saveMessage(userMsg, newConvo);
-        }
+        const assistantMsg = startMessages[0];
+        const userMsg = startMessages[1];
+        await saveMessage(assistantMsg, newConvo);
+        saveMessage(userMsg, newConvo);
       }
+    }
 
-      const convo = activeConversation ?? newConvo;
-      startStreamingResponse(startMessages, convo ?? undefined);
-    };
+    const convo = activeConversation ?? newConvo;
+    startStreamingResponse(startMessages, convo ?? undefined);
+  };
 
+  useEffect(() => {
     const start = searchParams?.get('start');
     if (start && searchParams) {
       const startMessages = JSON.parse(decodeURIComponent(start as string));
-      console.log('Starting conversation with:', startMessages);
 
       const newSearchParams = new URLSearchParams(searchParams);
       newSearchParams.delete('start');
-
       if (pathname) {
         router.replace(`${pathname}?${newSearchParams}`);
       }
 
-      console.log('setting start messages:', startMessages);
-      initMessages(startMessages);
+      startConversationWithInitialMessages(startMessages);
     }
   }, [
     session?.user,
@@ -382,6 +378,15 @@ export default function Chat() {
     setActiveConversation(undefined);
   }
 
+  function handleSelectChatSuggestion(prompt: string) {
+    const message: ChatMessage = {
+      role: 'user',
+      content: prompt,
+    };
+
+    startConversationWithInitialMessages([message]);
+  }
+
   return (
     <main className='mt-8 min-h-screen' aria-label='Chat with Harry'>
       <ChatSidebar
@@ -410,6 +415,15 @@ export default function Chat() {
           Error loading response. Please try again.
         </p>
       )}
+      {!isLoadingResponse &&
+        !partialResponse &&
+        (!messageHistory || messageHistory.length === 0) && (
+          <section>
+            <ChatSuggestions
+              handleSelectSuggestion={handleSelectChatSuggestion}
+            />
+          </section>
+        )}
       <section
         className='mx-auto flex max-w-5xl flex-col px-2 pt-10'
         aria-label='Chat history'
