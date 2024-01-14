@@ -48,7 +48,7 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('Search', () => {
-  test("pressing 'Enter' key performs search", async () => {
+  test('submitting form performs search', async () => {
     const { getByRole, findAllByText } = render(<Search />);
 
     const form = getByRole('search');
@@ -66,30 +66,6 @@ describe('Search', () => {
     const searchResults1 = await findAllByText(/first5/);
     expect(searchResults1.length).toBe(5);
   });
-
-  /* test('default page and size values are used when not present in useSearchParams', async () => {
-    //default values are page=1, size=5
-
-    jest.mock('next/navigation', () => ({
-      useSearchParams: () => ({
-        get: jest.fn(),
-      }),
-    }));
-
-    const { getByLabelText, findAllByText, queryAllByText } = render(
-      <Search />,
-    );
-
-    fireEvent.click(getByLabelText('Search'));
-
-    await waitFor(() => {
-      const searchResults1 = queryAllByText(/first5/);
-      expect(searchResults1.length).toBe(5);
-
-      const searchResults2 = queryAllByText(/second5/);
-      expect(searchResults2.length).toBe(0);
-    });
-  }); */
 
   test('page value from useSearchParams determines which results are displayed', async () => {
     const navigation = require('next/navigation');
