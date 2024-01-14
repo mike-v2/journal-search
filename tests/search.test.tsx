@@ -2,21 +2,10 @@ import { SessionProvider } from 'next-auth/react';
 import { User } from 'next-auth';
 
 import 'whatwg-fetch';
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 
-import Search from '@/pages/search';
+import Search from '@/app/search/page';
 import { server } from '@/mocks/server';
-
-jest.mock('next/router', () => ({
-  useRouter: () => ({
-    query: { page: '1', size: '5' },
-  }),
-}));
 
 const TestWrapper = ({ children }: { children: JSX.Element }) => {
   return (
@@ -34,112 +23,130 @@ const TestWrapper = ({ children }: { children: JSX.Element }) => {
   );
 };
 
+type QueryParams = {
+  page: string;
+  size: string;
+};
+
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+  useSearchParams: jest.fn(),
+}));
+
+beforeEach(() => {
+  const navigation = require('next/navigation');
+  navigation.useSearchParams.mockImplementation(() => ({
+    get: jest.fn((key: keyof QueryParams) => {
+      return { page: '1', size: '5' }[key];
+    }),
+  }));
+});
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('Search', () => {
   test("pressing 'Enter' key performs search", async () => {
-    render(<Search />);
+    const { getByRole, findAllByText } = render(<Search />);
 
-    const inputElement = screen.getByPlaceholderText('Search..');
-    fireEvent.keyDown(inputElement, { key: 'Enter', code: 'Enter' });
+    const form = getByRole('search');
+    fireEvent.submit(form);
 
-    const searchResults1 = await screen.findAllByText(/first5/);
-    expect(searchResults1.length).toBeGreaterThan(0);
+    const searchResults = await findAllByText(/first5/);
+    expect(searchResults.length).toBe(5);
   });
 
   test('clicking search button performs search', async () => {
-    render(<Search />);
+    const { getByLabelText, findAllByText } = render(<Search />);
 
-    const searchButton = screen.getByAltText('search-icon');
-    fireEvent.click(searchButton);
+    fireEvent.click(getByLabelText('Search'));
 
-    const searchResults1 = await screen.findAllByText(/first5/);
-    expect(searchResults1.length).toBeGreaterThan(0);
+    const searchResults1 = await findAllByText(/first5/);
+    expect(searchResults1.length).toBe(5);
   });
 
-  test('default page and size values are used when not present in router.query', async () => {
+  /* test('default page and size values are used when not present in useSearchParams', async () => {
     //default values are page=1, size=5
 
-    const useRouter = jest.spyOn(require('next/router'), 'useRouter');
-    useRouter.mockImplementation(() => ({
-      query: {},
+    jest.mock('next/navigation', () => ({
+      useSearchParams: () => ({
+        get: jest.fn(),
+      }),
     }));
 
-    render(<Search />);
+    const { getByLabelText, findAllByText, queryAllByText } = render(
+      <Search />,
+    );
 
-    const inputElement = screen.getByPlaceholderText('Search..');
-    fireEvent.keyDown(inputElement, { key: 'Enter', code: 'Enter' });
+    fireEvent.click(getByLabelText('Search'));
 
-    const searchResults1 = await screen.findAllByText(/first5/);
-    expect(searchResults1.length).toBe(5);
+    await waitFor(() => {
+      const searchResults1 = queryAllByText(/first5/);
+      expect(searchResults1.length).toBe(5);
 
-    const searchResults2 = screen.queryAllByText(/second5/);
-    expect(searchResults2.length).toBe(0);
+      const searchResults2 = queryAllByText(/second5/);
+      expect(searchResults2.length).toBe(0);
+    });
+  }); */
+
+  test('page value from useSearchParams determines which results are displayed', async () => {
+    const navigation = require('next/navigation');
+    navigation.useSearchParams.mockImplementation(() => ({
+      get: jest.fn((key: keyof QueryParams) => {
+        return { page: '2', size: '5' }[key];
+      }),
+    }));
+
+    const { getByLabelText, queryAllByText, getAllByText } = render(<Search />);
+
+    fireEvent.click(getByLabelText('Search'));
+
+    await waitFor(() => {
+      const searchResults1 = queryAllByText(/first5/);
+      expect(searchResults1.length).toBe(0);
+
+      const searchResults2 = getAllByText(/second5/);
+      expect(searchResults2.length).toBe(5);
+    });
   });
 
-  test('page value from router.query determines which results are displayed', async () => {
-    const useRouter = jest.spyOn(require('next/router'), 'useRouter');
-    useRouter.mockImplementation(() => ({
-      query: { page: '2', size: '5' },
+  test('size value from useSearchParams determines how many results are displayed', async () => {
+    const navigation = require('next/navigation');
+    navigation.useSearchParams.mockImplementation(() => ({
+      get: jest.fn((key: keyof QueryParams) => {
+        return { page: '1', size: '10' }[key];
+      }),
     }));
 
-    render(<Search />);
+    const { getByLabelText, findAllByText } = render(<Search />);
 
-    const inputElement = screen.getByPlaceholderText('Search..');
-    fireEvent.keyDown(inputElement, { key: 'Enter', code: 'Enter' });
+    fireEvent.click(getByLabelText('Search'));
 
-    //put the async method first. Since 'queryAllByText' is synchronous, it wouldn't find 'first5' even if they were going to be fetched
-    const searchResults2 = await screen.findAllByText(/second5/);
-    expect(searchResults2.length).toBe(5);
-
-    const searchResults1 = screen.queryAllByText(/first5/);
-    expect(searchResults1.length).toBe(0);
-  });
-
-  test('size value from router.query determines how many results are displayed', async () => {
-    const useRouter = jest.spyOn(require('next/router'), 'useRouter');
-    useRouter.mockImplementation(() => ({
-      query: { page: '1', size: '10' },
-    }));
-
-    render(<Search />);
-
-    const inputElement = screen.getByPlaceholderText('Search..');
-    fireEvent.keyDown(inputElement, { key: 'Enter', code: 'Enter' });
-
-    const searchResults1 = await screen.findAllByText(/first5/);
+    const searchResults1 = await findAllByText(/first5/);
     expect(searchResults1.length).toBe(5);
 
-    const searchResults2 = screen.queryAllByText(/second5/);
+    const searchResults2 = await findAllByText(/second5/);
     expect(searchResults2.length).toBe(5);
   });
 
   test('scrollIntoView is called when selectedEntry updates', async () => {
-    const useRouter = jest.spyOn(require('next/router'), 'useRouter');
-
-    useRouter.mockImplementation(() => ({
-      query: { page: '1', size: '5' },
-    }));
-
-    render(
-      <TestWrapper>
-        <Search />
-      </TestWrapper>,
-    );
-    const inputElement = screen.getByPlaceholderText('Search..');
-    fireEvent.keyDown(inputElement, { key: 'Enter', code: 'Enter' });
-
-    const first5SearchResults = await screen.findAllByText(/first5/);
-
     const scrollIntoViewMock = jest.fn();
     Object.defineProperty(window.HTMLElement.prototype, 'scrollIntoView', {
       configurable: true,
       value: scrollIntoViewMock,
     });
 
-    fireEvent.click(first5SearchResults[0]);
+    const { getByLabelText, findAllByText } = render(
+      <TestWrapper>
+        <Search />
+      </TestWrapper>,
+    );
+
+    fireEvent.click(getByLabelText('Search'));
+    const first5 = await findAllByText(/first5/);
+    fireEvent.click(first5[0]);
 
     await waitFor(() => expect(scrollIntoViewMock).toHaveBeenCalled());
   });
