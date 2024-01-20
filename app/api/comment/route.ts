@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import prisma from '@/utils/prisma';
 
@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   const postId = searchParams.get('postId');
 
   if (!postId) {
-    return Response.json(
+    return NextResponse.json(
       { error: 'PostId is required to get comments' },
       { status: 404 },
     );
@@ -30,10 +30,10 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return Response.json(comments);
+    return NextResponse.json(comments);
   } catch (error) {
     console.error('Error getting comments:', error);
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
 
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
   const { userId, postId, text, commentId } = await req.json();
 
   if (!userId || !postId || !text) {
-    return Response.json(
+    return NextResponse.json(
       {
         error: 'UserId, PostId, and Text are required to make a comment',
       },
@@ -68,10 +68,10 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      return Response.json(updatedComment);
+      return NextResponse.json(updatedComment);
     } catch (error) {
       console.error('Error updating comment:', error);
-      return Response.json({ error }, { status: 500 });
+      return NextResponse.json({ error }, { status: 500 });
     }
   } else {
     // new comment
@@ -90,10 +90,10 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      return Response.json(comment);
+      return NextResponse.json(comment);
     } catch (error) {
       console.error('Error creating comment:', error);
-      return Response.json({ error }, { status: 500 });
+      return NextResponse.json({ error }, { status: 500 });
     }
   }
 }
@@ -103,7 +103,7 @@ export async function DELETE(req: NextRequest) {
   const commentId = searchParams.get('commentId');
 
   if (!commentId) {
-    return Response.json(
+    return NextResponse.json(
       { error: 'CommentId is required to delete a comment' },
       { status: 404 },
     );
@@ -116,9 +116,9 @@ export async function DELETE(req: NextRequest) {
       },
     });
 
-    return Response.json({ message: 'success' });
+    return NextResponse.json({ message: 'success' });
   } catch (error) {
     console.error('Error deleting comment:', error);
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
