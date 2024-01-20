@@ -1,6 +1,7 @@
+import { NextRequest, NextResponse } from 'next/server';
+
 import { StarredEntryExt } from '@/types/prismaExtensions';
 import prisma from '@/utils/prisma';
-import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -21,7 +22,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ currentIsStarred: !!starredEntry });
     } catch (error) {
       console.error('Error checking if user starred entry:', error);
-      return NextResponse.json({ error }, {status: 500});
+      return NextResponse.json({ error }, { status: 500 });
     }
   } else if (userId) {
     //get all entries starred by users
@@ -45,7 +46,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(starredEntries);
     } catch (error) {
       console.error("Error finding user's starred entries: ", error);
-      return NextResponse.json({ error }, {status: 500});
+      return NextResponse.json({ error }, { status: 500 });
     }
   }
 }

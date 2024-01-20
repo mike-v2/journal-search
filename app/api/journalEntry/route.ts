@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import prisma from '@/utils/prisma';
 
@@ -24,10 +24,10 @@ export async function GET(req: NextRequest) {
         },
       });
 
-      return Response.json(entry);
+      return NextResponse.json(entry);
     } catch (error) {
       console.error(error);
-      return Response.json({ error }, { status: 500 });
+      return NextResponse.json({ error }, { status: 500 });
     }
   } else if (year) {
     // get journal entries for specific year
@@ -51,10 +51,10 @@ export async function GET(req: NextRequest) {
         },
       });
 
-      return Response.json(entries);
+      return NextResponse.json(entries);
     } catch (error) {
       console.error(error);
-      return Response.json({ error }, { status: 500 });
+      return NextResponse.json({ error }, { status: 500 });
     }
   } else {
     //get all journal entries
@@ -71,10 +71,10 @@ export async function GET(req: NextRequest) {
         },
       });
 
-      return Response.json(entries);
+      return NextResponse.json(entries);
     } catch (error) {
       console.error(error);
-      return Response.json({ error }, { status: 500 });
+      return NextResponse.json({ error }, { status: 500 });
     }
   }
 }

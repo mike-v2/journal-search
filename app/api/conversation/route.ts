@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import prisma from '@/utils/prisma';
 
@@ -20,10 +20,10 @@ export async function GET(req: NextRequest) {
         },
       });
 
-      return Response.json(conversation);
+      return NextResponse.json(conversation);
     } catch (error) {
       console.error(error);
-      return Response.json({ error }, { status: 500 });
+      return NextResponse.json({ error }, { status: 500 });
     }
   } else if (userId) {
     //get all conversations for user
@@ -34,10 +34,10 @@ export async function GET(req: NextRequest) {
         },
       });
 
-      return Response.json(conversations);
+      return NextResponse.json(conversations);
     } catch (error) {
       console.error(error);
-      return Response.json({ error }, { status: 500 });
+      return NextResponse.json({ error }, { status: 500 });
     }
   }
 }
@@ -60,10 +60,10 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return Response.json(conversation);
+    return NextResponse.json(conversation);
   } catch (error) {
     console.error(error);
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
 
@@ -71,7 +71,7 @@ export async function PATCH(req: NextRequest) {
   const { id, title } = await req.json();
 
   if (!id || !title) {
-    return Response.json(
+    return NextResponse.json(
       { error: 'id and title are required to patch a conversation' },
       { status: 404 },
     );
@@ -87,10 +87,10 @@ export async function PATCH(req: NextRequest) {
       },
     });
 
-    return Response.json(conversation);
+    return NextResponse.json(conversation);
   } catch (error) {
     console.error(error);
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
 
@@ -99,7 +99,7 @@ export async function DELETE(req: NextRequest) {
   const id = searchParams.get('id');
 
   if (!id) {
-    return Response.json(
+    return NextResponse.json(
       {
         error: 'Conversation ID is required to delete a conversation',
       },
@@ -116,9 +116,9 @@ export async function DELETE(req: NextRequest) {
 
     const data = (await conversation).id;
     console.log('deleted convo with id: ' + data);
-    return Response.json({ message: 'successfully deleted conversation' });
+    return NextResponse.json({ message: 'successfully deleted conversation' });
   } catch (error) {
     console.error(error);
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }

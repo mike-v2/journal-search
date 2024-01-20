@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import prisma from '@/utils/prisma';
 
@@ -15,10 +15,10 @@ export async function GET(req: NextRequest) {
         },
       });
 
-      return Response.json(topics);
+      return NextResponse.json(topics);
     } catch (error) {
       console.error(error);
-      return Response.json({ error }, { status: 500 });
+      return NextResponse.json({ error }, { status: 500 });
     }
   }
 }

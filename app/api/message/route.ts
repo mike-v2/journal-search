@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import prisma from '@/utils/prisma';
 
@@ -6,10 +6,10 @@ export async function POST(req: NextRequest) {
   const { conversationId, role, content } = await req.json();
 
   if (!conversationId || !role || !content) {
-    return Response.json(
+    return NextResponse.json(
       {
         error:
-          'conversationId, role, and content are required to find journal page image',
+          'conversationId, role, and content are required to post a chat message',
       },
       { status: 404 },
     );
@@ -28,10 +28,10 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return Response.json(message);
+    return NextResponse.json(message);
   } catch (error) {
     console.error(error);
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
 
@@ -46,9 +46,9 @@ export async function DELETE(req: NextRequest) {
       },
     });
 
-    return Response.json({ message: 'deleted messages' });
+    return NextResponse.json({ message: 'deleted messages' });
   } catch (error) {
     console.error(error);
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }

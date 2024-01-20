@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { GetSignedUrlConfig, Storage } from '@google-cloud/storage';
 
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
   const endPage = searchParams.get('endPage');
 
   if (!year || !startPage || !endPage) {
-    return Response.json(
+    return NextResponse.json(
       {
         error:
           'year, startPage, and endPage are required to find journal page image',
@@ -54,9 +54,9 @@ export async function GET(req: NextRequest) {
       urls.push(url);
     }
 
-    return Response.json(urls);
+    return NextResponse.json(urls);
   } catch (error) {
     console.error(error);
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }

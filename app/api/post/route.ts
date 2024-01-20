@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import prisma from '@/utils/prisma';
 
@@ -22,10 +22,10 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return Response.json(posts);
+    return NextResponse.json(posts);
   } catch (error) {
     console.error(error);
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
 
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
   const { userId, journalEntryId, title, text } = await req.json();
 
   if (!userId || !journalEntryId || !text) {
-    return Response.json(
+    return NextResponse.json(
       {
         error: 'userId, journalEntryId, and text are required to make a post',
       },
@@ -51,9 +51,9 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return Response.json({ message: 'created post' });
+    return NextResponse.json({ message: 'created post' });
   } catch (error) {
     console.error(error);
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }

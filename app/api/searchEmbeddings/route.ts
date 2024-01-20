@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 const url = 'https://python-q4npvduerq-uw.a.run.app/';
 
@@ -16,9 +16,9 @@ export async function POST(req: NextRequest) {
     });
 
     const data = await response.json();
-    return Response.json({ results: data });
+    return NextResponse.json({ results: data });
   } catch (error) {
     console.error(error);
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
