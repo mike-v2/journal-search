@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest } from 'next/server';
 
 import { GetSignedUrlConfig, Storage } from '@google-cloud/storage';
 
@@ -18,19 +18,20 @@ const options: GetSignedUrlConfig = {
   expires: Date.now() + 1000 * 60 * 60, // 1 hour
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  const { year, startPage, endPage } = req.query;
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const year = searchParams.get('year');
+  const startPage = searchParams.get('startPage');
+  const endPage = searchParams.get('endPage');
 
   if (!year || !startPage || !endPage) {
-    res
-      .status(400)
-      .send(
-        'year, startPage, and endPage are required to find journal page image',
-      );
-    return;
+    return Response.json(
+      {
+        error:
+          'year, startPage, and endPage are required to find journal page image',
+      },
+      { status: 404 },
+    );
   }
 
   const pages = [];
@@ -53,9 +54,9 @@ export default async function handler(
       urls.push(url);
     }
 
-    res.status(200).json(urls);
+    return Response.json(urls);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: error });
+    return Response.json({ error }, { status: 500 });
   }
 }
