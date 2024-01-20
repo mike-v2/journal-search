@@ -1,12 +1,11 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest } from 'next/server';
 
 import prisma from '@/utils/prisma';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  const { date, year } = req.query;
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const date = searchParams.get('date');
+  const year = searchParams.get('year');
 
   if (date) {
     //get journal entry on specific date
@@ -25,14 +24,10 @@ export default async function handler(
         },
       });
 
-      if (!entry) {
-        return res.status(404).json({ error: 'Journal entry not found' });
-      }
-
-      res.status(200).json(entry);
+      return Response.json(entry);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: error });
+      return Response.json({ error }, { status: 500 });
     }
   } else if (year) {
     // get journal entries for specific year
@@ -56,18 +51,10 @@ export default async function handler(
         },
       });
 
-      if (!entries || entries.length === 0) {
-        return res
-          .status(404)
-          .json({ error: 'No entries found for this year' });
-      }
-
-      res.status(200).json(entries);
+      return Response.json(entries);
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .json({ error: 'An error occurred while fetching journal entry data' });
+      return Response.json({ error }, { status: 500 });
     }
   } else {
     //get all journal entries
@@ -84,16 +71,10 @@ export default async function handler(
         },
       });
 
-      if (!entries) {
-        return res.status(404).json({ error: 'Entries not found' });
-      }
-
-      res.status(200).json(entries);
+      return Response.json(entries);
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .json({ error: 'An error occurred while fetching journal entry data' });
+      return Response.json({ error }, { status: 500 });
     }
   }
 }
