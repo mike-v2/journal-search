@@ -297,9 +297,12 @@ export default function useChatApi(session: Session | null) {
   function handleDeleteConversation(convoId: string) {
     const deleteAllMessagesInConversation = async () => {
       try {
-        const response = await fetch(`api/chatMessage?conversationId=${convoId}`, {
-          method: 'DELETE',
-        });
+        const response = await fetch(
+          `api/chatMessage?conversationId=${convoId}`,
+          {
+            method: 'DELETE',
+          },
+        );
 
         if (response.status === 200) {
           console.log('Deleted messages for conversation: ' + convoId);

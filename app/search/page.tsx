@@ -50,7 +50,7 @@ export default function Search() {
       startIndex !== searchResultsRange.startIndex ||
       endIndex !== searchResultsRange.endIndex
     ) {
-      setSearchResultsRange({ startIndex: startIndex, endIndex: endIndex });
+      setSearchResultsRange({ startIndex, endIndex });
     }
   }, [searchParams, searchResultsRange]);
 

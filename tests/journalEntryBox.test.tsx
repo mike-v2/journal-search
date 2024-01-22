@@ -2,11 +2,7 @@ import { SessionProvider } from 'next-auth/react';
 import { User } from 'next-auth';
 
 import 'whatwg-fetch';
-import {
-  fireEvent,
-  render,
-  waitFor,
-} from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import Modal from 'react-modal';
 
 import { server } from '@/mocks/server';

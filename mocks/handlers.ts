@@ -191,9 +191,12 @@ export const mockGetStarredEntry = rest.get(
   },
 );
 
-export const mockPostCommunityPost = rest.post('/api/communityPost', (req, res, ctx) => {
-  return res(ctx.status(200), ctx.json({ message: 'success' }));
-});
+export const mockPostCommunityPost = rest.post(
+  '/api/communityPost',
+  (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({ message: 'success' }));
+  },
+);
 
 export const mockPostComment = rest.post(
   '/api/comment',
