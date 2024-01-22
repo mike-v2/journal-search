@@ -64,9 +64,9 @@ export default function useChatApi(session: Session | null) {
     { role, content }: { role: string; content: string },
     conv: Conversation,
   ) => {
-    console.log('trying to save message: ' + content.slice(0, 200));
+    console.log(`trying to save ${role} message: ${content.slice(0, 200)}`);
     try {
-      await fetch('/api/message', {
+      await fetch('/api/chatMessage', {
         method: 'POST',
         body: JSON.stringify({
           conversationId: conv.id,
@@ -297,7 +297,7 @@ export default function useChatApi(session: Session | null) {
   function handleDeleteConversation(convoId: string) {
     const deleteAllMessagesInConversation = async () => {
       try {
-        const response = await fetch(`api/message?conversationId=${convoId}`, {
+        const response = await fetch(`api/chatMessage?conversationId=${convoId}`, {
           method: 'DELETE',
         });
 
