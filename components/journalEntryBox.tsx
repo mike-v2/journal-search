@@ -208,7 +208,7 @@ export default function JournalEntryBox({
 
     if (session?.user) {
       try {
-        const res = await fetch('/api/post', {
+        const res = await fetch('/api/communityPost', {
           method: 'POST',
           body: JSON.stringify({
             journalEntryId: id,

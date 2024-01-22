@@ -11,7 +11,7 @@ export default function Community() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const res = await fetch('/api/post', {
+        const res = await fetch('/api/communityPost', {
           method: 'GET',
         });
         const data = await res.json();
