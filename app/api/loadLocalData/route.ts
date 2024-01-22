@@ -1,10 +1,9 @@
 import path from 'path';
 import { promises as fs } from 'fs';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
+export default async function GET(
+  req: NextRequest,
 ) {
   const jsonDirectory = path.join(process.cwd(), 'json');
   const fileContents = await fs.readFile(
@@ -12,5 +11,5 @@ export default async function handler(
     'utf8',
   );
 
-  res.status(200).json(fileContents);
+  return NextResponse.json(fileContents);
 }

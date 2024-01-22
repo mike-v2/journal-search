@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import prisma from '@/utils/prisma';
 
-export default async function handler(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
 
