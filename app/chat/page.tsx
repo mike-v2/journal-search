@@ -31,7 +31,7 @@ export default function Chat() {
   const handleSubmitText = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    submitChatMessage(userTextInput);
+    await submitChatMessage(userTextInput);
     setUserTextInput('');
     scrollToBottom();
   };
