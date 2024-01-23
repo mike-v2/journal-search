@@ -276,10 +276,11 @@ export default function useChatApi(session: Session | null) {
           ]);
           setActiveConversation(newConvo as ConversationExt);
 
-          const assistantMsg = startMessages[0];
-          const userMsg = startMessages[1];
-          await saveMessage(assistantMsg, newConvo);
-          saveMessage(userMsg, newConvo);
+          for (const message of startMessages) {
+            if (message) {
+              await saveMessage(message, newConvo);
+            }
+          }
         }
       }
 
