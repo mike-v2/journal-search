@@ -255,7 +255,7 @@ export default function JournalEntryBox({
       >
         <section className='my-16 flex md:my-8'>
           <div
-            className='dropdown-bottom dropdown w-12'
+            className='dropdown dropdown-bottom w-12'
             role='menu'
             aria-label='Dropdown Menu'
           >

@@ -39,9 +39,9 @@ export default function Navbar() {
           <div className='mr-4'>
             <Login></Login>
           </div>
-          <nav className='ml-12 text-slate-200' aria-label='Main navigation'>
+          <nav className='text-slate-200' aria-label='Main navigation'>
             <div className='mr-4 flex h-full justify-end md:hidden'>
-              <div className='dropdown-bottom dropdown dropdown-end mx-2 my-auto w-14'>
+              <div className='dropdown dropdown-end dropdown-bottom mx-2 my-auto w-14'>
                 <button aria-haspopup='true' aria-label='Open menu'>
                   <Image
                     src='/images/menu_icon.svg'
@@ -84,7 +84,7 @@ export default function Navbar() {
               </div>
             </div>
             <div
-              className={`${limelight.className} ml-auto mt-auto hidden h-full max-w-3xl items-end gap-x-8 md:flex md:text-lg lg:text-2xl`}
+              className={`${limelight.className} ml-auto mt-auto hidden h-full items-end gap-x-12 md:flex md:text-lg lg:text-2xl`}
             >
               <div className='flex-auto text-center'>
                 <Link href='/browse'>Browse</Link>

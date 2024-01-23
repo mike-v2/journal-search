@@ -58,7 +58,7 @@
     "jest-mock": "^29.6.1",
     "msw": "^1.2.1",
     "postcss": "^8.4.21",
-    "prettier": "^3.1.1",
+    "prettier": "3.2.4",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "prisma": "^4.13.0",
     "tailwindcss": "^3.3.1",

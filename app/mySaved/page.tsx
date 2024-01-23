@@ -78,7 +78,7 @@ export default function MySaved() {
     <main className='mt-12'>
       <div className='mb-4 flex justify-center'>
         <select
-          className='select-bordered select'
+          className='select select-bordered'
           value={sortMode}
           onChange={(e) => setSortMode(e.target.value)}
         >
