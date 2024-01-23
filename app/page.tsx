@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 
-import Intro from '@/app/intro';
+import Intro from '@/components/intro';
 import Image from 'next/image';
 
 const DynamicCarouselImages = dynamic(
