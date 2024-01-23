@@ -93,7 +93,7 @@ export default function ChatSidebar({
           isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'
         }`}
       >
-        <div className='border-0 border-b-2 border-b-black'>
+        <div className='flex flex-col gap-y-4 border-0 border-b-2 border-b-black'>
           <button
             onClick={() => setIsOpen(false)}
             className='mt-4 flex w-full justify-end px-4'
@@ -105,7 +105,7 @@ export default function ChatSidebar({
               alt='sidebar icon'
             />
           </button>
-          <h1 className='mb-6 text-center text-lg font-bold text-gray-700'>
+          <h1 className='mb-4 text-center text-lg font-bold text-gray-700'>
             Conversations
           </h1>
         </div>
@@ -149,7 +149,7 @@ export default function ChatSidebar({
           </div>
         </div>
       </div>
-      <div className={`absolute left-0 top-52 w-fit ${isOpen ? 'hidden' : ''}`}>
+      <div className={`absolute left-0 w-fit ${isOpen ? 'hidden' : ''}`}>
         <button onClick={() => setIsOpen(true)} className='ml-3 mt-3'>
           <Image
             src='/images/sidebar-icon.svg'
