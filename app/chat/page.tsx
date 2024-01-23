@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
@@ -11,6 +11,7 @@ import useChatApi from '@/hooks/useChat';
 export default function Chat() {
   const { data: session } = useSession();
   const [userTextInput, setUserTextInput] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -32,7 +33,14 @@ export default function Chat() {
 
     submitChatMessage(userTextInput);
     setUserTextInput('');
+    scrollToBottom();
   };
+
+  function scrollToBottom() {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 
   useEffect(() => {
     const start = searchParams?.get('start');
@@ -125,6 +133,28 @@ export default function Chat() {
           </p>
         )}
       </section>
+      <div ref={messagesEndRef}></div>
+      {!isLoadingResponse &&
+        !partialResponse &&
+        (!messageHistory || messageHistory.length === 0) && (
+          <section>
+            <ChatSuggestions
+              handleSelectSuggestion={handleSelectChatSuggestion}
+            />
+          </section>
+        )}
+      <form onSubmit={handleSubmitText}>
+        <div className='fixed inset-x-0 bottom-8 mx-auto w-full max-w-md px-2'>
+          <input
+            type='text'
+            value={userTextInput}
+            onChange={(e) => setUserTextInput(e.target.value)}
+            className='h-12 w-full rounded-xl border-2 border-gray-300 p-3'
+            placeholder='Chat with Harry...'
+            aria-label='Chat input'
+          />
+        </div>
+      </form>
     </main>
   );
 }
