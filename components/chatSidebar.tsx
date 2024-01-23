@@ -89,11 +89,11 @@ export default function ChatSidebar({
       </Modal>
       <div
         ref={sidebarRef}
-        className={`fixed bottom-0 left-0 w-80 overflow-auto rounded-r-3xl bg-amber-100 transition-transform ${
+        className={`fixed bottom-0 left-0 w-80 rounded-r-3xl bg-amber-100 px-2 transition-transform ${
           isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'
         }`}
       >
-        <div className='px-2'>
+        <div className='border-0 border-b-2 border-b-black'>
           <button
             onClick={() => setIsOpen(false)}
             className='mt-4 flex w-full justify-end px-4'
@@ -105,46 +105,46 @@ export default function ChatSidebar({
               alt='sidebar icon'
             />
           </button>
-          <div className='mt-6'>
-            <h1 className='mb-6 text-center text-lg font-bold text-gray-700'>
-              Conversations
-            </h1>
-            <div className='flex flex-col gap-y-4'>
-              {conversations.map((conversation, index) => (
-                <div
-                  key={index}
-                  className='tooltip relative cursor-pointer rounded-full border border-black p-4'
-                  onClick={(e) => conversationClicked(conversation.id)}
-                  data-tip={conversation.title}
-                >
-                  <p className='truncate font-medium text-gray-700'>
-                    {conversation.title}
-                  </p>
-                  <button
-                    className='btn-hidden absolute right-0 top-1/2 mr-4 -translate-y-1/2 rounded-md bg-black p-2 transition-none'
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handlePrepareToDeleteConversation(conversation.id);
-                    }}
-                  >
-                    <Image
-                      src='/images/delete-icon.svg'
-                      className='invert'
-                      width={30}
-                      height={30}
-                      alt='delete icon'
-                    />
-                  </button>
-                </div>
-              ))}
+          <h1 className='mb-6 text-center text-lg font-bold text-gray-700'>
+            Conversations
+          </h1>
+        </div>
+        <div className='mt-6 h-full overflow-auto'>
+          <div className='flex flex-col gap-y-4'>
+            {conversations.map((conversation, index) => (
               <div
-                className='relative cursor-pointer rounded-full border border-black p-4'
-                onClick={(e) => handleClearConversation()}
+                key={index}
+                className='tooltip relative cursor-pointer rounded-full border border-black p-4'
+                onClick={(e) => conversationClicked(conversation.id)}
+                data-tip={conversation.title}
               >
                 <p className='truncate font-medium text-gray-700'>
-                  New Conversation
+                  {conversation.title}
                 </p>
+                <button
+                  className='btn-hidden absolute right-0 top-1/2 mr-4 -translate-y-1/2 rounded-md bg-black p-2 transition-none'
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePrepareToDeleteConversation(conversation.id);
+                  }}
+                >
+                  <Image
+                    src='/images/delete-icon.svg'
+                    className='invert'
+                    width={30}
+                    height={30}
+                    alt='delete icon'
+                  />
+                </button>
               </div>
+            ))}
+            <div
+              className='relative cursor-pointer rounded-full border border-black p-4'
+              onClick={(e) => handleClearConversation()}
+            >
+              <p className='truncate font-medium text-gray-700'>
+                New Conversation
+              </p>
             </div>
           </div>
         </div>
