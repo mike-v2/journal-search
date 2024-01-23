@@ -70,39 +70,41 @@ export default function Chat() {
         handleDeleteConversation={handleDeleteConversation}
         handleClearConversation={clearActiveConversation}
       />
-      <form onSubmit={handleSubmitText}>
-        <div className='mx-auto w-full max-w-md px-2'>
-          <input
-            type='text'
-            value={userTextInput}
-            onChange={(e) => setUserTextInput(e.target.value)}
-            className='h-12 w-full rounded-xl border-2 border-gray-300 p-3'
-            placeholder='Chat with Harry...'
-            aria-label='Chat input'
-          />
-        </div>
-      </form>
-      {isLoadingResponse && (
-        <p className='text-center text-lg italic'>Harry is thinking...</p>
-      )}
-      {isErrorLoadingResponse && (
-        <p className='mx-auto max-w-7xl border border-red-600 p-4' role='alert'>
-          Error loading response. Please try again.
-        </p>
-      )}
-      {!isLoadingResponse &&
-        !partialResponse &&
-        (!messageHistory || messageHistory.length === 0) && (
-          <section>
-            <ChatSuggestions
-              handleSelectSuggestion={handleSelectChatSuggestion}
-            />
-          </section>
-        )}
       <section
-        className='mx-auto flex max-w-5xl flex-col px-2 pt-10'
+        className='mx-auto flex max-w-5xl flex-col px-2 pb-28 pt-10'
         aria-label='Chat history'
       >
+        {messageHistory &&
+          messageHistory.slice().map((msg, i) => {
+            const speaker =
+              msg.role === 'user'
+                ? 'You:'
+                : msg.role === 'assistant'
+                  ? 'Harry Howard:'
+                  : '';
+
+            let border = 'border-slate-200';
+            let textColor = '';
+
+            if (msg.role === 'assistant') {
+              border = 'border-amber-300';
+              textColor = 'text-amber-200';
+            }
+
+            return (
+              <div
+                className={`${border} mb-8 flex flex-col gap-y-2 rounded-xl border p-4 sm:flex-row`}
+                key={i}
+              >
+                <h4
+                  className={`${textColor} basis-1/6 pr-4 text-lg font-bold leading-5 sm:text-right`}
+                >
+                  {speaker}
+                </h4>
+                <p className='basis-5/6 ps-3'>{msg.content}</p>
+              </div>
+            );
+          })}
         {partialResponse && partialResponse !== '' && (
           <div className='mb-8 flex flex-col gap-y-2 rounded-xl border border-amber-300 p-4 sm:flex-row'>
             <h4 className='basis-1/6 pr-4 text-lg font-bold leading-5 text-amber-200 sm:text-right'>
@@ -111,40 +113,17 @@ export default function Chat() {
             <p className='basis-5/6 ps-3'>{partialResponse}</p>
           </div>
         )}
-        {messageHistory &&
-          messageHistory
-            .slice()
-            .reverse()
-            .map((msg, i) => {
-              const speaker =
-                msg.role === 'user'
-                  ? 'You:'
-                  : msg.role === 'assistant'
-                    ? 'Harry Howard:'
-                    : '';
-
-              let border = 'border-slate-200';
-              let textColor = '';
-
-              if (msg.role === 'assistant') {
-                border = 'border-amber-300';
-                textColor = 'text-amber-200';
-              }
-
-              return (
-                <div
-                  className={`${border} mb-8 flex flex-col gap-y-2 rounded-xl border p-4 sm:flex-row`}
-                  key={i}
-                >
-                  <h4
-                    className={`${textColor} basis-1/6 pr-4 text-lg font-bold leading-5 sm:text-right`}
-                  >
-                    {speaker}
-                  </h4>
-                  <p className='basis-5/6 ps-3'>{msg.content}</p>
-                </div>
-              );
-            })}
+        {isLoadingResponse && !partialResponse && (
+          <p className='text-center text-lg italic'>Harry is thinking...</p>
+        )}
+        {isErrorLoadingResponse && (
+          <p
+            className='mx-auto max-w-7xl border border-red-600 p-4'
+            role='alert'
+          >
+            Error loading response. Please try again.
+          </p>
+        )}
       </section>
     </main>
   );
