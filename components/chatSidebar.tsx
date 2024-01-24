@@ -89,7 +89,7 @@ export default function ChatSidebar({
       </Modal>
       <div
         ref={sidebarRef}
-        className={`fixed bottom-0 left-0 w-80 rounded-r-3xl bg-amber-100 px-2 transition-transform ${
+        className={`fixed bottom-0 left-0 flex w-80 flex-col rounded-r-3xl bg-amber-100 px-2 transition-transform ${
           isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'
         }`}
       >
@@ -110,7 +110,7 @@ export default function ChatSidebar({
           </h1>
         </div>
         <div className='mt-6 h-full overflow-auto'>
-          <div className='flex flex-col gap-y-4'>
+          <div className='mb-4 flex flex-col gap-y-4'>
             {conversations.map((conversation, index) => (
               <div
                 key={index}
