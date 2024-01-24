@@ -142,7 +142,7 @@ export default function ChatSidebar({
               className='relative cursor-pointer rounded-full border border-black p-4'
               onClick={(e) => handleClearConversation()}
             >
-              <p className='truncate font-medium text-gray-700'>
+              <p className='truncate font-bold text-gray-700'>
                 New Conversation
               </p>
             </div>
