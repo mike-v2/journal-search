@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import ChatSidebar from '@/components/chatSidebar';
 import ChatSuggestions from '@/components/chatSuggestions';
 import useChatApi from '@/hooks/useChat';
+import { Input } from '@/components/input';
 
 export default function Chat() {
   const { data: session } = useSession();
@@ -145,11 +146,10 @@ export default function Chat() {
         )}
       <form onSubmit={handleSubmitText}>
         <div className='fixed inset-x-0 bottom-8 mx-auto w-full max-w-md px-2'>
-          <input
+          <Input
             type='text'
             value={userTextInput}
             onChange={(e) => setUserTextInput(e.target.value)}
-            className='h-12 w-full rounded-xl border-2 border-gray-300 p-3'
             placeholder='Chat with Harry...'
             aria-label='Chat input'
           />

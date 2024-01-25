@@ -5,9 +5,10 @@ import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 
 import { JournalEntry } from '@prisma/client';
-import Pagination from '@/components/pagination';
 
+import Pagination from '@/components/pagination';
 import JournalEntryBox from '@/components/journalEntryBox';
+import { Input } from '@/components/input';
 
 type SearchResult = {
   date: string;
@@ -153,9 +154,8 @@ export default function Search() {
               />
             </button>
             <div className='flex-auto'>
-              <input
+              <Input
                 ref={searchBox}
-                className='h-full w-full bg-slate-200 p-4 text-lg text-black placeholder:italic'
                 type='search'
                 placeholder='Search..'
                 aria-label='Search input'

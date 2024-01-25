@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { Input } from './input';
 
 const harryPrompt =
   'Did I ever tell you about the time I took a road trip with my son Charles?';
@@ -53,11 +54,10 @@ export default function ChatSample() {
       </div>
       <form onSubmit={handleSubmit} className='mt-4'>
         <div className='ml-auto w-full max-w-md px-2'>
-          <input
+          <Input
             type='text'
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className='h-12 w-full rounded-xl border-2 border-gray-300 p-3'
             placeholder='Chat with Harry...'
             aria-label='Chat input'
           />
