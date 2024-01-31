@@ -6,10 +6,10 @@ import { Josefin_Sans } from 'next/font/google';
 import Image from 'next/image';
 
 import { JournalEntry } from '@prisma/client';
-import Modal from 'react-modal';
 
 import { dateToJournalDate, makeDatePretty } from '@/utils/convertDate';
 import JournalTopicBox from '@/components/journalTopicBox';
+import PostModal from './postModal';
 
 const josefin = Josefin_Sans({
   subsets: ['latin'],
@@ -39,8 +39,7 @@ export default function JournalEntryBox({
   const [imagePaths, setImagePaths] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [postTitle, setPostTitle] = useState<string>('');
-  const [postText, setPostText] = useState<string>('');
+
   const [cornerCutoutDiagonal, setCornerCutoutDiagonal] =
     useState<string>('14px');
   const [cornerFoldWidth, setCornerFoldWidth] = useState<string>('20px');
@@ -199,30 +198,7 @@ export default function JournalEntryBox({
   }
 
   function closeModal() {
-    setPostText('');
     setIsModalOpen(false);
-  }
-
-  async function handleCreatePost(e: React.MouseEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    if (session?.user) {
-      try {
-        const res = await fetch('/api/communityPost', {
-          method: 'POST',
-          body: JSON.stringify({
-            journalEntryId: id,
-            userId: session?.user.id,
-            title: postTitle,
-            text: postText,
-          }),
-        });
-      } catch (error) {
-        console.log('error creating post: ' + error);
-      }
-    }
-
-    closeModal();
   }
 
   return (
@@ -338,47 +314,12 @@ export default function JournalEntryBox({
               </li>
             </ul>
           </div>
-          <Modal
+          <PostModal
             isOpen={isModalOpen}
-            onRequestClose={closeModal}
-            className='m-auto max-w-md rounded-md border bg-slate-800 p-5'
-            overlayClassName='fixed inset-0 bg-black bg-opacity-50 flex'
-            contentLabel='Create Post Modal'
-          >
-            <form onSubmit={handleCreatePost}>
-              <h2 className='mb-3 text-xl text-slate-200'>Create Post</h2>
-              <textarea
-                className='mb-3 w-full rounded-md border p-2'
-                value={postTitle}
-                onChange={(e) => setPostTitle(e.target.value)}
-                placeholder='Title'
-                required
-                aria-label='Post Title'
-              />
-              <textarea
-                className='mb-3 w-full rounded-md border p-2'
-                value={postText}
-                onChange={(e) => setPostText(e.target.value)}
-                placeholder='What would you like to say about this journal entry?'
-                required
-                aria-label='Post Text'
-              />
-              <div className='flex justify-end'>
-                <button
-                  className='mr-2 rounded-md bg-gray-300 px-3 py-1 text-black'
-                  onClick={closeModal}
-                >
-                  Cancel
-                </button>
-                <button
-                  type='submit'
-                  className='rounded-md bg-blue-600 px-3 py-1 text-white'
-                >
-                  Post
-                </button>
-              </div>
-            </form>
-          </Modal>
+            closeModal={closeModal}
+            journalEntryId={id}
+            userId={session?.user.id}
+          />
 
           <button
             className={`relative my-auto ml-auto flex h-16 w-16 cursor-pointer flex-col justify-center rounded-sm border border-slate-400`}
