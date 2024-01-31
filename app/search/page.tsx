@@ -122,9 +122,6 @@ export default function Search() {
         searchResults.push(searchResult);
       });
 
-      console.log('number of search results = ' + searchResults.length);
-      console.log('searchResults::');
-      console.log(searchResults);
       setSearchResults(searchResults);
     } catch (error) {
       console.error(error);
@@ -167,11 +164,8 @@ export default function Search() {
       {hasSearched && (
         <section className='text-center text-2xl italic' aria-live='polite'>
           {searchIsActive && <p>Loading Entries...</p>}
-          {!searchIsActive && searchResults.length > 0 && (
+          {!searchIsActive && (
             <p>{`Found ${searchResults.length} Journal Entries`}</p>
-          )}
-          {!searchIsActive && searchResults.length === 0 && (
-            <p>Found 0 Results</p>
           )}
         </section>
       )}

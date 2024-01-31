@@ -9,7 +9,7 @@ import { JournalEntry } from '@prisma/client';
 
 import { dateToJournalDate, makeDatePretty } from '@/utils/convertDate';
 import JournalTopicBox from '@/components/journalTopicBox';
-import PostModal from './postModal';
+import PostModal from '@/components/postModal';
 
 const josefin = Josefin_Sans({
   subsets: ['latin'],
