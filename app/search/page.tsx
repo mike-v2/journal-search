@@ -139,9 +139,9 @@ export default function Search() {
           role='search'
           onSubmit={handleSubmitSearch}
         >
-          <div className='flex h-10 w-full'>
+          <div className='flex w-full'>
             <button
-              className='flex w-10 justify-center border-2 border-slate-200 align-middle hover:cursor-pointer'
+              className='flex w-10 justify-center rounded-lg border-2 border-slate-200 align-middle hover:cursor-pointer'
               onClick={handleSubmitSearch}
               aria-label='Search'
             >
