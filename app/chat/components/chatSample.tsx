@@ -18,8 +18,6 @@ export default function ChatSample() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log('harry chat submitted');
-
     const messages: ChatMessage[] = [];
     const assistantMsg: ChatMessage = {
       role: 'assistant',

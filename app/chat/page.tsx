@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
-import ChatSidebar from '@/components/chatSidebar';
-import ChatSuggestions from '@/components/chatSuggestions';
-import useChatApi from '@/hooks/useChat';
 import { Input } from '@/components/input';
+import useChatApi from '@/hooks/useChat';
+
+import ChatSidebar from '@/app/chat/components/chatSidebar';
+import ChatSuggestions from '@/app/chat/components/chatSuggestions';
 
 export default function Chat() {
   const { data: session } = useSession();

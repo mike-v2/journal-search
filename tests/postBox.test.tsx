@@ -6,9 +6,10 @@ import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { server } from '@/mocks/server';
-import PostBox from '@/components/postBox';
 import { PostExt } from '@/types/prismaExtensions';
 import { CommentExt } from '@/types/prismaExtensions';
+
+import PostBox from '@/app/community/components/postBox';
 
 type PostExtMock = Omit<PostExt, 'comments'> & {
   comments: CommentExt[];

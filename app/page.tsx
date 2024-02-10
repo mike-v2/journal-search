@@ -1,9 +1,9 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-
-import Intro from '@/components/intro';
 import Image from 'next/image';
+
+import Intro from '@/app/components/intro';
 
 const DynamicCarouselImages = dynamic(
   () => import('@/components/carouselImages'),
@@ -12,9 +12,12 @@ const DynamicCarouselImages = dynamic(
   },
 );
 
-const DynamicChatSample = dynamic(() => import('@/components/chatSample'), {
-  loading: () => <p>Loading...</p>,
-});
+const DynamicChatSample = dynamic(
+  () => import('@/app/chat/components/chatSample'),
+  {
+    loading: () => <p>Loading...</p>,
+  },
+);
 
 const DynamicCarouselJournalEntries = dynamic(
   () => import('@/components/carouselJournalEntries'),

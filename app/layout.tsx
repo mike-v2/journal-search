@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import { Josefin_Sans } from 'next/font/google';
 
-import Navbar from '@/components/navbar';
 import '@/styles/globals.css';
 import NextAuthProvider from '@/components/nextAuthProvider';
+
+import Navbar from '@/app/components/navbar';
 
 const josefin = Josefin_Sans({
   subsets: ['latin'],
