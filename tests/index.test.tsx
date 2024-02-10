@@ -57,11 +57,9 @@ afterAll(() => server.close());
 
 jest.mock('../hooks/useFetchJournalEntries');
 jest.mock('next/navigation', () => ({
-  useRouter() {
-    return {
-      prefetch: () => null,
-    };
-  },
+  useRouter: jest.fn(),
+  usePathname: jest.fn(),
+  useSearchParams: jest.fn(),
 }));
 
 describe('Home', () => {
