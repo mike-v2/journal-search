@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Input } from './input';
+
+import { Input } from '@/components/input';
+import { useQueryString } from '@/hooks/useQueryString';
 
 const harryPrompt =
   'Did I ever tell you about the time I took a road trip with my son Charles?';
@@ -11,6 +13,7 @@ const harryPrompt =
 export default function ChatSample() {
   const [input, setInput] = useState('');
   const router = useRouter();
+  const { createQueryString } = useQueryString();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,7 +32,11 @@ export default function ChatSample() {
     messages.push(assistantMsg);
     messages.push(userMsg);
 
-    router.push(`/chat?start=${encodeURIComponent(JSON.stringify(messages))}`);
+    const queryString = createQueryString(
+      'start',
+      encodeURIComponent(JSON.stringify(messages)),
+    );
+    router.push(`/chat?${queryString}`);
   };
 
   return (
