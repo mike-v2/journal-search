@@ -12,3 +12,5 @@ export const Input = forwardRef<
     />
   );
 });
+
+Input.displayName = 'input';
