@@ -12,12 +12,9 @@ const DynamicCarouselImages = dynamic(
   },
 );
 
-const DynamicChatSample = dynamic(
-  () => import('@/app/chat/components/chatSample'),
-  {
-    loading: () => <p>Loading...</p>,
-  },
-);
+const DynamicChatSample = dynamic(() => import('@/app/components/chatSample'), {
+  loading: () => <p>Loading...</p>,
+});
 
 const DynamicCarouselJournalEntries = dynamic(
   () => import('@/components/carouselJournalEntries'),
