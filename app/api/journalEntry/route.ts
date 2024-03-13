@@ -32,18 +32,18 @@ export async function GET(req: NextRequest) {
           endPage: true,
         },
       });
+
       return NextResponse.json(entry);
     } catch (error) {
       console.error(error);
       return NextResponse.json({ error }, { status: 500 });
     }
-  } else if (dateArray) {
+  } else if (dateArray && dateArray.length > 0) {
     //get journal entries for an array of dates
     const dates = dateArray.map((dateString) => {
       const d = new Date(dateString);
       return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
     });
-    console.log('checking dates: ', dates);
     try {
       const entries = await prisma.journalEntry.findMany({
         where: {
@@ -61,7 +61,7 @@ export async function GET(req: NextRequest) {
           endPage: true,
         },
       });
-      console.log(`returning entries. sample:`, entries[0]);
+
       return NextResponse.json(entries);
     } catch (error) {
       console.error(error);
