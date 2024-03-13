@@ -1,9 +1,12 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
-const DynamicChatSample = dynamic(() => import('@/app/components/chatSample'), {
-  loading: () => <p>Loading...</p>,
-});
+const DynamicChatSample = dynamic(
+  () => import('@/app/home.components/chatSample'),
+  {
+    loading: () => <p>Loading...</p>,
+  },
+);
 
 export function Chat() {
   return (

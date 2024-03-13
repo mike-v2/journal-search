@@ -4,7 +4,7 @@ import { Josefin_Sans } from 'next/font/google';
 import '@/styles/globals.css';
 import NextAuthProvider from '@/components/nextAuthProvider';
 
-import Navbar from '@/app/components/navbar';
+import Navbar from '@/app/home.components/navbar';
 
 const josefin = Josefin_Sans({
   subsets: ['latin'],
