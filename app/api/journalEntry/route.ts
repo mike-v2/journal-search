@@ -4,15 +4,24 @@ import prisma from '@/utils/prisma';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const date = searchParams.get('date');
-  const year = searchParams.get('year');
+  const dateString = searchParams.get('date');
+  const dateArray = searchParams.getAll('date[]');
+  const yearString = searchParams.get('year');
 
-  if (date) {
+  if (dateString) {
     //get journal entry on specific date
     try {
-      const parsedDate = new Date(date as string);
+      const parsedDate = new Date(dateString);
+      const utcDate = new Date(
+        Date.UTC(
+          parsedDate.getFullYear(),
+          parsedDate.getMonth(),
+          parsedDate.getDate(),
+        ),
+      );
+
       const entry = await prisma.journalEntry.findUnique({
-        where: { date: parsedDate },
+        where: { date: utcDate },
         select: {
           id: true,
           content: true,
@@ -23,16 +32,45 @@ export async function GET(req: NextRequest) {
           endPage: true,
         },
       });
-
       return NextResponse.json(entry);
     } catch (error) {
       console.error(error);
       return NextResponse.json({ error }, { status: 500 });
     }
-  } else if (year) {
+  } else if (dateArray) {
+    //get journal entries for an array of dates
+    const dates = dateArray.map((dateString) => {
+      const d = new Date(dateString);
+      return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    });
+    console.log('checking dates: ', dates);
+    try {
+      const entries = await prisma.journalEntry.findMany({
+        where: {
+          date: {
+            in: dates,
+          },
+        },
+        select: {
+          id: true,
+          content: true,
+          date: true,
+          starredBy: true,
+          readBy: true,
+          startPage: true,
+          endPage: true,
+        },
+      });
+      console.log(`returning entries. sample:`, entries[0]);
+      return NextResponse.json(entries);
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json({ error }, { status: 500 });
+    }
+  } else if (yearString) {
     // get journal entries for specific year
     try {
-      const parsedYear = parseInt(year as string);
+      const parsedYear = parseInt(yearString);
       const startDate = new Date(Date.UTC(parsedYear, 0, 1));
 
       const entries = await prisma.journalEntry.findMany({

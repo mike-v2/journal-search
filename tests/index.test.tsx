@@ -6,7 +6,7 @@ import { render, screen } from '@testing-library/react';
 
 import Home from '@/app/page';
 import { server } from '@/mocks/server';
-import useFetchJournalEntries from '@/hooks/useFetchJournalEntries';
+import useJournalEntries from '@/hooks/useJournalEntries';
 
 const mockSession = {
   id: '123',
@@ -42,14 +42,14 @@ const mockExampleEntries = [
 beforeAll(() => {
   server.listen();
 });
-beforeEach(() => {
-  (useFetchJournalEntries as jest.Mock).mockReturnValue(mockExampleEntries);
+/* beforeEach(() => {
+  (useJournalEntries as jest.Mock).mockReturnValue(mockExampleEntries);
   render(
     <SessionProvider session={mockSession}>
       <Home />
     </SessionProvider>,
   );
-});
+}); */
 afterEach(() => {
   server.resetHandlers();
 });

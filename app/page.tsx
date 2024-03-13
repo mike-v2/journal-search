@@ -1,9 +1,10 @@
-'use client';
-
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
+import { withAxiosTryCatch } from '@/utils/withAxiosTryCatch';
+
 import Intro from '@/app/components/intro';
+import { getJournalEntries } from '@/app/apiRequests/serverApiRequests';
 
 const DynamicCarouselImages = dynamic(
   () => import('@/components/carouselImages'),
@@ -23,9 +24,25 @@ const DynamicCarouselJournalEntries = dynamic(
   },
 );
 
-export default function Home() {
+const carouselEntries = [
+  '06-24-1948',
+  '12-27-1944',
+  '12-28-1945',
+  '12-06-1944',
+  '08-24-1945',
+  '11-07-1945',
+  '6-10-1944',
+  '09-19-1948',
+  '04-16-1948',
+];
+
+export default async function Home() {
+  const { data: journalEntries } = await withAxiosTryCatch(
+    getJournalEntries(carouselEntries),
+  );
+
   return (
-    <main role='main'>
+    <main>
       <Intro />
 
       <section className='mt-64 '>
@@ -76,7 +93,9 @@ export default function Home() {
             alt='Sample entries title'
           />
         </h2>
-        <DynamicCarouselJournalEntries />
+        {journalEntries && (
+          <DynamicCarouselJournalEntries journalEntries={journalEntries} />
+        )}
       </section>
     </main>
   );
