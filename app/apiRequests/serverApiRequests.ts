@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import { JournalEntry } from '@prisma/client';
 
 import { serverAxios } from '@/utils/axios/serverAxios';
-import { JournalEntryExt } from '@/types/prismaExtensions';
+import { JournalEntryExt, PostExt } from '@/types/prismaExtensions';
 
 export const getJournalEntry = async (
   journalDate: string,
@@ -18,3 +18,6 @@ export const getJournalEntriesForYear = async (
   year: string,
 ): Promise<AxiosResponse<JournalEntryExt[]>> =>
   await serverAxios.get(`/journalEntry?year=${year}`);
+
+export const getCommunityPosts = async (): Promise<AxiosResponse<PostExt[]>> =>
+  await serverAxios.get(`/communityPost`);
