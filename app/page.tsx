@@ -1,5 +1,3 @@
-import dynamic from 'next/dynamic';
-
 import { withAxiosTryCatch } from '@/utils/withAxiosTryCatch';
 import { getJournalEntries } from '@/app/apiRequests/serverApiRequests';
 
@@ -21,7 +19,6 @@ export default async function Home() {
   const { data: journalEntries } = await withAxiosTryCatch(
     getJournalEntries(carouselEntries),
   );
-  console.log('journalEntries: ', journalEntries);
 
   return (
     <main>

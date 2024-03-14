@@ -6,6 +6,7 @@ import {
   Post,
   User,
   Comment,
+  ReadEntry,
 } from '@prisma/client';
 
 export type ConversationExt = Conversation & {
@@ -24,4 +25,8 @@ export type PostExt = Post & {
   journalEntry: JournalEntry;
   createdBy: User;
   comments: CommentExt[];
+};
+
+export type JournalEntryExt = JournalEntry & {
+  readBy: ReadEntry[];
 };
