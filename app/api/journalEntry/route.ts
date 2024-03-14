@@ -70,14 +70,14 @@ export async function GET(req: NextRequest) {
   } else if (yearString) {
     // get journal entries for specific year
     try {
-      const parsedYear = parseInt(yearString);
-      const startDate = new Date(Date.UTC(parsedYear, 0, 1));
+      const year = Number(yearString);
+      const startDate = new Date(Date.UTC(year, 0, 1));
 
       const entries = await prisma.journalEntry.findMany({
         where: {
           date: {
             gte: startDate,
-            lt: new Date(parsedYear + 1, 0, 1),
+            lt: new Date(Date.UTC(year + 1, 0, 1)),
           },
         },
         include: {
