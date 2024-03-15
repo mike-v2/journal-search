@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   // user has created a comment
-  const { userId, postId, text, commentId } = await req.json();
+  const { id, userId, postId, text } = await req.json();
 
   if (!userId || !postId || !text) {
     return NextResponse.json(
@@ -50,12 +50,12 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  if (commentId) {
+  if (id) {
     // edit comment
     try {
       const updatedComment = await prisma.comment.update({
         where: {
-          id: commentId,
+          id,
         },
         data: {
           text: text,
@@ -100,9 +100,9 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const commentId = searchParams.get('commentId');
+  const id = searchParams.get('id');
 
-  if (!commentId) {
+  if (!id) {
     return NextResponse.json(
       { error: 'CommentId is required to delete a comment' },
       { status: 404 },
@@ -112,11 +112,11 @@ export async function DELETE(req: NextRequest) {
   try {
     await prisma.comment.delete({
       where: {
-        id: commentId as string,
+        id: id as string,
       },
     });
 
-    return NextResponse.json({ message: 'success' });
+    return NextResponse.json('success');
   } catch (error) {
     console.error('Error deleting comment:', error);
     return NextResponse.json({ error }, { status: 500 });

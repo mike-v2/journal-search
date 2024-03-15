@@ -8,7 +8,7 @@ export default async function Community() {
 
   return (
     <main className='mt-20 min-h-screen pb-20'>
-      <div className={`mx-auto w-full max-w-4xl md:px-12`}>
+      <div className='mx-auto w-full max-w-4xl md:px-12'>
         {posts &&
           posts.map((post) => {
             return (
