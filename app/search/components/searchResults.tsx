@@ -33,6 +33,17 @@ export default function SearchResults({
   );
 
   useEffect(() => {
+    const selected = searchParams.get('entry');
+    if (selected && !selectedSearchResult) {
+      const searchResult = {
+        date: selected,
+        text: '',
+      };
+      setSelectedSearchResult(searchResult);
+    }
+  }, []);
+
+  useEffect(() => {
     const page = searchParams?.get('page') ?? '1';
     const size = searchParams?.get('size') ?? '5';
     const pageNum = parseInt(page);
@@ -61,7 +72,7 @@ export default function SearchResults({
 
   return (
     <section
-      className='flex flex-col justify-center align-middle lg:flex-row'
+      className='mx-auto flex max-w-7xl flex-col justify-center px-2 align-middle md:px-8 lg:flex-row'
       aria-label='Search results and selected entry'
     >
       {displaySearchResults.length > 0 && (

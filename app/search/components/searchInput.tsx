@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useQueryString } from '@/hooks/useQueryString';
 import { Input } from '@/components/input';
@@ -11,9 +11,15 @@ export default function SearchInput() {
   const [searchInput, setSearchInput] = useState('');
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { createQueryString } = useQueryString();
 
-  // TODO: initialize input value to url on component mount
+  useEffect(() => {
+    const query = searchParams.get('query');
+    if (!searchInput && query) {
+      setSearchInput(query);
+    }
+  }, []);
 
   function handleSubmitSearch(e: React.FormEvent<HTMLElement>) {
     e.preventDefault();
@@ -50,6 +56,7 @@ export default function SearchInput() {
               type='search'
               placeholder='Search..'
               aria-label='Search input'
+              value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
             />
           </div>

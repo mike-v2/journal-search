@@ -4,7 +4,7 @@ import { getJournalEntry, search } from '@/app/apiRequests/serverApiRequests';
 import SearchResults from '@/app/search/components/searchResults';
 import SearchInput from '@/app/search/components/searchInput';
 
-const EMBEDDING_SEARCH_THRESHOLD = 0.78;
+const EMBEDDING_SEARCH_THRESHOLD = 0.78; // Determined through experimentation.
 
 export default async function Search({
   searchParams,
