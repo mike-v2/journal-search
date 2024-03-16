@@ -14,11 +14,12 @@ export async function GET(req: NextRequest) {
       const parsedDate = new Date(dateString);
       const utcDate = new Date(
         Date.UTC(
-          parsedDate.getFullYear(),
-          parsedDate.getMonth(),
-          parsedDate.getDate(),
+          parsedDate.getUTCFullYear(),
+          parsedDate.getUTCMonth(),
+          parsedDate.getUTCDate(),
         ),
       );
+      console.log('getting entry for utc date: ', utcDate);
 
       const entry = await prisma.journalEntry.findUnique({
         where: { date: utcDate },
@@ -42,7 +43,9 @@ export async function GET(req: NextRequest) {
     //get journal entries for an array of dates
     const dates = dateArray.map((dateString) => {
       const d = new Date(dateString);
-      return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+      return new Date(
+        Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()),
+      );
     });
     try {
       const entries = await prisma.journalEntry.findMany({

@@ -1,61 +1,35 @@
-'use client';
+import { withAxiosTryCatch } from '@/utils/withAxiosTryCatch';
+import { getJournalEntry, search } from '@/app/apiRequests/serverApiRequests';
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import SearchResults from '@/app/search/components/searchResults';
+import SearchInput from '@/app/search/components/searchInput';
 
-import { useQueryString } from '@/hooks/useQueryString';
-import { Input } from '@/components/input';
+const EMBEDDING_SEARCH_THRESHOLD = 0.78;
 
-import SearchResults from '@/app/search/searchResults';
+export default async function Search({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const query = decodeURIComponent(searchParams['query'] as string);
+  const { data: searchResults } = await withAxiosTryCatch(
+    search(query, EMBEDDING_SEARCH_THRESHOLD),
+  );
 
-export default function Search() {
-  const [searchInput, setSearchInput] = useState('');
-  const router = useRouter();
-  const pathname = usePathname();
-  const { createQueryString } = useQueryString();
-
-  function handleSubmitSearch(e: React.FormEvent<HTMLElement>) {
-    e.preventDefault();
-    const queryString = createQueryString('query', encodeURI(searchInput));
-    router.push(`${pathname}?${queryString}`);
-  }
+  const entry = decodeURIComponent(searchParams['entry'] as string);
+  const { data: selectedEntry } = await withAxiosTryCatch(
+    getJournalEntry(entry),
+  );
 
   return (
-    <main>
-      <section className='mx-auto h-fit max-w-7xl'>
-        <form
-          className={'m-10 mx-auto flex h-fit w-1/2 max-w-xl flex-col'}
-          role='search'
-          onSubmit={handleSubmitSearch}
-        >
-          <div className='flex w-full'>
-            <button
-              className='flex w-10 justify-center rounded-lg border-2 border-slate-200 align-middle hover:cursor-pointer'
-              onClick={handleSubmitSearch}
-              aria-label='Search'
-            >
-              <Image
-                src='/images/search-icon.svg'
-                className='p-1 invert'
-                height={30}
-                width={30}
-                alt='search-icon'
-              />
-            </button>
-            <div className='flex-auto'>
-              <Input
-                type='search'
-                placeholder='Search..'
-                aria-label='Search input'
-                onChange={(e) => setSearchInput(e.target.value)}
-              />
-            </div>
-          </div>
-        </form>
-      </section>
-
-      <SearchResults />
+    <main className='min-h-screen'>
+      <SearchInput />
+      {searchResults && (
+        <SearchResults
+          searchResults={searchResults}
+          selectedEntry={selectedEntry}
+        />
+      )}
     </main>
   );
 }

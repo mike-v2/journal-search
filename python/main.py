@@ -67,25 +67,26 @@ def find_entries_related_to_message(query, n=20, similarity_threshold=0):
     else:
       results = df.sort_values("similarity", ascending=False).head(n)
 
-    results = results.combined   #results = results.combined.str.replace("Date: ", "").str.replace("; Text:", ": ")
+    results_list = []
+    for index, row in results.iterrows():
+        entry = {
+            "date": row["date"],
+            "text": row["text"],
+        }
+        results_list.append(entry)
     
-    results_combined = ''
-    for r in results:
-        results_combined += r
-
     end_time = time.time()
     app.logger.debug('Time taken to compare embeddings: %s seconds', str(end_time - start_time))
-
-    return results_combined
+    
+    return jsonify(results_list)
 
 @app.route('/', methods=['POST'])
 def search():
     data = request.get_json()
     query = data.get('query')
     threshold = data.get('threshold')
-    results = find_entries_related_to_message(query, similarity_threshold=threshold)
 
-    return jsonify(results)
+    return find_entries_related_to_message(query, similarity_threshold=threshold)
 
 @app.route('/chatTitle', methods=['POST'])
 def chatTitle():

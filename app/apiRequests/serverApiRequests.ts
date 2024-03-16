@@ -3,6 +3,7 @@ import { JournalEntry } from '@prisma/client';
 
 import { serverAxios } from '@/utils/axios/serverAxios';
 import { JournalEntryExt, PostExt } from '@/types/prismaExtensions';
+import { SearchResult } from '@/types/search';
 
 export const getJournalEntry = async (
   journalDate: string,
@@ -21,3 +22,9 @@ export const getJournalEntriesForYear = async (
 
 export const getCommunityPosts = async (): Promise<AxiosResponse<PostExt[]>> =>
   await serverAxios.get(`/communityPost`);
+
+  export const search = async (
+    query: string,
+    threshold: number,
+  ): Promise<AxiosResponse<SearchResult[]>> =>
+    await serverAxios.post(`/searchEmbeddings`, { query, threshold });
