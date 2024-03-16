@@ -52,10 +52,14 @@ export default function DateSlider({
       if (!month || !day) {
         const firstEntryDate = new Date(journalEntries[0].date);
 
-        const month = firstEntryDate.getUTCMonth() + 1;
-        const day = firstEntryDate.getUTCDate();
+        const utcDate = new Date(
+          Number(year),
+          firstEntryDate.getUTCMonth(),
+          firstEntryDate.getUTCDate(),
+        );
+        const dayOfYear = getDayOfYear(utcDate);
 
-        setDateQueryString(month, day);
+        changeCurrentDay({ x: dayOfYear });
       }
     }
   }, [searchParams, journalEntries]);
