@@ -19,12 +19,6 @@ function databaseDateToPrettyDate(date: Date) {
   return makeDatePretty(timestampToDate(new Date(date).toISOString()));
 }
 
-function journalDateToDate(dateStr: string) {
-  const [month, day, year] = dateStr.split('-');
-  dateStr = `${year}-${month}-${day}`;
-  return new Date(dateStr);
-}
-
 function journalDateToISOString(date: string): string {
   let [month, day, year] = date.split('-');
   return new Date(`${year}-${month}-${day}`).toISOString();
@@ -79,7 +73,6 @@ export {
   journalDateToISOString,
   timestampToDate,
   dateToJournalDate,
-  journalDateToDate,
   journalDateToCondensedDate,
   databaseDateToPrettyDate,
 };
