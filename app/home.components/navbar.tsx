@@ -13,6 +13,30 @@ const limelight = Limelight({
   weight: ['400'],
 });
 
+const links = [
+  {
+    name: 'Browse',
+    href: '/browse',
+  },
+  {
+    name: 'Search',
+    href: '/search',
+  },
+  {
+    name: 'Chat',
+    href: '/chat',
+  },
+  {
+    name: 'Community',
+    href: '/community',
+  },
+  {
+    name: 'Saved',
+    href: '/mySaved',
+    requireLogin: true,
+  },
+];
+
 export default function Navbar() {
   const { data: session } = useSession();
 
@@ -55,54 +79,34 @@ export default function Navbar() {
                   tabIndex={0}
                   className='dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow'
                 >
-                  <li>
-                    <Link href='/browse' onClick={blurElement}>
-                      Browse
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href='/search' onClick={blurElement}>
-                      Search
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href='/chat' onClick={blurElement}>
-                      Chat
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href='/community' onClick={blurElement}>
-                      Community
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href='/mySaved' onClick={blurElement}>
-                      Saved
-                    </Link>
-                  </li>
+                  {links &&
+                    links.map((link) => {
+                      if (link.requireLogin && !session?.user) return null;
+
+                      return (
+                        <li key={link.name}>
+                          <Link href={link.href} onClick={blurElement}>
+                            {link.name}
+                          </Link>
+                        </li>
+                      );
+                    })}
                 </ul>
               </div>
             </div>
             <div
               className={`${limelight.className} ml-auto mt-auto hidden h-full items-end gap-x-12 md:flex md:text-lg lg:text-2xl`}
             >
-              <div className='flex-auto text-center'>
-                <Link href='/browse'>Browse</Link>
-              </div>
-              <div className='flex-auto text-center'>
-                <Link href='/search'>Search</Link>
-              </div>
-              <div className='flex-auto text-center'>
-                <Link href='/chat'>Chat</Link>
-              </div>
-              <div className='flex-auto text-center'>
-                <Link href='/community'>Community</Link>
-              </div>
-              {session && session.user && (
-                <div className='flex-auto text-center'>
-                  <Link href='/mySaved'>Saved</Link>
-                </div>
-              )}
+              {links &&
+                links.map((link) => {
+                  if (link.requireLogin && !session?.user) return null;
+
+                  return (
+                    <div key={link.name} className='flex-auto text-center'>
+                      <Link href={link.href}>{link.name}</Link>
+                    </div>
+                  );
+                })}
             </div>
           </nav>
         </div>
