@@ -9,6 +9,10 @@ export async function GET(req: NextRequest) {
   const yearString = searchParams.get('year');
 
   if (dateString) {
+    if (dateString === 'undefined') {
+      return NextResponse.json({ error: 'no date provided' }, { status: 400 });
+    }
+
     //get journal entry on specific date
     try {
       const parsedDate = new Date(dateString);
@@ -19,7 +23,6 @@ export async function GET(req: NextRequest) {
           parsedDate.getUTCDate(),
         ),
       );
-      console.log('getting entry for utc date: ', utcDate);
 
       const entry = await prisma.journalEntry.findUnique({
         where: { date: utcDate },
@@ -71,6 +74,10 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error }, { status: 500 });
     }
   } else if (yearString) {
+    if (yearString === 'undefined') {
+      return NextResponse.json({ error: 'no year provided' }, { status: 400 });
+    }
+
     // get journal entries for specific year
     try {
       const year = Number(yearString);

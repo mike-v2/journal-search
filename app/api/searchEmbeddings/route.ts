@@ -5,6 +5,10 @@ const url = 'https://python-q4npvduerq-uw.a.run.app/';
 export async function POST(req: NextRequest) {
   const { query, threshold } = await req.json();
 
+  if (query === 'undefined') {
+    return NextResponse.json({ error: 'no query provided' }, { status: 400 });
+  }
+
   try {
     const response = await fetch(url, {
       method: 'POST',
