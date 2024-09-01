@@ -12,6 +12,8 @@ const limelight = Limelight({
 });
 
 const links = [
+  { name: 'Server', href: '/server' },
+  { name: 'Client', href: '/client' },
   {
     name: 'Browse',
     href: '/browse',
