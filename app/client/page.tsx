@@ -5,13 +5,13 @@ import { JournalEntry } from '@prisma/client';
 import JournalEntryBox from '@/components/journalEntryBox';
 
 export default function Client() {
-  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
+  const [journalEntry, setJournalEntry] = useState<JournalEntry>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('/api/journalEntry?year=1944');
+      const response = await fetch('/api/journalEntry?date=1-1-1944');
       const data = await response.json();
-      setJournalEntries(data);
+      setJournalEntry(data);
     };
 
     fetchData();
@@ -20,10 +20,9 @@ export default function Client() {
   return (
     <main className='min-h-screen'>
       <div className='grid grid-cols-2 gap-6'>
-        {journalEntries &&
-          journalEntries
-            .slice(0, 4)
-            .map((entry) => <JournalEntryBox key={entry.id} {...entry} />)}
+        {journalEntry && (
+          <JournalEntryBox key={journalEntry.id} {...journalEntry} />
+        )}
       </div>
     </main>
   );

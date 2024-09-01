@@ -28,16 +28,45 @@ async function getJournalEntriesForYear(yearString: string) {
   }
 }
 
+async function getJournalEntryOnDay(dateString: string) {
+  try {
+    const parsedDate = new Date(dateString);
+    const utcDate = new Date(
+      Date.UTC(
+        parsedDate.getUTCFullYear(),
+        parsedDate.getUTCMonth(),
+        parsedDate.getUTCDate(),
+      ),
+    );
+
+    const entry = await prisma.journalEntry.findUnique({
+      where: { date: utcDate },
+      select: {
+        id: true,
+        content: true,
+        date: true,
+        starredBy: true,
+        readBy: true,
+        startPage: true,
+        endPage: true,
+      },
+    });
+
+    return entry;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export default async function Browse() {
-  const journalEntries = await getJournalEntriesForYear('1944');
+  const journalEntry = await getJournalEntryOnDay('1-1-1944');
 
   return (
     <main className='min-h-screen'>
       <div className='grid grid-cols-2 gap-6'>
-        {journalEntries &&
-          journalEntries
-            .slice(0, 4)
-            .map((entry) => <JournalEntryBox key={entry.id} {...entry} />)}
+        {journalEntry && (
+          <JournalEntryBox key={journalEntry.id} {...journalEntry} />
+        )}
       </div>
     </main>
   );
