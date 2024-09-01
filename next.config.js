@@ -5,4 +5,7 @@ module.exports = {
   images: {
     domains: ['lh3.googleusercontent.com', 'storage.googleapis.com'],
   },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 }
