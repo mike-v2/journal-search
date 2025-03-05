@@ -1,7 +1,9 @@
-import { ConversationExt } from '@/types/prismaExtensions';
-import { Conversation } from '@prisma/client';
 import { Session } from 'next-auth';
 import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { Conversation } from '@prisma/client';
+
+import { ConversationExt } from '@/types/prismaExtensions';
 
 export default function useChatApi(session: Session | null) {
   const [messageHistory, setMessageHistory] = useState<ChatMessage[]>([]);
@@ -225,13 +227,10 @@ export default function useChatApi(session: Session | null) {
             throw new Error('no reader');
           }
 
+          let completeResponse = '';
           while (true) {
             const { value, done } = await reader.read();
             if (done) {
-              console.log(
-                'Connection was closed with partialReponse = ' +
-                  partialResponseRef.current.substring(0, 20),
-              );
               if (convo && !convo.title) {
                 // first AI response just finished
                 editConversationTitle(
@@ -239,17 +238,25 @@ export default function useChatApi(session: Session | null) {
                   'user: ' +
                     chatHistory[0].content +
                     ' assistant: ' +
-                    partialResponseRef.current,
+                    completeResponse,
                 );
               }
-              onResponseFinished(convo);
+              // Set the final complete response and wait for it to be updated
+              setPartialResponse(completeResponse);
+              // Use the complete response directly instead of the ref
+              const aiMsg = { role: 'assistant', content: completeResponse };
+              setMessageHistory((prevHistory) => [...prevHistory, aiMsg]);
+              if (convo) {
+                saveMessage(aiMsg, convo);
+              }
+              setPartialResponse('');
               setIsLoadingResponse(false);
               break;
             }
 
             const text = new TextDecoder().decode(value);
-            //console.log('received chunk: ', text);
-            setPartialResponse((prevRes) => prevRes + text);
+            completeResponse += text;
+            setPartialResponse(completeResponse);
           }
         } catch (error) {
           setIsErrorLoadingResponse(true);
