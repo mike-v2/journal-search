@@ -82,7 +82,7 @@ export default function LinksExpanded() {
         </div>
       </div>
       <div
-        className={`${limelight.className} ml-auto mt-auto hidden h-full items-end gap-x-12 md:flex md:text-lg lg:text-2xl`}
+        className={`${limelight.className} ml-auto mr-4 mt-auto hidden h-full items-end gap-x-12 md:flex md:text-lg lg:text-2xl`}
       >
         {links &&
           links.map((link) => {
