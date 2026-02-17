@@ -1,5 +1,6 @@
 import { Pinecone } from '@pinecone-database/pinecone';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
+import { deepseek } from '@/config/deepseek';
 
 const pc = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY as string,
@@ -9,12 +10,12 @@ const index = pc.index({
   host: process.env.PINECONE_HOST as string,
 });
 
-const queryModel = 'gpt-4o-mini';
-const queryModelTemperature = 0.2;
+const queryModel = 'deepseek-chat';
+const queryModelTemperature = 0.7;
 
-const responseModel = 'gpt-4o-mini';
-const responseModelTemperature = 0.2;
-const responseModelContextLength = 4000;
+const responseModel = 'deepseek-chat';
+const responseModelTemperature = 0.7;
+const responseModelContextLength = 8000;
 
 const searchResultsMaxTokens = 1200;
 const maxChatHistoryTokens = 600;
@@ -45,15 +46,16 @@ export async function POST(req: Request) {
   }
 
   async function findEntriesRelatedToMessage(query: string, n = 10) {
-    const queryResponse = await index.query({
-      topK: n,
-      data: [query],
-      includeMetadata: true,
-    } as any);
+    const queryResponse = await index.searchRecords({
+      query: {
+        topK: n,
+        inputs: { text: query },
+      },
+    });
 
-    const resultsCombined = queryResponse.matches
-      .map((match) => {
-        const metadata = match.metadata as { date: string; text: string };
+    const resultsCombined = queryResponse.result.hits
+      .map((hit) => {
+        const metadata = hit.fields as { date: string; text: string };
         return `${metadata.date}: ${metadata.text}\n\n`;
       })
       .join('');
@@ -78,7 +80,7 @@ export async function POST(req: Request) {
     // use chatGPT to convert user's message into a search query that considers context
     const querySystemMsg =
       "You are part of a website that is centered around the personal journals of Harry Howard. Generate a search query for the Guest's most recent message that will be used to find relevant information from Harry's journal entries. Embeddings have been generated for each journal entry, and the query you generate will be turned into an embedding and compared to each journal entry to find the most similar. Try to generate a search query that will return the most relevant journal entries for Guest's most recent message. Please don't add any explanation, just generate a short but contextual search query, as your output will be fed directly into the next step without any modifications.";
-    const fullResponse = await openai.chat.completions.create({
+    const fullResponse = await deepseek.chat.completions.create({
       model: queryModel,
       messages: [
         { role: 'system', content: querySystemMsg },
@@ -90,7 +92,7 @@ export async function POST(req: Request) {
       'content'
     ] as string;
     const queryResponseTokenCount = getTokenCount(response);
-    console.log('received contextual query from OpenAI: ' + response);
+    console.log('contextual query: ' + response);
 
     let searchResults = await findEntriesRelatedToMessage(response);
     searchResults = pruneString(searchResults, searchResultsMaxTokens);
@@ -126,7 +128,7 @@ export async function POST(req: Request) {
       'message history length (including system message): ' + messages.length,
     );
 
-    const stream = await openai.chat.completions.create({
+    const stream = await deepseek.chat.completions.create({
       model: responseModel,
       messages: messages,
       temperature: responseModelTemperature,
@@ -136,6 +138,6 @@ export async function POST(req: Request) {
     const responseStream = OpenAIStream(stream);
     return new StreamingTextResponse(responseStream);
   } catch (error) {
-    console.error('An error occurred during OpenAI request', error);
+    console.error('An error occurred during LLM request', error);
   }
 }
