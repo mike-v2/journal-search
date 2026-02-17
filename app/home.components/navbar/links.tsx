@@ -11,28 +11,34 @@ const limelight = Limelight({
   weight: ['400'],
 });
 
-const links = [
-  {
-    name: 'Browse',
-    href: '/browse',
-  },
-  {
-    name: 'Search',
-    href: '/search',
-  },
+type LinkData = {
+  name: string;
+  href: string;
+  requireLogin?: boolean;
+};
+
+const links: LinkData[] = [
+  // {
+  //   name: 'Browse',
+  //   href: '/browse',
+  // },
+  // {
+  //   name: 'Search',
+  //   href: '/search',
+  // },
   {
     name: 'Chat',
     href: '/chat',
   },
-  {
-    name: 'Community',
-    href: '/community',
-  },
-  {
-    name: 'Saved',
-    href: '/mySaved',
-    requireLogin: true,
-  },
+  // {
+  //   name: 'Community',
+  //   href: '/community',
+  // },
+  // {
+  //   name: 'Saved',
+  //   href: '/mySaved',
+  //   requireLogin: true,
+  // },
 ];
 
 export default function LinksExpanded() {
