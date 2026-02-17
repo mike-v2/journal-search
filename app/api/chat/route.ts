@@ -1,19 +1,13 @@
-import OpenAI from 'openai';
-/* import tiktoken from 'tiktoken-node'; */
-import { Storage } from '@google-cloud/storage';
-import Papa from 'papaparse';
+import { Pinecone } from '@pinecone-database/pinecone';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 
-/* export const runtime = 'edge' */
-export const dynamic = 'force-dynamic';
-
-const openai = new OpenAI({
-  /* fetch: globalThis.fetch, */
+const pc = new Pinecone({
+  apiKey: process.env.PINECONE_API_KEY as string,
 });
-
-const base64Key = process.env.GCLOUD_KEYFILE_CONTENTS_BASE64;
-const jsonString = Buffer.from(base64Key as string, 'base64').toString();
-const gCloudCredentials = JSON.parse(jsonString);
+const index = pc.index({
+  name: process.env.PINECONE_INDEX as string,
+  host: process.env.PINECONE_HOST as string,
+});
 
 const queryModel = 'gpt-4o-mini';
 const queryModelTemperature = 0.2;
@@ -25,31 +19,9 @@ const responseModelContextLength = 4000;
 const searchResultsMaxTokens = 1200;
 const maxChatHistoryTokens = 600;
 
-type EmbeddingEntry = {
-  date: string;
-  text: string;
-  combined: string;
-  n_tokens: number;
-  embedding: string | number[];
-  similarity: number;
-};
-
 export async function POST(req: Request) {
   const { chatHistory } = await req.json();
   console.log('received chat history: ', chatHistory);
-
-  function dot(vecA: number[], vecB: number[]): number {
-    if (vecA.length !== vecB.length) {
-      throw new Error('Vectors must be of the same dimension');
-    }
-
-    let result = 0;
-    for (let i = 0; i < vecA.length; i++) {
-      result += vecA[i] * vecB[i];
-    }
-
-    return result;
-  }
 
   function getTokenCount(str: string) {
     /* const enc = tiktoken.encodingForModel(responseModel);
@@ -72,97 +44,22 @@ export async function POST(req: Request) {
     }
   }
 
-  // embedding vectors are normalized. just use dot product
-  /* function cosineSimilarity(a: [], b: []) {
-    let dotProduct = dot(a, b);
-    let magnitudeA = Math.sqrt(dot(a, a));
-    let magnitudeB = Math.sqrt(dot(b, b));
+  async function findEntriesRelatedToMessage(query: string, n = 10) {
+    const queryResponse = await index.query({
+      topK: n,
+      data: [query],
+      includeMetadata: true,
+    } as any);
 
-    return dotProduct / (magnitudeA * magnitudeB);
-  } */
-
-  async function downloadBlob(bucketName: string, sourceBlobName: string) {
-    console.debug('Starting blob download');
-
-    const storage = new Storage({ credentials: gCloudCredentials });
-    const bucket = storage.bucket(bucketName);
-    const blob = bucket.file(sourceBlobName);
-
-    const exists = await blob.exists();
-    if (!exists[0]) {
-      console.debug(`Blob ${sourceBlobName} does not exist.`);
-      return null;
-    }
-
-    const [data] = await blob.download();
-
-    return data.toString('utf-8');
-  }
-
-  async function downloadEmbeddings() {
-    const csvData = await downloadBlob(
-      'journal_entries_harry_howard',
-      'journal-entries-with-embeddings.csv',
-    );
-    if (csvData) {
-      const parsedData = Papa.parse(csvData, {
-        header: true,
-        dynamicTyping: true,
-      });
-      let entries: EmbeddingEntry[] = parsedData.data as EmbeddingEntry[];
-      entries = entries.filter(
-        (entry) => entry.embedding !== null && entry.embedding !== undefined,
-      );
-
-      // Convert string embeddings to actual arrays
-      for (const entry of entries) {
-        if (!entry.embedding) continue;
-        entry.embedding = JSON.parse(entry.embedding as string);
-      }
-
-      return entries;
-    }
-    return [];
-  }
-
-  async function findEntriesRelatedToMessage(
-    query: string,
-    n = 20,
-    similarityThreshold = 0,
-  ) {
-    const queryEmbedding = await openai.embeddings.create({
-      model: 'text-embedding-ada-002',
-      input: query,
-    });
-
-    for (const entry of embeddings) {
-      entry.similarity = dot(
-        entry.embedding as number[],
-        queryEmbedding.data[0].embedding as number[],
-      );
-    }
-
-    // Filter and sort the entries based on similarity
-    let results;
-    if (similarityThreshold > 0) {
-      results = embeddings
-        .filter((entry) => entry.similarity >= similarityThreshold)
-        .sort((a, b) => b.similarity - a.similarity);
-    } else {
-      results = embeddings
-        .sort((a, b) => b.similarity - a.similarity)
-        .slice(0, n);
-    }
-
-    const resultsCombined = results.map((entry) => entry.combined).join('');
+    const resultsCombined = queryResponse.matches
+      .map((match) => {
+        const metadata = match.metadata as { date: string; text: string };
+        return `${metadata.date}: ${metadata.text}\n\n`;
+      })
+      .join('');
 
     return resultsCombined;
   }
-
-  const embeddings = await downloadEmbeddings();
-  console.log(
-    `downloaded ${embeddings.length} embeddings. first entry date: ${embeddings[0].date}`,
-  );
 
   try {
     let condensedHistory = '';
